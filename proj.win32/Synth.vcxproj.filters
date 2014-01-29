@@ -10,6 +10,12 @@
     <Filter Include="resource">
       <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\core">
+      <UniqueIdentifier>{8958504a-d560-4e8c-8411-8fec9439ff28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\game">
+      <UniqueIdentifier>{fa4c1bde-165f-4be7-82d3-02ebb97c636a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,6 +27,9 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\core\SynthManager.cpp">
+      <Filter>Classes\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -31,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\core\SynthManager.h">
+      <Filter>Classes\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
