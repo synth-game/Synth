@@ -24,11 +24,11 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\core\SynthManager.cpp">
       <Filter>Classes\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\GameManager.cpp">
+      <Filter>Classes\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,11 +38,11 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\core\SynthManager.h">
       <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\GameManager.h">
+      <Filter>Classes\game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

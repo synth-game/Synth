@@ -6,6 +6,7 @@
 #define __SYNTH_MANAGER_H__
 
 #include "cocos2d.h"
+#include "game/GameManager.h"
 
 class SynthManager {
 public:
@@ -16,6 +17,7 @@ public:
 
 private:
 	cocos2d::Scene* _pGameScene;
+	GameManager*	_pGameManager;
 };
 
 #endif //__SYNTH_MANAGER_H__
