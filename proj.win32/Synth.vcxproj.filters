@@ -30,6 +30,12 @@
     <ClCompile Include="..\Classes\game\GameManager.cpp">
       <Filter>Classes\game</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\core\SynthActor.cpp">
+      <Filter>Classes\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\core\SynthComponent.cpp">
+      <Filter>Classes\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -43,6 +49,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\game\GameManager.h">
       <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\core\SynthActor.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\core\SynthComponent.h">
+      <Filter>Classes\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

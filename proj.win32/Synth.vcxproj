@@ -133,12 +133,16 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\core\SynthActor.cpp" />
+    <ClCompile Include="..\Classes\core\SynthComponent.cpp" />
     <ClCompile Include="..\Classes\core\SynthManager.cpp" />
     <ClCompile Include="..\Classes\game\GameManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\core\SynthActor.h" />
+    <ClInclude Include="..\Classes\core\SynthComponent.h" />
     <ClInclude Include="..\Classes\core\SynthManager.h" />
     <ClInclude Include="..\Classes\game\GameManager.h" />
     <ClInclude Include="main.h" />
