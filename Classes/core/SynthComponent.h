@@ -9,7 +9,7 @@
 
 USING_NS_CC;
 
-class SynthComponent : Component {
+class SynthComponent : public Component {
 
 public:
 	SynthComponent();

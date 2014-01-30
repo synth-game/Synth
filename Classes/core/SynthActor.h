@@ -9,7 +9,7 @@
 
 USING_NS_CC;
 
-class SynthActor : Node {
+class SynthActor : public Node {
 
 public:
 	SynthActor();
