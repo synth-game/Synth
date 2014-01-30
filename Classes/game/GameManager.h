@@ -13,8 +13,8 @@ public:
 
 	static GameManager* create();
 
-	virtual bool init();
-	virtual void update(float fDt);
+	virtual bool init(); // redéfinition de la méthode de Cocos2dx
+	virtual void update(float fDt); // pareil
 	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 

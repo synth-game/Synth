@@ -44,11 +44,11 @@ bool GameManager::init() {
 	// init and add sprites
 	_pBackground = Sprite::create("sprites/background.jpg");
 	_pBackground->setAnchorPoint(Point(0.f, 0.f));
-	addChild(_pBackground, 0);
+	this->addChild(_pBackground, 0);
 
 	_pHero = Sprite::create("sprites/sprite_hero.png");
 	_pHero->setPosition(Point(200.f, 400.f));
-	addChild(_pHero, 1);
+	this->addChild(_pHero, 1);
 
 	return true;
 }
