@@ -16,6 +16,12 @@
     <Filter Include="Classes\game">
       <UniqueIdentifier>{fa4c1bde-165f-4be7-82d3-02ebb97c636a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\physics">
+      <UniqueIdentifier>{ae3ce222-e95d-481f-b339-a0cd60956894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\graphics">
+      <UniqueIdentifier>{01743cdc-efcf-45f1-8718-e546e1e9751d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,6 +42,12 @@
     <ClCompile Include="..\Classes\core\SynthComponent.cpp">
       <Filter>Classes\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\physics\GeometryComponent.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\graphics\SpriteComponent.cpp">
+      <Filter>Classes\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -55,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\core\SynthComponent.h">
       <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\GeometryComponent.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\SpriteComponent.h">
+      <Filter>Classes\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
