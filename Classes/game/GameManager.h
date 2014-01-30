@@ -6,8 +6,11 @@
 #define __GAME_MANAGER_H__
 
 #include "cocos2d.h"
+#include "core/SynthActor.h"
 
-class GameManager : public cocos2d::Layer {
+USING_NS_CC;
+
+class GameManager : public Layer {
 public:
 	~GameManager();
 
@@ -15,14 +18,14 @@ public:
 
 	virtual bool init(); // redéfinition de la méthode de Cocos2dx
 	virtual void update(float fDt); // pareil
-	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event);
+	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event);
 
 protected:
 	GameManager();
 
-	cocos2d::Sprite* _pBackground;
-	cocos2d::Sprite* _pHero;
+	Sprite* _pBackground;
+	SynthActor* _pHero;
 };
 
 #endif //__GAME_MANAGER_H__

@@ -3,6 +3,8 @@
  ***************************************************** */
 
 #include "game/GameManager.h"
+#include "graphics/SpriteComponent.h"
+#include "physics/GeometryComponent.h"
 
 USING_NS_CC;
 
@@ -46,9 +48,9 @@ bool GameManager::init() {
 	_pBackground->setAnchorPoint(Point(0.f, 0.f));
 	this->addChild(_pBackground, 0);
 
-	_pHero = Sprite::create("sprites/sprite_hero.png");
-	_pHero->setPosition(Point(200.f, 400.f));
-	this->addChild(_pHero, 1);
+	_pHero = new SynthActor();
+	_pHero->addComponent(GeometryComponent::create(Point(300.f,200.f)));
+	_pHero->addComponent(SpriteComponent::create("sprites/sprite_hero.png", this));
 
 	return true;
 }
