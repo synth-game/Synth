@@ -48,6 +48,9 @@
     <ClCompile Include="..\Classes\graphics\SpriteComponent.cpp">
       <Filter>Classes\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\physics\MovementComponent.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\graphics\SpriteComponent.h">
       <Filter>Classes\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\MovementComponent.h">
+      <Filter>Classes\physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@
 #include "game/GameManager.h"
 #include "graphics/SpriteComponent.h"
 #include "physics/GeometryComponent.h"
+#include "physics/MovementComponent.h"
 
 USING_NS_CC;
 
@@ -50,13 +51,15 @@ bool GameManager::init() {
 
 	_pHero = new SynthActor();
 	_pHero->addComponent(GeometryComponent::create(Point(300.f,200.f)));
+	_pHero->addComponent(MovementComponent::create(Point(0.f, -2.f)));
 	_pHero->addComponent(SpriteComponent::create("sprites/sprite_hero.png", this));
 
 	return true;
 }
 
 void GameManager::update(float fDt) {
-	CCLOG("updating");
+	// actors
+	_pHero->update(fDt);
 }
 
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
