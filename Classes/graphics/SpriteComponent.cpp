@@ -3,6 +3,8 @@
  ***************************************************** */
 
 #include "SpriteComponent.h"
+#include "events/ChangePositionEvent.h"
+#include "core/SynthActor.h"
 
 const char* SpriteComponent::COMPONENT_TYPE = "SpriteComponent";
 
@@ -39,5 +41,15 @@ SpriteComponent* SpriteComponent::create(std::string sFilePath, Layer* pParentLa
 }
 
 void SpriteComponent::initListeners() {
+	_pChangePositionListener = EventListenerCustom::create(ChangePositionEvent::EVENT_NAME, CC_CALLBACK_1(SpriteComponent::onChangePosition, this));
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangePositionListener, 1);
+}
 
+void SpriteComponent::onChangePosition(EventCustom* pEvent) {
+	ChangePositionEvent* pChangePosEvent = static_cast<ChangePositionEvent*>(pEvent);
+	SynthActor* pOwner = static_cast<SynthActor*>(_owner);
+	SynthActor* pEventSource = static_cast<SynthActor*>(pChangePosEvent->getSource());
+	if (pOwner->getActorID() == pEventSource->getActorID()) {
+		_pSprite->setPosition(pChangePosEvent->getCurrentPosition());
+	}
 }

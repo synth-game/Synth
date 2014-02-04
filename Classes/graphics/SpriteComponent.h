@@ -23,10 +23,12 @@ public:
 protected:
 	SpriteComponent();
 	virtual void initListeners();
+	void onChangePosition(EventCustom* pEvent);
 	
 	std::string _sFilePath;
 	Sprite* _pSprite;
 	Layer* _pParentLayer;
+	EventListenerCustom* _pChangePositionListener;
 
 };
 
