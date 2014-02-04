@@ -1,7 +1,7 @@
 #ifndef GAME_LEVEL_FACTORY_H
 #define GAME_LEVEL_FACTORY_H
 
-#include "vector.h"
+#include <vector>
 #include "map.h"
 #include "Game/LevelSprite.h"
 #include "Game/Rect.h"
@@ -14,7 +14,7 @@ class LevelFactory
 {
 private:
 	/**
-	 *  
+	 *
 	 */
 	LevelFactory();
 

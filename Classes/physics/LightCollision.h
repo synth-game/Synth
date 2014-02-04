@@ -1,7 +1,7 @@
 #ifndef PHYSICS_LIGHT_COLLISION_H
 #define PHYSICS_LIGHT_COLLISION_H
 
-#include "vector.h"
+#include <vector>
 #include "Actor.h"
 #include "Color4B.h"
 #include "Point.h"
@@ -17,7 +17,7 @@ private:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	LightCollision(vector<Actor*> lightCollection);
 

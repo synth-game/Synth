@@ -1,7 +1,7 @@
 #ifndef GAME_LEVEL_SPRITE_H
 #define GAME_LEVEL_SPRITE_H
 
-#include "vector.h"
+#include <vector>
 #include "Game/Sprite.h"
 #include "Game/LightTexture.h"
 #include "Core/SynthActor.h"

@@ -1,7 +1,7 @@
 #ifndef SOUNDS_MUSIC_MANAGER_H
 #define SOUNDS_MUSIC_MANAGER_H
 
-#include "vector.h"
+#include <vector>
 #include "Sounds/Music.h"
 
 namespace Sounds

@@ -1,7 +1,7 @@
 #ifndef SOUNDS_VOICE_SOUND_COMPONENT_H
 #define SOUNDS_VOICE_SOUND_COMPONENT_H
 
-#include "vector.h"
+#include <vector>
 #include "EventCustom.h"
 #include "Physics/EventListenerCustom.h"
 #include "Sounds/SoundComponent.h"

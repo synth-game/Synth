@@ -1,7 +1,11 @@
+/* *****************************************************
+ *		GameManager.h - @ Jeremie Defaye - 29/01/14
+ ***************************************************** */
+
 #ifndef GAME_GAME_MANAGER_H
 #define GAME_GAME_MANAGER_H
 
-#include "vector.h"
+#include <vector>
 #include "map.h"
 #include "Color4B.h"
 #include "Game/Layer.h"
@@ -47,7 +51,7 @@ private:
 
 	/**
 	 * Ceci est la carte des illuminations:
-	 * 
+	 *
 	 * C'est un tableau 2D de la taille du LevelSprite (ou de résolution moindre). Chaque case du tableau contient une liste des indices des lumières qui éclairent le pixel correspondant
 	 */
 	vector<vector<int>> _lightsMap;
@@ -62,7 +66,7 @@ private:
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	GameManager();
 
@@ -81,9 +85,9 @@ public:
 
 	/**
 	 * This function have to:
-	 *  - check triggers 
+	 *  - check triggers
 	 *  - test hero's death -> send DeathEvent and resetLevel()
-	 *  
+	 *
 	 */
 	void update(int float fDt);
 

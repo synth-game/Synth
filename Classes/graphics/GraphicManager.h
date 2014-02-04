@@ -1,7 +1,7 @@
 #ifndef GRAPHICS_GRAPHIC_MANAGER_H
 #define GRAPHICS_GRAPHIC_MANAGER_H
 
-#include "vector.h"
+#include <vector>
 #include "Actor.h"
 #include "map.h"
 #include "Animation.h"
@@ -28,7 +28,7 @@ public:
 
 	/**
 	 * ! Don't forget to load all animations after building data vector
-	 * 
+	 *
 	 */
 	void init(System::xml data);
 

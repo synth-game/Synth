@@ -6,7 +6,6 @@
 #define CORE_SYNTH_MANAGER_H
 
 #include "cocos2d.h"
-#include "game/GameManager.h"
 #include "Game/GameScene.h"
 #include "Core/TitleScreenScene.h"
 #include "Menu/SelectLevelScene.h"
