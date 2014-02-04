@@ -38,7 +38,7 @@ void MovementComponent::initListeners() {
 
 void MovementComponent::update(float fDt) {
 	// update speed
-	_speed = _gravity;
+	_speed = _speed + _gravity;
 	// get current position
 	GeometryComponent* pGeometryComp = static_cast<GeometryComponent*>(_owner->getComponent(GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pGeometryComp != nullptr, "MovementComponent need a GeometryComponent added to its owner");
