@@ -1,33 +1,57 @@
-/* *****************************************************
- *		SpriteComponent.h - @ Damaris Ankou - 30/01/14
- ***************************************************** */
+#ifndef GRAPHICS_SPRITE_COMPONENT_H
+#define GRAPHICS_SPRITE_COMPONENT_H
 
-#ifndef __SPRITE_COMPONENT_H__
-#define __SPRITE_COMPONENT_H__
+#include "Component.h"
+#include "EventCustom.h"
+#include "Graphics/Sprite.h"
+#include "Graphics/Layer.h"
+#include "Core/SynthComponent.h"
 
-#include <string>
-#include "cocos2d.h"
-#include "core/SynthComponent.h"
+namespace Graphics
+{
+class SpriteComponent : public Component, public Core::SynthComponent
+{
+protected:
+	string _sSpriteName;
 
-USING_NS_CC;
+	Sprite* _pSprite;
 
-class SpriteComponent : public SynthComponent {
+	Layer* _pParent;
+
+	EventCustom* _pEditMoveEventListener;
 
 public:
-	~SpriteComponent();
-	virtual bool init();
-	static SpriteComponent* create(std::string sFilePath, Layer* pParentLayer);
+	static char* COMPONENT_TYPE;
 
-	static const char* COMPONENT_TYPE;
 
 protected:
+	/**
+	 *  
+	 */
 	SpriteComponent();
-	virtual void initListeners();
-	
-	std::string _sFilePath;
-	Sprite* _pSprite;
-	Layer* _pParentLayer;
+
+	void initListeners();
+
+public:
+	/**
+	 *  
+	 *  
+	 */
+	~SpriteComponent();
+
+	boolean init();
+
+	/**
+	 * Ask the GraphicManager the sprite with giving name to set it to the actor
+	 */
+	static SpriteComponent* create(string sSpriteName, Layer parent);
+
+	/**
+	 *  
+	 */
+	void onEditMove(EventCustom* pEvent);
 
 };
 
-#endif // __SPRITE_COMPONENT_H__
+}  // namespace Graphics
+#endif

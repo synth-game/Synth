@@ -1,52 +1,85 @@
-/* *****************************************************
- *		MovementComponent.cpp - @ Jeremie Defaye - 02/02/14
- ***************************************************** */
-
 #include "MovementComponent.h"
-#include "GeometryComponent.h"
 
-const char* MovementComponent::COMPONENT_TYPE = "MovementComponent";
+namespace Physics
+{
+char* MovementComponent::COMPONENT_TYPE;
 
 MovementComponent::MovementComponent()
-	: SynthComponent() {
-
+{
 }
 
-MovementComponent::~MovementComponent() {
-
+MovementComponent::~MovementComponent()
+{
 }
 
-bool MovementComponent::init() {
-	return SynthComponent::init(MovementComponent::COMPONENT_TYPE);
+MovementComponent* MovementComponent::create(Point acceleration, Point gravity)
+{
+	return 0;
 }
 
-MovementComponent* MovementComponent::create(Point gravity) {
-	MovementComponent* pRet = new MovementComponent();
-	if (pRet != nullptr && pRet->init()) {
-		pRet->autorelease();
-		pRet->_speed = Point::ZERO;
-		pRet->_gravity = gravity;
-	} else { 
-		CC_SAFE_DELETE(pRet);
-	}
-	return pRet;
+Point MovementComponent::getSpeed()
+{
+	return 0;
 }
 
-void MovementComponent::initListeners() {
-
+Point MovementComponent::getDirection()
+{
+	return 0;
 }
 
-void MovementComponent::update(float fDt) {
-	// update speed
-	_speed = _speed + _gravity;
-	// get current position
-	GeometryComponent* pGeometryComp = static_cast<GeometryComponent*>(_owner->getComponent(GeometryComponent::COMPONENT_TYPE));
-	CCASSERT(pGeometryComp != nullptr, "MovementComponent need a GeometryComponent added to its owner");
-	Point currentPos = pGeometryComp->getPosition();
-
-	//compute next position
-	Point nextPos = currentPos + (_speed*fDt);
-
-	//send event to update position
-	//TODO
+Point MovementComponent::getAcceleration()
+{
+	return 0;
 }
+
+Point MovementComponent::getGravity()
+{
+	return 0;
+}
+
+void MovementComponent::setSpeed(Point speed)
+{
+}
+
+void MovementComponent::setDirection(Point direction)
+{
+}
+
+void MovementComponent::setAcceleration(Point acceleration)
+{
+}
+
+void MovementComponent::setGravity(Point gravity)
+{
+}
+
+boolean MovementComponent::isStarting()
+{
+	return 0;
+}
+
+boolean MovementComponent::init()
+{
+	return 0;
+}
+
+void MovementComponent::initListeners()
+{
+}
+
+void MovementComponent::onEditMove(EventCustom* pEvent)
+{
+}
+
+void MovementComponent::onJump(EventCustom* pEvent)
+{
+}
+
+void MovementComponent::onInterruptMove(EventCustom* pEvent)
+{
+}
+
+void MovementComponent::update(float fDt)
+{
+}
+}  // namespace Physics

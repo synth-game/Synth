@@ -1,25 +1,43 @@
-/* *****************************************************
- *		SynthActor.h - @ Xochitl Florimont - 30/01/14
- ***************************************************** */
-
-#ifndef __SYNTH_ACTOR_H__
-#define __SYNTH_ACTOR_H__
+#ifndef CORE_SYNTH_ACTOR_H
+#define CORE_SYNTH_ACTOR_H
 
 #include "cocos2d.h"
 
 USING_NS_CC;
 
-class SynthActor : public Node {
-
-public:
-	SynthActor();
-	~SynthActor();
-	inline int getActorID() { return _iActorID; }
-
+namespace Core
+{
+class SynthActor : public Node
+{
+private:
 	static int _iActorCount;
+
+	string _sTag;
+
+	Node node;
 
 protected:
 	int _iActorID;
 
+
+public:
+	/**
+	 * Increment the actor count. Init actorID
+	 *
+	 *
+	 *
+	 *
+	 */
+	SynthActor(string sTag);
+
+	/**
+	 *
+	 */
+	int getActorID();
+
+	string getTag();
+
 };
-#endif // __SYNTH_ACTOR_H__
+
+}  // namespace Core
+#endif

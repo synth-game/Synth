@@ -1,25 +1,33 @@
 /* *****************************************************
- *		SynthComponent.h - @ Tom Duchêne - 30/01/14
+ *      SynthComponent.h - @ Tom DuchÃªne - 30/01/14
  ***************************************************** */
 
-#ifndef __SYNTH_COMPONENT_H__
-#define __SYNTH_COMPONENT_H__
+#ifndef CORE_SYNTH_COMPONENT_H
+#define CORE_SYNTH_COMPONENT_H
 
 #include "cocos2d.h"
 
 USING_NS_CC;
 
-class SynthComponent : public Component {
-
-public:
-	SynthComponent();
-	~SynthComponent();
-	virtual bool init(const char* sComponentType);
+namespace Core
+{
+class SynthComponent : public Component
+{
+private:
+	Component component;
 
 protected:
-	virtual void initListeners() = 0;
+	virtual void initListeners()=0;
 
+public:
+	/**
+	 *
+	 */
+	~SynthComponent();
+
+	virtual bool init(const char* componentType);
 
 };
 
-#endif // __SYNTH_COMPONENT_H__
+}  // namespace Core
+#endif
