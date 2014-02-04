@@ -14,12 +14,12 @@ VoiceEvent::~VoiceEvent()
 {
 }
 
-boolean VoiceEvent::isTriggeredVoice()
+bool VoiceEvent::isTriggeredVoice()
 {
 	return 0;
 }
 
-void VoiceEvent::setTriggeredVoice(boolean bIsTriggeredVoice)
+void VoiceEvent::setTriggeredVoice(bool bIsTriggeredVoice)
 {
 }
 }  // namespace GameEvents

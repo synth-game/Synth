@@ -11,7 +11,7 @@ TitleScreenScene::~TitleScreenScene()
 {
 }
 
-TitleScreenScene* TitleScreenScene::create(int* pBackground, boolean bIsThereGame)
+TitleScreenScene* TitleScreenScene::create(int* pBackground, bool bIsThereGame)
 {
 	return 0;
 }

@@ -14,30 +14,30 @@ InterruptMoveEvent::~InterruptMoveEvent()
 {
 }
 
-boolean InterruptMoveEvent::getStopX()
+bool InterruptMoveEvent::getStopX()
 {
 	return 0;
 }
 
-boolean InterruptMoveEvent::getStopY()
+bool InterruptMoveEvent::getStopY()
 {
 	return 0;
 }
 
-boolean InterruptMoveEvent::getHasMoved()
+bool InterruptMoveEvent::getHasMoved()
 {
 	return 0;
 }
 
-void InterruptMoveEvent::setStopX(boolean stopX)
+void InterruptMoveEvent::setStopX(bool stopX)
 {
 }
 
-void InterruptMoveEvent::setStopY(boolean stopY)
+void InterruptMoveEvent::setStopY(bool stopY)
 {
 }
 
-boolean InterruptMoveEvent::setHasMoved()
+bool InterruptMoveEvent::setHasMoved()
 {
 	return 0;
 }

@@ -10,7 +10,7 @@ namespace GameEvents
 class ToggleTextEvent : public Events::SynthEvent
 {
 private:
-	boolean bOn;
+	bool bOn;
 
 	char* _sVoiceTag;
 
@@ -27,9 +27,9 @@ public:
 
 	char* getVoiceTag();
 
-	boolean isOn();
+	bool isOn();
 
-	void setOn(boolean bOn);
+	void setOn(bool bOn);
 
 };
 

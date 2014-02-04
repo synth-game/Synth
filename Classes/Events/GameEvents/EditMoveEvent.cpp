@@ -19,12 +19,12 @@ Events::Point EditMoveEvent::getDirection()
 	return 0;
 }
 
-boolean EditMoveEvent::getChangeX()
+bool EditMoveEvent::getChangeX()
 {
 	return 0;
 }
 
-boolean EditMoveEvent::getChangeY()
+bool EditMoveEvent::getChangeY()
 {
 	return 0;
 }
@@ -33,11 +33,11 @@ void EditMoveEvent::setDirection(Events::Point direction)
 {
 }
 
-void EditMoveEvent::setChangeX(boolean changeX)
+void EditMoveEvent::setChangeX(bool changeX)
 {
 }
 
-void EditMoveEvent::setChangeY(boolean changeY)
+void EditMoveEvent::setChangeY(bool changeY)
 {
 }
 }  // namespace GameEvents

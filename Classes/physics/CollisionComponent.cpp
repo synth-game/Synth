@@ -28,7 +28,7 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent)
 {
 }
 
-boolean CollisionComponent::init()
+bool CollisionComponent::init()
 {
 	return 0;
 }

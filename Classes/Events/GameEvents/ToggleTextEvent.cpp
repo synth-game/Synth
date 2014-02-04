@@ -23,12 +23,12 @@ char* ToggleTextEvent::getVoiceTag()
 	return 0;
 }
 
-boolean ToggleTextEvent::isOn()
+bool ToggleTextEvent::isOn()
 {
 	return 0;
 }
 
-void ToggleTextEvent::setOn(boolean bOn)
+void ToggleTextEvent::setOn(bool bOn)
 {
 }
 }  // namespace GameEvents

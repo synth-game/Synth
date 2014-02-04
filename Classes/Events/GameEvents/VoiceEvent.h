@@ -10,7 +10,7 @@ namespace GameEvents
 class VoiceEvent : public Events::SynthEvent
 {
 private:
-	boolean _bTriggeredVoice;
+	bool _bTriggeredVoice;
 
 public:
 	static char* sEventName;
@@ -20,13 +20,13 @@ public:
 	VoiceEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~VoiceEvent();
 
-	boolean isTriggeredVoice();
+	bool isTriggeredVoice();
 
-	void setTriggeredVoice(boolean bIsTriggeredVoice);
+	void setTriggeredVoice(bool bIsTriggeredVoice);
 
 };
 

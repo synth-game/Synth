@@ -10,11 +10,11 @@ namespace GameEvents
 class InterruptMoveEvent : public Events::SynthEvent
 {
 private:
-	boolean _bStopX;
+	bool _bStopX;
 
-	boolean _bStopY;
+	bool _bStopY;
 
-	boolean _bHasMoved;
+	bool _bHasMoved;
 
 public:
 	static char* sEventName;
@@ -24,21 +24,21 @@ public:
 	InterruptMoveEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~InterruptMoveEvent();
 
-	boolean getStopX();
+	bool getStopX();
 
-	boolean getStopY();
+	bool getStopY();
 
-	boolean getHasMoved();
+	bool getHasMoved();
 
-	void setStopX(boolean stopX);
+	void setStopX(bool stopX);
 
-	void setStopY(boolean stopY);
+	void setStopY(bool stopY);
 
-	boolean setHasMoved();
+	bool setHasMoved();
 
 };
 

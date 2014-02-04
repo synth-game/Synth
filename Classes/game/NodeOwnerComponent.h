@@ -41,7 +41,7 @@ public:
 	 */
 	~NodeOwnerComponent();
 
-	boolean init();
+	bool init();
 
 	static NodeOwnerComponent* create(Node* pOwnedNode);
 

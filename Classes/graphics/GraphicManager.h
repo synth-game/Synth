@@ -41,7 +41,7 @@ public:
 	 */
 	Animation* getNextAnimation(string sAnimName);
 
-	boolean isLoopAnimation(string sAnimName);
+	bool isLoopAnimation(string sAnimName);
 
 };
 

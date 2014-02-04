@@ -35,7 +35,7 @@ Animation* GraphicManager::getNextAnimation(string sAnimName)
 	return 0;
 }
 
-boolean GraphicManager::isLoopAnimation(string sAnimName)
+bool GraphicManager::isLoopAnimation(string sAnimName)
 {
 	return 0;
 }

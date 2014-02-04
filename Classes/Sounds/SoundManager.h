@@ -34,19 +34,19 @@ public:
 
 	void init(System::xml data);
 
-	boolean playSound(string soundName, int iTrackId);
+	bool playSound(string soundName, int iTrackId);
 
-	boolean stopSound(int iTrackId);
+	bool stopSound(int iTrackId);
 
-	boolean unmuteMusic(string musicName);
+	bool unmuteMusic(string musicName);
 
-	boolean muteMusic(string musicName);
+	bool muteMusic(string musicName);
 
 	/**
 	 * = true :
 	 *  if iTrackId isn't in _playingSounds map
 	 */
-	boolean isFinished(int iTrackId);
+	bool isFinished(int iTrackId);
 
 	/**
 	 * This function is useful to manage chained sound.

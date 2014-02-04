@@ -12,7 +12,7 @@ LightAttrComponent::~LightAttrComponent()
 {
 }
 
-boolean LightAttrComponent::init()
+bool LightAttrComponent::init()
 {
 	return 0;
 }
@@ -31,7 +31,7 @@ void LightAttrComponent::setColor(Color4B color)
 {
 }
 
-boolean LightAttrComponent::isOn()
+bool LightAttrComponent::isOn()
 {
 	return 0;
 }

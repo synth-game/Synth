@@ -13,9 +13,9 @@ class EditMoveEvent : public Events::SynthEvent
 private:
 	Events::Point _direction;
 
-	boolean _bChangeX;
+	bool _bChangeX;
 
-	boolean _bChangeY;
+	bool _bChangeY;
 
 public:
 	static char* sEventName;
@@ -25,21 +25,21 @@ public:
 	EditMoveEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~EditMoveEvent();
 
 	Events::Point getDirection();
 
-	boolean getChangeX();
+	bool getChangeX();
 
-	boolean getChangeY();
+	bool getChangeY();
 
 	void setDirection(Events::Point direction);
 
-	void setChangeX(boolean changeX);
+	void setChangeX(bool changeX);
 
-	void setChangeY(boolean changeY);
+	void setChangeY(bool changeY);
 
 };
 

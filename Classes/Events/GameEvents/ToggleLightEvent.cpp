@@ -14,12 +14,12 @@ ToggleLightEvent::~ ToggleLightEvent()
 {
 }
 
-boolean ToggleLightEvent::isOn()
+bool ToggleLightEvent::isOn()
 {
 	return 0;
 }
 
-void ToggleLightEvent::setOn(boolean bOn)
+void ToggleLightEvent::setOn(bool bOn)
 {
 }
 }  // namespace GameEvents

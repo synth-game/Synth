@@ -27,7 +27,7 @@ protected:
 
 	Point _gravity;
 
-	boolean _bStartMoving;
+	bool _bStartMoving;
 
 	EventListenerCustom* _pEditMoveEventListener;
 

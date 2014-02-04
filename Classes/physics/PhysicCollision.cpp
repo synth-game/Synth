@@ -8,7 +8,7 @@ Point PhysicCollision::boundingTest(Point nextPosition, EDirection dir)
 	return 0;
 }
 
-boolean PhysicCollision::isOnGround(Point currentPosition)
+bool PhysicCollision::isOnGround(Point currentPosition)
 {
 	return 0;
 }

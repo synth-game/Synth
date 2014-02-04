@@ -10,7 +10,7 @@ namespace GameEvents
 class ToggleLightEvent : public Events::SynthEvent
 {
 private:
-	boolean bOn;
+	bool bOn;
 
 public:
 	static char* sEventName;
@@ -20,13 +20,13 @@ public:
 	ToggleLightEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~ ToggleLightEvent();
 
-	boolean isOn();
+	bool isOn();
 
-	void setOn(boolean bOn);
+	void setOn(bool bOn);
 
 };
 

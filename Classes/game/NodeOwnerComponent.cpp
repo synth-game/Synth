@@ -12,7 +12,7 @@ NodeOwnerComponent::~NodeOwnerComponent()
 {
 }
 
-boolean NodeOwnerComponent::init()
+bool NodeOwnerComponent::init()
 {
 	return 0;
 }

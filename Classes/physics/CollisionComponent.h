@@ -31,7 +31,7 @@ public:
 protected:
 	CollisionComponent();
 
-	boolean init();
+	bool init();
 
 	void initListeners();
 
@@ -39,7 +39,7 @@ public:
 	~CollisionComponent();
 
 	/**
-	 *  
+	 *
 	 */
 	static CollisionComponent* create(Image* bitmask, Point absoluteOriginPosition);
 
@@ -50,8 +50,8 @@ public:
 	/**
 	 * Test de collision avec les 4 points cardinaux de l'Actor -> repoussement si collision
 	 * Puis test de pente
-	 * 
-	 *  
+	 *
+	 *
 	 */
 	void onTestCollision(EventCustom* pEvent);
 

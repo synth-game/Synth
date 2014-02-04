@@ -18,12 +18,12 @@ public:
 	 */
 	Point boundingTest(Point nextPosition, EDirection dir);
 
-	boolean isOnGround(Point currentPosition);
+	bool isOnGround(Point currentPosition);
 
 	/**
 	 * test de pente : si le personnage est collé à une surface, il doit suivre son relief en se déplaçant contre
-	 * 
-	 *  
+	 *
+	 *
 	 */
 	Point groundTest(Point currentPosition, Point nextPosition);
 

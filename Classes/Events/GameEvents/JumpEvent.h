@@ -10,7 +10,7 @@ namespace GameEvents
 class JumpEvent : public Events::SynthEvent
 {
 private:
-	boolean _bStartJump;
+	bool _bStartJump;
 
 public:
 	static char* sEventName;
@@ -20,13 +20,13 @@ public:
 	JumpEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~JumpEvent();
 
-	boolean getStartJump();
+	bool getStartJump();
 
-	void setStartJump(boolean startJump);
+	void setStartJump(bool startJump);
 
 };
 

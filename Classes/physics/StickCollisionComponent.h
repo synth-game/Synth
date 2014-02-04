@@ -9,13 +9,13 @@ namespace Physics
 class StickCollisionComponent : public CollisionComponent
 {
 private:
-	boolean _bIsSticked;
+	bool _bIsSticked;
 
 
 public:
 	/**
 	 * Si un des points cardinaux collisionne -> faire le test de pente contre la surface correspondante
-	 * 
+	 *
 	 */
 	void onTestCollision(EventCustom* pEvent);
 

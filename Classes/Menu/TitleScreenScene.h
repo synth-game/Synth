@@ -33,8 +33,8 @@ private:
 
 	/**
 	 *  = 6
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	int _iButtonCount;
 
@@ -47,7 +47,7 @@ protected:
 public:
 	~TitleScreenScene();
 
-	static TitleScreenScene* create(int* pBackground, boolean bIsThereGame);
+	static TitleScreenScene* create(int* pBackground, bool bIsThereGame);
 
 	void init();
 

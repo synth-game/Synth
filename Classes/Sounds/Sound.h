@@ -11,7 +11,7 @@ class Sound
 public:
 	string filePath;
 
-	boolean bLoop;
+	bool bLoop;
 
 	string chainedSoundName;
 

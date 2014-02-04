@@ -14,12 +14,12 @@ JumpEvent::~JumpEvent()
 {
 }
 
-boolean JumpEvent::getStartJump()
+bool JumpEvent::getStartJump()
 {
 	return 0;
 }
 
-void JumpEvent::setStartJump(boolean startJump)
+void JumpEvent::setStartJump(bool startJump)
 {
 }
 }  // namespace GameEvents

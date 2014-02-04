@@ -50,7 +50,7 @@ public:
 	 */
 	~LightAttrComponent();
 
-	boolean init();
+	bool init();
 
 	static LightAttrComponent* create(Color4B color);
 
@@ -61,7 +61,7 @@ public:
 	 */
 	void setColor(Color4B color);
 
-	boolean isOn();
+	bool isOn();
 
 	float getIntensity();
 
