@@ -4,6 +4,7 @@
 
 #include "MovementComponent.h"
 #include "GeometryComponent.h"
+#include "events/ChangePositionEvent.h"
 
 const char* MovementComponent::COMPONENT_TYPE = "MovementComponent";
 
@@ -38,7 +39,7 @@ void MovementComponent::initListeners() {
 
 void MovementComponent::update(float fDt) {
 	// update speed
-	_speed = _gravity;
+	_speed = _speed + _gravity;
 	// get current position
 	GeometryComponent* pGeometryComp = static_cast<GeometryComponent*>(_owner->getComponent(GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pGeometryComp != nullptr, "MovementComponent need a GeometryComponent added to its owner");
@@ -48,5 +49,7 @@ void MovementComponent::update(float fDt) {
 	Point nextPos = currentPos + (_speed*fDt);
 
 	//send event to update position
-	//TODO
+	ChangePositionEvent* pChangePositionEvent = new ChangePositionEvent(_owner);
+	pChangePositionEvent->setCurrentPosition(nextPos);
+	EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
 }
