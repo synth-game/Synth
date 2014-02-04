@@ -7,14 +7,14 @@
 
 namespace Menu
 {
-class InGameMenuLayer : public Graphics::Layer
+class InGameMenuLayer : public Layer
 {
 private:
-	Graphics::Layer* _pBackgroundLayer;
+	Layer* _pBackgroundLayer;
 
-	Graphics::Layer* _pButtonLayer;
+	Layer* _pButtonLayer;
 
-	Graphics::Layer* _pSettingsLayer;
+	Layer* _pSettingsLayer;
 
 	ControlButton* _pBtnResumeGame;
 
@@ -32,8 +32,8 @@ private:
 
 	/**
 	 *  = 6
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	int _iButtonCount;
 
@@ -45,7 +45,7 @@ protected:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~InGameMenuLayer();
 

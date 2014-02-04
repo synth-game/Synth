@@ -7,17 +7,17 @@
 
 namespace Menu
 {
-class KeysLayer : public Graphics::Layer
+class KeysLayer : public Layer
 {
 private:
-	Graphics::Layer* _pButtonLayer;
+	Layer* _pButtonLayer;
 
 	int _iSelectedButtonID;
 
 	/**
 	 *  = 6
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	int _iButtonCount;
 
@@ -29,7 +29,7 @@ protected:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~KeysLayer();
 

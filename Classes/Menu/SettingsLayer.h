@@ -10,10 +10,10 @@
 
 namespace Menu
 {
-class SettingsLayer : public Graphics::Layer
+class SettingsLayer : public Layer
 {
 private:
-	Graphics::Layer* _pButtonLayer;
+	Layer* _pButtonLayer;
 
 	KeysLayer* _pKeysLayer;
 
@@ -27,8 +27,8 @@ private:
 
 	/**
 	 *  = 6
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	int _iButtonCount;
 
@@ -40,7 +40,7 @@ protected:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~SettingsLayer();
 

@@ -32,13 +32,13 @@ private:
 	 */
 	vector<SynthActor*> _levelActors;
 
-	Graphics::Layer* _pBackgroundLayer;
+	Layer* _pBackgroundLayer;
 
-	Graphics::Layer* _pIntermediarLayer;
+	Layer* _pIntermediarLayer;
 
-	Graphics::Layer* _pLevelLayer;
+	Layer* _pLevelLayer;
 
-	Graphics::Layer* _pSkinningLayer;
+	Layer* _pSkinningLayer;
 
 	/**
 	 * -> component : TextSpriteComponent

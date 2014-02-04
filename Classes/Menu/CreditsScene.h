@@ -12,9 +12,9 @@ namespace Menu
 class CreditsScene : public Scene
 {
 private:
-	Graphics::Layer* _pMainLayer;
+	Layer* _pMainLayer;
 
-	Graphics::Layer* _pBackgroundLayer;
+	Layer* _pBackgroundLayer;
 
 	ControlButton* _pBtnBack;
 
@@ -23,7 +23,7 @@ private:
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	CreditsScene();
 
