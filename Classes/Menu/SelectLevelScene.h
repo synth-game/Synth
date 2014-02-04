@@ -13,7 +13,7 @@ class SelectLevelScene : public Scene
 private:
 	GameManager* _pGameLayer;
 
-	EventListenerKeyBoard* _pKeyEventListener;
+	EventListenerKeyboard* _pKeyEventListener;
 
 	EventListenerCustom* _pDeathEventListener;
 

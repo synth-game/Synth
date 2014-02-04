@@ -3,7 +3,7 @@
 
 #include "Menu/Scene.h"
 #include "Menu/ControlButton.h"
-#include "Menu/EventListenerKeyBoard.h"
+#include "Menu/EventListenerKeyboard.h"
 #include "Menu/Event.h"
 #include "Graphics/Layer.h"
 
@@ -18,7 +18,7 @@ private:
 
 	ControlButton* _pBtnBack;
 
-	EventListenerKeyBoard _keyEventListener;
+	EventListenerKeyboard _keyEventListener;
 
 
 protected:
