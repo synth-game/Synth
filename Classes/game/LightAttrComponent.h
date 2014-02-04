@@ -13,7 +13,7 @@ namespace Game
 class LightAttrComponent : public Component, public SynthComponent, public Core::SynthComponent
 {
 private:
-	Physics::EventListenerCustom* _pChangeIntensityListener;
+	EventListenerCustom* _pChangeIntensityListener;
 
 
 protected:
@@ -25,7 +25,7 @@ protected:
 
 	/**
 	 * intensity of the light : between 0 and 1
-	 * 
+	 *
 	 */
 	float _intensity;
 
@@ -36,7 +36,7 @@ public:
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	LightAttrComponent();
 
@@ -46,7 +46,7 @@ protected:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~LightAttrComponent();
 
@@ -57,7 +57,7 @@ public:
 	Color4B getColor();
 
 	/**
-	 *  
+	 *
 	 */
 	void setColor(Color4B color);
 
@@ -66,7 +66,7 @@ public:
 	float getIntensity();
 
 	/**
-	 *  
+	 *
 	 */
 	void setIntensity(float intensity);
 

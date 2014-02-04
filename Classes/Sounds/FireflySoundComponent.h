@@ -10,11 +10,11 @@ namespace Sounds
 class FireflySoundComponent : public SoundComponent
 {
 private:
-	Physics::EventListenerCustom* _pChangePositionEventListener;
+	EventListenerCustom* _pChangePositionEventListener;
 
-	Physics::EventListenerCustom* _pToggleLightEventListener;
+	EventListenerCustom* _pToggleLightEventListener;
 
-	Physics::EventListenerCustom* _pNodeOwnerChangeEventListener;
+	EventListenerCustom* _pNodeOwnerChangeEventListener;
 
 
 protected:

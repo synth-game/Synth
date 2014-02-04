@@ -16,13 +16,13 @@ private:
 
 	InGameMenuLayer* _pMenu;
 
-	Physics::EventListenerCustom* _pDeathEventListener;
+	EventListenerCustom* _pDeathEventListener;
 
-	Physics::EventListenerCustom* _pResetLevelEventListener;
+	EventListenerCustom* _pResetLevelEventListener;
 
-	Physics::EventListenerCustom* _pPauseGameEventListener;
+	EventListenerCustom* _pPauseGameEventListener;
 
-	Physics::EventListenerCustom* _pResumeGameEventListener;
+	EventListenerCustom* _pResumeGameEventListener;
 
 
 protected:

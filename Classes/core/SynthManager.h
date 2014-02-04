@@ -24,21 +24,21 @@ private:
 
 	Menus::SelectLevelScene* _pSelectLevelScene;
 
-	Physics::EventListenerCustom* _pNewGameEventListener;
+	EventListenerCustom* _pNewGameEventListener;
 
-	Physics::EventListenerCustom* _pContinueGameEventListener;
+	EventListenerCustom* _pContinueGameEventListener;
 
-	Physics::EventListenerCustom* _pOpenSelectLevelScreenEventListener;
+	EventListenerCustom* _pOpenSelectLevelScreenEventListener;
 
-	Physics::EventListenerCustom* _pOpenSettingsEventListener;
+	EventListenerCustom* _pOpenSettingsEventListener;
 
-	Physics::EventListenerCustom* _pOpenCreditsEventListener;
+	EventListenerCustom* _pOpenCreditsEventListener;
 
-	Physics::EventListenerCustom* _pExitGameEventListener;
+	EventListenerCustom* _pExitGameEventListener;
 
-	Physics::EventListenerCustom* _pOpenTitleScreenEventListener;
+	EventListenerCustom* _pOpenTitleScreenEventListener;
 
-	Physics::EventListenerCustom* _pLoadSelectedLevelEventListener;
+	EventListenerCustom* _pLoadSelectedLevelEventListener;
 
 
 protected:

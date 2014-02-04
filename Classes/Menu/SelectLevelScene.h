@@ -16,12 +16,12 @@ private:
 
 	EventListenerKeyBoard* _pKeyEventListener;
 
-	Physics::EventListenerCustom* _pDeathEventListener;
+	EventListenerCustom* _pDeathEventListener;
 
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	SelectLevelScene();
 
@@ -32,7 +32,7 @@ protected:
 
 	/**
 	 * Sert à savoir quel niveau est sélectionné.
-	 * 
+	 *
 	 * Est reçu quand le personnage sort de l'écran alors qu'il a allumé une lumière (sélectionner un niveau)
 	 * Regarder quelle lumière est allumée pour savoir quel niveau chargé
 	 */

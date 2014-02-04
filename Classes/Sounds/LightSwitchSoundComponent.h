@@ -10,18 +10,18 @@ namespace Sounds
 class LightSwitchSoundComponent : public SoundComponent
 {
 private:
-	Physics::EventListenerCustom* _pToggleLightEventListener;
+	EventListenerCustom* _pToggleLightEventListener;
 
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	LightSwitchSoundComponent();
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~LightSwitchSoundComponent();
 

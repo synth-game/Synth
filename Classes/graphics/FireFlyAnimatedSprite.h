@@ -10,14 +10,14 @@ namespace Graphics
 class FireFlyAnimatedSprite : public AnimatedSpriteComponent
 {
 private:
-	Physics::EventListenerCustom* pChangeNodeOwnerEventListener;
+	EventListenerCustom* pChangeNodeOwnerEventListener;
 
 
 protected:
 	FireFlyAnimatedSprite();
 
 	/**
-	 *  
+	 *
 	 */
 	void initListeners();
 

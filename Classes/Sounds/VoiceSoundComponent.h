@@ -11,7 +11,7 @@ namespace Sounds
 class VoiceSoundComponent : public SoundComponent
 {
 private:
-	Physics::EventListenerCustom* _pVoiceEventListener;
+	EventListenerCustom* _pVoiceEventListener;
 
 	/**
 	 * contient les tags de voix declenchées en passant sur des triggers spaciaux. les tags sont envoyés au soundmanager pour être lus.
@@ -33,7 +33,7 @@ protected:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~VoiceSoundComponent();
 
@@ -42,9 +42,9 @@ public:
 	/**
 	 * récupére un event de voix random ou voix triggered, comprotement différent selon si c'est random ou triggered. On parcourt la liste des voix dans l'ordre de la liste.
 	 * Lance en meme temps un event ToggleTextEvent avec le tag correspondant si soustitres activés.
-	 * Si c'est trigerred, ne pas oublier d'incrémenter le curseur iCurrentTriggeredVoice 
-	 * 
-	 * 
+	 * Si c'est trigerred, ne pas oublier d'incrémenter le curseur iCurrentTriggeredVoice
+	 *
+	 *
 	 */
 	void onVoiceEvent(EventCustom* pEvent);
 

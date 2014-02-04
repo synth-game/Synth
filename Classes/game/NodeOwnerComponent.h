@@ -10,9 +10,9 @@ namespace Game
 class NodeOwnerComponent : public Core::SynthComponent
 {
 private:
-	Physics::EventListenerCustom* _pToggleLightListener;
+	EventListenerCustom* _pToggleLightListener;
 
-	Physics::EventListenerCustom* _pChangeNodeOwnerListener;
+	EventListenerCustom* _pChangeNodeOwnerListener;
 
 
 protected:
@@ -25,7 +25,7 @@ public:
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	NodeOwnerComponent();
 
@@ -37,7 +37,7 @@ protected:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~NodeOwnerComponent();
 

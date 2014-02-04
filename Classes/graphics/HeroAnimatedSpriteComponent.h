@@ -10,23 +10,23 @@ namespace Graphics
 class HeroAnimatedSpriteComponent : public AnimatedSpriteComponent
 {
 private:
-	Physics::EventListenerCustom* pChangePositionEventListener;
+	EventListenerCustom* pChangePositionEventListener;
 
-	Physics::EventListenerCustom* pEditMoveEventListener;
+	EventListenerCustom* pEditMoveEventListener;
 
-	Physics::EventListenerCustom* pJumpEventListener;
+	EventListenerCustom* pJumpEventListener;
 
-	Physics::EventListenerCustom* pInterruptMoveEventListener;
+	EventListenerCustom* pInterruptMoveEventListener;
 
-	Physics::EventListenerCustom* pChangeNodeOwnerEventListener;
+	EventListenerCustom* pChangeNodeOwnerEventListener;
 
-	Physics::EventListenerCustom* pToggleLightEventListener;
+	EventListenerCustom* pToggleLightEventListener;
 
-	Physics::EventListenerCustom* pDeathEventListener;
+	EventListenerCustom* pDeathEventListener;
 
-	Physics::EventListenerCustom* pWinEventListener;
+	EventListenerCustom* pWinEventListener;
 
-	Physics::EventListenerCustom* pResetLevelEventListener;
+	EventListenerCustom* pResetLevelEventListener;
 
 
 protected:
@@ -39,7 +39,7 @@ public:
 
 	/**
 	 * Get the batchnode from the GraphicManager and init with the idl_animation
-	 * 
+	 *
 	 */
 	static HeroAnimatedSpriteComponent* create();
 

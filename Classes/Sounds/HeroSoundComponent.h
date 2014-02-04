@@ -10,15 +10,15 @@ namespace Sounds
 class HeroSoundComponent : public SoundComponent
 {
 private:
-	Physics::EventListenerCustom* _pChangePositionEventListener;
+	EventListenerCustom* _pChangePositionEventListener;
 
-	Physics::EventListenerCustom* _pJumpEventListener;
+	EventListenerCustom* _pJumpEventListener;
 
-	Physics::EventListenerCustom* _pInterruptMoveEventListener;
+	EventListenerCustom* _pInterruptMoveEventListener;
 
-	Physics::EventListenerCustom* _pHeroDeathEventListener;
+	EventListenerCustom* _pHeroDeathEventListener;
 
-	Physics::EventListenerCustom* _pPeriodicEventListener;
+	EventListenerCustom* _pPeriodicEventListener;
 
 
 protected:

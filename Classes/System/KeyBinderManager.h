@@ -17,7 +17,7 @@ private:
 
 	map<BindedAction,enumGLFW> _padMap;
 
-	Physics::EventListenerCustom* _ pMapKeyEventListener;
+	EventListenerCustom* _ pMapKeyEventListener;
 
 
 private:
@@ -25,14 +25,14 @@ private:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~KeyBinderManager();
 
 	static KeyBinderManager* getInstance();
 
 	/**
-	 *  
+	 *
 	 */
 	void init(xml maps);
 
