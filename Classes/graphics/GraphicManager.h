@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "Actor.h"
-#include "map.h"
+#include <map>
 #include "Animation.h"
 #include "Graphics/Sprite.h"
 #include "System/xml.h"

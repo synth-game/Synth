@@ -6,7 +6,7 @@
 #define GAME_GAME_MANAGER_H
 
 #include <vector>
-#include "map.h"
+#include <map>
 #include "Color4B.h"
 #include "Game/Layer.h"
 #include "Game/ParallaxNode.h"

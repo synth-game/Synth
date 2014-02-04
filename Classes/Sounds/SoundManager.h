@@ -1,7 +1,7 @@
 #ifndef SOUNDS_SOUND_MANAGER_H
 #define SOUNDS_SOUND_MANAGER_H
 
-#include "map.h"
+#include <map>
 #include "System/xml.h"
 #include "Sounds/Sound.h"
 #include "Sounds/Music.h"
@@ -26,7 +26,7 @@ private:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~SoundManager();
 

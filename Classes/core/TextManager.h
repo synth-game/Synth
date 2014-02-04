@@ -1,7 +1,7 @@
 #ifndef CORE_TEXT_MANAGER_H
 #define CORE_TEXT_MANAGER_H
 
-#include "map.h"
+#include <map>
 #include "Core/Language.h"
 #include "System/xml.h"
 
@@ -12,7 +12,7 @@ class TextManager
 private:
 	/**
 	 * The big data structure :
-	 * 
+	 *
 	 * Contains for each language, the real text string associated to a text tag
 	 * the first string is the tag, the second one the real text
 	 */
