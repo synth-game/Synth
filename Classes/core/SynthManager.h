@@ -62,7 +62,7 @@ public:
 
 	~SynthManager();
 
-	void init();
+	bool init();
 
 };
 

@@ -51,7 +51,7 @@ public:
 
 	static InGameMenuLayer* create(int* pBackground);
 
-	void init();
+	bool init();
 
 };
 

@@ -13,7 +13,7 @@ public:
 	SynthManager();
 	~SynthManager();
 
-	void init();
+	bool init();
 
 private:
 	cocos2d::Scene* _pGameScene;

@@ -1,11 +1,10 @@
 #ifndef MENU_SELECT_LEVEL_SCENE_H
 #define MENU_SELECT_LEVEL_SCENE_H
 
-#include "Physics/EventListenerCustom.h"
-#include "Menu/Scene.h"
+#include "cocos2d.h"
 #include "Menu/GameManager.h"
-#include "Menu/EventListenerKeyBoard.h"
-#include "Menu/Event.h"
+
+USING_NS_CC;
 
 namespace Menu
 {
@@ -43,7 +42,7 @@ public:
 
 	static SelectLevelScene* create();
 
-	void init();
+	bool init();
 
 };
 

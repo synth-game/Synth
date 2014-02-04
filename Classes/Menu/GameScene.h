@@ -41,7 +41,7 @@ public:
 
 	static GameScene* create();
 
-	void init();
+	bool init();
 
 	void launchLevel(int iLevelID);
 

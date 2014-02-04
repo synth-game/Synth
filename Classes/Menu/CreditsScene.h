@@ -34,7 +34,7 @@ public:
 
 	static CreditsScene* create(int* pBackground);
 
-	void init();
+	bool init();
 
 };
 

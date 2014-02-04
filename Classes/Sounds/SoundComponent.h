@@ -20,27 +20,27 @@ public:
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	SoundComponent();
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~SoundComponent();
 
 	/**
 	 * - Regarde si l'état du owner correspond à un des agglomérat d'état de sa map
-	 * - Si c'est le cas, un son doit être joué ! On ajoute le tag du son dans la variable _nextSound si elle est vide. 
+	 * - Si c'est le cas, un son doit être joué ! On ajoute le tag du son dans la variable _nextSound si elle est vide.
 	 * Quand le son courant (tag dans _currentSound) est fini, on met le son de _nextSound dans _current sound et on le joue.
 	 */
 	void onSetStateEvent(EventCustom* pEvent);
 
 	/**
-	 *  
+	 *
 	 */
-	void init();
+	bool init();
 
 };
 

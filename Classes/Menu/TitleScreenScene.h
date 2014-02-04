@@ -49,7 +49,7 @@ public:
 
 	static TitleScreenScene* create(int* pBackground, bool bIsThereGame);
 
-	void init();
+	bool init();
 
 };
 
