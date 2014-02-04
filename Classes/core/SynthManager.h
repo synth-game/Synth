@@ -7,7 +7,7 @@
 
 #include "cocos2d.h"
 #include "Game/GameScene.h"
-#include "Core/TitleScreenScene.h"
+#include "Menu/TitleScreenScene.h"
 #include "Menu/SelectLevelScene.h"
 
 namespace Core

@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "core/SynthManager.h"
+#include "Core/SynthManager.h"
 
 USING_NS_CC;
 
