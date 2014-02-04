@@ -22,6 +22,9 @@
     <Filter Include="Classes\graphics">
       <UniqueIdentifier>{01743cdc-efcf-45f1-8718-e546e1e9751d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\events">
+      <UniqueIdentifier>{b541bbf7-eb07-4d2f-a6ff-ca275af9a7d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +54,12 @@
     <ClCompile Include="..\Classes\physics\MovementComponent.cpp">
       <Filter>Classes\physics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\events\ChangePositionEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\SynthEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -79,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\physics\MovementComponent.h">
       <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\ChangePositionEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\SynthEvent.h">
+      <Filter>Classes\events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

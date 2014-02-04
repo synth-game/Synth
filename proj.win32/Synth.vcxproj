@@ -136,6 +136,8 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\core\SynthActor.cpp" />
     <ClCompile Include="..\Classes\core\SynthComponent.cpp" />
     <ClCompile Include="..\Classes\core\SynthManager.cpp" />
+    <ClCompile Include="..\Classes\events\ChangePositionEvent.cpp" />
+    <ClCompile Include="..\Classes\events\SynthEvent.cpp" />
     <ClCompile Include="..\Classes\game\GameManager.cpp" />
     <ClCompile Include="..\Classes\graphics\SpriteComponent.cpp" />
     <ClCompile Include="..\Classes\physics\GeometryComponent.cpp" />
@@ -147,6 +149,8 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\core\SynthActor.h" />
     <ClInclude Include="..\Classes\core\SynthComponent.h" />
     <ClInclude Include="..\Classes\core\SynthManager.h" />
+    <ClInclude Include="..\Classes\events\ChangePositionEvent.h" />
+    <ClInclude Include="..\Classes\events\SynthEvent.h" />
     <ClInclude Include="..\Classes\game\GameManager.h" />
     <ClInclude Include="..\Classes\graphics\SpriteComponent.h" />
     <ClInclude Include="..\Classes\physics\GeometryComponent.h" />
