@@ -1,6 +1,11 @@
+/* *****************************************************
+ *		GeometryComponent.h - @ Flora Jullien - 30/01/14
+ ***************************************************** */
+
 #ifndef PHYSICS_GEOMETRY_COMPONENT_H
 #define PHYSICS_GEOMETRY_COMPONENT_H
 
+#include "cocos2d.h"
 #include "Component.h"
 #include "Point.h"
 #include "Size.h"
@@ -8,6 +13,8 @@
 #include "Physics/SynthComponent.h"
 #include "Physics/EventListenerCustom.h"
 #include "Core/SynthComponent.h"
+
+USING_NS_CC;
 
 namespace Physics
 {
@@ -33,7 +40,7 @@ public:
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	GeometryComponent();
 
@@ -44,7 +51,7 @@ protected:
 public:
 	~GeometryComponent();
 
-	virtual boolean init()=0;
+	virtual bool init()=0;
 
 	static GeometryComponent* create(Point position, Size size, float fRotationAngle, Point anchorPoint);
 

@@ -1,20 +1,36 @@
+/* *****************************************************
+ *      GeometryComponent.cpp - @ Flora Jullien - 30/01/14
+ ***************************************************** */
+
 #include "GeometryComponent.h"
 
 namespace Physics
 {
-char* GeometryComponent::COMPONENT_TYPE;
+
+const char* GeometryComponent::COMPONENT_TYPE = "GeometryComponent";
 
 GeometryComponent::GeometryComponent()
-{
+    : SynthComponent() {
+
 }
 
 GeometryComponent::~GeometryComponent()
 {
 }
 
-GeometryComponent* GeometryComponent::create(Point position, Size size, float fRotationAngle, Point anchorPoint)
-{
-	return 0;
+bool GeometryComponent::init() {
+    return SynthComponent::init(GeometryComponent::COMPONENT_TYPE);
+}
+
+GeometryComponent* GeometryComponent::create(Point position) {
+    GeometryComponent* pRet = new GeometryComponent();
+    if (pRet != nullptr && pRet->init()) {
+        pRet->autorelease();
+        pRet->_position = position;
+    } else {
+        CC_SAFE_DELETE(pRet);
+    }
+    return pRet;
 }
 
 Point GeometryComponent::getPosition()

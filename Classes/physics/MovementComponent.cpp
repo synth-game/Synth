@@ -1,20 +1,33 @@
+/* *****************************************************
+ *      MovementComponent.cpp - @ Jeremie Defaye - 02/02/14
+ ***************************************************** */
+
 #include "MovementComponent.h"
+#include "GeometryComponent.h"
 
 namespace Physics
 {
-char* MovementComponent::COMPONENT_TYPE;
+const char* MovementComponent::COMPONENT_TYPE = "MovementComponent";
 
 MovementComponent::MovementComponent()
-{
+    : SynthComponent() {
+
 }
 
 MovementComponent::~MovementComponent()
 {
 }
 
-MovementComponent* MovementComponent::create(Point acceleration, Point gravity)
-{
-	return 0;
+MovementComponent* MovementComponent::create(Point gravity) {
+    MovementComponent* pRet = new MovementComponent();
+    if (pRet != nullptr && pRet->init()) {
+        pRet->autorelease();
+        pRet->_speed = Point::ZERO;
+        pRet->_gravity = gravity;
+    } else {
+        CC_SAFE_DELETE(pRet);
+    }
+    return pRet;
 }
 
 Point MovementComponent::getSpeed()
@@ -53,14 +66,13 @@ void MovementComponent::setGravity(Point gravity)
 {
 }
 
-boolean MovementComponent::isStarting()
+bool MovementComponent::isStarting()
 {
 	return 0;
 }
 
-boolean MovementComponent::init()
-{
-	return 0;
+bool MovementComponent::init() {
+    return SynthComponent::init(MovementComponent::COMPONENT_TYPE);
 }
 
 void MovementComponent::initListeners()
@@ -79,7 +91,18 @@ void MovementComponent::onInterruptMove(EventCustom* pEvent)
 {
 }
 
-void MovementComponent::update(float fDt)
-{
+void MovementComponent::update(float fDt) {
+    // update speed
+    _speed = _speed + _gravity;
+    // get current position
+    GeometryComponent* pGeometryComp = static_cast<GeometryComponent*>(_owner->getComponent(GeometryComponent::COMPONENT_TYPE));
+    CCASSERT(pGeometryComp != nullptr, "MovementComponent need a GeometryComponent added to its owner");
+    Point currentPos = pGeometryComp->getPosition();
+
+    //compute next position
+    Point nextPos = currentPos + (_speed*fDt);
+
+    //send event to update position
+    //TODO
 }
 }  // namespace Physics

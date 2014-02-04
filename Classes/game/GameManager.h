@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <map>
+#include "cocos2d.h"
 #include "Color4B.h"
 #include "Game/Layer.h"
 #include "Game/ParallaxNode.h"
@@ -15,6 +16,8 @@
 #include "Game/Event.h"
 #include "Graphics/Layer.h"
 #include "Core/SynthActor.h"
+
+USING_NS_CC;
 
 namespace Game
 {
@@ -77,7 +80,7 @@ protected:
 public:
 	static GameManager* create();
 
-	void init();
+	virtual bool init(); // redéfinition de la méthode de Cocos2dx
 
 	void loadLevel(int iLevelId);
 
@@ -89,7 +92,7 @@ public:
 	 *  - test hero's death -> send DeathEvent and resetLevel()
 	 *
 	 */
-	void update(int float fDt);
+	virtual void update(float fDt); // pareil
 
 	/**
 	 * Have to handle event :
@@ -99,9 +102,8 @@ public:
 	 *  - Place Firefly
 	 *  - Pull LightSwitch
 	 */
-	void onKeyPressed(Event* pEvent);
-
-	void onKeyReleased(Event* pEvent);
+	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event);
+	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event);
 
 	static Color4B getLightColor(Core::SynthActor* pLight);
 

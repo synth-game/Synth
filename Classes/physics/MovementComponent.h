@@ -1,11 +1,18 @@
+/* *****************************************************
+ *		MovementComponent.h - @ Jeremie Defaye - 02/02/14
+ ***************************************************** */
+
 #ifndef PHYSICS_MOVEMENT_COMPONENT_H
 #define PHYSICS_MOVEMENT_COMPONENT_H
 
+#include "cocos2d.h"
 #include "Component.h"
 #include "Point.h"
 #include "EventCustom.h"
 #include "Physics/SynthComponent.h"
 #include "Physics/EventListenerCustom.h"
+
+USING_NS_CC;
 
 namespace Physics
 {
@@ -34,13 +41,13 @@ public:
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	MovementComponent();
 
-	boolean init();
+	virtual bool init();
 
-	void initListeners();
+	virtual void initListeners();
 
 	void onEditMove(EventCustom* pEvent);
 
@@ -49,13 +56,13 @@ protected:
 	void onInterruptMove(EventCustom* pEvent);
 
 	/**
-	 *  
+	 *
 	 */
 	void update(float fDt);
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~MovementComponent();
 
@@ -72,7 +79,7 @@ public:
 	void setSpeed(Point speed);
 
 	/**
-	 *  
+	 *
 	 */
 	void setDirection(Point direction);
 
@@ -80,7 +87,7 @@ public:
 
 	void setGravity(Point gravity);
 
-	boolean isStarting();
+	bool isStarting();
 
 };
 
