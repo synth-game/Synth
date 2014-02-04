@@ -25,8 +25,10 @@ public:
 protected:
 	GeometryComponent();
 	virtual void initListeners();
+	void onChangePosition(EventCustom* pEvent);
 	
 	Point _position;
+	EventListenerCustom* _pChangePositionListener;
 
 };
 
