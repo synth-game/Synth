@@ -11,14 +11,14 @@ namespace Sounds
 class SoundManager
 {
 private:
-	map<string,Sound> _sounds;
+	std::map<string,Sound> _sounds;
 
-	map<string,Music> _musics;
+	std::map<string,Music> _musics;
 
 	/**
 	 * associate id of playing tracks and the sound which are played on.
 	 */
-	map<int,Sound> _playingSounds;
+	std::map<int,Sound> _playingSounds;
 
 
 private:

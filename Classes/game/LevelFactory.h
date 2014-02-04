@@ -29,7 +29,7 @@ public:
 
 	LevelSprite* buildLevelSprite(System::xml data);
 
-	map<string,Rect> buildTriggers(System::xml data);
+	std::map<string,Rect> buildTriggers(System::xml data);
 
 };
 

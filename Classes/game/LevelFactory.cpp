@@ -31,7 +31,7 @@ LevelSprite* LevelFactory::buildLevelSprite(System::xml data)
 	return 0;
 }
 
-map<string,Rect> LevelFactory::buildTriggers(System::xml data)
+std::map<string,Rect> LevelFactory::buildTriggers(System::xml data)
 {
 	return 0;
 }

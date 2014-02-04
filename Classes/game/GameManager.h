@@ -62,7 +62,7 @@ private:
 	/**
 	 * associate trigger zone with a tag (end, voice)
 	 */
-	map<string,Rect> _triggers;
+	std::map<string,Rect> _triggers;
 
 	float _fTimeSinceLevelStart;
 

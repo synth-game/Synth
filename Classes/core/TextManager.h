@@ -16,7 +16,7 @@ private:
 	 * Contains for each language, the real text string associated to a text tag
 	 * the first string is the tag, the second one the real text
 	 */
-	map<Language,vector<Actor*> , map<string,string>> _textSamples;
+	std::map<Language,vector<Actor*> , std::map<string,string>> _textSamples;
 
 
 private:

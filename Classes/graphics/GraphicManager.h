@@ -15,7 +15,7 @@ class GraphicManager
 private:
 	vector<Actor*> _staticSprites;
 
-	map<string,Animation> _animations;
+	std::map<string,Animation> _animations;
 
 
 private:

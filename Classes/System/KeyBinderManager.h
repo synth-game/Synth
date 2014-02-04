@@ -13,9 +13,9 @@ namespace System
 class KeyBinderManager
 {
 private:
-	map<BindedAction,enumGLFW> _keyMap;
+	std::map<BindedAction,enumGLFW> _keyMap;
 
-	map<BindedAction,enumGLFW> _padMap;
+	std::map<BindedAction,enumGLFW> _padMap;
 
 	EventListenerCustom* _ pMapKeyEventListener;
 
