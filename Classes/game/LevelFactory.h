@@ -8,7 +8,7 @@
 #include "Core/SynthActor.h"
 #include "System/xml.h"
 
-namespace Game
+namespace game
 {
 class LevelFactory
 {
@@ -33,5 +33,5 @@ public:
 
 };
 
-}  // namespace Game
+}  // namespace game
 #endif

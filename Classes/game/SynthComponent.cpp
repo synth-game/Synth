@@ -1,7 +1,7 @@
 #include "SynthComponent.h"
 
-namespace Game
+namespace game
 {
 
 
-}  // namespace Game
+}  // namespace game

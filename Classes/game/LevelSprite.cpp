@@ -1,6 +1,6 @@
 #include "LevelSprite.h"
 
-namespace Game
+namespace game
 {
 
 LevelSprite::LevelSprite()
@@ -23,4 +23,4 @@ void LevelSprite::updateLights(vector<SynthActor*> lights)
 void LevelSprite::draw()
 {
 }
-}  // namespace Game
+}  // namespace game

@@ -1,11 +1,11 @@
 #ifndef GAME_GAME_SCENE_H
 #define GAME_GAME_SCENE_H
 
-namespace Game
+namespace game
 {
 class GameScene
 {
 };
 
-}  // namespace Game
+}  // namespace game
 #endif

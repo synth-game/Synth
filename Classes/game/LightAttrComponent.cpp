@@ -1,6 +1,6 @@
 #include "LightAttrComponent.h"
 
-namespace Game
+namespace game
 {
 char* LightAttrComponent::COMPONENT_TYPE;
 
@@ -52,4 +52,4 @@ float LightAttrComponent::getIntensity()
 void LightAttrComponent::setIntensity(float intensity)
 {
 }
-}  // namespace Game
+}  // namespace game

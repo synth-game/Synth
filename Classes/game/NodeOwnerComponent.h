@@ -5,7 +5,7 @@
 #include "Physics/EventListenerCustom.h"
 #include "Core/SynthComponent.h"
 
-namespace Game
+namespace game
 {
 class NodeOwnerComponent : public core::SynthComponent
 {
@@ -51,5 +51,5 @@ public:
 
 };
 
-}  // namespace Game
+}  // namespace game
 #endif

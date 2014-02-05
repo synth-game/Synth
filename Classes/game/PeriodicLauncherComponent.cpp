@@ -1,6 +1,6 @@
 #include "PeriodicLauncherComponent.h"
 
-namespace Game
+namespace game
 {
 char* PeriodicLauncherComponent::COMPONENT_TYPE;
 
@@ -33,4 +33,4 @@ float PeriodicLauncherComponent::getPeriod()
 void PeriodicLauncherComponent::setPeriod(float fPeriod)
 {
 }
-}  // namespace Game
+}  // namespace game

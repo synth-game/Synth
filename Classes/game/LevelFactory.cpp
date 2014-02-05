@@ -1,6 +1,6 @@
 #include "LevelFactory.h"
 
-namespace Game
+namespace game
 {
 
 LevelFactory::LevelFactory()
@@ -35,4 +35,4 @@ std::map<string,Rect> LevelFactory::buildTriggers(System::xml data)
 {
 	return 0;
 }
-}  // namespace Game
+}  // namespace game

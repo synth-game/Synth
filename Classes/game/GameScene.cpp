@@ -1,7 +1,7 @@
 #include "GameScene.h"
 
-namespace Game
+namespace game
 {
 
 
-}  // namespace Game
+}  // namespace game

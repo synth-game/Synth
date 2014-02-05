@@ -1,6 +1,6 @@
 #include "GameManager.h"
 
-namespace Game
+namespace game
 {
 
 GameManager::GameManager()
@@ -78,4 +78,4 @@ vector<SynthActor*> GameManager::getActorByTag(string sTag)
 {
 	return 0;
 }
-}  // namespace Game
+}  // namespace game

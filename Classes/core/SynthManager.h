@@ -19,7 +19,7 @@ private:
 
 	CreditsScene_ _pCreditsScene;
 
-	Game::GameScene* _pGameScene;
+	game::GameScene* _pGameScene;
 
 	Menu::SelectLevelScene* _pSelectLevelScene;
 

@@ -1,11 +1,11 @@
 #ifndef GAME_SYNTH_COMPONENT_H
 #define GAME_SYNTH_COMPONENT_H
 
-namespace Game
+namespace game
 {
 class SynthComponent
 {
 };
 
-}  // namespace Game
+}  // namespace game
 #endif

@@ -3,7 +3,7 @@
 
 #include "Core/SynthComponent.h"
 
-namespace Game
+namespace game
 {
 class PeriodicLauncherComponent : public core::SynthComponent
 {
@@ -37,5 +37,5 @@ public:
 
 };
 
-}  // namespace Game
+}  // namespace game
 #endif

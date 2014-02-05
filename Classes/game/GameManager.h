@@ -19,7 +19,7 @@
 
 USING_NS_CC;
 
-namespace Game
+namespace game
 {
 class GameManager : public Layer
 {
@@ -109,5 +109,5 @@ public:
 
 };
 
-}  // namespace Game
+}  // namespace game
 #endif

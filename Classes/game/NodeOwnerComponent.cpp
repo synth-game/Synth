@@ -1,6 +1,6 @@
 #include "NodeOwnerComponent.h"
 
-namespace Game
+namespace game
 {
 char* NodeOwnerComponent::COMPONENT_TYPE;
 
@@ -42,4 +42,4 @@ void NodeOwnerComponent::onToggleLightEvent : EventCustom*)()
 void NodeOwnerComponent::onChangeNodeOwnerEvent : EventCustom*)()
 {
 }
-}  // namespace Game
+}  // namespace game

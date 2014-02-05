@@ -6,7 +6,7 @@
 #include "Game/LightTexture.h"
 #include "Core/SynthActor.h"
 
-namespace Game
+namespace game
 {
 class LevelSprite : public Sprite
 {
@@ -36,5 +36,5 @@ public:
 
 };
 
-}  // namespace Game
+}  // namespace game
 #endif

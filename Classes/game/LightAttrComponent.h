@@ -8,7 +8,7 @@
 #include "Game/SynthComponent.h"
 #include "Core/SynthComponent.h"
 
-namespace Game
+namespace game
 {
 class LightAttrComponent : public Component, public SynthComponent, public core::SynthComponent
 {
@@ -72,5 +72,5 @@ public:
 
 };
 
-}  // namespace Game
+}  // namespace game
 #endif

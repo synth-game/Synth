@@ -4,7 +4,7 @@
 #include "Texture2D.h"
 #include "Color4B.h"
 
-namespace Game
+namespace game
 {
 /**
  * Intern class of LevelSprite
@@ -20,5 +20,5 @@ public:
 
 };
 
-}  // namespace Game
+}  // namespace game
 #endif
