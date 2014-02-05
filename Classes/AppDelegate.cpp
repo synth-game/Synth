@@ -1,5 +1,4 @@
 #include "AppDelegate.h"
-#include "Core/SynthManager.h"
 
 USING_NS_CC;
 
@@ -25,8 +24,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
     // init and run SynthManager
-	SynthManager* synthManager = new SynthManager;
-	synthManager->init();
 
     return true;
 }
