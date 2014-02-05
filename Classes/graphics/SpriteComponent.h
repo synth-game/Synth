@@ -8,7 +8,7 @@
 #include <string>
 #include "cocos2d.h"
 #include "Component.h"
-#include "EventCustom.h"
+
 #include "Graphics/Sprite.h"
 #include "Graphics/Layer.h"
 #include "Core/SynthComponent.h"

@@ -1,9 +1,10 @@
 #ifndef GAME_NODE_OWNER_COMPONENT_H
 #define GAME_NODE_OWNER_COMPONENT_H
 
-#include "Node.h"
-#include "Physics/EventListenerCustom.h"
+#include "cocos2d.h"
 #include "Core/SynthComponent.h"
+
+USING_NS_CC;
 
 namespace game
 {
@@ -31,9 +32,9 @@ protected:
 
 	void initListeners();
 
-	void onToggleLightEvent : EventCustom*)();
+	void onToggleLightEvent(EventCustom* pEvent);
 
-	void onChangeNodeOwnerEvent : EventCustom*)();
+	void onChangeNodeOwnerEvent(EventCustom* pEvent);
 
 public:
 	/**

@@ -1,16 +1,14 @@
 #ifndef GAME_LIGHT_ATTR_COMPONENT_H
 #define GAME_LIGHT_ATTR_COMPONENT_H
 
-#include "Component.h"
-#include "Color4B.h"
-#include "EventCustom.h"
-#include "Physics/EventListenerCustom.h"
-#include "Game/SynthComponent.h"
+#include "cocos2d.h"
 #include "Core/SynthComponent.h"
+
+USING_NS_CC;
 
 namespace game
 {
-class LightAttrComponent : public Component, public SynthComponent, public core::SynthComponent
+class LightAttrComponent :  core::SynthComponent
 {
 private:
 	EventListenerCustom* _pChangeIntensityListener;

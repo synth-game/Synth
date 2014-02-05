@@ -222,9 +222,6 @@
     <ClCompile Include="..\Classes\events\SetMusicVolumeEvent.cpp">
       <Filter>Classes\events</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\events\SetSoundVolumentEvent.cpp">
-      <Filter>Classes\events</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\events\SetSubtitleLanguageEvent.cpp">
       <Filter>Classes\events</Filter>
     </ClCompile>
@@ -320,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\physics\StickMovementComponent.cpp">
       <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\SetSoundVolumeEvent.cpp">
+      <Filter>Classes\events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -515,9 +515,6 @@
     <ClInclude Include="..\Classes\events\SetMusicVolumeEvent.h">
       <Filter>Classes\events</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\events\SetSoundVolumentEvent.h">
-      <Filter>Classes\events</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\events\SetSubtitleLanguageEvent.h">
       <Filter>Classes\events</Filter>
     </ClInclude>
@@ -616,6 +613,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\physics\StickMovementComponent.h">
       <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\SetSoundVolumeEvent.h">
+      <Filter>Classes\events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

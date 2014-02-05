@@ -1,8 +1,9 @@
 #ifndef GAME_LIGHT_TEXTURE_H
 #define GAME_LIGHT_TEXTURE_H
 
-#include "Texture2D.h"
-#include "Color4B.h"
+#include "cocos2d.h"
+
+USING_NS_CC;
 
 namespace game
 {

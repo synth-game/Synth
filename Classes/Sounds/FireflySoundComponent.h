@@ -1,8 +1,8 @@
 #ifndef SOUNDS_FIREFLY_SOUND_COMPONENT_H
 #define SOUNDS_FIREFLY_SOUND_COMPONENT_H
 
-#include "EventCustom.h"
-#include "Physics/EventListenerCustom.h"
+
+
 #include "Sounds/SoundComponent.h"
 
 namespace sounds

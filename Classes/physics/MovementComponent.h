@@ -8,9 +8,9 @@
 #include "cocos2d.h"
 #include "Component.h"
 #include "Point.h"
-#include "EventCustom.h"
+
 #include "Physics/SynthComponent.h"
-#include "Physics/EventListenerCustom.h"
+
 
 USING_NS_CC;
 

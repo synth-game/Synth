@@ -1,9 +1,10 @@
 #ifndef GRAPHICS_FIRE_FLY_ANIMATED_SPRITE_H
 #define GRAPHICS_FIRE_FLY_ANIMATED_SPRITE_H
 
-#include "EventCustom.h"
-#include "Physics/EventListenerCustom.h"
+#include "cocos2d.h"
 #include "Graphics/AnimatedSpriteComponent.h"
+
+USING_NS_CC;
 
 namespace graphics
 {

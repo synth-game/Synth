@@ -2,7 +2,7 @@
 #define SOUNDS_SOUND_COMPONENT_H
 
 #include "Component.h"
-#include "EventCustom.h"
+
 #include "Core/SynthComponent.h"
 
 namespace sounds

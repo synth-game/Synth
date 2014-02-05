@@ -2,12 +2,12 @@
 #define PHYSICS_COLLISION_COMPONENT_H
 
 #include "Point.h"
-#include "EventCustom.h"
+
 #include "Physics/SynthComponent.h"
 #include "Physics/Image.h"
 #include "Physics/PhysicCollision.h"
 #include "Physics/LightCollision.h"
-#include "Physics/EventListenerCustom.h"
+
 
 namespace physics
 {

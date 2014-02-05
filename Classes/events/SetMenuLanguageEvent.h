@@ -1,7 +1,7 @@
 #ifndef EVENTS_MENUEVENTS_SET_MENU_LANGUAGE_EVENT_H
 #define EVENTS_MENUEVENTS_SET_MENU_LANGUAGE_EVENT_H
 
-#include "Events/MenuEvents/SetLanguageEvent.h"
+#include "Events/SetLanguageEvent.h"
 
 namespace events
 {

@@ -1,7 +1,7 @@
 #ifndef PHYSICS_STICK_COLLISION_COMPONENT_H
 #define PHYSICS_STICK_COLLISION_COMPONENT_H
 
-#include "EventCustom.h"
+
 #include "Physics/CollisionComponent.h"
 
 namespace physics

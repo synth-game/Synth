@@ -166,7 +166,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\events\SetLuminosityEvent.cpp" />
     <ClCompile Include="..\Classes\events\SetMenuLanguageEvent.cpp" />
     <ClCompile Include="..\Classes\events\SetMusicVolumeEvent.cpp" />
-    <ClCompile Include="..\Classes\events\SetSoundVolumentEvent.cpp" />
+    <ClCompile Include="..\Classes\events\SetSoundVolumeEvent.cpp" />
     <ClCompile Include="..\Classes\events\SetSubtitleLanguageEvent.cpp" />
     <ClCompile Include="..\Classes\events\StartSoundEvent.cpp" />
     <ClCompile Include="..\Classes\events\StopSoundEvent.cpp" />
@@ -265,7 +265,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\events\SetLuminosityEvent.h" />
     <ClInclude Include="..\Classes\events\SetMenuLanguageEvent.h" />
     <ClInclude Include="..\Classes\events\SetMusicVolumeEvent.h" />
-    <ClInclude Include="..\Classes\events\SetSoundVolumentEvent.h" />
+    <ClInclude Include="..\Classes\events\SetSoundVolumeEvent.h" />
     <ClInclude Include="..\Classes\events\SetSubtitleLanguageEvent.h" />
     <ClInclude Include="..\Classes\events\StartSoundEvent.h" />
     <ClInclude Include="..\Classes\events\StopSoundEvent.h" />

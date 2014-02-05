@@ -1,7 +1,7 @@
 #ifndef GRAPHICS_TEXT_SPRITE_COMPONENT_H
 #define GRAPHICS_TEXT_SPRITE_COMPONENT_H
 
-#include "EventCustom.h"
+
 #include "Graphics/SpriteComponent.h"
 #include "Graphics/LabelTTF.h"
 

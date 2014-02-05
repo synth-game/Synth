@@ -1,8 +1,8 @@
 #ifndef SOUNDS_LIGHT_SWITCH_SOUND_COMPONENT_H
 #define SOUNDS_LIGHT_SWITCH_SOUND_COMPONENT_H
 
-#include "EventCustom.h"
-#include "Physics/EventListenerCustom.h"
+
+
 #include "Sounds/SoundComponent.h"
 
 namespace sounds
