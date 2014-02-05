@@ -6,7 +6,7 @@
 
 const char* SpriteComponent::COMPONENT_TYPE = "SpriteComponent";
 
-namespace Graphics
+namespace graphics
 {
 char* SpriteComponent::COMPONENT_TYPE;
 
@@ -49,4 +49,4 @@ void SpriteComponent::initListeners()
 void SpriteComponent::onEditMove(EventCustom* pEvent)
 {
 }
-}  // namespace Graphics
+}  // namespace graphics

@@ -5,7 +5,7 @@
 #include "Graphics/SpriteComponent.h"
 #include "Graphics/LabelTTF.h"
 
-namespace Graphics
+namespace graphics
 {
 class TextSpriteComponent : public SpriteComponent
 {
@@ -17,23 +17,23 @@ protected:
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	TextSpriteComponent();
 
 	/**
-	 *  
+	 *
 	 */
 	void onToggleText(EventCustom* pEvent);
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~TextSpriteComponent();
 
 	/**
-	 *  
+	 *
 	 */
 	static TextSpriteComponent* create(string sText, char* sFontName, float fFontSize);
 
@@ -43,5 +43,5 @@ public:
 
 };
 
-}  // namespace Graphics
+}  // namespace graphics
 #endif

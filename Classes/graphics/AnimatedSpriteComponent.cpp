@@ -1,6 +1,6 @@
 #include "AnimatedSpriteComponent.h"
 
-namespace Graphics
+namespace graphics
 {
 
 AnimatedSpriteComponent::AnimatedSpriteComponent()
@@ -14,4 +14,4 @@ AnimatedSpriteComponent::~AnimatedSpriteComponent()
 void AnimatedSpriteComponent::requestNextAnimation()
 {
 }
-}  // namespace Graphics
+}  // namespace graphics

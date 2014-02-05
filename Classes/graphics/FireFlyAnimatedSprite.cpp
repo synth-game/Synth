@@ -1,6 +1,6 @@
 #include "FireFlyAnimatedSprite.h"
 
-namespace Graphics
+namespace graphics
 {
 
 FireFlyAnimatedSprite::FireFlyAnimatedSprite()
@@ -23,4 +23,4 @@ void FireFlyAnimatedSprite::initListeners()
 void FireFlyAnimatedSprite::onChangeNodeOwner(EventCustom* pEvent)
 {
 }
-}  // namespace Graphics
+}  // namespace graphics

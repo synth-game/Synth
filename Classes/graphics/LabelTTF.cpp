@@ -1,7 +1,7 @@
 #include "LabelTTF.h"
 
-namespace Graphics
+namespace graphics
 {
 
 
-}  // namespace Graphics
+}  // namespace graphics

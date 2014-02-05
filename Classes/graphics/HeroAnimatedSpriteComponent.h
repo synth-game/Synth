@@ -5,7 +5,7 @@
 #include "Physics/EventListenerCustom.h"
 #include "Graphics/AnimatedSpriteComponent.h"
 
-namespace Graphics
+namespace graphics
 {
 class HeroAnimatedSpriteComponent : public AnimatedSpriteComponent
 {
@@ -63,5 +63,5 @@ public:
 
 };
 
-}  // namespace Graphics
+}  // namespace graphics
 #endif

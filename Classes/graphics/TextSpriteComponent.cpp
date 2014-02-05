@@ -1,6 +1,6 @@
 #include "TextSpriteComponent.h"
 
-namespace Graphics
+namespace graphics
 {
 
 TextSpriteComponent::TextSpriteComponent()
@@ -28,4 +28,4 @@ void TextSpriteComponent::setText(string sText)
 void TextSpriteComponent::onToggleText(EventCustom* pEvent)
 {
 }
-}  // namespace Graphics
+}  // namespace graphics

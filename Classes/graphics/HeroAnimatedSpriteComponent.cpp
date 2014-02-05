@@ -1,6 +1,6 @@
 #include "HeroAnimatedSpriteComponent.h"
 
-namespace Graphics
+namespace graphics
 {
 
 HeroAnimatedSpriteComponent::HeroAnimatedSpriteComponent()
@@ -55,4 +55,4 @@ void HeroAnimatedSpriteComponent::onWin(EventCustom* pEvent)
 void HeroAnimatedSpriteComponent::onResetLevel(EventCustom* pEvent)
 {
 }
-}  // namespace Graphics
+}  // namespace graphics

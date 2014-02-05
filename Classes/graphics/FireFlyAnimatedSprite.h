@@ -5,7 +5,7 @@
 #include "Physics/EventListenerCustom.h"
 #include "Graphics/AnimatedSpriteComponent.h"
 
-namespace Graphics
+namespace graphics
 {
 class FireFlyAnimatedSprite : public AnimatedSpriteComponent
 {
@@ -30,5 +30,5 @@ public:
 
 };
 
-}  // namespace Graphics
+}  // namespace graphics
 #endif

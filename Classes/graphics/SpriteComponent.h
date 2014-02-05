@@ -13,7 +13,7 @@
 #include "Graphics/Layer.h"
 #include "Core/SynthComponent.h"
 
-namespace Graphics
+namespace graphics
 {
 class SpriteComponent : public Component, public core::SynthComponent
 {
@@ -59,5 +59,5 @@ public:
 
 };
 
-}  // namespace Graphics
+}  // namespace graphics
 #endif

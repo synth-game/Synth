@@ -8,7 +8,7 @@
 #include "Graphics/Sprite.h"
 #include "System/xml.h"
 
-namespace Graphics
+namespace graphics
 {
 class GraphicManager
 {
@@ -45,5 +45,5 @@ public:
 
 };
 
-}  // namespace Graphics
+}  // namespace graphics
 #endif

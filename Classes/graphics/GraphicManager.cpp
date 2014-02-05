@@ -1,6 +1,6 @@
 #include "GraphicManager.h"
 
-namespace Graphics
+namespace graphics
 {
 
 GraphicManager::GraphicManager()
@@ -39,4 +39,4 @@ bool GraphicManager::isLoopAnimation(string sAnimName)
 {
 	return 0;
 }
-}  // namespace Graphics
+}  // namespace graphics

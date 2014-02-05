@@ -4,7 +4,7 @@
 #include "Graphics/SpriteComponent.h"
 #include "Graphics/SpriteBatchNode.h"
 
-namespace Graphics
+namespace graphics
 {
 /**
  * launch animation for the sprite :
@@ -24,7 +24,7 @@ protected:
 
 protected:
 	/**
-	 *  
+	 *
 	 */
 	AnimatedSpriteComponent();
 
@@ -35,11 +35,11 @@ protected:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~AnimatedSpriteComponent();
 
 };
 
-}  // namespace Graphics
+}  // namespace graphics
 #endif
