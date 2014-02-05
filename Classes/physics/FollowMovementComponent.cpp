@@ -1,6 +1,6 @@
 #include "FollowMovementComponent.h"
 
-namespace Physics
+namespace physics
 {
 
 FollowMovementComponent* FollowMovementComponent::create(Point acceleration, Point target)
@@ -9,4 +9,4 @@ FollowMovementComponent* FollowMovementComponent::create(Point acceleration, Poi
 }
 
 
-}  // namespace Physics
+}  // namespace physics

@@ -5,7 +5,7 @@
 #include "Point.h"
 #include "Physics/MovementComponent.h"
 
-namespace Physics
+namespace physics
 {
 class FlyMovementComponent : public MovementComponent
 {
@@ -21,7 +21,7 @@ protected:
 	virtual void onJump(EventCustom* pEvent)=0;
 
 	/**
-	 *  
+	 *
 	 */
 	void update(float fDt);
 
@@ -30,5 +30,5 @@ public:
 
 };
 
-}  // namespace Physics
+}  // namespace physics
 #endif

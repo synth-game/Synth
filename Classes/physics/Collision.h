@@ -5,7 +5,7 @@
 #include "Size.h"
 #include "Physics/Image.h"
 
-namespace Physics
+namespace physics
 {
 class Collision
 {
@@ -22,7 +22,7 @@ protected:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	Collision(Image* pBitmask, Point absoluteOriginPosition, Size _ownerSize);
 
@@ -30,5 +30,5 @@ public:
 
 };
 
-}  // namespace Physics
+}  // namespace physics
 #endif

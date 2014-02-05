@@ -5,7 +5,7 @@
 #include "MovementComponent.h"
 #include "GeometryComponent.h"
 
-namespace Physics
+namespace physics
 {
 const char* MovementComponent::COMPONENT_TYPE = "MovementComponent";
 
@@ -105,4 +105,4 @@ void MovementComponent::update(float fDt) {
     //send event to update position
     //TODO
 }
-}  // namespace Physics
+}  // namespace physics

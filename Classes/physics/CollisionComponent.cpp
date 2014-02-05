@@ -1,6 +1,6 @@
 #include "CollisionComponent.h"
 
-namespace Physics
+namespace physics
 {
 
 CollisionComponent::CollisionComponent()
@@ -36,4 +36,4 @@ bool CollisionComponent::init()
 void CollisionComponent::initListeners()
 {
 }
-}  // namespace Physics
+}  // namespace physics

@@ -14,7 +14,7 @@
 
 USING_NS_CC;
 
-namespace Physics
+namespace physics
 {
 class MovementComponent : public Component, public SynthComponent
 {
@@ -91,5 +91,5 @@ public:
 
 };
 
-}  // namespace Physics
+}  // namespace physics
 #endif

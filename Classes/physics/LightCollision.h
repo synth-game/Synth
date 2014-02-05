@@ -7,7 +7,7 @@
 #include "Point.h"
 #include "Physics/Collision.h"
 
-namespace Physics
+namespace physics
 {
 class LightCollision : public Collision
 {
@@ -25,5 +25,5 @@ public:
 
 };
 
-}  // namespace Physics
+}  // namespace physics
 #endif

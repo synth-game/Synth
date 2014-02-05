@@ -1,7 +1,7 @@
 #ifndef PHYSICS_E_DIRECTION_H
 #define PHYSICS_E_DIRECTION_H
 
-namespace Physics
+namespace physics
 {
 class EDirection
 {
@@ -16,5 +16,5 @@ private:
 
 };
 
-}  // namespace Physics
+}  // namespace physics
 #endif

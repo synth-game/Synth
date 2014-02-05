@@ -4,7 +4,7 @@
 #include "EventCustom.h"
 #include "Physics/CollisionComponent.h"
 
-namespace Physics
+namespace physics
 {
 class BounceCollisionComponent : public CollisionComponent
 {
@@ -16,5 +16,5 @@ public:
 
 };
 
-}  // namespace Physics
+}  // namespace physics
 #endif

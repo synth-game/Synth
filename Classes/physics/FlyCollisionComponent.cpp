@@ -1,9 +1,9 @@
 #include "FlyCollisionComponent.h"
 
-namespace Physics
+namespace physics
 {
 
 void FlyCollisionComponent::onTestCollision(EventCustom* pEvent)
 {
 }
-}  // namespace Physics
+}  // namespace physics

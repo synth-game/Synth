@@ -9,7 +9,7 @@
 #include "Physics/LightCollision.h"
 #include "Physics/EventListenerCustom.h"
 
-namespace Physics
+namespace physics
 {
 class CollisionComponent : public SynthComponent
 {
@@ -57,5 +57,5 @@ public:
 
 };
 
-}  // namespace Physics
+}  // namespace physics
 #endif

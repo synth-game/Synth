@@ -6,7 +6,7 @@
 #include "Physics/FlyMovementComponent.h"
 #include "Physics/MovementComponent.h"
 
-namespace Physics
+namespace physics
 {
 class FollowMovementComponent : public FlyMovementComponent, public MovementComponent
 {
@@ -30,5 +30,5 @@ public:
 
 };
 
-}  // namespace Physics
+}  // namespace physics
 #endif

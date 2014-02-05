@@ -1,9 +1,9 @@
 #include "StickCollisionComponent.h"
 
-namespace Physics
+namespace physics
 {
 
 void StickCollisionComponent::onTestCollision(EventCustom* pEvent)
 {
 }
-}  // namespace Physics
+}  // namespace physics

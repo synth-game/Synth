@@ -1,6 +1,6 @@
 #include "FlyMovementComponent.h"
 
-namespace Physics
+namespace physics
 {
 
 FlyMovementComponent* FlyMovementComponent::create(Point acceleration)
@@ -11,4 +11,4 @@ FlyMovementComponent* FlyMovementComponent::create(Point acceleration)
 void FlyMovementComponent::update(float fDt)
 {
 }
-}  // namespace Physics
+}  // namespace physics

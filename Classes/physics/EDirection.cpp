@@ -1,7 +1,7 @@
 #include "EDirection.h"
 
-namespace Physics
+namespace physics
 {
 
 
-}  // namespace Physics
+}  // namespace physics

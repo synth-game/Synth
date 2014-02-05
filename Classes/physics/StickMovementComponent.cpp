@@ -1,6 +1,6 @@
 #include "StickMovementComponent.h"
 
-namespace Physics
+namespace physics
 {
 
 FollowMovementComponent* StickMovementComponent::create()
@@ -19,4 +19,4 @@ void StickMovementComponent::onEditMove(EventCustom* pEvent)
 void StickMovementComponent::update(float fDt)
 {
 }
-}  // namespace Physics
+}  // namespace physics

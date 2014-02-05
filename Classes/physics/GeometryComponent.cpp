@@ -4,7 +4,7 @@
 
 #include "GeometryComponent.h"
 
-namespace Physics
+namespace physics
 {
 
 const char* GeometryComponent::COMPONENT_TYPE = "GeometryComponent";
@@ -76,4 +76,4 @@ void GeometryComponent::initListeners()
 void GeometryComponent::onChangePosition(EventCustom* pEvent)
 {
 }
-}  // namespace Physics
+}  // namespace physics

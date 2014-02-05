@@ -16,7 +16,7 @@
 
 USING_NS_CC;
 
-namespace Physics
+namespace physics
 {
 class GeometryComponent : public Component, public SynthComponent, public core::SynthComponent
 {
@@ -73,5 +73,5 @@ public:
 
 };
 
-}  // namespace Physics
+}  // namespace physics
 #endif

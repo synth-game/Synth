@@ -1,6 +1,6 @@
 #include "LightCollision.h"
 
-namespace Physics
+namespace physics
 {
 
 LightCollision::LightCollision(vector<Actor*> lightCollection)
@@ -11,4 +11,4 @@ Color4B LightCollision::getPixelColor(Point pixel)
 {
 	return 0;
 }
-}  // namespace Physics
+}  // namespace physics

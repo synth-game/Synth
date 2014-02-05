@@ -4,18 +4,18 @@
 #include "EventCustom.h"
 #include "Physics/CollisionComponent.h"
 
-namespace Physics
+namespace physics
 {
 class FlyCollisionComponent : public CollisionComponent
 {
 public:
 	/**
 	 * Ne pas faire le test de pente
-	 * 
+	 *
 	 */
 	void onTestCollision(EventCustom* pEvent);
 
 };
 
-}  // namespace Physics
+}  // namespace physics
 #endif

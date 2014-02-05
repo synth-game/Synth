@@ -1,6 +1,6 @@
 #include "PhysicCollision.h"
 
-namespace Physics
+namespace physics
 {
 
 Point PhysicCollision::boundingTest(Point nextPosition, EDirection dir)
@@ -22,4 +22,4 @@ Point PhysicCollision::getNextPixelInDirection(Point currentPixel, unsigned char
 {
 	return 0;
 }
-}  // namespace Physics
+}  // namespace physics
