@@ -4,22 +4,22 @@ namespace events
 {
 namespace GameEvents
 {
-char* ChangeTargetevent::sEventName;
+char* ChangeTargetEvent::sEventName;
 
-ChangeTargetevent::ChangeTargetEvent()
+ChangeTargetEvent::ChangeTargetEvent()
 {
 }
 
-ChangeTargetevent::~ChangeTargetEvent()
+ChangeTargetEvent::~ChangeTargetEvent()
 {
 }
 
-events::Point ChangeTargetevent::getNewTarget()
+Point ChangeTargetEvent::getNewTarget()
 {
-	return 0;
+	return Point::ZERO;
 }
 
-void ChangeTargetevent::setNewTarget(events::Point newTarget)
+void ChangeTargetEvent::setNewTarget(Point newTarget)
 {
 }
 }  // namespace GameEvents

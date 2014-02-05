@@ -4,9 +4,9 @@
 #include "Menu/KeysLayer.h"
 #include "Menu/ControlSlider.h"
 #include "Menu/ControlSaturationBrightnessPicker.h"
-#include "Menu/Event.h"
+
 #include "Menu/InGameMenuLayer.h"
-#include "Graphics/Layer.h"
+
 
 namespace menu
 {

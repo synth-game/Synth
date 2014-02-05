@@ -1,9 +1,10 @@
 #ifndef MENU_KEYS_LAYER_H
 #define MENU_KEYS_LAYER_H
 
-#include "Menu/Event.h"
-#include "Menu/InGameMenuLayer.h"
-#include "Graphics/Layer.h"
+#include "cocos2d.h"
+#include "InGameMenuLayer.h"
+
+USING_NS_CC;
 
 namespace menu
 {

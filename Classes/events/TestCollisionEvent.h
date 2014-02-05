@@ -1,9 +1,10 @@
 #ifndef EVENTS_GAMEEVENTS_TEST_COLLISION_EVENT_H
 #define EVENTS_GAMEEVENTS_TEST_COLLISION_EVENT_H
 
+#include "cocos2d.h"
 #include "Events/SynthEvent.h"
-#include "Events/Point.h"
-#include "Events/Size.h"
+
+USING_NS_CC;
 
 namespace events
 {
@@ -12,11 +13,11 @@ namespace GameEvents
 class TestCollisionEvent : public events::SynthEvent
 {
 private:
-	events::Point _currentPosition;
+	Point _currentPosition;
 
-	events::Point _targetPosition;
+	Point _targetPosition;
 
-	events::Size _size;
+	Size _size;
 
 public:
 	static char* sEventName;
@@ -30,17 +31,17 @@ public:
 	 */
 	~TestCollisionEvent();
 
-	events::Point getCurrentPosition();
+	Point getCurrentPosition();
 
-	events::Point getTargetPosition();
+	Point getTargetPosition();
 
-	events::Size getSize();
+	Size getSize();
 
-	void setCurrentPosition(events::Point position);
+	void setCurrentPosition(Point position);
 
-	void setTargetPosition(events::Point position);
+	void setTargetPosition(Point position);
 
-	void setSize(events::Size size);
+	void setSize(Size size);
 
 };
 

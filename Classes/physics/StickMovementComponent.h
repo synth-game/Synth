@@ -1,10 +1,10 @@
 #ifndef PHYSICS_STICK_MOVEMENT_COMPONENT_H
 #define PHYSICS_STICK_MOVEMENT_COMPONENT_H
 
-
-#include "Point.h"
+#include "cocos2d.h"
 #include "Physics/MovementComponent.h"
-#include "Physics/FollowMovementComponent.h"
+
+USING_NS_CC;
 
 namespace physics
 {
@@ -16,7 +16,7 @@ protected:
 	void update(float fDt);
 
 public:
-	static FollowMovementComponent* create();
+	static StickMovementComponent* create();
 
 	void setGravity(Point gravity);
 

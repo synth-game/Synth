@@ -2,7 +2,7 @@
 #define EVENTS_MENUEVENTS_SET_LANGUAGE_EVENT_H
 
 #include "Events/SynthEvent.h"
-#include "Events/MenuEvents/Language.h"
+#include "Events/Language.h"
 
 namespace events
 {

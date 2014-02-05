@@ -2,18 +2,20 @@
 #define GRAPHICS_GRAPHIC_MANAGER_H
 
 #include <vector>
-#include "Actor.h"
 #include <map>
-#include "Animation.h"
-#include "Graphics/Sprite.h"
-#include "System/xml.h"
+#include "cocos2d.h"
+#include "core/SynthActor.h"
+
+USING_NS_CC;
+
+class xml;
 
 namespace graphics
 {
 class GraphicManager
 {
 private:
-	std::vector<Actor*> _staticSprites;
+	std::vector<core::SynthActor*> _staticSprites;
 
 	std::map<std::string,Animation> _animations;
 
@@ -30,7 +32,7 @@ public:
 	 * ! Don't forget to load all animations after building data vector
 	 *
 	 */
-	void init(system::xml data);
+	void init(xml data);
 
 	Sprite* createSprite(std::string sSpriteName);
 

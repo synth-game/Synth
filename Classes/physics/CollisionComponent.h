@@ -1,17 +1,17 @@
 #ifndef PHYSICS_COLLISION_COMPONENT_H
 #define PHYSICS_COLLISION_COMPONENT_H
 
-#include "Point.h"
 
-#include "Physics/SynthComponent.h"
-#include "Physics/Image.h"
+#include "cocos2d.h"
+#include "core/SynthComponent.h"
 #include "Physics/PhysicCollision.h"
 #include "Physics/LightCollision.h"
 
+USING_NS_CC;
 
 namespace physics
 {
-class CollisionComponent : public SynthComponent
+class CollisionComponent : public core::SynthComponent
 {
 private:
 	Point _absoluteOriginPosition;

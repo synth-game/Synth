@@ -1,9 +1,10 @@
 #ifndef MENU_IN_GAME_MENU_LAYER_H
 #define MENU_IN_GAME_MENU_LAYER_H
 
-#include "Menu/ControlButton.h"
-#include "Menu/Event.h"
-#include "Graphics/Layer.h"
+#include "cocos2d.h"
+#include "GUI/CCControlExtension/CCControlButton.h"
+
+USING_NS_CC;
 
 namespace menu
 {
@@ -16,17 +17,17 @@ private:
 
 	Layer* _pSettingsLayer;
 
-	ControlButton* _pBtnResumeGame;
+	extension::ControlButton* _pBtnResumeGame;
 
-	ControlButton* _pBtnMainMenu;
+	extension::ControlButton* _pBtnMainMenu;
 
-	ControlButton* _pBtnRetry;
+	extension::ControlButton* _pBtnRetry;
 
-	ControlButton* _pBtnSelectLevel;
+	extension::ControlButton* _pBtnSelectLevel;
 
-	ControlButton* _pBtnSettings;
+	extension::ControlButton* _pBtnSettings;
 
-	ControlButton* _pBtnQuit;
+	extension::ControlButton* _pBtnQuit;
 
 	int _iSelectedButtonID;
 

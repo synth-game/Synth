@@ -13,6 +13,6 @@ SynthEvent::~SynthEvent()
 
 Node* SynthEvent::getSource()
 {
-	return 0;
+	return nullptr;
 }
 }  // namespace Events

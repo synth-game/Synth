@@ -1,13 +1,11 @@
 #ifndef SOUNDS_SOUND_COMPONENT_H
 #define SOUNDS_SOUND_COMPONENT_H
 
-#include "Component.h"
-
 #include "Core/SynthComponent.h"
 
 namespace sounds
 {
-class SoundComponent : public Component, public core::SynthComponent
+class SoundComponent : public core::SynthComponent
 {
 protected:
 	int _iTrackID;

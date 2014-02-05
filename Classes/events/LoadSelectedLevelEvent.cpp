@@ -4,22 +4,22 @@ namespace events
 {
 namespace ScreenEvents
 {
-char* LoadSelectedLevelevent::sEventName;
+char* LoadSelectedLevelEvent::sEventName;
 
-LoadSelectedLevelevent::LoadSelectedLevelEvent()
+LoadSelectedLevelEvent::LoadSelectedLevelEvent()
 {
 }
 
-LoadSelectedLevelevent::~LoadSelectedLevelEvent()
+LoadSelectedLevelEvent::~LoadSelectedLevelEvent()
 {
 }
 
-int LoadSelectedLevelevent::getLevel()
+int LoadSelectedLevelEvent::getLevel()
 {
 	return 0;
 }
 
-void LoadSelectedLevelevent::setLevel(int level)
+void LoadSelectedLevelEvent::setLevel(int level)
 {
 }
 }  // namespace ScreenEvents

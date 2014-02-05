@@ -4,22 +4,22 @@ namespace events
 {
 namespace GameEvents
 {
-char* Jumpevent::sEventName;
+char* JumpEvent::sEventName;
 
-Jumpevent::JumpEvent()
+JumpEvent::JumpEvent()
 {
 }
 
-Jumpevent::~JumpEvent()
+JumpEvent::~JumpEvent()
 {
 }
 
-bool Jumpevent::getStartJump()
+bool JumpEvent::getStartJump()
 {
-	return 0;
+	return false;
 }
 
-void Jumpevent::setStartJump(bool startJump)
+void JumpEvent::setStartJump(bool startJump)
 {
 }
 }  // namespace GameEvents

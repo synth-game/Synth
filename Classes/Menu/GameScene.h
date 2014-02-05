@@ -1,18 +1,18 @@
 #ifndef MENU_GAME_SCENE_H
 #define MENU_GAME_SCENE_H
 
-
-#include "Menu/Scene.h"
-#include "Menu/GameManager.h"
+#include "cocos2d.h"
+#include "Game/GameManager.h"
 #include "Menu/InGameMenuLayer.h"
-#include "Menu/Event.h"
+
+USING_NS_CC;
 
 namespace menu
 {
 class GameScene : public Scene
 {
 private:
-	GameManager* _pGameLayer;
+	game::GameManager* _pGameLayer;
 
 	InGameMenuLayer* _pMenu;
 

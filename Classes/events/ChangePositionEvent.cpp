@@ -4,22 +4,22 @@ namespace events
 {
 namespace GameEvents
 {
-char* ChangePositionevent::sEventName;
+char* ChangePositionEvent::sEventName;
 
-ChangePositionevent::ChangePositionEvent()
+ChangePositionEvent::ChangePositionEvent()
 {
 }
 
-ChangePositionevent::~ChangePositionEvent()
+ChangePositionEvent::~ChangePositionEvent()
 {
 }
 
-events::Point ChangePositionevent::getCurrentPosition()
+Point ChangePositionEvent::getCurrentPosition()
 {
-	return 0;
+	return Point::ZERO;
 }
 
-void ChangePositionevent::setCurrentPosition(events::Point position)
+void ChangePositionEvent::setCurrentPosition(Point position)
 {
 }
 }  // namespace GameEvents

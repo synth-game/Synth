@@ -2,24 +2,25 @@
 #define PHYSICS_LIGHT_COLLISION_H
 
 #include <vector>
-#include "Actor.h"
-#include "Color4B.h"
-#include "Point.h"
+#include "cocos2d.h"
+#include "core/SynthActor.h"
 #include "Physics/Collision.h"
+
+USING_NS_CC;
 
 namespace physics
 {
 class LightCollision : public Collision
 {
 private:
-	std::vector<Actor*> _lightCollection;
+	std::vector<core::SynthActor*> _lightCollection;
 
 
 public:
 	/**
 	 *
 	 */
-	LightCollision(std::vector<Actor*> lightCollection);
+	LightCollision(std::vector<core::SynthActor*> lightCollection);
 
 	Color4B getPixelColor(Point pixel);
 

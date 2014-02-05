@@ -1,7 +1,7 @@
 #ifndef SYSTEM_I_O_MANAGER_H
 #define SYSTEM_I_O_MANAGER_H
 
-#include "System/xml.h"
+class xml;
 
 namespace system
 {

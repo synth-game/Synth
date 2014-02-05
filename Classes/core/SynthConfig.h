@@ -2,7 +2,8 @@
 #define CORE_SYNTH_CONFIG_H
 
 #include "Core/Language.h"
-#include "System/xml.h"
+
+class xml;
 
 namespace core
 {
@@ -36,9 +37,9 @@ public:
 
 	static SynthConfig* getInstance();
 
-	void init(system::xml data);
+	void init(xml data);
 
-	system::xml getConfig();
+	xml getConfig();
 
 	/**
 	 *

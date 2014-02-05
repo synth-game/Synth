@@ -16,7 +16,7 @@ CreditsScene* CreditsScene::create(int* pBackground)
 	return 0;
 }
 
-void CreditsScene::init()
+bool CreditsScene::init()
 {
 }
 

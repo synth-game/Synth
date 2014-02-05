@@ -2,7 +2,7 @@
 #define MENU_TITLE_SCREEN_SCENE_H
 
 #include "cocos2d.h"
-#include "Menu/ControlButton.h"
+
 
 USING_NS_CC;
 

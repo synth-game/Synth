@@ -4,22 +4,22 @@ namespace events
 {
 namespace GameEvents
 {
-char* ChangeNodeOwnerevent::sEventName;
+char* ChangeNodeOwnerEvent::sEventName;
 
-ChangeNodeOwnerevent::ChangeNodeOwnerEvent()
+ChangeNodeOwnerEvent::ChangeNodeOwnerEvent()
 {
 }
 
-ChangeNodeOwnerevent::~ChangeNodeOwnerEvent()
+ChangeNodeOwnerEvent::~ChangeNodeOwnerEvent()
 {
 }
 
-Node* ChangeNodeOwnerevent::_getNewOwner()
+Node* ChangeNodeOwnerEvent::_getNewOwner()
 {
-	return 0;
+	return nullptr;
 }
 
-ChangeNodeOwnerevent::ChangeNodeOwnerEvent()
+ChangeNodeOwnerEvent::ChangeNodeOwnerEvent()
 {
 }
 }  // namespace GameEvents

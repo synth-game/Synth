@@ -1,14 +1,14 @@
 #ifndef PHYSICS_FOLLOW_MOVEMENT_COMPONENT_H
 #define PHYSICS_FOLLOW_MOVEMENT_COMPONENT_H
 
-#include "Point.h"
-
-#include "Physics/FlyMovementComponent.h"
+#include "cocos2d.h"
 #include "Physics/MovementComponent.h"
+
+USING_NS_CC;
 
 namespace physics
 {
-class FollowMovementComponent : public FlyMovementComponent, public MovementComponent
+class FollowMovementComponent : public MovementComponent
 {
 protected:
 	Point _target;

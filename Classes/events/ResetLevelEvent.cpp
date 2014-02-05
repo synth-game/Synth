@@ -4,13 +4,13 @@ namespace events
 {
 namespace GameEvents
 {
-char* ResetLevelevent::sEventName;
+char* ResetLevelEvent::sEventName;
 
-ResetLevelevent::ResetLevelEvent()
+ResetLevelEvent::ResetLevelEvent()
 {
 }
 
-ResetLevelevent::~ResetLevelEvent()
+ResetLevelEvent::~ResetLevelEvent()
 {
 }
 }  // namespace GameEvents

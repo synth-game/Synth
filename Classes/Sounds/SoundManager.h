@@ -2,9 +2,10 @@
 #define SOUNDS_SOUND_MANAGER_H
 
 #include <map>
-#include "System/xml.h"
 #include "Sounds/Sound.h"
 #include "Sounds/Music.h"
+
+class xml;
 
 namespace sounds
 {
@@ -32,7 +33,7 @@ public:
 
 	static SoundManager* getInstance();
 
-	void init(system::xml data);
+	void init(xml data);
 
 	bool playSound(std::string soundName, int iTrackId);
 

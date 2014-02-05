@@ -4,13 +4,13 @@ namespace events
 {
 namespace ScreenEvents
 {
-char* OpenSettingsevent::sEventName;
+char* OpenSettingsEvent::sEventName;
 
-OpenSettingsevent::OpenSettingsEvent()
+OpenSettingsEvent::OpenSettingsEvent()
 {
 }
 
-OpenSettingsevent::~OpenSettingsEvent()
+OpenSettingsEvent::~OpenSettingsEvent()
 {
 }
 }  // namespace ScreenEvents

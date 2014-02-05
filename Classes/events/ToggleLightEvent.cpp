@@ -4,22 +4,22 @@ namespace events
 {
 namespace GameEvents
 {
-char* ToggleLightevent::sEventName;
+char* ToggleLightEvent::sEventName;
 
-ToggleLightevent::ToggleLightEvent()
+ToggleLightEvent::ToggleLightEvent()
 {
 }
 
-ToggleLightevent::~ ToggleLightEvent()
+ToggleLightEvent::~ ToggleLightEvent()
 {
 }
 
-bool ToggleLightevent::isOn()
+bool ToggleLightEvent::isOn()
 {
 	return 0;
 }
 
-void ToggleLightevent::setOn(bool bOn)
+void ToggleLightEvent::setOn(bool bOn)
 {
 }
 }  // namespace GameEvents

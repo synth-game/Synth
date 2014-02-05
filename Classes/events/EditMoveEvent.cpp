@@ -14,7 +14,7 @@ EditMoveEvent::~EditMoveEvent()
 {
 }
 
-events::Point EditMoveEvent::getDirection()
+Point EditMoveEvent::getDirection()
 {
 	return 0;
 }
@@ -29,7 +29,7 @@ bool EditMoveEvent::getChangeY()
 	return 0;
 }
 
-void EditMoveEvent::setDirection(events::Point direction)
+void EditMoveEvent::setDirection(Point direction)
 {
 }
 

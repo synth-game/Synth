@@ -2,9 +2,11 @@
 #define GAME_LEVEL_SPRITE_H
 
 #include <vector>
-#include "Game/Sprite.h"
+#include "cocos2d.h"
 #include "Game/LightTexture.h"
 #include "Core/SynthActor.h"
+
+USING_NS_CC;
 
 namespace game
 {
@@ -27,7 +29,7 @@ public:
 	 */
 	static LevelSprite* create(char* sSpriteName);
 
-	void updateLights(std::vector<SynthActor*> lights);
+	void updateLights(std::vector<core::SynthActor*> lights);
 
 	/**
 	 * redéfinition

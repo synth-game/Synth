@@ -4,13 +4,13 @@ namespace events
 {
 namespace GameEvents
 {
-char* Deathevent::sEventName;
+char* DeathEvent::sEventName;
 
-Deathevent::DeathEvent()
+DeathEvent::DeathEvent()
 {
 }
 
-Deathevent::~DeathEvent()
+DeathEvent::~DeathEvent()
 {
 }
 }  // namespace GameEvents

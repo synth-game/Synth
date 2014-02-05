@@ -4,31 +4,31 @@ namespace events
 {
 namespace GameEvents
 {
-char* ToggleTextevent::sEventName;
+char* ToggleTextEvent::sEventName;
 
-ToggleTextevent::ToggleTextEvent()
+ToggleTextEvent::ToggleTextEvent()
 {
 }
 
-ToggleTextevent::~ToggleTextEvent()
+ToggleTextEvent::~ToggleTextEvent()
 {
 }
 
-void ToggleTextevent::setVoiceTag(char* sVoiceTag)
+void ToggleTextEvent::setVoiceTag(char* sVoiceTag)
 {
 }
 
-char* ToggleTextevent::getVoiceTag()
-{
-	return 0;
-}
-
-bool ToggleTextevent::isOn()
+char* ToggleTextEvent::getVoiceTag()
 {
 	return 0;
 }
 
-void ToggleTextevent::setOn(bool bOn)
+bool ToggleTextEvent::isOn()
+{
+	return 0;
+}
+
+void ToggleTextEvent::setOn(bool bOn)
 {
 }
 }  // namespace GameEvents

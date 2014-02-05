@@ -4,13 +4,13 @@ namespace events
 {
 namespace ScreenEvents
 {
-char* OpenCreditsevent::sEventName;
+char* OpenCreditsEvent::sEventName;
 
-OpenCreditsevent::OpenCreditsEvent()
+OpenCreditsEvent::OpenCreditsEvent()
 {
 }
 
-OpenCreditsevent::~OpenCreditsEvent()
+OpenCreditsEvent::~OpenCreditsEvent()
 {
 }
 }  // namespace ScreenEvents

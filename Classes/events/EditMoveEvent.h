@@ -1,8 +1,10 @@
 #ifndef EVENTS_GAMEEVENTS_EDIT_MOVE_EVENT_H
 #define EVENTS_GAMEEVENTS_EDIT_MOVE_EVENT_H
 
+#include "cocos2d.h"
 #include "Events/SynthEvent.h"
-#include "Events/Point.h"
+
+USING_NS_CC;
 
 namespace events
 {
@@ -11,7 +13,7 @@ namespace GameEvents
 class EditMoveEvent : public events::SynthEvent
 {
 private:
-	events::Point _direction;
+	Point _direction;
 
 	bool _bChangeX;
 
@@ -29,13 +31,13 @@ public:
 	 */
 	~EditMoveEvent();
 
-	events::Point getDirection();
+	Point getDirection();
 
 	bool getChangeX();
 
 	bool getChangeY();
 
-	void setDirection(events::Point direction);
+	void setDirection(Point direction);
 
 	void setChangeX(bool changeX);
 

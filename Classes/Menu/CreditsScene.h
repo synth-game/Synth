@@ -1,11 +1,10 @@
 #ifndef MENU_CREDITS_SCENE_H
 #define MENU_CREDITS_SCENE_H
 
-#include "Menu/Scene.h"
-#include "Menu/ControlButton.h"
-#include "Menu/EventListenerKeyboard.h"
-#include "Menu/Event.h"
-#include "Graphics/Layer.h"
+#include "cocos2d.h"
+#include "GUI/CCControlExtension/CCControlButton.h"
+
+USING_NS_CC;
 
 namespace menu
 {
@@ -16,7 +15,7 @@ private:
 
 	Layer* _pBackgroundLayer;
 
-	ControlButton* _pBtnBack;
+	extension::ControlButton* _pBtnBack;
 
 	EventListenerKeyboard _keyEventListener;
 

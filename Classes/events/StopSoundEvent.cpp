@@ -4,13 +4,13 @@ namespace events
 {
 namespace GameEvents
 {
-char* StopSoundevent::sEventName;
+char* StopSoundEvent::sEventName;
 
-StopSoundevent::StopSoundEvent()
+StopSoundEvent::StopSoundEvent()
 {
 }
 
-StopSoundevent::~StopSoundEvent()
+StopSoundEvent::~StopSoundEvent()
 {
 }
 }  // namespace GameEvents

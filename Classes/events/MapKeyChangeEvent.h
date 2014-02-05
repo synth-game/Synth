@@ -1,6 +1,7 @@
 #ifndef EVENTS_MENUEVENTS_MAP_KEY_CHANGE_EVENT_H
 #define EVENTS_MENUEVENTS_MAP_KEY_CHANGE_EVENT_H
 
+#include "system/BindedAction.h"
 #include "Events/SynthEvent.h"
 
 namespace events
@@ -10,7 +11,7 @@ namespace MenuEvents
 class MapKeyChangeEvent : public events::SynthEvent
 {
 private:
-	enum _eBindedAction;
+	bindedAction _eBindedAction;
 
 	int _eKey; //TO CHANGE
 

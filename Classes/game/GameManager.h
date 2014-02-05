@@ -14,7 +14,7 @@
 #include "Game/LevelSprite.h"
 #include "Game/Rect.h"
 #include "Game/Event.h"
-#include "Graphics/Layer.h"
+
 #include "Core/SynthActor.h"
 
 USING_NS_CC;

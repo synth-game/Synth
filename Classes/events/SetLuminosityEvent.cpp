@@ -4,13 +4,13 @@ namespace events
 {
 namespace MenuEvents
 {
-char* SetLuminosityevent::sEventName;
+char* SetLuminosityEvent::sEventName;
 
-SetLuminosityevent::SetLuminosityEvent()
+SetLuminosityEvent::SetLuminosityEvent()
 {
 }
 
-SetLuminosityevent::~SetLuminosityEvent()
+SetLuminosityEvent::~SetLuminosityEvent()
 {
 }
 }  // namespace MenuEvents

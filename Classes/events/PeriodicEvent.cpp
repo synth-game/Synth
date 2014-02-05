@@ -4,13 +4,13 @@ namespace events
 {
 namespace GameEvents
 {
-char* Periodicevent::sEventName;
+char* PeriodicEvent::sEventName;
 
-Periodicevent::PeriodicEvent()
+PeriodicEvent::PeriodicEvent()
 {
 }
 
-Periodicevent::~PeriodicEvent()
+PeriodicEvent::~PeriodicEvent()
 {
 }
 }  // namespace GameEvents

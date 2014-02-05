@@ -2,22 +2,23 @@
 #define SYSTEM_KEY_BINDER_MANAGER_H
 
 #include <map>
-#include "enumGLFW.h"
-
-
+#include "cocos2d.h"
 #include "System/BindedAction.h"
-#include "System/xml.h"
+
+USING_NS_CC;
+
+class xml;
 
 namespace system
 {
 class KeyBinderManager
 {
 private:
-	std::map<BindedAction,enumGLFW> _keyMap;
+	std::map<BindedAction,int> _keyMap; //TO CHANGE enumGLFW
 
-	std::map<BindedAction,enumGLFW> _padMap;
+	std::map<BindedAction,int> _padMap;
 
-	EventListenerCustom* _ pMapKeyEventListener;
+	EventListenerCustom* _pMapKeyEventListener;
 
 
 private:
@@ -44,7 +45,7 @@ public:
 	/**
 	 * Renvoie l'enum correspondant au keycode/padcode envoyé
 	 */
-	BindedAction getBindedAction(enumGLFW keyCode);
+	BindedAction getBindedAction(int keyCode);
 
 	xml getKeyMapConfig();
 

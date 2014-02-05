@@ -4,13 +4,13 @@ namespace events
 {
 namespace GameEvents
 {
-char* EnterLightevent::sEventName;
+char* EnterLightEvent::sEventName;
 
-EnterLightevent::EnterLightEvent()
+EnterLightEvent::EnterLightEvent()
 {
 }
 
-EnterLightevent::~EnterLightEvent()
+EnterLightEvent::~EnterLightEvent()
 {
 }
 }  // namespace GameEvents

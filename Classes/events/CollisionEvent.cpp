@@ -4,13 +4,13 @@ namespace events
 {
 namespace GameEvents
 {
-char* Collisionevent::sEventName;
+char* CollisionEvent::sEventName;
 
-Collisionevent::CollisionEvent()
+CollisionEvent::CollisionEvent()
 {
 }
 
-Collisionevent::~CollisionEvent()
+CollisionEvent::~CollisionEvent()
 {
 }
 }  // namespace GameEvents

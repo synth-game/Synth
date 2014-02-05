@@ -1,9 +1,10 @@
 #ifndef PHYSICS_FLY_MOVEMENT_COMPONENT_H
 #define PHYSICS_FLY_MOVEMENT_COMPONENT_H
 
-
-#include "Point.h"
+#include "cocos2d.h"
 #include "Physics/MovementComponent.h"
+
+USING_NS_CC;
 
 namespace physics
 {

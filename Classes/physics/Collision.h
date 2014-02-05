@@ -1,9 +1,9 @@
 #ifndef PHYSICS_COLLISION_H
 #define PHYSICS_COLLISION_H
 
-#include "Point.h"
-#include "Size.h"
-#include "Physics/Image.h"
+#include "cocos2d.h"
+
+USING_NS_CC;
 
 namespace physics
 {

@@ -10,7 +10,7 @@
 #include "Component.h"
 
 #include "Graphics/Sprite.h"
-#include "Graphics/Layer.h"
+
 #include "Core/SynthComponent.h"
 
 namespace graphics

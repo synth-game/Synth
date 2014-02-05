@@ -4,40 +4,40 @@ namespace events
 {
 namespace GameEvents
 {
-char* TestCollisionevent::sEventName;
+char* TestCollisionEvent::sEventName;
 
-TestCollisionevent::TestCollisionEvent()
+TestCollisionEvent::TestCollisionEvent()
 {
 }
 
-TestCollisionevent::~TestCollisionEvent()
+TestCollisionEvent::~TestCollisionEvent()
 {
 }
 
-events::Point TestCollisionevent::getCurrentPosition()
+Point TestCollisionEvent::getCurrentPosition()
 {
-	return 0;
+	return Point::ZERO;
 }
 
-events::Point TestCollisionevent::getTargetPosition()
+Point TestCollisionEvent::getTargetPosition()
 {
-	return 0;
+	return Point::ZERO;
 }
 
-events::Size TestCollisionevent::getSize()
+Size TestCollisionEvent::getSize()
 {
-	return 0;
+	return Size::ZERO;
 }
 
-void TestCollisionevent::setCurrentPosition(events::Point position)
-{
-}
-
-void TestCollisionevent::setTargetPosition(events::Point position)
+void TestCollisionEvent::setCurrentPosition(Point position)
 {
 }
 
-void TestCollisionevent::setSize(events::Size size)
+void TestCollisionevent::setTargetPosition(Point position)
+{
+}
+
+void TestCollisionevent::setSize(Size size)
 {
 }
 }  // namespace GameEvents

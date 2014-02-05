@@ -4,13 +4,13 @@ namespace events
 {
 namespace ScreenEvents
 {
-char* OpenSelectLevelScreenevent::sEventName;
+char* OpenSelectLevelScreenEvent::sEventName;
 
-OpenSelectLevelScreenevent::OpenSelectLevelScreenEvent()
+OpenSelectLevelScreenEvent::OpenSelectLevelScreenEvent()
 {
 }
 
-OpenSelectLevelScreenevent::~OpenSelectLevelScreenEvent()
+OpenSelectLevelScreenEvent::~OpenSelectLevelScreenEvent()
 {
 }
 }  // namespace ScreenEvents

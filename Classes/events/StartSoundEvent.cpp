@@ -4,13 +4,13 @@ namespace events
 {
 namespace GameEvents
 {
-char* StartSoundevent::sEventName;
+char* StartSoundEvent::sEventName;
 
-StartSoundevent::StartSoundEvent()
+StartSoundEvent::StartSoundEvent()
 {
 }
 
-StartSoundevent::~StartSoundEvent()
+StartSoundEvent::~StartSoundEvent()
 {
 }
 }  // namespace GameEvents
