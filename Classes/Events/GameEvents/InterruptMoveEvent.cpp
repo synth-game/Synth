@@ -4,40 +4,40 @@ namespace events
 {
 namespace GameEvents
 {
-char* InterruptMoveevent::sEventName;
+char* InterruptMoveEvent::sEventName;
 
-InterruptMoveevent::InterruptMoveEvent()
+InterruptMoveEvent::InterruptMoveEvent()
 {
 }
 
-InterruptMoveevent::~InterruptMoveEvent()
+InterruptMoveEvent::~InterruptMoveEvent()
 {
 }
 
-bool InterruptMoveevent::getStopX()
-{
-	return 0;
-}
-
-bool InterruptMoveevent::getStopY()
+bool InterruptMoveEvent::getStopX()
 {
 	return 0;
 }
 
-bool InterruptMoveevent::getHasMoved()
+bool InterruptMoveEvent::getStopY()
 {
 	return 0;
 }
 
-void InterruptMoveevent::setStopX(bool stopX)
+bool InterruptMoveEvent::getHasMoved()
+{
+	return 0;
+}
+
+void InterruptMoveEvent::setStopX(bool stopX)
 {
 }
 
-void InterruptMoveevent::setStopY(bool stopY)
+void InterruptMoveEvent::setStopY(bool stopY)
 {
 }
 
-bool InterruptMoveevent::setHasMoved()
+bool InterruptMoveEvent::setHasMoved()
 {
 	return 0;
 }

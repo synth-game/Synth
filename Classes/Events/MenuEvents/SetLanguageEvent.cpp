@@ -5,20 +5,20 @@ namespace events
 namespace MenuEvents
 {
 
-SetLanguageevent::SetLanguageEvent()
+SetLanguageEvent::SetLanguageEvent()
 {
 }
 
-SetLanguageevent::~SetLanguageEvent()
+SetLanguageEvent::~SetLanguageEvent()
 {
 }
 
-Language SetLanguageevent::getLanguage()
+Language SetLanguageEvent::getLanguage()
 {
 	return 0;
 }
 
-void SetLanguageevent::setLanguage(Language language)
+void SetLanguageEvent::setLanguage(Language language)
 {
 }
 }  // namespace MenuEvents

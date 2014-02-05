@@ -4,13 +4,13 @@ namespace events
 {
 namespace ScreenEvents
 {
-char* ContinueGameevent::sEventName;
+char* ContinueGameEvent::sEventName;
 
-ContinueGameevent::ContinueGameEvent()
+ContinueGameEvent::ContinueGameEvent()
 {
 }
 
-ContinueGameevent::~ContinueGameEvent()
+ContinueGameEvent::~ContinueGameEvent()
 {
 }
 }  // namespace ScreenEvents

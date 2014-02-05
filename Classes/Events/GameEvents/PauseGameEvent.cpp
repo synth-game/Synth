@@ -4,13 +4,13 @@ namespace events
 {
 namespace GameEvents
 {
-char* PauseGameevent::sEventName;
+char* PauseGameEvent::sEventName;
 
-PauseGameevent::PauseGameEvent()
+PauseGameEvent::PauseGameEvent()
 {
 }
 
-PauseGameevent::~PauseGameEvent()
+PauseGameEvent::~PauseGameEvent()
 {
 }
 }  // namespace GameEvents

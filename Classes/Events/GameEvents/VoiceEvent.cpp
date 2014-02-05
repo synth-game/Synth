@@ -4,22 +4,22 @@ namespace events
 {
 namespace GameEvents
 {
-char* Voiceevent::sEventName;
+char* VoiceEvent::sEventName;
 
-Voiceevent::VoiceEvent()
+VoiceEvent::VoiceEvent()
 {
 }
 
-Voiceevent::~VoiceEvent()
+VoiceEvent::~VoiceEvent()
 {
 }
 
-bool Voiceevent::isTriggeredVoice()
+bool VoiceEvent::isTriggeredVoice()
 {
 	return 0;
 }
 
-void Voiceevent::setTriggeredVoice(bool bIsTriggeredVoice)
+void VoiceEvent::setTriggeredVoice(bool bIsTriggeredVoice)
 {
 }
 }  // namespace GameEvents

@@ -4,40 +4,40 @@ namespace events
 {
 namespace GameEvents
 {
-char* EditMoveevent::sEventName;
+char* EditMoveEvent::sEventName;
 
-EditMoveevent::EditMoveEvent()
+EditMoveEvent::EditMoveEvent()
 {
 }
 
-EditMoveevent::~EditMoveEvent()
+EditMoveEvent::~EditMoveEvent()
 {
 }
 
-Events::Point EditMoveevent::getDirection()
-{
-	return 0;
-}
-
-bool EditMoveevent::getChangeX()
+Events::Point EditMoveEvent::getDirection()
 {
 	return 0;
 }
 
-bool EditMoveevent::getChangeY()
+bool EditMoveEvent::getChangeX()
 {
 	return 0;
 }
 
-void EditMoveevent::setDirection(Events::Point direction)
+bool EditMoveEvent::getChangeY()
+{
+	return 0;
+}
+
+void EditMoveEvent::setDirection(Events::Point direction)
 {
 }
 
-void EditMoveevent::setChangeX(bool changeX)
+void EditMoveEvent::setChangeX(bool changeX)
 {
 }
 
-void EditMoveevent::setChangeY(bool changeY)
+void EditMoveEvent::setChangeY(bool changeY)
 {
 }
 }  // namespace GameEvents

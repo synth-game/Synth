@@ -4,13 +4,13 @@ namespace events
 {
 namespace MenuEvents
 {
-char* SetMenuLanguageevent::sEventName;
+char* SetMenuLanguageEvent::sEventName;
 
-SetMenuLanguageevent::SetMenuLanguageEvent()
+SetMenuLanguageEvent::SetMenuLanguageEvent()
 {
 }
 
-SetMenuLanguageevent::~SetMenuLanguageEvent()
+SetMenuLanguageEvent::~SetMenuLanguageEvent()
 {
 }
 }  // namespace MenuEvents

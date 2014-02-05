@@ -4,13 +4,13 @@ namespace events
 {
 namespace MenuEvents
 {
-char* SetMusicVolumeevent::sEventName;
+char* SetMusicVolumeEvent::sEventName;
 
-SetMusicVolumeevent::SetMusicVolumeEvent()
+SetMusicVolumeEvent::SetMusicVolumeEvent()
 {
 }
 
-SetMusicVolumeevent::~SetMusicVolumeEvent()
+SetMusicVolumeEvent::~SetMusicVolumeEvent()
 {
 }
 }  // namespace MenuEvents

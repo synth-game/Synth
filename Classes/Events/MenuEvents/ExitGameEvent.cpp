@@ -4,13 +4,13 @@ namespace events
 {
 namespace MenuEvents
 {
-char* ExitGameevent::sEventName;
+char* ExitGameEvent::sEventName;
 
-ExitGameevent::ExitGameEvent()
+ExitGameEvent::ExitGameEvent()
 {
 }
 
-ExitGameevent::~ExitGameEvent()
+ExitGameEvent::~ExitGameEvent()
 {
 }
 }  // namespace MenuEvents

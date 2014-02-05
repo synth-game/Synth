@@ -4,31 +4,31 @@ namespace events
 {
 namespace MenuEvents
 {
-char* MapKeyChangeevent::sEventName;
+char* MapKeyChangeEvent::sEventName;
 
-MapKeyChangeevent::MayKeyChangeEvent()
+MapKeyChangeEvent::MayKeyChangeEvent()
 {
 }
 
-MapKeyChangeevent::~MayKeyChangeEvent()
+MapKeyChangeEvent::~MayKeyChangeEvent()
 {
 }
 
-enum MapKeyChangeevent::getBindedAction()
-{
-	return 0;
-}
-
-enumGLFW MapKeyChangeevent::getKey()
+enum MapKeyChangeEvent::getBindedAction()
 {
 	return 0;
 }
 
-void MapKeyChangeevent::setBindedAction(enum bindedAction)
+enumGLFW MapKeyChangeEvent::getKey()
+{
+	return 0;
+}
+
+void MapKeyChangeEvent::setBindedAction(enum bindedAction)
 {
 }
 
-void MapKeyChangeevent::setKey(enumGLFW key)
+void MapKeyChangeEvent::setKey(enumGLFW key)
 {
 }
 }  // namespace MenuEvents

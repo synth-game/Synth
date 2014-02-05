@@ -4,13 +4,13 @@ namespace events
 {
 namespace GameEvents
 {
-char* ResumeGameevent::sEventName;
+char* ResumeGameEvent::sEventName;
 
-ResumeGameevent::ResumeGameEvent()
+ResumeGameEvent::ResumeGameEvent()
 {
 }
 
-ResumeGameevent::~ResumeGameEvent()
+ResumeGameEvent::~ResumeGameEvent()
 {
 }
 }  // namespace GameEvents

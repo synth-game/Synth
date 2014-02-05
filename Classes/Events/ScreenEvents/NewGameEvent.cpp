@@ -4,13 +4,13 @@ namespace events
 {
 namespace ScreenEvents
 {
-char* NewGameevent::sEventName;
+char* NewGameEvent::sEventName;
 
-NewGameevent::NewGameEvent()
+NewGameEvent::NewGameEvent()
 {
 }
 
-NewGameevent::~NewGameEvent()
+NewGameEvent::~NewGameEvent()
 {
 }
 }  // namespace ScreenEvents
