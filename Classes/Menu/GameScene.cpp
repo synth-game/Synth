@@ -1,6 +1,6 @@
 #include "GameScene.h"
 
-namespace Menu
+namespace menu
 {
 
 GameScene::GameScene()
@@ -39,4 +39,4 @@ void GameScene::onPauseGameEvent(Event* pEvent)
 void GameScene::onResumeGameEvent(Event* pEvent)
 {
 }
-}  // namespace Menu
+}  // namespace menu

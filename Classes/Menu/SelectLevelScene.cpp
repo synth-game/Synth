@@ -1,6 +1,6 @@
 #include "SelectLevelScene.h"
 
-namespace Menu
+namespace menu
 {
 
 SelectLevelScene::SelectLevelScene()
@@ -27,4 +27,4 @@ void SelectLevelScene::onKeyPress(Event* pEvent)
 void SelectLevelScene::onDeathEvent(Event* pEvent)
 {
 }
-}  // namespace Menu
+}  // namespace menu

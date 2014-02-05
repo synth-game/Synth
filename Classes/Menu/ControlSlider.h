@@ -1,11 +1,11 @@
 #ifndef MENU_CONTROL_SLIDER_H
 #define MENU_CONTROL_SLIDER_H
 
-namespace Menu
+namespace menu
 {
 class ControlSlider
 {
 };
 
-}  // namespace Menu
+}  // namespace menu
 #endif

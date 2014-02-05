@@ -1,11 +1,11 @@
 #ifndef MENU_CONTROL_SATURATION_BRIGHTNESS_PICKER_H
 #define MENU_CONTROL_SATURATION_BRIGHTNESS_PICKER_H
 
-namespace Menu
+namespace menu
 {
 class ControlSaturationBrightnessPicker
 {
 };
 
-}  // namespace Menu
+}  // namespace menu
 #endif

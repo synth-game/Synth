@@ -1,11 +1,11 @@
 #ifndef MENU_CONTROL_BUTTON_H
 #define MENU_CONTROL_BUTTON_H
 
-namespace Menu
+namespace menu
 {
 class ControlButton
 {
 };
 
-}  // namespace Menu
+}  // namespace menu
 #endif

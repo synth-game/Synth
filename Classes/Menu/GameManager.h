@@ -1,11 +1,11 @@
 #ifndef MENU_GAME_MANAGER_H
 #define MENU_GAME_MANAGER_H
 
-namespace Menu
+namespace menu
 {
 class GameManager
 {
 };
 
-}  // namespace Menu
+}  // namespace menu
 #endif

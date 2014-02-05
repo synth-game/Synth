@@ -1,6 +1,6 @@
 #include "KeysLayer.h"
 
-namespace Menu
+namespace menu
 {
 
 KeysLayer::KeysLayer()
@@ -23,4 +23,4 @@ void KeysLayer::init()
 void KeysLayer::onKeyPressed(Event* pEvent)
 {
 }
-}  // namespace Menu
+}  // namespace menu

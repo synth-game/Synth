@@ -7,7 +7,7 @@
 #include "Menu/InGameMenuLayer.h"
 #include "Menu/Event.h"
 
-namespace Menu
+namespace menu
 {
 class GameScene : public Scene
 {
@@ -47,5 +47,5 @@ public:
 
 };
 
-}  // namespace Menu
+}  // namespace menu
 #endif

@@ -1,6 +1,6 @@
 #include "CreditsScene.h"
 
-namespace Menu
+namespace menu
 {
 
 CreditsScene::CreditsScene()
@@ -23,4 +23,4 @@ void CreditsScene::init()
 void CreditsScene::onKeyPress(Event* pEvent)
 {
 }
-}  // namespace Menu
+}  // namespace menu

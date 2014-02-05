@@ -1,6 +1,6 @@
 #include "SettingsLayer.h"
 
-namespace Menu
+namespace menu
 {
 
 SettingsLayer::SettingsLayer()
@@ -23,4 +23,4 @@ void SettingsLayer::init()
 void SettingsLayer::onKeyPressed(Event* pEvent)
 {
 }
-}  // namespace Menu
+}  // namespace menu

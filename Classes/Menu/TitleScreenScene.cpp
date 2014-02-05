@@ -1,6 +1,6 @@
 #include "TitleScreenScene.h"
 
-namespace Menu
+namespace menu
 {
 
 TitleScreenScene::TitleScreenScene()
@@ -23,4 +23,4 @@ void TitleScreenScene::init()
 void TitleScreenScene::onKeyPress(Event* pEvent)
 {
 }
-}  // namespace Menu
+}  // namespace menu

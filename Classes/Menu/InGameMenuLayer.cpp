@@ -1,6 +1,6 @@
 #include "InGameMenuLayer.h"
 
-namespace Menu
+namespace menu
 {
 
 InGameMenuLayer::InGameMenuLayer()
@@ -23,4 +23,4 @@ void InGameMenuLayer::init()
 void InGameMenuLayer::onKeyPressed(Event* pEvent)
 {
 }
-}  // namespace Menu
+}  // namespace menu

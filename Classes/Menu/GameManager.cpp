@@ -1,7 +1,7 @@
 #include "GameManager.h"
 
-namespace Menu
+namespace menu
 {
 
 
-}  // namespace Menu
+}  // namespace menu

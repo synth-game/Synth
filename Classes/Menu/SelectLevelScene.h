@@ -6,7 +6,7 @@
 
 USING_NS_CC;
 
-namespace Menu
+namespace menu
 {
 class SelectLevelScene : public Scene
 {
@@ -46,5 +46,5 @@ public:
 
 };
 
-}  // namespace Menu
+}  // namespace menu
 #endif

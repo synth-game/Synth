@@ -7,7 +7,7 @@
 #include "Menu/Event.h"
 #include "Graphics/Layer.h"
 
-namespace Menu
+namespace menu
 {
 class CreditsScene : public Scene
 {
@@ -38,5 +38,5 @@ public:
 
 };
 
-}  // namespace Menu
+}  // namespace menu
 #endif

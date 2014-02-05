@@ -8,7 +8,7 @@
 #include "Menu/InGameMenuLayer.h"
 #include "Graphics/Layer.h"
 
-namespace Menu
+namespace menu
 {
 class SettingsLayer : public Layer
 {
@@ -50,5 +50,5 @@ public:
 
 };
 
-}  // namespace Menu
+}  // namespace menu
 #endif

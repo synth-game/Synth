@@ -5,7 +5,7 @@
 #include "Menu/Event.h"
 #include "Graphics/Layer.h"
 
-namespace Menu
+namespace menu
 {
 class InGameMenuLayer : public Layer
 {
@@ -55,5 +55,5 @@ public:
 
 };
 
-}  // namespace Menu
+}  // namespace menu
 #endif

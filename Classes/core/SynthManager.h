@@ -15,13 +15,13 @@ namespace core
 class SynthManager
 {
 private:
-	Menu::TitleScreenScene* _pTitleScreenScene;
+	menu::TitleScreenScene* _pTitleScreenScene;
 
 	CreditsScene_ _pCreditsScene;
 
 	game::GameScene* _pGameScene;
 
-	Menu::SelectLevelScene* _pSelectLevelScene;
+	menu::SelectLevelScene* _pSelectLevelScene;
 
 	EventListenerCustom* _pNewGameEventListener;
 
