@@ -22,6 +22,18 @@
     <Filter Include="Classes\graphics">
       <UniqueIdentifier>{01743cdc-efcf-45f1-8718-e546e1e9751d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\system">
+      <UniqueIdentifier>{b509ddf0-4518-4a32-aec9-00847b664307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\menu">
+      <UniqueIdentifier>{6697f140-f207-49f7-9dc9-68cd873bea9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\sounds">
+      <UniqueIdentifier>{8613a322-5973-4679-8a8c-95f32503115d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\events">
+      <UniqueIdentifier>{f1ca845e-bc2d-489c-b8e8-cec3453561fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,25 +42,283 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\core\SynthManager.cpp">
-      <Filter>Classes\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\game\GameManager.cpp">
-      <Filter>Classes\game</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\core\SynthActor.cpp">
       <Filter>Classes\core</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\core\SynthComponent.cpp">
       <Filter>Classes\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\physics\GeometryComponent.cpp">
-      <Filter>Classes\physics</Filter>
+    <ClCompile Include="..\Classes\core\SynthConfig.cpp">
+      <Filter>Classes\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\core\SynthManager.cpp">
+      <Filter>Classes\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\core\TextManager.cpp">
+      <Filter>Classes\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\GameManager.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\GameScene.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\LevelFactory.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\LevelSprite.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\LightAttrComponent.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\LightTexture.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\NodeOwnerComponent.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\PeriodicLauncherComponent.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\SynthComponent.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\graphics\AnimatedSpriteComponent.cpp">
+      <Filter>Classes\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\graphics\FireFlyAnimatedSprite.cpp">
+      <Filter>Classes\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\graphics\GraphicManager.cpp">
+      <Filter>Classes\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\graphics\HeroAnimatedSpriteComponent.cpp">
+      <Filter>Classes\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\graphics\LabelTTF.cpp">
+      <Filter>Classes\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\graphics\SpriteComponent.cpp">
       <Filter>Classes\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\graphics\TextSpriteComponent.cpp">
+      <Filter>Classes\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\ControlButton.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\ControlSaturationBrightnessPicker.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\ControlSlider.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\CreditsScene.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\GameManager.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\GameScene.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\InGameMenuLayer.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\KeysLayer.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\SelectLevelScene.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\SettingsLayer.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\TitleScreenScene.cpp">
+      <Filter>Classes\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\ChangeNodeOwnerEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\ChangePositionEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\ChangeTargetEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\CollisionEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\ContinueGameEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\DeathEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\EditMoveEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\EnterLightEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\ExitGameEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\InterruptMoveEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\JumpEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\Language.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\LoadSelectedLevelEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\MapKeyChangeEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\NewGameEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\OpenCreditsEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\OpenSelectLevelScreenEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\OpenSettingsEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\OpenTitleScreenEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\PauseGameEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\PeriodicEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\ResetLevelEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\ResumeGameEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\SetBoundedParamEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\SetLanguageEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\SetLuminosityEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\SetMenuLanguageEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\SetMusicVolumeEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\SetSoundVolumentEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\SetSubtitleLanguageEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\StartSoundEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\StopSoundEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\SynthEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\TestCollisionEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\ToggleLightEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\ToggleTextEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\events\VoiceEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sounds\FireflySoundComponent.cpp">
+      <Filter>Classes\sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sounds\HeroSoundComponent.cpp">
+      <Filter>Classes\sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sounds\LightSwitchSoundComponent.cpp">
+      <Filter>Classes\sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sounds\Music.cpp">
+      <Filter>Classes\sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sounds\MusicManager.cpp">
+      <Filter>Classes\sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sounds\Sound.cpp">
+      <Filter>Classes\sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sounds\SoundComponent.cpp">
+      <Filter>Classes\sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sounds\SoundManager.cpp">
+      <Filter>Classes\sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sounds\VoiceSoundComponent.cpp">
+      <Filter>Classes\sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\system\IOManager.cpp">
+      <Filter>Classes\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\system\KeyBinderManager.cpp">
+      <Filter>Classes\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\BounceCollisionComponent.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\Collision.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\CollisionComponent.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\EDirection.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\FlyCollisionComponent.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\FlyMovementComponent.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\FollowMovementComponent.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\GeometryComponent.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\LightCollision.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\physics\MovementComponent.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\PhysicCollision.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\StickCollisionComponent.cpp">
+      <Filter>Classes\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics\StickMovementComponent.cpp">
       <Filter>Classes\physics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,11 +329,8 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\core\SynthManager.h">
+    <ClInclude Include="..\Classes\core\Language.h">
       <Filter>Classes\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\game\GameManager.h">
-      <Filter>Classes\game</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\core\SynthActor.h">
       <Filter>Classes\core</Filter>
@@ -71,13 +338,283 @@
     <ClInclude Include="..\Classes\core\SynthComponent.h">
       <Filter>Classes\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\physics\GeometryComponent.h">
-      <Filter>Classes\physics</Filter>
+    <ClInclude Include="..\Classes\core\SynthConfig.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\core\SynthManager.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\core\TextManager.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\GameManager.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\GameScene.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\LevelFactory.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\LevelSprite.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\LightAttrComponent.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\LightTexture.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\NodeOwnerComponent.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\PeriodicLauncherComponent.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\SynthComponent.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\AnimatedSpriteComponent.h">
+      <Filter>Classes\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\FireFlyAnimatedSprite.h">
+      <Filter>Classes\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\GraphicManager.h">
+      <Filter>Classes\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\HeroAnimatedSpriteComponent.h">
+      <Filter>Classes\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\LabelTTF.h">
+      <Filter>Classes\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\graphics\SpriteComponent.h">
       <Filter>Classes\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\graphics\TextSpriteComponent.h">
+      <Filter>Classes\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\ControlButton.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\ControlSaturationBrightnessPicker.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\ControlSlider.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\CreditsScene.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\GameManager.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\GameScene.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\InGameMenuLayer.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\KeysLayer.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\SelectLevelScene.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\SettingsLayer.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\TitleScreenScene.h">
+      <Filter>Classes\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\ChangeNodeOwnerEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\ChangePositionEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\ChangeTargetEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\CollisionEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\ContinueGameEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\DeathEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\EditMoveEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\EnterLightEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\ExitGameEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\InterruptMoveEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\JumpEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\Language.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\LightColor.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\LoadSelectedLevelEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\MapKeyChangeEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\NewGameEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\OpenCreditsEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\OpenSelectLevelScreenEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\OpenSettingsEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\OpenTitleScreenEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\PauseGameEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\PeriodicEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\ResetLevelEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\ResumeGameEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\SetBoundedParamEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\SetLanguageEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\SetLuminosityEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\SetMenuLanguageEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\SetMusicVolumeEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\SetSoundVolumentEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\SetSubtitleLanguageEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\StartSoundEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\StopSoundEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\SynthEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\TestCollisionEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\ToggleLightEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\ToggleTextEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\events\VoiceEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\FireflySoundComponent.h">
+      <Filter>Classes\sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\HeroSoundComponent.h">
+      <Filter>Classes\sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\LightSwitchSoundComponent.h">
+      <Filter>Classes\sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\Music.h">
+      <Filter>Classes\sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\MusicManager.h">
+      <Filter>Classes\sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\Sound.h">
+      <Filter>Classes\sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\SoundComponent.h">
+      <Filter>Classes\sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\SoundManager.h">
+      <Filter>Classes\sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\VoiceSoundComponent.h">
+      <Filter>Classes\sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\system\BindedAction.h">
+      <Filter>Classes\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\system\IOManager.h">
+      <Filter>Classes\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\system\KeyBinderManager.h">
+      <Filter>Classes\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\BounceCollisionComponent.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\Collision.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\CollisionComponent.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\EDirection.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\FlyCollisionComponent.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\FlyMovementComponent.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\FollowMovementComponent.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\GeometryComponent.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\LightCollision.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\physics\MovementComponent.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\PhysicCollision.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\StickCollisionComponent.h">
+      <Filter>Classes\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics\StickMovementComponent.h">
       <Filter>Classes\physics</Filter>
     </ClInclude>
   </ItemGroup>
