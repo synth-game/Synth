@@ -3,7 +3,7 @@
 
 #include "Events/MenuEvents/SetBoundedParamEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
@@ -17,12 +17,12 @@ public:
 	SetSoundVolumeEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~SetSoundVolumeEvent();
 
 };
 
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events
 #endif

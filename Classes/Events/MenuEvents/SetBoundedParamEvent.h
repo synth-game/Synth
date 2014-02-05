@@ -3,7 +3,7 @@
 
 #include "Events/SynthEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
@@ -17,7 +17,7 @@ public:
 	SetBoundedParamEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~SetBoundedParamEvent();
 
@@ -28,5 +28,5 @@ public:
 };
 
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events
 #endif

@@ -1,35 +1,35 @@
 #include "MapKeyChangeEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
-char* MapKeyChangeEvent::sEventName;
+char* MapKeyChangeevent::sEventName;
 
-MapKeyChangeEvent::MayKeyChangeEvent()
+MapKeyChangeevent::MayKeyChangeEvent()
 {
 }
 
-MapKeyChangeEvent::~MayKeyChangeEvent()
+MapKeyChangeevent::~MayKeyChangeEvent()
 {
 }
 
-enum MapKeyChangeEvent::getBindedAction()
-{
-	return 0;
-}
-
-enumGLFW MapKeyChangeEvent::getKey()
+enum MapKeyChangeevent::getBindedAction()
 {
 	return 0;
 }
 
-void MapKeyChangeEvent::setBindedAction(enum bindedAction)
+enumGLFW MapKeyChangeevent::getKey()
+{
+	return 0;
+}
+
+void MapKeyChangeevent::setBindedAction(enum bindedAction)
 {
 }
 
-void MapKeyChangeEvent::setKey(enumGLFW key)
+void MapKeyChangeevent::setKey(enumGLFW key)
 {
 }
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events

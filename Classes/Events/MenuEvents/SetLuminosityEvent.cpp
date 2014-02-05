@@ -1,17 +1,17 @@
 #include "SetLuminosityEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
-char* SetLuminosityEvent::sEventName;
+char* SetLuminosityevent::sEventName;
 
-SetLuminosityEvent::SetLuminosityEvent()
+SetLuminosityevent::SetLuminosityEvent()
 {
 }
 
-SetLuminosityEvent::~SetLuminosityEvent()
+SetLuminosityevent::~SetLuminosityEvent()
 {
 }
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events

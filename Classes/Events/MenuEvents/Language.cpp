@@ -1,10 +1,10 @@
 #include "Language.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
 
 
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events

@@ -3,7 +3,7 @@
 
 #include "Events/SynthEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
@@ -17,12 +17,12 @@ public:
 	ExitGameEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~ExitGameEvent();
 
 };
 
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events
 #endif

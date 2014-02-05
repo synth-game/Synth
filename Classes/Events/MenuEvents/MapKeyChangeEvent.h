@@ -5,7 +5,7 @@
 #include "enumGLFW.h"
 #include "Events/SynthEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
@@ -24,12 +24,12 @@ public:
 	MayKeyChangeEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~MayKeyChangeEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	enum getBindedAction();
 
@@ -42,5 +42,5 @@ public:
 };
 
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events
 #endif

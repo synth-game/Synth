@@ -1,17 +1,17 @@
 #include "SetSubtitleLanguageEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
-char* SetSubtitleLanguageEvent::sEventName;
+char* SetSubtitleLanguageevent::sEventName;
 
-SetSubtitleLanguageEvent::SetSubtitleLanguageEvent()
+SetSubtitleLanguageevent::SetSubtitleLanguageEvent()
 {
 }
 
-SetSubtitleLanguageEvent::~SetSubtitleLanguageEvent()
+SetSubtitleLanguageevent::~SetSubtitleLanguageEvent()
 {
 }
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events

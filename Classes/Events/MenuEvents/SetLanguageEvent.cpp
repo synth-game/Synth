@@ -1,25 +1,25 @@
 #include "SetLanguageEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
 
-SetLanguageEvent::SetLanguageEvent()
+SetLanguageevent::SetLanguageEvent()
 {
 }
 
-SetLanguageEvent::~SetLanguageEvent()
+SetLanguageevent::~SetLanguageEvent()
 {
 }
 
-Language SetLanguageEvent::getLanguage()
+Language SetLanguageevent::getLanguage()
 {
 	return 0;
 }
 
-void SetLanguageEvent::setLanguage(Language language)
+void SetLanguageevent::setLanguage(Language language)
 {
 }
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events

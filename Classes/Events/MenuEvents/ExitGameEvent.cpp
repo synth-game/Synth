@@ -1,17 +1,17 @@
 #include "ExitGameEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
-char* ExitGameEvent::sEventName;
+char* ExitGameevent::sEventName;
 
-ExitGameEvent::ExitGameEvent()
+ExitGameevent::ExitGameEvent()
 {
 }
 
-ExitGameEvent::~ExitGameEvent()
+ExitGameevent::~ExitGameEvent()
 {
 }
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events

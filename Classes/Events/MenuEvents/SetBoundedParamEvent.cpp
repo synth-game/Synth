@@ -1,25 +1,25 @@
 #include "SetBoundedParamEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
 
-SetBoundedParamEvent::SetBoundedParamEvent()
+SetBoundedParamevent::SetBoundedParamEvent()
 {
 }
 
-SetBoundedParamEvent::~SetBoundedParamEvent()
+SetBoundedParamevent::~SetBoundedParamEvent()
 {
 }
 
-float SetBoundedParamEvent::getParam()
+float SetBoundedParamevent::getParam()
 {
 	return 0;
 }
 
-void SetBoundedParamEvent::setParam(float param)
+void SetBoundedParamevent::setParam(float param)
 {
 }
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events

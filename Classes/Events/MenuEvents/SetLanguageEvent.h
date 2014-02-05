@@ -4,7 +4,7 @@
 #include "Events/SynthEvent.h"
 #include "Events/MenuEvents/Language.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
@@ -18,7 +18,7 @@ public:
 	SetLanguageEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~SetLanguageEvent();
 
@@ -29,5 +29,5 @@ public:
 };
 
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events
 #endif

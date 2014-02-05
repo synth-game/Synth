@@ -1,17 +1,17 @@
 #include "SetMenuLanguageEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
-char* SetMenuLanguageEvent::sEventName;
+char* SetMenuLanguageevent::sEventName;
 
-SetMenuLanguageEvent::SetMenuLanguageEvent()
+SetMenuLanguageevent::SetMenuLanguageEvent()
 {
 }
 
-SetMenuLanguageEvent::~SetMenuLanguageEvent()
+SetMenuLanguageevent::~SetMenuLanguageEvent()
 {
 }
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events

@@ -1,17 +1,17 @@
 #include "SetMusicVolumeEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
-char* SetMusicVolumeEvent::sEventName;
+char* SetMusicVolumeevent::sEventName;
 
-SetMusicVolumeEvent::SetMusicVolumeEvent()
+SetMusicVolumeevent::SetMusicVolumeEvent()
 {
 }
 
-SetMusicVolumeEvent::~SetMusicVolumeEvent()
+SetMusicVolumeevent::~SetMusicVolumeEvent()
 {
 }
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events

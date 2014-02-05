@@ -3,7 +3,7 @@
 
 #include "Events/MenuEvents/SetLanguageEvent.h"
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
@@ -17,12 +17,12 @@ public:
 	SetSubtitleLanguageEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~SetSubtitleLanguageEvent();
 
 };
 
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events
 #endif

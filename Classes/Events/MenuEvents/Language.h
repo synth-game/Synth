@@ -1,7 +1,7 @@
 #ifndef EVENTS_MENUEVENTS_LANGUAGE_H
 #define EVENTS_MENUEVENTS_LANGUAGE_H
 
-namespace Events
+namespace events
 {
 namespace MenuEvents
 {
@@ -10,5 +10,5 @@ class Language
 };
 
 }  // namespace MenuEvents
-}  // namespace Events
+}  // namespace events
 #endif
