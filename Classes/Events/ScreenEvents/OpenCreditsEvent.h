@@ -3,7 +3,7 @@
 
 #include "Events/SynthEvent.h"
 
-namespace Events
+namespace events
 {
 namespace ScreenEvents
 {
@@ -17,12 +17,12 @@ public:
 	OpenCreditsEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~OpenCreditsEvent();
 
 };
 
 }  // namespace ScreenEvents
-}  // namespace Events
+}  // namespace events
 #endif

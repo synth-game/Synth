@@ -3,7 +3,7 @@
 
 #include "Events/SynthEvent.h"
 
-namespace Events
+namespace events
 {
 namespace ScreenEvents
 {
@@ -20,7 +20,7 @@ public:
 	LoadSelectedLevelEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~LoadSelectedLevelEvent();
 
@@ -31,5 +31,5 @@ public:
 };
 
 }  // namespace ScreenEvents
-}  // namespace Events
+}  // namespace events
 #endif

@@ -1,17 +1,17 @@
 #include "NewGameEvent.h"
 
-namespace Events
+namespace events
 {
 namespace ScreenEvents
 {
-char* NewGameEvent::sEventName;
+char* NewGameevent::sEventName;
 
-NewGameEvent::NewGameEvent()
+NewGameevent::NewGameEvent()
 {
 }
 
-NewGameEvent::~NewGameEvent()
+NewGameevent::~NewGameEvent()
 {
 }
 }  // namespace ScreenEvents
-}  // namespace Events
+}  // namespace events

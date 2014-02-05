@@ -1,17 +1,17 @@
 #include "OpenSelectLevelScreenEvent.h"
 
-namespace Events
+namespace events
 {
 namespace ScreenEvents
 {
-char* OpenSelectLevelScreenEvent::sEventName;
+char* OpenSelectLevelScreenevent::sEventName;
 
-OpenSelectLevelScreenEvent::OpenSelectLevelScreenEvent()
+OpenSelectLevelScreenevent::OpenSelectLevelScreenEvent()
 {
 }
 
-OpenSelectLevelScreenEvent::~OpenSelectLevelScreenEvent()
+OpenSelectLevelScreenevent::~OpenSelectLevelScreenEvent()
 {
 }
 }  // namespace ScreenEvents
-}  // namespace Events
+}  // namespace events

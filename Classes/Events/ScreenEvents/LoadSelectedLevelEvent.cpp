@@ -1,26 +1,26 @@
 #include "LoadSelectedLevelEvent.h"
 
-namespace Events
+namespace events
 {
 namespace ScreenEvents
 {
-char* LoadSelectedLevelEvent::sEventName;
+char* LoadSelectedLevelevent::sEventName;
 
-LoadSelectedLevelEvent::LoadSelectedLevelEvent()
+LoadSelectedLevelevent::LoadSelectedLevelEvent()
 {
 }
 
-LoadSelectedLevelEvent::~LoadSelectedLevelEvent()
+LoadSelectedLevelevent::~LoadSelectedLevelEvent()
 {
 }
 
-int LoadSelectedLevelEvent::getLevel()
+int LoadSelectedLevelevent::getLevel()
 {
 	return 0;
 }
 
-void LoadSelectedLevelEvent::setLevel(int level)
+void LoadSelectedLevelevent::setLevel(int level)
 {
 }
 }  // namespace ScreenEvents
-}  // namespace Events
+}  // namespace events

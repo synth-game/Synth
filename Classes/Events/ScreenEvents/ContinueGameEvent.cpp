@@ -1,17 +1,17 @@
 #include "ContinueGameEvent.h"
 
-namespace Events
+namespace events
 {
 namespace ScreenEvents
 {
-char* ContinueGameEvent::sEventName;
+char* ContinueGameevent::sEventName;
 
-ContinueGameEvent::ContinueGameEvent()
+ContinueGameevent::ContinueGameEvent()
 {
 }
 
-ContinueGameEvent::~ContinueGameEvent()
+ContinueGameevent::~ContinueGameEvent()
 {
 }
 }  // namespace ScreenEvents
-}  // namespace Events
+}  // namespace events

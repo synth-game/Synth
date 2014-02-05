@@ -1,17 +1,17 @@
 #include "OpenSettingsEvent.h"
 
-namespace Events
+namespace events
 {
 namespace ScreenEvents
 {
-char* OpenSettingsEvent::sEventName;
+char* OpenSettingsevent::sEventName;
 
-OpenSettingsEvent::OpenSettingsEvent()
+OpenSettingsevent::OpenSettingsEvent()
 {
 }
 
-OpenSettingsEvent::~OpenSettingsEvent()
+OpenSettingsevent::~OpenSettingsEvent()
 {
 }
 }  // namespace ScreenEvents
-}  // namespace Events
+}  // namespace events

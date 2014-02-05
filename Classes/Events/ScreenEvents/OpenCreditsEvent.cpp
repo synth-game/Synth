@@ -1,17 +1,17 @@
 #include "OpenCreditsEvent.h"
 
-namespace Events
+namespace events
 {
 namespace ScreenEvents
 {
-char* OpenCreditsEvent::sEventName;
+char* OpenCreditsevent::sEventName;
 
-OpenCreditsEvent::OpenCreditsEvent()
+OpenCreditsevent::OpenCreditsEvent()
 {
 }
 
-OpenCreditsEvent::~OpenCreditsEvent()
+OpenCreditsevent::~OpenCreditsEvent()
 {
 }
 }  // namespace ScreenEvents
-}  // namespace Events
+}  // namespace events

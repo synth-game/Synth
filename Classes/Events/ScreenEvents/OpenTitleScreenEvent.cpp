@@ -1,17 +1,17 @@
 #include "OpenTitleScreenEvent.h"
 
-namespace Events
+namespace events
 {
 namespace ScreenEvents
 {
-char* OpenTitleScreenEvent::sEventName;
+char* OpenTitleScreenevent::sEventName;
 
-OpenTitleScreenEvent::OpenTitleScreenEvent()
+OpenTitleScreenevent::OpenTitleScreenEvent()
 {
 }
 
-OpenTitleScreenEvent::~OpenTitleScreenEvent()
+OpenTitleScreenevent::~OpenTitleScreenEvent()
 {
 }
 }  // namespace ScreenEvents
-}  // namespace Events
+}  // namespace events
