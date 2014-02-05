@@ -7,7 +7,7 @@
 
 namespace events
 {
-class SynthEvent : public EventCustom, public GameEvents::ChangeTargetEvent
+class SynthEvent : public EventCustom
 {
 protected:
 	Node* _source;
