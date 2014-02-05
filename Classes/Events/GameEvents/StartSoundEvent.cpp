@@ -1,17 +1,17 @@
 #include "StartSoundEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* StartSoundEvent::sEventName;
+char* StartSoundevent::sEventName;
 
-StartSoundEvent::StartSoundEvent()
+StartSoundevent::StartSoundEvent()
 {
 }
 
-StartSoundEvent::~StartSoundEvent()
+StartSoundevent::~StartSoundEvent()
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

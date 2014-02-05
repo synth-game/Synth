@@ -1,44 +1,44 @@
 #include "TestCollisionEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* TestCollisionEvent::sEventName;
+char* TestCollisionevent::sEventName;
 
-TestCollisionEvent::TestCollisionEvent()
+TestCollisionevent::TestCollisionEvent()
 {
 }
 
-TestCollisionEvent::~TestCollisionEvent()
+TestCollisionevent::~TestCollisionEvent()
 {
 }
 
-Events::Point TestCollisionEvent::getCurrentPosition()
-{
-	return 0;
-}
-
-Events::Point TestCollisionEvent::getTargetPosition()
+Events::Point TestCollisionevent::getCurrentPosition()
 {
 	return 0;
 }
 
-Events::Size TestCollisionEvent::getSize()
+Events::Point TestCollisionevent::getTargetPosition()
 {
 	return 0;
 }
 
-void TestCollisionEvent::setCurrentPosition(Events::Point position)
+Events::Size TestCollisionevent::getSize()
+{
+	return 0;
+}
+
+void TestCollisionevent::setCurrentPosition(Events::Point position)
 {
 }
 
-void TestCollisionEvent::setTargetPosition(Events::Point position)
+void TestCollisionevent::setTargetPosition(Events::Point position)
 {
 }
 
-void TestCollisionEvent::setSize(Events::Size size)
+void TestCollisionevent::setSize(Events::Size size)
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

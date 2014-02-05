@@ -1,17 +1,17 @@
 #include "CollisionEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* CollisionEvent::sEventName;
+char* Collisionevent::sEventName;
 
-CollisionEvent::CollisionEvent()
+Collisionevent::CollisionEvent()
 {
 }
 
-CollisionEvent::~CollisionEvent()
+Collisionevent::~CollisionEvent()
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

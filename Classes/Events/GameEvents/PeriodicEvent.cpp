@@ -1,17 +1,17 @@
 #include "PeriodicEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* PeriodicEvent::sEventName;
+char* Periodicevent::sEventName;
 
-PeriodicEvent::PeriodicEvent()
+Periodicevent::PeriodicEvent()
 {
 }
 
-PeriodicEvent::~PeriodicEvent()
+Periodicevent::~PeriodicEvent()
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

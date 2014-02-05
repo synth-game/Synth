@@ -1,17 +1,17 @@
 #include "StopSoundEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* StopSoundEvent::sEventName;
+char* StopSoundevent::sEventName;
 
-StopSoundEvent::StopSoundEvent()
+StopSoundevent::StopSoundEvent()
 {
 }
 
-StopSoundEvent::~StopSoundEvent()
+StopSoundevent::~StopSoundEvent()
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

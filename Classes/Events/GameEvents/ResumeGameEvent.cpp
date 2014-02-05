@@ -1,17 +1,17 @@
 #include "ResumeGameEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* ResumeGameEvent::sEventName;
+char* ResumeGameevent::sEventName;
 
-ResumeGameEvent::ResumeGameEvent()
+ResumeGameevent::ResumeGameEvent()
 {
 }
 
-ResumeGameEvent::~ResumeGameEvent()
+ResumeGameevent::~ResumeGameEvent()
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

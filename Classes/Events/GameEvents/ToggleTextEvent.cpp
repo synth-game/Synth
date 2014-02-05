@@ -1,35 +1,35 @@
 #include "ToggleTextEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* ToggleTextEvent::sEventName;
+char* ToggleTextevent::sEventName;
 
-ToggleTextEvent::ToggleTextEvent()
+ToggleTextevent::ToggleTextEvent()
 {
 }
 
-ToggleTextEvent::~ToggleTextEvent()
+ToggleTextevent::~ToggleTextEvent()
 {
 }
 
-void ToggleTextEvent::setVoiceTag(char* sVoiceTag)
+void ToggleTextevent::setVoiceTag(char* sVoiceTag)
 {
 }
 
-char* ToggleTextEvent::getVoiceTag()
-{
-	return 0;
-}
-
-bool ToggleTextEvent::isOn()
+char* ToggleTextevent::getVoiceTag()
 {
 	return 0;
 }
 
-void ToggleTextEvent::setOn(bool bOn)
+bool ToggleTextevent::isOn()
+{
+	return 0;
+}
+
+void ToggleTextevent::setOn(bool bOn)
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

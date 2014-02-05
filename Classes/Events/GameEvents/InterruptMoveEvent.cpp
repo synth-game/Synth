@@ -1,45 +1,45 @@
 #include "InterruptMoveEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* InterruptMoveEvent::sEventName;
+char* InterruptMoveevent::sEventName;
 
-InterruptMoveEvent::InterruptMoveEvent()
+InterruptMoveevent::InterruptMoveEvent()
 {
 }
 
-InterruptMoveEvent::~InterruptMoveEvent()
+InterruptMoveevent::~InterruptMoveEvent()
 {
 }
 
-bool InterruptMoveEvent::getStopX()
-{
-	return 0;
-}
-
-bool InterruptMoveEvent::getStopY()
+bool InterruptMoveevent::getStopX()
 {
 	return 0;
 }
 
-bool InterruptMoveEvent::getHasMoved()
+bool InterruptMoveevent::getStopY()
 {
 	return 0;
 }
 
-void InterruptMoveEvent::setStopX(bool stopX)
+bool InterruptMoveevent::getHasMoved()
+{
+	return 0;
+}
+
+void InterruptMoveevent::setStopX(bool stopX)
 {
 }
 
-void InterruptMoveEvent::setStopY(bool stopY)
+void InterruptMoveevent::setStopY(bool stopY)
 {
 }
 
-bool InterruptMoveEvent::setHasMoved()
+bool InterruptMoveevent::setHasMoved()
 {
 	return 0;
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

@@ -1,26 +1,26 @@
 #include "ChangePositionEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* ChangePositionEvent::sEventName;
+char* ChangePositionevent::sEventName;
 
-ChangePositionEvent::ChangePositionEvent()
+ChangePositionevent::ChangePositionEvent()
 {
 }
 
-ChangePositionEvent::~ChangePositionEvent()
+ChangePositionevent::~ChangePositionEvent()
 {
 }
 
-Events::Point ChangePositionEvent::getCurrentPosition()
+Events::Point ChangePositionevent::getCurrentPosition()
 {
 	return 0;
 }
 
-void ChangePositionEvent::setCurrentPosition(Events::Point position)
+void ChangePositionevent::setCurrentPosition(Events::Point position)
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

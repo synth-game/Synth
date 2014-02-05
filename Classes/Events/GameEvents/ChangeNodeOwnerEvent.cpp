@@ -1,26 +1,26 @@
 #include "ChangeNodeOwnerEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* ChangeNodeOwnerEvent::sEventName;
+char* ChangeNodeOwnerevent::sEventName;
 
-ChangeNodeOwnerEvent::ChangeNodeOwnerEvent()
+ChangeNodeOwnerevent::ChangeNodeOwnerEvent()
 {
 }
 
-ChangeNodeOwnerEvent::~ChangeNodeOwnerEvent()
+ChangeNodeOwnerevent::~ChangeNodeOwnerEvent()
 {
 }
 
-Node* ChangeNodeOwnerEvent::_getNewOwner()
+Node* ChangeNodeOwnerevent::_getNewOwner()
 {
 	return 0;
 }
 
-ChangeNodeOwnerEvent::ChangeNodeOwnerEvent()
+ChangeNodeOwnerevent::ChangeNodeOwnerEvent()
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

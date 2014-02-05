@@ -1,26 +1,26 @@
 #include "VoiceEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* VoiceEvent::sEventName;
+char* Voiceevent::sEventName;
 
-VoiceEvent::VoiceEvent()
+Voiceevent::VoiceEvent()
 {
 }
 
-VoiceEvent::~VoiceEvent()
+Voiceevent::~VoiceEvent()
 {
 }
 
-bool VoiceEvent::isTriggeredVoice()
+bool Voiceevent::isTriggeredVoice()
 {
 	return 0;
 }
 
-void VoiceEvent::setTriggeredVoice(bool bIsTriggeredVoice)
+void Voiceevent::setTriggeredVoice(bool bIsTriggeredVoice)
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

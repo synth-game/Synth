@@ -1,11 +1,11 @@
 #ifndef EVENTS_GAMEEVENTS_LIGHT_COLOR_H
 #define EVENTS_GAMEEVENTS_LIGHT_COLOR_H
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-typedef enum 
+typedef enum
 {
 	BLUE,
 	RED,
@@ -18,5 +18,5 @@ typedef enum
 } LightColor;
 
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events
 #endif

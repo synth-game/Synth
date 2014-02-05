@@ -1,26 +1,26 @@
 #include "JumpEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* JumpEvent::sEventName;
+char* Jumpevent::sEventName;
 
-JumpEvent::JumpEvent()
+Jumpevent::JumpEvent()
 {
 }
 
-JumpEvent::~JumpEvent()
+Jumpevent::~JumpEvent()
 {
 }
 
-bool JumpEvent::getStartJump()
+bool Jumpevent::getStartJump()
 {
 	return 0;
 }
 
-void JumpEvent::setStartJump(bool startJump)
+void Jumpevent::setStartJump(bool startJump)
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

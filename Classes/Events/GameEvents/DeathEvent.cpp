@@ -1,17 +1,17 @@
 #include "DeathEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* DeathEvent::sEventName;
+char* Deathevent::sEventName;
 
-DeathEvent::DeathEvent()
+Deathevent::DeathEvent()
 {
 }
 
-DeathEvent::~DeathEvent()
+Deathevent::~DeathEvent()
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

@@ -1,17 +1,17 @@
 #include "EnterLightEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* EnterLightEvent::sEventName;
+char* EnterLightevent::sEventName;
 
-EnterLightEvent::EnterLightEvent()
+EnterLightevent::EnterLightEvent()
 {
 }
 
-EnterLightEvent::~EnterLightEvent()
+EnterLightevent::~EnterLightEvent()
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

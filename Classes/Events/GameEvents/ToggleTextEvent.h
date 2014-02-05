@@ -3,7 +3,7 @@
 
 #include "Events/SynthEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
@@ -34,5 +34,5 @@ public:
 };
 
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events
 #endif

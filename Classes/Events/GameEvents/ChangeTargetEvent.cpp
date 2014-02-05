@@ -1,26 +1,26 @@
 #include "ChangeTargetEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* ChangeTargetEvent::sEventName;
+char* ChangeTargetevent::sEventName;
 
-ChangeTargetEvent::ChangeTargetEvent()
+ChangeTargetevent::ChangeTargetEvent()
 {
 }
 
-ChangeTargetEvent::~ChangeTargetEvent()
+ChangeTargetevent::~ChangeTargetEvent()
 {
 }
 
-Events::Point ChangeTargetEvent::getNewTarget()
+Events::Point ChangeTargetevent::getNewTarget()
 {
 	return 0;
 }
 
-void ChangeTargetEvent::setNewTarget(Events::Point newTarget)
+void ChangeTargetevent::setNewTarget(Events::Point newTarget)
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

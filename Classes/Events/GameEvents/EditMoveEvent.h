@@ -4,7 +4,7 @@
 #include "Events/SynthEvent.h"
 #include "Events/Point.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
@@ -44,5 +44,5 @@ public:
 };
 
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events
 #endif

@@ -3,7 +3,7 @@
 
 #include "Events/SynthEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
@@ -17,12 +17,12 @@ public:
 	PeriodicEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~PeriodicEvent();
 
 };
 
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events
 #endif

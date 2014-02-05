@@ -1,44 +1,44 @@
 #include "EditMoveEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* EditMoveEvent::sEventName;
+char* EditMoveevent::sEventName;
 
-EditMoveEvent::EditMoveEvent()
+EditMoveevent::EditMoveEvent()
 {
 }
 
-EditMoveEvent::~EditMoveEvent()
+EditMoveevent::~EditMoveEvent()
 {
 }
 
-Events::Point EditMoveEvent::getDirection()
-{
-	return 0;
-}
-
-bool EditMoveEvent::getChangeX()
+Events::Point EditMoveevent::getDirection()
 {
 	return 0;
 }
 
-bool EditMoveEvent::getChangeY()
+bool EditMoveevent::getChangeX()
 {
 	return 0;
 }
 
-void EditMoveEvent::setDirection(Events::Point direction)
+bool EditMoveevent::getChangeY()
+{
+	return 0;
+}
+
+void EditMoveevent::setDirection(Events::Point direction)
 {
 }
 
-void EditMoveEvent::setChangeX(bool changeX)
+void EditMoveevent::setChangeX(bool changeX)
 {
 }
 
-void EditMoveEvent::setChangeY(bool changeY)
+void EditMoveevent::setChangeY(bool changeY)
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

@@ -1,26 +1,26 @@
 #include "ToggleLightEvent.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
-char* ToggleLightEvent::sEventName;
+char* ToggleLightevent::sEventName;
 
-ToggleLightEvent::ToggleLightEvent()
+ToggleLightevent::ToggleLightEvent()
 {
 }
 
-ToggleLightEvent::~ ToggleLightEvent()
+ToggleLightevent::~ ToggleLightEvent()
 {
 }
 
-bool ToggleLightEvent::isOn()
+bool ToggleLightevent::isOn()
 {
 	return 0;
 }
 
-void ToggleLightEvent::setOn(bool bOn)
+void ToggleLightevent::setOn(bool bOn)
 {
 }
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events

@@ -5,7 +5,7 @@
 #include "Events/Point.h"
 #include "Events/Size.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
@@ -26,7 +26,7 @@ public:
 	TestCollisionEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~TestCollisionEvent();
 
@@ -45,5 +45,5 @@ public:
 };
 
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events
 #endif

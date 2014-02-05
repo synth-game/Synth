@@ -3,7 +3,7 @@
 
 #include "Events/Point.h"
 
-namespace Events
+namespace events
 {
 namespace GameEvents
 {
@@ -20,7 +20,7 @@ public:
 	ChangeTargetEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~ChangeTargetEvent();
 
@@ -31,5 +31,5 @@ public:
 };
 
 }  // namespace GameEvents
-}  // namespace Events
+}  // namespace events
 #endif
