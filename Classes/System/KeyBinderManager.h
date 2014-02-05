@@ -8,7 +8,7 @@
 #include "System/BindedAction.h"
 #include "System/xml.h"
 
-namespace System
+namespace system
 {
 class KeyBinderManager
 {
@@ -50,5 +50,5 @@ public:
 
 };
 
-}  // namespace System
+}  // namespace system
 #endif

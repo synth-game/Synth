@@ -1,6 +1,6 @@
 #include "IOManager.h"
 
-namespace System
+namespace system
 {
 
 IOManager::IOManager()
@@ -24,4 +24,4 @@ xml IOManager::loadXML(char* filepath)
 void IOManager::saveXML(char* filepath, xml data)
 {
 }
-}  // namespace System
+}  // namespace system

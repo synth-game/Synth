@@ -27,7 +27,7 @@ public:
 
 	static TextManager* getInstance();
 
-	void init(System::xml data);
+	void init(system::xml data);
 
 	string getText(string TextTag);
 

@@ -16,7 +16,7 @@ SoundManager* SoundManager::getInstance()
 	return 0;
 }
 
-void SoundManager::init(System::xml data)
+void SoundManager::init(system::xml data)
 {
 }
 

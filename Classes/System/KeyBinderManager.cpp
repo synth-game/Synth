@@ -1,6 +1,6 @@
 #include "KeyBinderManager.h"
 
-namespace System
+namespace system
 {
 
 KeyBinderManager::KeyBinderManager()
@@ -33,4 +33,4 @@ xml KeyBinderManager::getKeyMapConfig()
 {
 	return 0;
 }
-}  // namespace System
+}  // namespace system

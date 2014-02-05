@@ -30,7 +30,7 @@ public:
 	 * ! Don't forget to load all animations after building data vector
 	 *
 	 */
-	void init(System::xml data);
+	void init(system::xml data);
 
 	Sprite* createSprite(string sSpriteName);
 

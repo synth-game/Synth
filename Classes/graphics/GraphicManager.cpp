@@ -16,7 +16,7 @@ GraphicManager* GraphicManager::getInstance()
 	return 0;
 }
 
-void GraphicManager::init(System::xml data)
+void GraphicManager::init(system::xml data)
 {
 }
 

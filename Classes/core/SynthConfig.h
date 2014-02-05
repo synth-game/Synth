@@ -36,9 +36,9 @@ public:
 
 	static SynthConfig* getInstance();
 
-	void init(System::xml data);
+	void init(system::xml data);
 
-	System::xml getConfig();
+	system::xml getConfig();
 
 	/**
 	 *

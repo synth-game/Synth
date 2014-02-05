@@ -1,9 +1,9 @@
 #ifndef SYSTEM_BINDED_ACTION_H
 #define SYSTEM_BINDED_ACTION_H
 
-namespace System
+namespace system
 {
-typedef enum 
+typedef enum
 {
 	KEY_TOP,
 	KEY_BOTTOM,
@@ -18,5 +18,5 @@ typedef enum
 
 } BindedAction;
 
-}  // namespace System
+}  // namespace system
 #endif

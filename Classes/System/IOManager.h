@@ -3,7 +3,7 @@
 
 #include "System/xml.h"
 
-namespace System
+namespace system
 {
 class IOManager
 {
@@ -12,7 +12,7 @@ private:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~IOManager();
 
@@ -24,5 +24,5 @@ public:
 
 };
 
-}  // namespace System
+}  // namespace system
 #endif

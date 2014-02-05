@@ -16,22 +16,22 @@ LevelFactory* LevelFactory::getInstance()
 	return 0;
 }
 
-vector<SynthActor*> LevelFactory::buildActors(System::xml data)
+vector<SynthActor*> LevelFactory::buildActors(system::xml data)
 {
 	return 0;
 }
 
-vector<vector<int>> LevelFactory::buildLightsMap(System::xml data)
+vector<vector<int>> LevelFactory::buildLightsMap(system::xml data)
 {
 	return 0;
 }
 
-LevelSprite* LevelFactory::buildLevelSprite(System::xml data)
+LevelSprite* LevelFactory::buildLevelSprite(system::xml data)
 {
 	return 0;
 }
 
-std::map<string,Rect> LevelFactory::buildTriggers(System::xml data)
+std::map<string,Rect> LevelFactory::buildTriggers(system::xml data)
 {
 	return 0;
 }

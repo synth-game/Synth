@@ -32,7 +32,7 @@ public:
 
 	static SoundManager* getInstance();
 
-	void init(System::xml data);
+	void init(system::xml data);
 
 	bool playSound(string soundName, int iTrackId);
 
