@@ -14,30 +14,30 @@ TestCollisionevent::~TestCollisionEvent()
 {
 }
 
-Events::Point TestCollisionevent::getCurrentPosition()
+events::Point TestCollisionevent::getCurrentPosition()
 {
 	return 0;
 }
 
-Events::Point TestCollisionevent::getTargetPosition()
+events::Point TestCollisionevent::getTargetPosition()
 {
 	return 0;
 }
 
-Events::Size TestCollisionevent::getSize()
+events::Size TestCollisionevent::getSize()
 {
 	return 0;
 }
 
-void TestCollisionevent::setCurrentPosition(Events::Point position)
+void TestCollisionevent::setCurrentPosition(events::Point position)
 {
 }
 
-void TestCollisionevent::setTargetPosition(Events::Point position)
+void TestCollisionevent::setTargetPosition(events::Point position)
 {
 }
 
-void TestCollisionevent::setSize(Events::Size size)
+void TestCollisionevent::setSize(events::Size size)
 {
 }
 }  // namespace GameEvents

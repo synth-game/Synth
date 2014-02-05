@@ -7,7 +7,7 @@ namespace events
 {
 namespace GameEvents
 {
-class ToggleLightEvent : public Events::SynthEvent
+class ToggleLightEvent : public events::SynthEvent
 {
 private:
 	bool bOn;

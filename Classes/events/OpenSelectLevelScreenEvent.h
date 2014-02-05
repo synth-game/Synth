@@ -7,7 +7,7 @@ namespace events
 {
 namespace ScreenEvents
 {
-class OpenSelectLevelScreenEvent : public Events::SynthEvent
+class OpenSelectLevelScreenEvent : public events::SynthEvent
 {
 public:
 	static char* sEventName;

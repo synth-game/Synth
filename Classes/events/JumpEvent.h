@@ -7,7 +7,7 @@ namespace events
 {
 namespace GameEvents
 {
-class JumpEvent : public Events::SynthEvent
+class JumpEvent : public events::SynthEvent
 {
 private:
 	bool _bStartJump;

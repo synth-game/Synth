@@ -14,12 +14,12 @@ ChangePositionevent::~ChangePositionEvent()
 {
 }
 
-Events::Point ChangePositionevent::getCurrentPosition()
+events::Point ChangePositionevent::getCurrentPosition()
 {
 	return 0;
 }
 
-void ChangePositionevent::setCurrentPosition(Events::Point position)
+void ChangePositionevent::setCurrentPosition(events::Point position)
 {
 }
 }  // namespace GameEvents

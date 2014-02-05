@@ -8,10 +8,10 @@ namespace events
 {
 namespace GameEvents
 {
-class EditMoveEvent : public Events::SynthEvent
+class EditMoveEvent : public events::SynthEvent
 {
 private:
-	Events::Point _direction;
+	events::Point _direction;
 
 	bool _bChangeX;
 
@@ -29,13 +29,13 @@ public:
 	 */
 	~EditMoveEvent();
 
-	Events::Point getDirection();
+	events::Point getDirection();
 
 	bool getChangeX();
 
 	bool getChangeY();
 
-	void setDirection(Events::Point direction);
+	void setDirection(events::Point direction);
 
 	void setChangeX(bool changeX);
 

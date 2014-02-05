@@ -7,7 +7,7 @@ namespace events
 {
 namespace GameEvents
 {
-class InterruptMoveEvent : public Events::SynthEvent
+class InterruptMoveEvent : public events::SynthEvent
 {
 private:
 	bool _bStopX;

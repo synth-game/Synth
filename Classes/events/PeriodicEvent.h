@@ -7,7 +7,7 @@ namespace events
 {
 namespace GameEvents
 {
-class PeriodicEvent : public Events::SynthEvent
+class PeriodicEvent : public events::SynthEvent
 {
 public:
 	static char* sEventName;

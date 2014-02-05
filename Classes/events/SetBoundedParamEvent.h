@@ -7,7 +7,7 @@ namespace events
 {
 namespace MenuEvents
 {
-class SetBoundedParamEvent : public Events::SynthEvent
+class SetBoundedParamEvent : public events::SynthEvent
 {
 private:
 	float fParam;

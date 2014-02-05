@@ -7,7 +7,7 @@ namespace events
 {
 namespace GameEvents
 {
-class ResetLevelEvent : public Events::SynthEvent
+class ResetLevelEvent : public events::SynthEvent
 {
 public:
 	static char* sEventName;

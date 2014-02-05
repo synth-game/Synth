@@ -7,7 +7,7 @@ namespace events
 {
 namespace ScreenEvents
 {
-class OpenCreditsEvent : public Events::SynthEvent
+class OpenCreditsEvent : public events::SynthEvent
 {
 public:
 	static char* sEventName;

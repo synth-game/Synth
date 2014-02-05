@@ -7,7 +7,7 @@ namespace events
 {
 namespace ScreenEvents
 {
-class ContinueGameEvent : public Events::SynthEvent
+class ContinueGameEvent : public events::SynthEvent
 {
 public:
 	static char* sEventName;

@@ -8,10 +8,10 @@ namespace events
 {
 namespace GameEvents
 {
-class ChangePositionEvent : public Events::SynthEvent
+class ChangePositionEvent : public events::SynthEvent
 {
 private:
-	Events::Point _currentPosition;
+	events::Point _currentPosition;
 
 public:
 	static char* sEventName;
@@ -25,9 +25,9 @@ public:
 	 */
 	~ChangePositionEvent();
 
-	Events::Point getCurrentPosition();
+	events::Point getCurrentPosition();
 
-	void setCurrentPosition(Events::Point position);
+	void setCurrentPosition(events::Point position);
 
 };
 

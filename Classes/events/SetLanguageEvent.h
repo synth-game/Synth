@@ -8,7 +8,7 @@ namespace events
 {
 namespace MenuEvents
 {
-class SetLanguageEvent : public Events::SynthEvent
+class SetLanguageEvent : public events::SynthEvent
 {
 private:
 	Language eLanguage;

@@ -7,7 +7,7 @@ namespace events
 {
 namespace MenuEvents
 {
-class ExitGameEvent : public Events::SynthEvent
+class ExitGameEvent : public events::SynthEvent
 {
 public:
 	static char* sEventName;

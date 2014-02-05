@@ -7,7 +7,7 @@ namespace events
 {
 namespace GameEvents
 {
-class StopSoundEvent : public Events::SynthEvent
+class StopSoundEvent : public events::SynthEvent
 {
 public:
 	static char* sEventName;

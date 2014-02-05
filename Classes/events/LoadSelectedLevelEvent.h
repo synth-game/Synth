@@ -7,7 +7,7 @@ namespace events
 {
 namespace ScreenEvents
 {
-class LoadSelectedLevelEvent : public Events::SynthEvent
+class LoadSelectedLevelEvent : public events::SynthEvent
 {
 private:
 	int _iLevel;

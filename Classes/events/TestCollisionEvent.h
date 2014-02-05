@@ -9,14 +9,14 @@ namespace events
 {
 namespace GameEvents
 {
-class TestCollisionEvent : public Events::SynthEvent
+class TestCollisionEvent : public events::SynthEvent
 {
 private:
-	Events::Point _currentPosition;
+	events::Point _currentPosition;
 
-	Events::Point _targetPosition;
+	events::Point _targetPosition;
 
-	Events::Size _size;
+	events::Size _size;
 
 public:
 	static char* sEventName;
@@ -30,17 +30,17 @@ public:
 	 */
 	~TestCollisionEvent();
 
-	Events::Point getCurrentPosition();
+	events::Point getCurrentPosition();
 
-	Events::Point getTargetPosition();
+	events::Point getTargetPosition();
 
-	Events::Size getSize();
+	events::Size getSize();
 
-	void setCurrentPosition(Events::Point position);
+	void setCurrentPosition(events::Point position);
 
-	void setTargetPosition(Events::Point position);
+	void setTargetPosition(events::Point position);
 
-	void setSize(Events::Size size);
+	void setSize(events::Size size);
 
 };
 

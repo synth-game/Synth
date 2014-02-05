@@ -14,12 +14,12 @@ ChangeTargetevent::~ChangeTargetEvent()
 {
 }
 
-Events::Point ChangeTargetevent::getNewTarget()
+events::Point ChangeTargetevent::getNewTarget()
 {
 	return 0;
 }
 
-void ChangeTargetevent::setNewTarget(Events::Point newTarget)
+void ChangeTargetevent::setNewTarget(events::Point newTarget)
 {
 }
 }  // namespace GameEvents

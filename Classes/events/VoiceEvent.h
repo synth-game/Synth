@@ -7,7 +7,7 @@ namespace events
 {
 namespace GameEvents
 {
-class VoiceEvent : public Events::SynthEvent
+class VoiceEvent : public events::SynthEvent
 {
 private:
 	bool _bTriggeredVoice;

@@ -9,7 +9,7 @@ namespace events
 {
 namespace MenuEvents
 {
-class MapKeyChangeEvent : public Events::SynthEvent
+class MapKeyChangeEvent : public events::SynthEvent
 {
 private:
 	enum _eBindedAction;
