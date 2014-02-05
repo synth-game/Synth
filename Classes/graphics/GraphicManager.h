@@ -13,9 +13,9 @@ namespace graphics
 class GraphicManager
 {
 private:
-	vector<Actor*> _staticSprites;
+	std::vector<Actor*> _staticSprites;
 
-	std::map<string,Animation> _animations;
+	std::map<std::string,Animation> _animations;
 
 
 private:
@@ -32,16 +32,16 @@ public:
 	 */
 	void init(system::xml data);
 
-	Sprite* createSprite(string sSpriteName);
+	Sprite* createSprite(std::string sSpriteName);
 
-	Animation* getAnimation(string sAnimName);
+	Animation* getAnimation(std::string sAnimName);
 
 	/**
 	 * return null if requested animation isn't chained
 	 */
-	Animation* getNextAnimation(string sAnimName);
+	Animation* getNextAnimation(std::string sAnimName);
 
-	bool isLoopAnimation(string sAnimName);
+	bool isLoopAnimation(std::string sAnimName);
 
 };
 

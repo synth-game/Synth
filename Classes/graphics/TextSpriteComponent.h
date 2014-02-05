@@ -35,11 +35,11 @@ public:
 	/**
 	 *
 	 */
-	static TextSpriteComponent* create(string sText, char* sFontName, float fFontSize);
+	static TextSpriteComponent* create(std::string sText, char* sFontName, float fFontSize);
 
-	string getText();
+	std::string getText();
 
-	void setText(string sText);
+	void setText(std::string sText);
 
 };
 

@@ -29,7 +29,7 @@ bool SpriteComponent::init() {
     return true;
 }
 
-SpriteComponent* SpriteComponent::create(std::string sFilePath, Layer* pParentLayer) {
+SpriteComponent* SpriteComponent::create(std::std::string sFilePath, Layer* pParentLayer) {
     SpriteComponent* pRet = new SpriteComponent();
     if (pRet != nullptr) {
         pRet->autorelease();

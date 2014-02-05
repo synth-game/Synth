@@ -20,7 +20,7 @@ void SoundManager::init(system::xml data)
 {
 }
 
-bool SoundManager::playSound(string soundName, int iTrackId)
+bool SoundManager::playSound(std::string soundName, int iTrackId)
 {
 	return 0;
 }
@@ -30,12 +30,12 @@ bool SoundManager::stopSound(int iTrackId)
 	return 0;
 }
 
-bool SoundManager::unmuteMusic(string musicName)
+bool SoundManager::unmuteMusic(std::string musicName)
 {
 	return 0;
 }
 
-bool SoundManager::muteMusic(string musicName)
+bool SoundManager::muteMusic(std::string musicName)
 {
 	return 0;
 }

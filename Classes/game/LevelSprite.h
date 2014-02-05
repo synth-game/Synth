@@ -11,9 +11,9 @@ namespace game
 class LevelSprite : public Sprite
 {
 private:
-	vector<LightTexture> _lightTexturesWithOcclusion;
+	std::vector<LightTexture> _lightTexturesWithOcclusion;
 
-	vector<LightTexture> _lightTexturesWithoutOcclusion;
+	std::vector<LightTexture> _lightTexturesWithoutOcclusion;
 
 
 protected:
@@ -27,7 +27,7 @@ public:
 	 */
 	static LevelSprite* create(char* sSpriteName);
 
-	void updateLights(vector<SynthActor*> lights);
+	void updateLights(std::vector<SynthActor*> lights);
 
 	/**
 	 * redéfinition

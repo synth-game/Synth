@@ -20,22 +20,22 @@ void GraphicManager::init(system::xml data)
 {
 }
 
-Sprite* GraphicManager::createSprite(string sSpriteName)
+Sprite* GraphicManager::createSprite(std::string sSpriteName)
 {
 	return 0;
 }
 
-Animation* GraphicManager::getAnimation(string sAnimName)
+Animation* GraphicManager::getAnimation(std::string sAnimName)
 {
 	return 0;
 }
 
-Animation* GraphicManager::getNextAnimation(string sAnimName)
+Animation* GraphicManager::getNextAnimation(std::string sAnimName)
 {
 	return 0;
 }
 
-bool GraphicManager::isLoopAnimation(string sAnimName)
+bool GraphicManager::isLoopAnimation(std::string sAnimName)
 {
 	return 0;
 }

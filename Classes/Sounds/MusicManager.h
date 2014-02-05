@@ -9,7 +9,7 @@ namespace sounds
 class MusicManager
 {
 private:
-	vector<Music> _musics;
+	std::vector<Music> _musics;
 
 
 public:

@@ -20,7 +20,7 @@ void TextManager::init(system::xml data)
 {
 }
 
-string TextManager::getText(string TextTag)
+std::string TextManager::getText(std::string TextTag)
 {
 	return 0;
 }

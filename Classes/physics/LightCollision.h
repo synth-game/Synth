@@ -12,14 +12,14 @@ namespace physics
 class LightCollision : public Collision
 {
 private:
-	vector<Actor*> _lightCollection;
+	std::vector<Actor*> _lightCollection;
 
 
 public:
 	/**
 	 *
 	 */
-	LightCollision(vector<Actor*> lightCollection);
+	LightCollision(std::vector<Actor*> lightCollection);
 
 	Color4B getPixelColor(Point pixel);
 

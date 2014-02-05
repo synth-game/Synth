@@ -13,10 +13,10 @@ private:
 	/**
 	 * The big data structure :
 	 *
-	 * Contains for each language, the real text string associated to a text tag
-	 * the first string is the tag, the second one the real text
+	 * Contains for each language, the real text std::string associated to a text tag
+	 * the first std::string is the tag, the second one the real text
 	 */
-	std::map<Language,vector<Actor*> , std::map<string,string>> _textSamples;
+	std::map<Language,std::vector<Actor*> , std::map<std::string,std::string>> _textSamples;
 
 
 private:
@@ -29,7 +29,7 @@ public:
 
 	void init(system::xml data);
 
-	string getText(string TextTag);
+	std::string getText(std::string TextTag);
 
 };
 

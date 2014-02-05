@@ -16,12 +16,12 @@ private:
 	/**
 	 * contient les tags de voix declenchées en passant sur des triggers spaciaux. les tags sont envoyés au soundmanager pour être lus.
 	 */
-	vector<string> _triggeredVoicesTags;
+	std::vector<std::string> _triggeredVoicesTags;
 
 	/**
 	 * contient les tags de voix declenchées en passant sur des triggers spaciaux. les tags sont envoyés au soundmanager pour être lus.
 	 */
-	vector<string> _randomVoicesTags;
+	std::vector<std::string> _randomVoicesTags;
 
 	int _iCurrentTriggeredVoice;
 
@@ -37,7 +37,7 @@ public:
 	 */
 	~VoiceSoundComponent();
 
-	static VoiceSoundComponent* create(vector<string> triggeredVoicesTags, vector<string> randomVoicesTags);
+	static VoiceSoundComponent* create(std::vector<std::string> triggeredVoicesTags, std::vector<std::string> randomVoicesTags);
 
 	/**
 	 * récupére un event de voix random ou voix triggered, comprotement différent selon si c'est random ou triggered. On parcourt la liste des voix dans l'ordre de la liste.

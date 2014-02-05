@@ -12,7 +12,7 @@ class SynthActor : public Node
 private:
 	static int _iActorCount;
 
-	string _sTag;
+	std::string _sTag;
 
 	Node node;
 
@@ -28,14 +28,14 @@ public:
 	 *
 	 *
 	 */
-	SynthActor(string sTag);
+	SynthActor(std::string sTag);
 
 	/**
 	 *
 	 */
 	int getActorID();
 
-	string getTag();
+	std::string getTag();
 
 };
 

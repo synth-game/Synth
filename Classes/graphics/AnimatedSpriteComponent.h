@@ -17,9 +17,9 @@ class AnimatedSpriteComponent : public SpriteComponent
 protected:
 	SpriteBatchNode* _pBatchNode;
 
-	string _sState;
+	std::string _sState;
 
-	string _sCurrentAnimName;
+	std::string _sCurrentAnimName;
 
 
 protected:

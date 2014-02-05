@@ -11,17 +11,17 @@ TextSpriteComponent::~TextSpriteComponent()
 {
 }
 
-TextSpriteComponent* TextSpriteComponent::create(string sText, char* sFontName, float fFontSize)
+TextSpriteComponent* TextSpriteComponent::create(std::string sText, char* sFontName, float fFontSize)
 {
 	return 0;
 }
 
-string TextSpriteComponent::getText()
+std::string TextSpriteComponent::getText()
 {
 	return 0;
 }
 
-void TextSpriteComponent::setText(string sText)
+void TextSpriteComponent::setText(std::string sText)
 {
 }
 

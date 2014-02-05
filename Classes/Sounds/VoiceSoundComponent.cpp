@@ -11,7 +11,7 @@ VoiceSoundComponent::~VoiceSoundComponent()
 {
 }
 
-VoiceSoundComponent* VoiceSoundComponent::create(vector<string> triggeredVoicesTags, vector<string> randomVoicesTags)
+VoiceSoundComponent* VoiceSoundComponent::create(std::vector<std::string> triggeredVoicesTags, std::vector<std::string> randomVoicesTags)
 {
 	return 0;
 }

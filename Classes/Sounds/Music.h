@@ -12,7 +12,7 @@ class Music
 public:
 	int iTrackId;
 
-	string filePath;
+	std::string filePath;
 
 };
 

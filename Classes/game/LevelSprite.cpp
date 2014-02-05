@@ -16,7 +16,7 @@ LevelSprite* LevelSprite::create(char* sSpriteName)
 	return 0;
 }
 
-void LevelSprite::updateLights(vector<SynthActor*> lights)
+void LevelSprite::updateLights(std::vector<SynthActor*> lights)
 {
 }
 

@@ -9,11 +9,11 @@ namespace sounds
 class Sound
 {
 public:
-	string filePath;
+	std::string filePath;
 
 	bool bLoop;
 
-	string chainedSoundName;
+	std::string chainedSoundName;
 
 };
 

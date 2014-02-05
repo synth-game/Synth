@@ -30,7 +30,7 @@ private:
 	 * collection de SynthActor (hero, firefly, light, lightSwitch, pig?)
 	 * Pour les identifier, regarder leur tag
 	 */
-	vector<SynthActor*> _levelActors;
+	std::vector<SynthActor*> _levelActors;
 
 	Layer* _pBackgroundLayer;
 
@@ -57,12 +57,12 @@ private:
 	 *
 	 * C'est un tableau 2D de la taille du LevelSprite (ou de résolution moindre). Chaque case du tableau contient une liste des indices des lumières qui éclairent le pixel correspondant
 	 */
-	vector<vector<int>> _lightsMap;
+	std::vector<std::vector<int>> _lightsMap;
 
 	/**
 	 * associate trigger zone with a tag (end, voice)
 	 */
-	std::map<string,Rect> _triggers;
+	std::map<std::string,Rect> _triggers;
 
 	float _fTimeSinceLevelStart;
 
@@ -75,7 +75,7 @@ protected:
 
 	GameManager();
 
-	vector<SynthActor*> getActorByTag(string sTag);
+	std::vector<SynthActor*> getActorByTag(std::string sTag);
 
 public:
 	static GameManager* create();

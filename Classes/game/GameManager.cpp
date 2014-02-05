@@ -74,7 +74,7 @@ Color4B GameManager::getLightColor(core::SynthActor* pLight)
 	return 0;
 }
 
-vector<SynthActor*> GameManager::getActorByTag(string sTag)
+std::vector<SynthActor*> GameManager::getActorByTag(std::string sTag)
 {
 	return 0;
 }

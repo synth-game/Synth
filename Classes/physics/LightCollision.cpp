@@ -3,7 +3,7 @@
 namespace physics
 {
 
-LightCollision::LightCollision(vector<Actor*> lightCollection)
+LightCollision::LightCollision(std::vector<Actor*> lightCollection)
 {
 }
 
