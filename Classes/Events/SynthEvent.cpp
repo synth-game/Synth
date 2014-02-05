@@ -1,6 +1,6 @@
 #include "SynthEvent.h"
 
-namespace Events
+namespace events
 {
 
 SynthEvent::SynthEvent()

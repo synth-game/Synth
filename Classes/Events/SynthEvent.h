@@ -5,7 +5,7 @@
 #include "Events/EventCustom.h"
 #include "Events/GameEvents/ChangeTargetEvent.h"
 
-namespace Events
+namespace events
 {
 class SynthEvent : public EventCustom, public GameEvents::ChangeTargetEvent
 {
@@ -17,7 +17,7 @@ public:
 	SynthEvent();
 
 	/**
-	 *  
+	 *
 	 */
 	~SynthEvent();
 
