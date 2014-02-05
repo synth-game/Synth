@@ -5,7 +5,7 @@
 
 namespace Game
 {
-class PeriodicLauncherComponent : public Core::SynthComponent
+class PeriodicLauncherComponent : public core::SynthComponent
 {
 protected:
 	float _fPeriod;
@@ -23,7 +23,7 @@ protected:
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~PeriodicLauncherComponent();
 

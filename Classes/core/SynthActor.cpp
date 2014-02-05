@@ -4,7 +4,7 @@
 
 #include "SynthActor.h"
 
-namespace Core
+namespace core
 {
 int SynthActor::_iActorCount;
 
@@ -21,4 +21,4 @@ string SynthActor::getTag()
 {
 	return _sTag;
 }
-}  // namespace Core
+}  // namespace core

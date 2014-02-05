@@ -10,7 +10,7 @@
 
 namespace Game
 {
-class LightAttrComponent : public Component, public SynthComponent, public Core::SynthComponent
+class LightAttrComponent : public Component, public SynthComponent, public core::SynthComponent
 {
 private:
 	EventListenerCustom* _pChangeIntensityListener;

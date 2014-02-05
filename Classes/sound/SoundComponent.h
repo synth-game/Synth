@@ -7,7 +7,7 @@
 
 namespace Sounds
 {
-class SoundComponent : public Component, public Core::SynthComponent
+class SoundComponent : public Component, public core::SynthComponent
 {
 protected:
 	int _iTrackID;

@@ -1,6 +1,6 @@
 #include "SynthConfig.h"
 
-namespace Core
+namespace core
 {
 
 SynthConfig::SynthConfig()
@@ -78,4 +78,4 @@ void SynthConfig::setLuminosity(float fLuminosity)
 void SynthConfig::setSavedLevel(int iSavedLevel)
 {
 }
-}  // namespace Core
+}  // namespace core

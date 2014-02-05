@@ -69,7 +69,7 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
     CCLOG("RELEASE");
 }
 
-Color4B GameManager::getLightColor(Core::SynthActor* pLight)
+Color4B GameManager::getLightColor(core::SynthActor* pLight)
 {
 	return 0;
 }

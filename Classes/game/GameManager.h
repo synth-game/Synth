@@ -105,7 +105,7 @@ public:
 	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event);
 	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event);
 
-	static Color4B getLightColor(Core::SynthActor* pLight);
+	static Color4B getLightColor(core::SynthActor* pLight);
 
 };
 

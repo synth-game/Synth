@@ -9,7 +9,7 @@
 
 USING_NS_CC;
 
-namespace Core
+namespace core
 {
 class SynthComponent : public Component
 {
@@ -29,5 +29,5 @@ public:
 
 };
 
-}  // namespace Core
+}  // namespace core
 #endif

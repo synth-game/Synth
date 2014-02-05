@@ -18,7 +18,7 @@ USING_NS_CC;
 
 namespace Physics
 {
-class GeometryComponent : public Component, public SynthComponent, public Core::SynthComponent
+class GeometryComponent : public Component, public SynthComponent, public core::SynthComponent
 {
 private:
 	EventListenerCustom* _pChangePositionListener;

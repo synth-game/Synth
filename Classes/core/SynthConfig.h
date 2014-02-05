@@ -4,7 +4,7 @@
 #include "Core/Language.h"
 #include "System/xml.h"
 
-namespace Core
+namespace core
 {
 class SynthConfig
 {
@@ -24,13 +24,13 @@ private:
 
 private:
 	/**
-	 *  
+	 *
 	 */
 	SynthConfig();
 
 public:
 	/**
-	 *  
+	 *
 	 */
 	~SynthConfig();
 
@@ -41,66 +41,66 @@ public:
 	System::xml getConfig();
 
 	/**
-	 *  
+	 *
 	 */
 	float getMusicVolume();
 
 	/**
-	 *  
+	 *
 	 */
 	float getSoundVolume();
 
 	/**
-	 *  
+	 *
 	 */
 	Language getLanguage();
 
 	/**
-	 *  
+	 *
 	 */
 	Language getSubtitleLanguage();
 
 	/**
-	 *  
+	 *
 	 */
 	float getLuminosity();
 
 	/**
-	 *  
+	 *
 	 */
 	int getSavedLevel();
 
 	/**
-	 *  
+	 *
 	 */
 	void setMusicVolume(float musicVolume);
 
 	/**
-	 *  
+	 *
 	 */
 	void setSoundVolume(float soundVolume);
 
 	/**
-	 *  
+	 *
 	 */
 	void setLanguage(Language eLanguage);
 
 	/**
-	 *  
+	 *
 	 */
 	void setSubtitleLanguage(Language eSubtitleLanguage);
 
 	/**
-	 *  
+	 *
 	 */
 	void setLuminosity(float fLuminosity);
 
 	/**
-	 *  
+	 *
 	 */
 	void setSavedLevel(int iSavedLevel);
 
 };
 
-}  // namespace Core
+}  // namespace core
 #endif

@@ -15,7 +15,7 @@
 
 namespace Graphics
 {
-class SpriteComponent : public Component, public Core::SynthComponent
+class SpriteComponent : public Component, public core::SynthComponent
 {
 protected:
 	std::string _sSpriteName;

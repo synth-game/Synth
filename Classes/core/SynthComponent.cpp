@@ -4,7 +4,7 @@
 
 #include "SynthComponent.h"
 
-namespace Core
+namespace core
 {
 
 SynthComponent::~SynthComponent()
@@ -18,4 +18,4 @@ bool SynthComponent::init(const char* sComponentType) {
 }
 
 
-}  // namespace Core
+}  // namespace core

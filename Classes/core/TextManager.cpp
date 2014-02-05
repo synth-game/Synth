@@ -1,6 +1,6 @@
 #include "TextManager.h"
 
-namespace Core
+namespace core
 {
 
 TextManager::TextManager()
@@ -24,4 +24,4 @@ string TextManager::getText(string TextTag)
 {
 	return 0;
 }
-}  // namespace Core
+}  // namespace core

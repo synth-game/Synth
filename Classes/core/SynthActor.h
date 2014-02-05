@@ -5,7 +5,7 @@
 
 USING_NS_CC;
 
-namespace Core
+namespace core
 {
 class SynthActor : public Node
 {
@@ -39,5 +39,5 @@ public:
 
 };
 
-}  // namespace Core
+}  // namespace core
 #endif

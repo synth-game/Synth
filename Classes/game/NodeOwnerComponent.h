@@ -7,7 +7,7 @@
 
 namespace Game
 {
-class NodeOwnerComponent : public Core::SynthComponent
+class NodeOwnerComponent : public core::SynthComponent
 {
 private:
 	EventListenerCustom* _pToggleLightListener;

@@ -5,7 +5,7 @@
 #include "Core/Language.h"
 #include "System/xml.h"
 
-namespace Core
+namespace core
 {
 class TextManager
 {
@@ -33,5 +33,5 @@ public:
 
 };
 
-}  // namespace Core
+}  // namespace core
 #endif

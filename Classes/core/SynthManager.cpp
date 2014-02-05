@@ -1,6 +1,6 @@
 #include "SynthManager.h"
 
-namespace Core
+namespace core
 {
 
 SynthManager::SynthManager()
@@ -56,4 +56,4 @@ void SynthManager::onOpenTitleScreenEvent(EventCustom* event)
 void SynthManager::onLoadSelectedLevelEvent(EventCustom* event)
 {
 }
-}  // namespace Core
+}  // namespace core

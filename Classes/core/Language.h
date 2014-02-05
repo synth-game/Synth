@@ -1,14 +1,14 @@
 #ifndef CORE_LANGUAGE_H
 #define CORE_LANGUAGE_H
 
-namespace Core
+namespace core
 {
-typedef enum 
+typedef enum
 {
 	FRENCH,
 	ENGLISH
 
 } Language;
 
-}  // namespace Core
+}  // namespace core
 #endif

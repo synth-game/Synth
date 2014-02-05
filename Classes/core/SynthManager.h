@@ -10,7 +10,7 @@
 #include "Menu/TitleScreenScene.h"
 #include "Menu/SelectLevelScene.h"
 
-namespace Core
+namespace core
 {
 class SynthManager
 {
@@ -66,5 +66,5 @@ public:
 
 };
 
-}  // namespace Core
+}  // namespace core
 #endif
