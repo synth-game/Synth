@@ -1,9 +1,9 @@
 #include "MusicManager.h"
 
-namespace Sounds
+namespace sounds
 {
 
 void MusicManager::operation19()
 {
 }
-}  // namespace Sounds
+}  // namespace sounds

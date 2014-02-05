@@ -4,7 +4,7 @@
 #include <vector>
 #include "Sounds/Music.h"
 
-namespace Sounds
+namespace sounds
 {
 class MusicManager
 {
@@ -17,5 +17,5 @@ public:
 
 };
 
-}  // namespace Sounds
+}  // namespace sounds
 #endif

@@ -1,6 +1,6 @@
 #include "SoundComponent.h"
 
-namespace Sounds
+namespace sounds
 {
 char* SoundComponent::COMPONENT_TYPE;
 
@@ -19,4 +19,4 @@ void SoundComponent::onSetStateEvent(EventCustom* pEvent)
 void SoundComponent::init()
 {
 }
-}  // namespace Sounds
+}  // namespace sounds

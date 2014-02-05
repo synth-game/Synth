@@ -1,6 +1,6 @@
 #include "LightSwitchSoundComponent.h"
 
-namespace Sounds
+namespace sounds
 {
 
 LightSwitchSoundComponent::LightSwitchSoundComponent()
@@ -19,4 +19,4 @@ LightSwitchSoundComponent* LightSwitchSoundComponent::create()
 void LightSwitchSoundComponent::onToggleLight(EventCustom* pEvent)
 {
 }
-}  // namespace Sounds
+}  // namespace sounds

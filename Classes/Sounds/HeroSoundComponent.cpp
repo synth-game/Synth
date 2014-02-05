@@ -1,6 +1,6 @@
 #include "HeroSoundComponent.h"
 
-namespace Sounds
+namespace sounds
 {
 
 HeroSoundComponent::HeroSoundComponent()
@@ -39,4 +39,4 @@ void HeroSoundComponent::onHeroDeath(EventCustom* pEvent)
 void HeroSoundComponent::onPeriodicEvent(EventCustom* pEvent)
 {
 }
-}  // namespace Sounds
+}  // namespace sounds

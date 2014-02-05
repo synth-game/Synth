@@ -1,11 +1,11 @@
 #ifndef SOUNDS_MUSIC_H
 #define SOUNDS_MUSIC_H
 
-namespace Sounds
+namespace sounds
 {
 /**
  * Classe interne privée à SoundManager
- * 
+ *
  */
 class Music
 {
@@ -16,5 +16,5 @@ public:
 
 };
 
-}  // namespace Sounds
+}  // namespace sounds
 #endif

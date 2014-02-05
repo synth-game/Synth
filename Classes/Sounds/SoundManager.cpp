@@ -1,6 +1,6 @@
 #include "SoundManager.h"
 
-namespace Sounds
+namespace sounds
 {
 
 SoundManager::SoundManager()
@@ -48,4 +48,4 @@ bool SoundManager::isFinished(int iTrackId)
 void SoundManager::refresh()
 {
 }
-}  // namespace Sounds
+}  // namespace sounds

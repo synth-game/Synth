@@ -6,7 +6,7 @@
 #include "Sounds/Sound.h"
 #include "Sounds/Music.h"
 
-namespace Sounds
+namespace sounds
 {
 class SoundManager
 {
@@ -56,5 +56,5 @@ public:
 
 };
 
-}  // namespace Sounds
+}  // namespace sounds
 #endif

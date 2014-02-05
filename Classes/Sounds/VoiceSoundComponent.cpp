@@ -1,6 +1,6 @@
 #include "VoiceSoundComponent.h"
 
-namespace Sounds
+namespace sounds
 {
 
 VoiceSoundComponent::VoiceSoundComponent()
@@ -27,4 +27,4 @@ void VoiceSoundComponent::onVoiceEvent(EventCustom* pEvent)
 void VoiceSoundComponent::update(float fDt)
 {
 }
-}  // namespace Sounds
+}  // namespace sounds

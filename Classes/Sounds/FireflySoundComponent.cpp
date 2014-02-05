@@ -1,6 +1,6 @@
 #include "FireflySoundComponent.h"
 
-namespace Sounds
+namespace sounds
 {
 
 FireflySoundComponent::FireflySoundComponent()
@@ -31,4 +31,4 @@ void FireflySoundComponent::onToggleLight(EventCustom* pEvent)
 void FireflySoundComponent::onNodeOwnerChange(EventCustom* pEvent)
 {
 }
-}  // namespace Sounds
+}  // namespace sounds

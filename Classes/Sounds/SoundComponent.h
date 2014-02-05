@@ -5,7 +5,7 @@
 #include "EventCustom.h"
 #include "Core/SynthComponent.h"
 
-namespace Sounds
+namespace sounds
 {
 class SoundComponent : public Component, public core::SynthComponent
 {
@@ -44,5 +44,5 @@ public:
 
 };
 
-}  // namespace Sounds
+}  // namespace sounds
 #endif

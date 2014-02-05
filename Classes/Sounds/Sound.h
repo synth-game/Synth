@@ -1,7 +1,7 @@
 #ifndef SOUNDS_SOUND_H
 #define SOUNDS_SOUND_H
 
-namespace Sounds
+namespace sounds
 {
 /**
  * Classe interne privée de SoundManager
@@ -17,5 +17,5 @@ public:
 
 };
 
-}  // namespace Sounds
+}  // namespace sounds
 #endif

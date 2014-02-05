@@ -5,7 +5,7 @@
 #include "Physics/EventListenerCustom.h"
 #include "Sounds/SoundComponent.h"
 
-namespace Sounds
+namespace sounds
 {
 class LightSwitchSoundComponent : public SoundComponent
 {
@@ -31,5 +31,5 @@ public:
 
 };
 
-}  // namespace Sounds
+}  // namespace sounds
 #endif
