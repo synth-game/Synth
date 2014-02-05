@@ -1,7 +1,9 @@
 #ifndef EVENTS_GAMEEVENTS_CHANGE_TARGET_EVENT_H
 #define EVENTS_GAMEEVENTS_CHANGE_TARGET_EVENT_H
 
-#include "Events/Point.h"
+#include "cocos2d.h"
+
+USING_NS_CC;
 
 namespace events
 {
@@ -10,7 +12,7 @@ namespace GameEvents
 class ChangeTargetEvent
 {
 private:
-	Events::Point newTarget;
+	Point newTarget;
 
 public:
 	static char* sEventName;
@@ -24,9 +26,9 @@ public:
 	 */
 	~ChangeTargetEvent();
 
-	Events::Point getNewTarget();
+	Point getNewTarget();
 
-	void setNewTarget(Events::Point newTarget);
+	void setNewTarget(Point newTarget);
 
 };
 
