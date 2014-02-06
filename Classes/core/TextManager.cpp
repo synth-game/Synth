@@ -16,7 +16,7 @@ TextManager* TextManager::getInstance()
 	return 0;
 }
 
-void TextManager::init(system::xml data)
+void TextManager::init(synthsystem::xml data)
 {
 }
 

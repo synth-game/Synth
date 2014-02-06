@@ -9,7 +9,7 @@ USING_NS_CC;
 
 class xml;
 
-namespace system
+namespace synthsystem
 {
 class KeyBinderManager
 {
@@ -51,5 +51,5 @@ public:
 
 };
 
-}  // namespace system
+}  // namespace synthsystem
 #endif

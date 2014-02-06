@@ -1,7 +1,7 @@
 #ifndef SYSTEM_BINDED_ACTION_H
 #define SYSTEM_BINDED_ACTION_H
 
-namespace system
+namespace synthsystem
 {
 typedef enum
 {
@@ -18,5 +18,5 @@ typedef enum
 
 } BindedAction;
 
-}  // namespace system
+}  // namespace synthsystem
 #endif

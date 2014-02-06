@@ -1,6 +1,6 @@
 #include "IOManager.h"
 
-namespace system
+namespace synthsystem
 {
 
 IOManager::IOManager()
@@ -24,4 +24,4 @@ xml IOManager::loadXML(char* filepath)
 void IOManager::saveXML(char* filepath, xml data)
 {
 }
-}  // namespace system
+}  // namespace synthsystem

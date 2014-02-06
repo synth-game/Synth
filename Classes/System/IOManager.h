@@ -3,7 +3,7 @@
 
 class xml;
 
-namespace system
+namespace synthsystem
 {
 class IOManager
 {
@@ -24,5 +24,5 @@ public:
 
 };
 
-}  // namespace system
+}  // namespace synthsystem
 #endif

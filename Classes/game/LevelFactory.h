@@ -23,13 +23,13 @@ public:
 
 	static LevelFactory* getInstance();
 
-	std::vector<SynthActor*> buildActors(system::xml data);
+	std::vector<SynthActor*> buildActors(synthsystem::xml data);
 
-	std::vector<std::vector<int>> buildLightsMap(system::xml data);
+	std::vector<std::vector<int>> buildLightsMap(synthsystem::xml data);
 
-	LevelSprite* buildLevelSprite(system::xml data);
+	LevelSprite* buildLevelSprite(synthsystem::xml data);
 
-	std::map<std::string,Rect> buildTriggers(system::xml data);
+	std::map<std::string,Rect> buildTriggers(synthsystem::xml data);
 
 };
 

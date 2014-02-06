@@ -16,11 +16,11 @@ SynthConfig* SynthConfig::getInstance()
 	return 0;
 }
 
-void SynthConfig::init(system::xml data)
+void SynthConfig::init(synthsystem::xml data)
 {
 }
 
-system::xml SynthConfig::getConfig()
+synthsystem::xml SynthConfig::getConfig()
 {
 	return 0;
 }
