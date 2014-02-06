@@ -46,7 +46,7 @@ public:
 
 	static NodeOwnerComponent* create(Node* pOwnedNode);
 
-	Node getOwnedNode();
+	Node* getOwnedNode();
 
 	void setOwnedNode(Node* pOwnedNode);
 

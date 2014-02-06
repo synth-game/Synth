@@ -4,7 +4,8 @@ namespace events
 {
 
 SynthEvent::SynthEvent()
-{
+	: EventCustom("") 
+	, _pSource(nullptr) {
 }
 
 SynthEvent::~SynthEvent()

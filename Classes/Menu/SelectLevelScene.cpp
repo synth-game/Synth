@@ -16,8 +16,9 @@ SelectLevelScene* SelectLevelScene::create()
 	return 0;
 }
 
-void SelectLevelScene::init()
+bool SelectLevelScene::init()
 {
+	return false;
 }
 
 void SelectLevelScene::onKeyPress(Event* pEvent)

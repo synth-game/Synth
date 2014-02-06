@@ -13,12 +13,12 @@ SetLanguageEvent::~SetLanguageEvent()
 {
 }
 
-Language SetLanguageEvent::getLanguage()
+core::Language SetLanguageEvent::getLanguage()
 {
-	return 0;
+	return core::FRENCH;
 }
 
-void SetLanguageEvent::setLanguage(Language language)
+void SetLanguageEvent::setLanguage(core::Language language)
 {
 }
 }  // namespace MenuEvents

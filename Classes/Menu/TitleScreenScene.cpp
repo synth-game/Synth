@@ -16,8 +16,9 @@ TitleScreenScene* TitleScreenScene::create(int* pBackground, bool bIsThereGame)
 	return 0;
 }
 
-void TitleScreenScene::init()
+bool TitleScreenScene::init()
 {
+	return false;
 }
 
 void TitleScreenScene::onKeyPress(Event* pEvent)

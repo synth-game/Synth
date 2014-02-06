@@ -1,24 +1,16 @@
-/* *****************************************************
- *		SpriteComponent.h - @ Damaris Ankou - 30/01/14
- ***************************************************** */
-
 #ifndef GRAPHICS_SPRITE_COMPONENT_H
 #define GRAPHICS_SPRITE_COMPONENT_H
 
-#include <std::string>
+#include <string>
 #include "cocos2d.h"
-#include "Component.h"
-
-#include "Graphics/Sprite.h"
-
 #include "Core/SynthComponent.h"
 
 namespace graphics
 {
-class SpriteComponent : public Component, public core::SynthComponent
+class SpriteComponent : public core::SynthComponent
 {
 protected:
-	std::std::string _sSpriteName;
+	std::string _sSpriteName;
 
 	Sprite* _pSprite;
 
@@ -50,7 +42,7 @@ public:
 	/**
 	 * Ask the GraphicManager the sprite with giving name to set it to the actor
 	 */
-	static SpriteComponent* create(std::std::string sSpriteName, Layer parent);
+	static SpriteComponent* create(std::string sSpriteName, Layer* pParent);
 
 	/**
 	 *

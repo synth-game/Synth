@@ -4,13 +4,12 @@
 #include <vector>
 #include "cocos2d.h"
 #include "core/SynthActor.h"
-#include "Physics/Collision.h"
 
 USING_NS_CC;
 
 namespace physics
 {
-class LightCollision : public Collision
+class LightCollision
 {
 private:
 	std::vector<core::SynthActor*> _lightCollection;

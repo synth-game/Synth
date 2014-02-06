@@ -3,9 +3,9 @@
 namespace physics
 {
 
-FollowMovementComponent* StickMovementComponent::create()
+StickMovementComponent* StickMovementComponent::create()
 {
-	return 0;
+	return nullptr;
 }
 
 void StickMovementComponent::setGravity(Point gravity)

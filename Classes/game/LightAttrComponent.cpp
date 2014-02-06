@@ -24,7 +24,7 @@ LightAttrComponent* LightAttrComponent::create(Color4B color)
 
 Color4B LightAttrComponent::getColor()
 {
-	return 0;
+	return Color4B::BLACK;
 }
 
 void LightAttrComponent::setColor(Color4B color)

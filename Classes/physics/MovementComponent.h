@@ -1,22 +1,15 @@
-/* *****************************************************
- *		MovementComponent.h - @ Jeremie Defaye - 02/02/14
- ***************************************************** */
-
 #ifndef PHYSICS_MOVEMENT_COMPONENT_H
 #define PHYSICS_MOVEMENT_COMPONENT_H
 
 #include "cocos2d.h"
-#include "Component.h"
-#include "Point.h"
-
-#include "Physics/SynthComponent.h"
+#include "core/SynthComponent.h"
 
 
 USING_NS_CC;
 
 namespace physics
 {
-class MovementComponent : public Component, public SynthComponent
+class MovementComponent : public core::SynthComponent
 {
 protected:
 	Point _speed;
@@ -36,7 +29,7 @@ protected:
 	EventListenerCustom* _pInterruptMoveEventListener;
 
 public:
-	static char* COMPONENT_TYPE;
+	static const char* COMPONENT_TYPE;
 
 
 protected:

@@ -5,10 +5,11 @@
 #include <map>
 #include "cocos2d.h"
 #include "core/SynthActor.h"
+#include "core/SynthConfig.h"
 
 USING_NS_CC;
 
-class xml;
+
 
 namespace graphics
 {
@@ -32,7 +33,7 @@ public:
 	 * ! Don't forget to load all animations after building data vector
 	 *
 	 */
-	void init(xml data);
+	void init(core::xml data);
 
 	Sprite* createSprite(std::string sSpriteName);
 

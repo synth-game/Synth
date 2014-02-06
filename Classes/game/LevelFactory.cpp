@@ -16,23 +16,26 @@ LevelFactory* LevelFactory::getInstance()
 	return 0;
 }
 
-std::vector<SynthActor*> LevelFactory::buildActors(synthsystem::xml data)
+std::vector<core::SynthActor*> LevelFactory::buildActors(core::xml data)
 {
-	return 0;
+	std::vector<core::SynthActor*> voidVec;
+	return voidVec;
 }
 
-std::vector<std::vector<int>> LevelFactory::buildLightsMap(synthsystem::xml data)
+std::vector<std::vector<int>> LevelFactory::buildLightsMap(core::xml data)
 {
-	return 0;
+	std::vector<std::vector<int>> voidVec;
+	return voidVec;
 }
 
-LevelSprite* LevelFactory::buildLevelSprite(synthsystem::xml data)
+LevelSprite* LevelFactory::buildLevelSprite(core::xml data)
 {
-	return 0;
+	return nullptr;
 }
 
-std::map<std::string,Rect> LevelFactory::buildTriggers(synthsystem::xml data)
+std::map<std::string,Rect> LevelFactory::buildTriggers(core::xml data)
 {
-	return 0;
+	std::map<std::string,Rect> voidMap;
+	return voidMap;
 }
 }  // namespace game

@@ -5,20 +5,19 @@ namespace events
 namespace MenuEvents
 {
 
-SetBoundedParamevent::SetBoundedParamEvent()
+SetBoundedParamEvent::SetBoundedParamEvent() {
+}
+
+SetBoundedParamEvent::~SetBoundedParamEvent()
 {
 }
 
-SetBoundedParamevent::~SetBoundedParamEvent()
+float SetBoundedParamEvent::getParam()
 {
+	return 0.f;
 }
 
-float SetBoundedParamevent::getParam()
-{
-	return 0;
-}
-
-void SetBoundedParamevent::setParam(float param)
+void SetBoundedParamEvent::setParam(float param)
 {
 }
 }  // namespace MenuEvents

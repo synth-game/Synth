@@ -4,10 +4,11 @@
 #include <map>
 #include "cocos2d.h"
 #include "System/BindedAction.h"
+#include "core/SynthConfig.h"
 
 USING_NS_CC;
 
-class xml;
+
 
 namespace synthsystem
 {
@@ -35,7 +36,7 @@ public:
 	/**
 	 *
 	 */
-	void init(xml maps);
+	void init(core::xml maps);
 
 	/**
 	 * Change la touche associé à l'action spécifiée. Tester si touche clavier ou manette.
@@ -47,7 +48,7 @@ public:
 	 */
 	BindedAction getBindedAction(int keyCode);
 
-	xml getKeyMapConfig();
+	core::xml getKeyMapConfig();
 
 };
 

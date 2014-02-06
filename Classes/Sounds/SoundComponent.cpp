@@ -16,7 +16,8 @@ void SoundComponent::onSetStateEvent(EventCustom* pEvent)
 {
 }
 
-void SoundComponent::init()
+bool SoundComponent::init()
 {
+	return false;
 }
 }  // namespace sounds

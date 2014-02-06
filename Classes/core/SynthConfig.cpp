@@ -16,13 +16,14 @@ SynthConfig* SynthConfig::getInstance()
 	return 0;
 }
 
-void SynthConfig::init(synthsystem::xml data)
+void SynthConfig::init(core::xml data)
 {
 }
 
-synthsystem::xml SynthConfig::getConfig()
+xml SynthConfig::getConfig()
 {
-	return 0;
+	xml fakeXml;
+	return fakeXml;
 }
 
 float SynthConfig::getMusicVolume()
@@ -37,12 +38,12 @@ float SynthConfig::getSoundVolume()
 
 Language SynthConfig::getLanguage()
 {
-	return 0;
+	return Language::FRENCH;
 }
 
 Language SynthConfig::getSubtitleLanguage()
 {
-	return 0;
+	return Language::FRENCH;
 }
 
 float SynthConfig::getLuminosity()

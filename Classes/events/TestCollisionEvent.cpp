@@ -33,11 +33,11 @@ void TestCollisionEvent::setCurrentPosition(Point position)
 {
 }
 
-void TestCollisionevent::setTargetPosition(Point position)
+void TestCollisionEvent::setTargetPosition(Point position)
 {
 }
 
-void TestCollisionevent::setSize(Size size)
+void TestCollisionEvent::setSize(Size size)
 {
 }
 }  // namespace GameEvents

@@ -3,10 +3,11 @@
 
 #include <vector>
 #include <map>
-#include "Game/LevelSprite.h"
-#include "Game/Rect.h"
-#include "Core/SynthActor.h"
-#include "System/xml.h"
+#include "game/LevelSprite.h"
+#include "core/SynthActor.h"
+#include "core/SynthConfig.h"
+
+
 
 namespace game
 {
@@ -23,13 +24,13 @@ public:
 
 	static LevelFactory* getInstance();
 
-	std::vector<SynthActor*> buildActors(synthsystem::xml data);
+	std::vector<core::SynthActor*> buildActors(core::xml data);
 
-	std::vector<std::vector<int>> buildLightsMap(synthsystem::xml data);
+	std::vector<std::vector<int>> buildLightsMap(core::xml data);
 
-	LevelSprite* buildLevelSprite(synthsystem::xml data);
+	LevelSprite* buildLevelSprite(core::xml data);
 
-	std::map<std::string,Rect> buildTriggers(synthsystem::xml data);
+	std::map<std::string,Rect> buildTriggers(core::xml data);
 
 };
 

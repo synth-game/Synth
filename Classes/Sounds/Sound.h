@@ -1,6 +1,8 @@
 #ifndef SOUNDS_SOUND_H
 #define SOUNDS_SOUND_H
 
+#include <string>
+
 namespace sounds
 {
 /**

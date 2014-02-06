@@ -3,6 +3,8 @@
 namespace graphics
 {
 
+
+
 GraphicManager::GraphicManager()
 {
 }
@@ -16,7 +18,7 @@ GraphicManager* GraphicManager::getInstance()
 	return 0;
 }
 
-void GraphicManager::init(synthsystem::xml data)
+void GraphicManager::init(core::xml data)
 {
 }
 

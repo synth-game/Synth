@@ -22,9 +22,9 @@ NodeOwnerComponent* NodeOwnerComponent::create(Node* pOwnedNode)
 	return 0;
 }
 
-Node NodeOwnerComponent::getOwnedNode()
+Node* NodeOwnerComponent::getOwnedNode()
 {
-	return 0;
+	return nullptr;
 }
 
 void NodeOwnerComponent::setOwnedNode(Node* pOwnedNode)
@@ -35,11 +35,11 @@ void NodeOwnerComponent::initListeners()
 {
 }
 
-void NodeOwnerComponent::onToggleLightEvent : EventCustom*)()
+void NodeOwnerComponent::onToggleLightEvent(EventCustom* pEvent)
 {
 }
 
-void NodeOwnerComponent::onChangeNodeOwnerEvent : EventCustom*)()
+void NodeOwnerComponent::onChangeNodeOwnerEvent(EventCustom* pEvent)
 {
 }
 }  // namespace game

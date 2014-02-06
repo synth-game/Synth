@@ -5,21 +5,21 @@ namespace physics
 
 Point PhysicCollision::boundingTest(Point nextPosition, EDirection dir)
 {
-	return 0;
+	return Point::ZERO;
 }
 
 bool PhysicCollision::isOnGround(Point currentPosition)
 {
-	return 0;
+	return false;
 }
 
 Point PhysicCollision::groundTest(Point currentPosition, Point nextPosition)
 {
-	return 0;
+	return Point::ZERO;
 }
 
 Point PhysicCollision::getNextPixelInDirection(Point currentPixel, unsigned char wantedValue, EDirection dir)
 {
-	return 0;
+	return Point::ZERO;
 }
 }  // namespace physics

@@ -16,7 +16,7 @@ EditMoveEvent::~EditMoveEvent()
 
 Point EditMoveEvent::getDirection()
 {
-	return 0;
+	return Point::ZERO;
 }
 
 bool EditMoveEvent::getChangeX()

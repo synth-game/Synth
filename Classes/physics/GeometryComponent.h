@@ -1,24 +1,14 @@
-/* *****************************************************
- *		GeometryComponent.h - @ Flora Jullien - 30/01/14
- ***************************************************** */
-
 #ifndef PHYSICS_GEOMETRY_COMPONENT_H
 #define PHYSICS_GEOMETRY_COMPONENT_H
 
 #include "cocos2d.h"
-#include "Component.h"
-#include "Point.h"
-#include "Size.h"
-
-#include "Physics/SynthComponent.h"
-
 #include "Core/SynthComponent.h"
 
 USING_NS_CC;
 
 namespace physics
 {
-class GeometryComponent : public Component, public SynthComponent, public core::SynthComponent
+class GeometryComponent : public core::SynthComponent
 {
 private:
 	EventListenerCustom* _pChangePositionListener;
@@ -35,7 +25,7 @@ protected:
 
 
 public:
-	static char* COMPONENT_TYPE;
+	static const char* COMPONENT_TYPE;
 
 
 protected:

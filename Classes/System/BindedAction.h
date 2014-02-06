@@ -14,7 +14,8 @@ typedef enum
 	KEY_VALID,
 	KEY_VIEW,
 	KEY_ACTION1,
-	KEY_ACTION2
+	KEY_ACTION2,
+	NO_ACTION
 
 } BindedAction;
 

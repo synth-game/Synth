@@ -2,7 +2,7 @@
 #define EVENTS_MENUEVENTS_SET_LANGUAGE_EVENT_H
 
 #include "Events/SynthEvent.h"
-#include "Events/Language.h"
+#include "core/Language.h"
 
 namespace events
 {
@@ -11,7 +11,7 @@ namespace MenuEvents
 class SetLanguageEvent : public events::SynthEvent
 {
 private:
-	Language eLanguage;
+	core::Language eLanguage;
 
 
 public:
@@ -22,9 +22,9 @@ public:
 	 */
 	~SetLanguageEvent();
 
-	Language getLanguage();
+	core::Language getLanguage();
 
-	void setLanguage(Language language);
+	void setLanguage(core::Language language);
 
 };
 

@@ -11,7 +11,7 @@ namespace MenuEvents
 class MapKeyChangeEvent : public events::SynthEvent
 {
 private:
-	bindedAction _eBindedAction;
+	synthsystem::BindedAction _eBindedAction;
 
 	int _eKey; //TO CHANGE
 
@@ -30,11 +30,11 @@ public:
 	/**
 	 *
 	 */
-	int getBindedAction();
+	synthsystem::BindedAction getBindedAction();
 
 	int getKey();
 
-	void setBindedAction(enum bindedAction);
+	void setBindedAction(synthsystem::BindedAction bindedAction);
 
 	void setKey(int key);
 

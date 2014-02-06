@@ -6,9 +6,10 @@
 #define CORE_SYNTH_MANAGER_H
 
 #include "cocos2d.h"
-#include "Game/GameScene.h"
-#include "Menu/TitleScreenScene.h"
-#include "Menu/SelectLevelScene.h"
+#include "game/GameScene.h"
+#include "menu/TitleScreenScene.h"
+#include "menu/SelectLevelScene.h"
+#include "menu/CreditsScene.h"
 
 namespace core
 {
@@ -17,7 +18,7 @@ class SynthManager
 private:
 	menu::TitleScreenScene* _pTitleScreenScene;
 
-	CreditsScene_ _pCreditsScene;
+	menu::CreditsScene* _pCreditsScene;
 
 	game::GameScene* _pGameScene;
 

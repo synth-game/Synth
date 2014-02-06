@@ -28,6 +28,9 @@ public:
 
 	void setOwnerSize(Size size);
 
+	void setBitmask(Image* pBitmask);
+
+	void setAbsoluteOriginPosition(Point pos);
 };
 
 }  // namespace physics

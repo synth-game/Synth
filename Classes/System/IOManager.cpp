@@ -3,6 +3,8 @@
 namespace synthsystem
 {
 
+
+
 IOManager::IOManager()
 {
 }
@@ -16,12 +18,13 @@ IOManager* IOManager::getInstance()
 	return 0;
 }
 
-xml IOManager::loadXML(char* filepath)
+core::xml IOManager::loadXML(char* filepath)
 {
-	return 0;
+	core::xml fakeXml;
+	return fakeXml;
 }
 
-void IOManager::saveXML(char* filepath, xml data)
+void IOManager::saveXML(char* filepath, core::xml data)
 {
 }
 }  // namespace synthsystem

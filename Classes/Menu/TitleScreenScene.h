@@ -2,7 +2,7 @@
 #define MENU_TITLE_SCREEN_SCENE_H
 
 #include "cocos2d.h"
-
+#include "GUI/CCControlExtension/CCControlButton.h"
 
 USING_NS_CC;
 
@@ -17,17 +17,17 @@ private:
 
 	Layer _pSettingsLayer;
 
-	ControlButton* _pBtnNewGame;
+	extension::ControlButton* _pBtnNewGame;
 
-	ControlButton* _pBtnPlay;
+	extension::ControlButton* _pBtnPlay;
 
-	ControlButton* _pBtnSelectLevel;
+	extension::ControlButton* _pBtnSelectLevel;
 
-	ControlButton* _pBtnSettings;
+	extension::ControlButton* _pBtnSettings;
 
-	ControlButton* _pBtnCredits;
+	extension::ControlButton* _pBtnCredits;
 
-	ControlButton* _pBtnQuit;
+	extension::ControlButton* _pBtnQuit;
 
 	int _iSelectedButtonID;
 

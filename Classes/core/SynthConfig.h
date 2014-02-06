@@ -3,10 +3,12 @@
 
 #include "Core/Language.h"
 
-class xml;
-
 namespace core
 {
+class xml {
+
+};
+
 class SynthConfig
 {
 private:
@@ -37,7 +39,7 @@ public:
 
 	static SynthConfig* getInstance();
 
-	void init(xml data);
+	void init(core::xml data);
 
 	xml getConfig();
 

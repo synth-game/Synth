@@ -18,6 +18,7 @@ CreditsScene* CreditsScene::create(int* pBackground)
 
 bool CreditsScene::init()
 {
+	return false;
 }
 
 void CreditsScene::onKeyPress(Event* pEvent)

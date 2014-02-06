@@ -17,7 +17,7 @@ private:
 
 	extension::ControlButton* _pBtnBack;
 
-	EventListenerKeyboard _keyEventListener;
+	EventListenerKeyboard* _pKeyEventListener;
 
 
 protected:

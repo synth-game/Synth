@@ -10,7 +10,7 @@ namespace events
 class SynthEvent : public EventCustom
 {
 protected:
-	Node* _source;
+	Node* _pSource;
 
 
 public:

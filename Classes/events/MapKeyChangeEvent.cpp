@@ -6,29 +6,29 @@ namespace MenuEvents
 {
 char* MapKeyChangeEvent::sEventName;
 
-MapKeyChangeEvent::MayKeyChangeEvent()
+MapKeyChangeEvent::MapKeyChangeEvent()
 {
 }
 
-MapKeyChangeEvent::~MayKeyChangeEvent()
+MapKeyChangeEvent::~MapKeyChangeEvent()
 {
 }
 
-enum MapKeyChangeEvent::getBindedAction()
+synthsystem::BindedAction MapKeyChangeEvent::getBindedAction()
+{
+	return synthsystem::NO_ACTION;
+}
+
+int MapKeyChangeEvent::getKey()
 {
 	return 0;
 }
 
-enumGLFW MapKeyChangeEvent::getKey()
-{
-	return 0;
-}
-
-void MapKeyChangeEvent::setBindedAction(enum bindedAction)
+void MapKeyChangeEvent::setBindedAction(synthsystem::BindedAction bindedAction)
 {
 }
 
-void MapKeyChangeEvent::setKey(enumGLFW key)
+void MapKeyChangeEvent::setKey(int key)
 {
 }
 }  // namespace MenuEvents

@@ -19,38 +19,31 @@ GeometryComponent::~GeometryComponent()
 }
 
 bool GeometryComponent::init() {
-    return SynthComponent::init(GeometryComponent::COMPONENT_TYPE);
+	return false;
 }
 
-GeometryComponent* GeometryComponent::create(Point position) {
-    GeometryComponent* pRet = new GeometryComponent();
-    if (pRet != nullptr && pRet->init()) {
-        pRet->autorelease();
-        pRet->_position = position;
-    } else {
-        CC_SAFE_DELETE(pRet);
-    }
-    return pRet;
+GeometryComponent* GeometryComponent::create(Point position, Size size, float fRotationAngle, Point anchorPoint) {
+	return nullptr;
 }
 
 Point GeometryComponent::getPosition()
 {
-	return 0;
+	return Point::ZERO;
 }
 
 Size GeometryComponent::getSize()
 {
-	return 0;
+	return Size::ZERO;
 }
 
 float GeometryComponent::getRotationAngle()
 {
-	return 0;
+	return 0.f;
 }
 
 Point GeometryComponent::getAnchorPoint()
 {
-	return 0;
+	return Point::ZERO;
 }
 
 void GeometryComponent::setPosition(Point position)

@@ -25,9 +25,6 @@ public:
 	~ChangeNodeOwnerEvent();
 
 	Node* _getNewOwner();
-
-	ChangeNodeOwnerEvent();
-
 };
 
 }  // namespace GameEvents

@@ -6,8 +6,7 @@
 #include <string>
 #include "core/Language.h"
 #include "core/SynthActor.h"
-
-class xml;
+#include "core/SynthConfig.h"
 
 namespace core
 {

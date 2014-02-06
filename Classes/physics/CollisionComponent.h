@@ -22,7 +22,7 @@ private:
 
 	LightCollision* _pLightCollision;
 
-	EventListenerCustom _pTestCollisionEventListener;
+	EventListenerCustom* _pTestCollisionEventListener;
 
 public:
 	char* COMPONENT_TYPE;

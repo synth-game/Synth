@@ -16,8 +16,9 @@ InGameMenuLayer* SettingsLayer::create(int* pBackground)
 	return 0;
 }
 
-void SettingsLayer::init()
+bool SettingsLayer::init()
 {
+	return false;
 }
 
 void SettingsLayer::onKeyPressed(Event* pEvent)

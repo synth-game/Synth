@@ -1,20 +1,10 @@
-/* *****************************************************
- *		GameManager.h - @ Jeremie Defaye - 29/01/14
- ***************************************************** */
-
 #ifndef GAME_GAME_MANAGER_H
 #define GAME_GAME_MANAGER_H
 
 #include <vector>
 #include <map>
 #include "cocos2d.h"
-#include "Color4B.h"
-#include "Game/Layer.h"
-#include "Game/ParallaxNode.h"
 #include "Game/LevelSprite.h"
-#include "Game/Rect.h"
-#include "Game/Event.h"
-
 #include "Core/SynthActor.h"
 
 USING_NS_CC;
@@ -30,7 +20,7 @@ private:
 	 * collection de SynthActor (hero, firefly, light, lightSwitch, pig?)
 	 * Pour les identifier, regarder leur tag
 	 */
-	std::vector<SynthActor*> _levelActors;
+	std::vector<core::SynthActor*> _levelActors;
 
 	Layer* _pBackgroundLayer;
 
@@ -73,12 +63,12 @@ protected:
 	 */
 	GameManager();
 
-	GameManager();
-
-	std::vector<SynthActor*> getActorByTag(std::string sTag);
+	std::vector<core::SynthActor*> getActorByTag(std::string sTag);
 
 public:
 	static GameManager* create();
+
+	~GameManager();
 
 	virtual bool init(); // redéfinition de la méthode de Cocos2dx
 

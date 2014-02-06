@@ -16,8 +16,9 @@ GameScene* GameScene::create()
 	return 0;
 }
 
-void GameScene::init()
+bool GameScene::init()
 {
+	return false;
 }
 
 void GameScene::launchLevel(int iLevelID)

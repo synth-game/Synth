@@ -3,6 +3,8 @@
 namespace sounds
 {
 
+
+
 SoundManager::SoundManager()
 {
 }
@@ -16,7 +18,7 @@ SoundManager* SoundManager::getInstance()
 	return 0;
 }
 
-void SoundManager::init(synthsystem::xml data)
+void SoundManager::init(core::xml data)
 {
 }
 

@@ -3,6 +3,8 @@
 namespace synthsystem
 {
 
+
+
 KeyBinderManager::KeyBinderManager()
 {
 }
@@ -16,7 +18,7 @@ KeyBinderManager* KeyBinderManager::getInstance()
 	return 0;
 }
 
-void KeyBinderManager::init(xml maps)
+void KeyBinderManager::init(core::xml maps)
 {
 }
 
@@ -24,13 +26,14 @@ void KeyBinderManager::onMapKey(EventCustom* event)
 {
 }
 
-BindedAction KeyBinderManager::getBindedAction(enumGLFW keyCode)
+BindedAction KeyBinderManager::getBindedAction(int keyCode)
 {
-	return 0;
+	return BindedAction::NO_ACTION;
 }
 
-xml KeyBinderManager::getKeyMapConfig()
+core::xml KeyBinderManager::getKeyMapConfig()
 {
-	return 0;
+	core::xml fakeXml;
+	return fakeXml;
 }
 }  // namespace synthsystem

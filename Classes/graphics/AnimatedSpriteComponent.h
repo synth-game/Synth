@@ -1,8 +1,10 @@
 #ifndef GRAPHICS_ANIMATED_SPRITE_COMPONENT_H
 #define GRAPHICS_ANIMATED_SPRITE_COMPONENT_H
 
+#include "cocos2d.h"
 #include "Graphics/SpriteComponent.h"
-#include "Graphics/SpriteBatchNode.h"
+
+USING_NS_CC;
 
 namespace graphics
 {

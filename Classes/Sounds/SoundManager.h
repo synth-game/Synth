@@ -4,8 +4,7 @@
 #include <map>
 #include "Sounds/Sound.h"
 #include "Sounds/Music.h"
-
-class xml;
+#include "core/SynthConfig.h"
 
 namespace sounds
 {
@@ -33,7 +32,7 @@ public:
 
 	static SoundManager* getInstance();
 
-	void init(xml data);
+	void init(core::xml data);
 
 	bool playSound(std::string soundName, int iTrackId);
 

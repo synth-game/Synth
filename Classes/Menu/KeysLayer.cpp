@@ -16,8 +16,9 @@ InGameMenuLayer* KeysLayer::create(int* pBackground)
 	return 0;
 }
 
-void KeysLayer::init()
+bool KeysLayer::init()
 {
+	return false;
 }
 
 void KeysLayer::onKeyPressed(Event* pEvent)

@@ -1,7 +1,5 @@
 #include "LightCollision.h"
 
-#include "core/SynthActor.h"
-
 namespace physics
 {
 

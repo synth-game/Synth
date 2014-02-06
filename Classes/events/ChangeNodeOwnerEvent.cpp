@@ -19,8 +19,5 @@ Node* ChangeNodeOwnerEvent::_getNewOwner()
 	return nullptr;
 }
 
-ChangeNodeOwnerEvent::ChangeNodeOwnerEvent()
-{
-}
 }  // namespace GameEvents
 }  // namespace events
