@@ -3,12 +3,14 @@
 
 USING_NS_CC;
 
-AppDelegate::AppDelegate() {
+AppDelegate::AppDelegate() 
+	: _pMainManager(nullptr) {
 
 }
 
 AppDelegate::~AppDelegate() 
 {
+	delete _pMainManager;
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
@@ -25,7 +27,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
     // init and run SynthManager
-	menu::GameScene* pGs = menu::GameScene::create();
+	_pMainManager = new core::SynthManager();
+	_pMainManager->init();
 
     return true;
 }
