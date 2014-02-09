@@ -2,7 +2,7 @@
 #define MENU_SELECT_LEVEL_SCENE_H
 
 #include "cocos2d.h"
-#include "Menu/GameManager.h"
+#include "game/GameManager.h"
 
 USING_NS_CC;
 
@@ -11,7 +11,7 @@ namespace menu
 class SelectLevelScene : public Scene
 {
 private:
-	GameManager* _pGameLayer;
+	game::GameManager* _pGameLayer;
 
 	EventListenerKeyboard* _pKeyEventListener;
 

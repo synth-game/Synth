@@ -3,13 +3,14 @@
 
 #include <vector>
 #include "cocos2d.h"
-#include "Game/LightTexture.h"
 #include "Core/SynthActor.h"
 
 USING_NS_CC;
 
 namespace game
 {
+typedef int LightTexture; //FAKE
+
 class LevelSprite : public Sprite
 {
 private:

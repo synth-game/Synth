@@ -5,6 +5,7 @@
 #include "GUI/CCControlExtension/CCControlButton.h"
 
 USING_NS_CC;
+USING_NS_CC_EXT;
 
 namespace menu
 {
@@ -17,17 +18,17 @@ private:
 
 	Layer* _pSettingsLayer;
 
-	extension::ControlButton* _pBtnResumeGame;
+	ControlButton* _pBtnResumeGame;
 
-	extension::ControlButton* _pBtnMainMenu;
+	ControlButton* _pBtnMainMenu;
 
-	extension::ControlButton* _pBtnRetry;
+	ControlButton* _pBtnRetry;
 
-	extension::ControlButton* _pBtnSelectLevel;
+	ControlButton* _pBtnSelectLevel;
 
-	extension::ControlButton* _pBtnSettings;
+	ControlButton* _pBtnSettings;
 
-	extension::ControlButton* _pBtnQuit;
+	ControlButton* _pBtnQuit;
 
 	int _iSelectedButtonID;
 

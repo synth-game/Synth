@@ -60,9 +60,6 @@
     <ClCompile Include="..\Classes\game\GameManager.cpp">
       <Filter>Classes\game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\game\GameScene.cpp">
-      <Filter>Classes\game</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\game\LevelFactory.cpp">
       <Filter>Classes\game</Filter>
     </ClCompile>
@@ -72,16 +69,10 @@
     <ClCompile Include="..\Classes\game\LightAttrComponent.cpp">
       <Filter>Classes\game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\game\LightTexture.cpp">
-      <Filter>Classes\game</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\game\NodeOwnerComponent.cpp">
       <Filter>Classes\game</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\game\PeriodicLauncherComponent.cpp">
-      <Filter>Classes\game</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\game\SynthComponent.cpp">
       <Filter>Classes\game</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\graphics\AnimatedSpriteComponent.cpp">
@@ -96,28 +87,10 @@
     <ClCompile Include="..\Classes\graphics\HeroAnimatedSpriteComponent.cpp">
       <Filter>Classes\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\graphics\LabelTTF.cpp">
-      <Filter>Classes\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\graphics\SpriteComponent.cpp">
-      <Filter>Classes\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\graphics\TextSpriteComponent.cpp">
       <Filter>Classes\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\menu\ControlButton.cpp">
-      <Filter>Classes\menu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\menu\ControlSaturationBrightnessPicker.cpp">
-      <Filter>Classes\menu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\menu\ControlSlider.cpp">
-      <Filter>Classes\menu</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\menu\CreditsScene.cpp">
-      <Filter>Classes\menu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\menu\GameManager.cpp">
       <Filter>Classes\menu</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\menu\GameScene.cpp">
@@ -169,9 +142,6 @@
       <Filter>Classes\events</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\events\JumpEvent.cpp">
-      <Filter>Classes\events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\events\Language.cpp">
       <Filter>Classes\events</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\events\LoadSelectedLevelEvent.cpp">
@@ -255,15 +225,6 @@
     <ClCompile Include="..\Classes\Sounds\LightSwitchSoundComponent.cpp">
       <Filter>Classes\sounds</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Sounds\Music.cpp">
-      <Filter>Classes\sounds</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Sounds\MusicManager.cpp">
-      <Filter>Classes\sounds</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Sounds\Sound.cpp">
-      <Filter>Classes\sounds</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Sounds\SoundComponent.cpp">
       <Filter>Classes\sounds</Filter>
     </ClCompile>
@@ -282,13 +243,7 @@
     <ClCompile Include="..\Classes\physics\BounceCollisionComponent.cpp">
       <Filter>Classes\physics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\physics\Collision.cpp">
-      <Filter>Classes\physics</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\physics\CollisionComponent.cpp">
-      <Filter>Classes\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\physics\EDirection.cpp">
       <Filter>Classes\physics</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\physics\FlyCollisionComponent.cpp">
@@ -321,6 +276,9 @@
     <ClCompile Include="..\Classes\events\SetSoundVolumeEvent.cpp">
       <Filter>Classes\events</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\graphics\SpriteComponent.cpp">
+      <Filter>Classes\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -350,9 +308,6 @@
     <ClInclude Include="..\Classes\game\GameManager.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\game\GameScene.h">
-      <Filter>Classes\game</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\game\LevelFactory.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
@@ -362,16 +317,10 @@
     <ClInclude Include="..\Classes\game\LightAttrComponent.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\game\LightTexture.h">
-      <Filter>Classes\game</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\game\NodeOwnerComponent.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\game\PeriodicLauncherComponent.h">
-      <Filter>Classes\game</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\game\SynthComponent.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\graphics\AnimatedSpriteComponent.h">
@@ -386,28 +335,10 @@
     <ClInclude Include="..\Classes\graphics\HeroAnimatedSpriteComponent.h">
       <Filter>Classes\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\graphics\LabelTTF.h">
-      <Filter>Classes\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\graphics\SpriteComponent.h">
-      <Filter>Classes\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\graphics\TextSpriteComponent.h">
       <Filter>Classes\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\menu\ControlButton.h">
-      <Filter>Classes\menu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\menu\ControlSaturationBrightnessPicker.h">
-      <Filter>Classes\menu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\menu\ControlSlider.h">
-      <Filter>Classes\menu</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\menu\CreditsScene.h">
-      <Filter>Classes\menu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\menu\GameManager.h">
       <Filter>Classes\menu</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\menu\GameScene.h">
@@ -459,12 +390,6 @@
       <Filter>Classes\events</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\events\JumpEvent.h">
-      <Filter>Classes\events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\events\Language.h">
-      <Filter>Classes\events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\events\LightColor.h">
       <Filter>Classes\events</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\events\LoadSelectedLevelEvent.h">
@@ -548,15 +473,6 @@
     <ClInclude Include="..\Classes\Sounds\LightSwitchSoundComponent.h">
       <Filter>Classes\sounds</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Sounds\Music.h">
-      <Filter>Classes\sounds</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Sounds\MusicManager.h">
-      <Filter>Classes\sounds</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Sounds\Sound.h">
-      <Filter>Classes\sounds</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Sounds\SoundComponent.h">
       <Filter>Classes\sounds</Filter>
     </ClInclude>
@@ -578,13 +494,7 @@
     <ClInclude Include="..\Classes\physics\BounceCollisionComponent.h">
       <Filter>Classes\physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\physics\Collision.h">
-      <Filter>Classes\physics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\physics\CollisionComponent.h">
-      <Filter>Classes\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\physics\EDirection.h">
       <Filter>Classes\physics</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\physics\FlyCollisionComponent.h">
@@ -616,6 +526,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\events\SetSoundVolumeEvent.h">
       <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\LightColor.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\SpriteComponent.h">
+      <Filter>Classes\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

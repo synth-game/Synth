@@ -2,8 +2,6 @@
 #define SOUNDS_SOUND_MANAGER_H
 
 #include <map>
-#include "Sounds/Sound.h"
-#include "Sounds/Music.h"
 #include "core/SynthConfig.h"
 
 namespace sounds
@@ -11,6 +9,19 @@ namespace sounds
 class SoundManager
 {
 private:
+	class Music {
+	public:
+		int iTrackId;
+		std::string filePath;
+	};
+
+	class Sound {
+	public:
+		std::string filePath;
+		bool bLoop;
+		std::string chainedSoundName;
+	};
+
 	std::map<std::string,Sound> _sounds;
 
 	std::map<std::string,Music> _musics;

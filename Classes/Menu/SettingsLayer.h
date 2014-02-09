@@ -1,12 +1,13 @@
 #ifndef MENU_SETTINGS_LAYER_H
 #define MENU_SETTINGS_LAYER_H
 
+#include "GUI/CCControlExtension/CCControlSlider.h"
+#include "GUI/CCControlExtension/CCControlSaturationBrightnessPicker.h"
 #include "Menu/KeysLayer.h"
-#include "Menu/ControlSlider.h"
-#include "Menu/ControlSaturationBrightnessPicker.h"
-
 #include "Menu/InGameMenuLayer.h"
 
+USING_NS_CC;
+USING_NS_CC_EXT;
 
 namespace menu
 {

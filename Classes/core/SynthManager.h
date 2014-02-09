@@ -1,12 +1,8 @@
-/* *****************************************************
- *		SynthManager.h - @ Jeremie Defaye - 29/01/14
- ***************************************************** */
-
 #ifndef CORE_SYNTH_MANAGER_H
 #define CORE_SYNTH_MANAGER_H
 
 #include "cocos2d.h"
-#include "game/GameScene.h"
+#include "menu/GameScene.h"
 #include "menu/TitleScreenScene.h"
 #include "menu/SelectLevelScene.h"
 #include "menu/CreditsScene.h"
@@ -20,7 +16,7 @@ private:
 
 	menu::CreditsScene* _pCreditsScene;
 
-	game::GameScene* _pGameScene;
+	menu::GameScene* _pGameScene;
 
 	menu::SelectLevelScene* _pSelectLevelScene;
 

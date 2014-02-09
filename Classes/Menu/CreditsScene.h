@@ -5,6 +5,7 @@
 #include "GUI/CCControlExtension/CCControlButton.h"
 
 USING_NS_CC;
+USING_NS_CC_EXT;
 
 namespace menu
 {
@@ -15,7 +16,7 @@ private:
 
 	Layer* _pBackgroundLayer;
 
-	extension::ControlButton* _pBtnBack;
+	ControlButton* _pBtnBack;
 
 	EventListenerKeyboard* _pKeyEventListener;
 

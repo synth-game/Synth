@@ -1,9 +1,10 @@
 #ifndef GRAPHICS_TEXT_SPRITE_COMPONENT_H
 #define GRAPHICS_TEXT_SPRITE_COMPONENT_H
 
-
+#include "cocos2d.h"
 #include "Graphics/SpriteComponent.h"
-#include "Graphics/LabelTTF.h"
+
+USING_NS_CC;
 
 namespace graphics
 {

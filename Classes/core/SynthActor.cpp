@@ -1,24 +1,19 @@
-/* *****************************************************
- *      SynthActor.cpp - @ Xochitl Florimont - 30/01/14
- ***************************************************** */
-
 #include "SynthActor.h"
 
 namespace core
 {
 int SynthActor::_iActorCount;
 
-SynthActor::SynthActor(std::string sTag)
-    : Node(), _iActorID(_iActorCount), _sTag(sTag){
+SynthActor::SynthActor(std::string sTag) {
 }
 
 int SynthActor::getActorID()
 {
-	return _iActorID;
+	return 0;
 }
 
 std::string SynthActor::getTag()
 {
-	return _sTag;
+	return "";
 }
 }  // namespace core

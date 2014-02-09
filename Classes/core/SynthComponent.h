@@ -1,7 +1,3 @@
-/* *****************************************************
- *      SynthComponent.h - @ Tom Duchêne - 30/01/14
- ***************************************************** */
-
 #ifndef CORE_SYNTH_COMPONENT_H
 #define CORE_SYNTH_COMPONENT_H
 

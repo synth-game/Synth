@@ -3,6 +3,19 @@
 namespace physics
 {
 
+PhysicCollision::PhysicCollision(Image* pBitmask, Point absoluteOriginPosition, Size _ownerSize)
+{
+}
+
+void PhysicCollision::setOwnerSize(Size size)
+{
+}
+
+unsigned char PhysicCollision::getAlpha(Point pixel)
+{
+	return 0;
+}
+
 Point PhysicCollision::boundingTest(Point nextPosition, EDirection dir)
 {
 	return Point::ZERO;
