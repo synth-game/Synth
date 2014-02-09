@@ -11,10 +11,6 @@
 
 USING_NS_CC;
 
-/*! \namespace core
- *
- * namespace of all essential and mother classes
- */
 namespace core {
 
 /*! \class SynthComponent
@@ -24,7 +20,9 @@ namespace core {
  */
 class SynthComponent : public Component {
 public:
+	/*! \brief Constructor */
 	SynthComponent();
+	/*! \brief Destructor */
 	~SynthComponent();
 
 	/*! \brief Initialize the component with a component name

@@ -1,19 +1,27 @@
+/*!
+ * \file SynthEvent.cpp
+ * \brief Base classe of out events
+ * \author Jijidici
+ * \date 09/02/2014
+ */
 #include "SynthEvent.h"
 
-namespace events
-{
+namespace events {
 
 SynthEvent::SynthEvent()
 	: EventCustom("") 
 	, _pSource(nullptr) {
+
 }
 
-SynthEvent::~SynthEvent()
-{
+SynthEvent::SynthEvent(Node* pSource, const char* pEventName)
+	: EventCustom(pEventName) 
+	, _pSource(pSource) {
+
 }
 
-Node* SynthEvent::getSource()
-{
-	return nullptr;
+SynthEvent::~SynthEvent() {
+
 }
+
 }  // namespace Events

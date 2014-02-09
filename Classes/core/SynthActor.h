@@ -32,8 +32,7 @@ public:
 	 */
 	SynthActor(std::string sTag);
 
-	/*! \brief Default destructor
-	 */
+	/*! \brief Destructor */
 	~SynthActor();
 
 	/*! \brief Get SynthActor's identifiant
@@ -44,7 +43,7 @@ public:
 	 */
 	inline std::string getActorTag() { return _sTag; }
 	
-	static int _iActorCount; /*! counter of every SynthActor. It is automatically incremented */
+	static int _iActorCount; /*!< counter of every SynthActor. It is automatically incremented */
 
 protected:
 	int _iActorID; /*! \brief unique identifiant */
