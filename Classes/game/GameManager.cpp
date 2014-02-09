@@ -27,13 +27,14 @@ GameManager::GameManager()
 GameManager::~GameManager() {
 	_levelActors.clear();
 	_triggers.clear();
-	delete _pLevelSprite;
-	delete _pBackgroundLayer;
-	delete _pIntermediarLayer;
-	delete _pLevelLayer;
-	delete _pSkinningLayer;
-	delete _pSubtitlesLayer;
-	delete _pParallaxManager;
+	
+	if (_pLevelSprite) { delete _pLevelSprite; }
+	if (_pBackgroundLayer) { delete _pBackgroundLayer; }
+	if (_pIntermediarLayer) { delete _pIntermediarLayer; }
+	if (_pLevelLayer) { delete _pLevelLayer; }
+	if (_pSkinningLayer) { delete _pSkinningLayer; }
+	if (_pSubtitlesLayer) { delete _pSubtitlesLayer; }
+	if (_pParallaxManager) { delete _pParallaxManager; }
 }
 
 GameManager* GameManager::create() {
@@ -73,6 +74,7 @@ bool GameManager::init() {
 	_pParallaxManager->addChild(_pLevelLayer, 3, Point(1.f, 1.f), Point(0.f, 0.f));
 	_pParallaxManager->addChild(_pSkinningLayer, 4, Point(1.f, 1.f), Point(0.f, 0.f));
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
+	Layer::addChild(_pParallaxManager);
 
 	return bTest;
 }

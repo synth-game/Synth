@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "game/GameManager.h"
+#include "menu/GameScene.h"
 
 USING_NS_CC;
 
@@ -25,7 +25,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
     // init and run SynthManager
-	game::GameManager* pGm = game::GameManager::create();
+	menu::GameScene* pGs = menu::GameScene::create();
 
     return true;
 }
