@@ -4,7 +4,6 @@
  * \author Jijidici
  * \date 09/02/2014
  */
-
 #ifndef MENU_GAME_SCENE_H
 #define MENU_GAME_SCENE_H
 

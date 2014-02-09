@@ -14,12 +14,7 @@ GameScene::GameScene()
 }
 
 GameScene::~GameScene() {
-	if (_pGameLayer != nullptr) { delete _pGameLayer; }
-	if (_pMenu != nullptr) { delete _pMenu; }
-	if (_pDeathEventListener != nullptr) { delete _pDeathEventListener; }
-	if (_pResetLevelEventListener != nullptr) { delete _pResetLevelEventListener; }
-	if (_pPauseGameEventListener != nullptr) { delete _pPauseGameEventListener; }
-	if (_pResumeGameEventListener != nullptr) { delete _pResumeGameEventListener; }
+
 }
 
 GameScene* GameScene::create() {

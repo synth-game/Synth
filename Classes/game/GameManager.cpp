@@ -27,14 +27,6 @@ GameManager::GameManager()
 GameManager::~GameManager() {
 	_levelActors.clear();
 	_triggers.clear();
-	
-	if (_pLevelSprite) { delete _pLevelSprite; }
-	if (_pBackgroundLayer) { delete _pBackgroundLayer; }
-	if (_pIntermediarLayer) { delete _pIntermediarLayer; }
-	if (_pLevelLayer) { delete _pLevelLayer; }
-	if (_pSkinningLayer) { delete _pSkinningLayer; }
-	if (_pSubtitlesLayer) { delete _pSubtitlesLayer; }
-	if (_pParallaxManager) { delete _pParallaxManager; }
 }
 
 GameManager* GameManager::create() {
