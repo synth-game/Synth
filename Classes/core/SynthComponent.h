@@ -1,3 +1,9 @@
+/*!
+ * \file SynthComponent.h
+ * \brief Base classe of components in the game
+ * \author Jijidici
+ * \date 09/02/2014
+ */
 #ifndef CORE_SYNTH_COMPONENT_H
 #define CORE_SYNTH_COMPONENT_H
 
@@ -5,24 +11,32 @@
 
 USING_NS_CC;
 
-namespace core
-{
-class SynthComponent : public Component
-{
-private:
-	Component component;
+/*! \namespace core
+ *
+ * namespace of all essential and mother classes
+ */
+namespace core {
 
-protected:
-	virtual void initListeners()=0;
-
+/*! \class SynthComponent
+ * \brief Base abstract class of each of our components
+ *
+ * It inherits of Cocos2d Component object for using Cocos2d component system
+ */
+class SynthComponent : public Component {
 public:
-	/**
-	 *
-	 */
+	SynthComponent();
 	~SynthComponent();
 
-	virtual bool init(const char* componentType);
+	/*! \brief Initialize the component with a component name
+	 * \param sComponentType component type name
+	 * \return true
+	 */
+	virtual bool init(const char* sComponentType);
 
+protected:
+	/*! \brief Abstract method to initialize and add the event listeners. Must be overriden
+	 */
+	virtual void initListeners() = 0;
 };
 
 }  // namespace core

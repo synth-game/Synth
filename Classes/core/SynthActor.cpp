@@ -1,3 +1,9 @@
+/*!
+ * \file SynthActor.cpp
+ * \brief Base classe of Synth game objects
+ * \author Jijidici
+ * \date 09/02/2014
+ */
 #include "SynthActor.h"
 
 namespace core {
