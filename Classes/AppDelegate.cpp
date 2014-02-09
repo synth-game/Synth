@@ -1,4 +1,5 @@
 #include "AppDelegate.h"
+#include "game/GameManager.h"
 
 USING_NS_CC;
 
@@ -24,6 +25,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
     // init and run SynthManager
+	game::GameManager* pGm = game::GameManager::create();
 
     return true;
 }
