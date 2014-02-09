@@ -1,19 +1,17 @@
 #include "SynthActor.h"
 
-namespace core
-{
-int SynthActor::_iActorCount;
+namespace core {
 
-SynthActor::SynthActor(std::string sTag) {
+int SynthActor::_iActorCount = 0;
+
+SynthActor::SynthActor(std::string sTag) 
+	: Node()
+	, _sTag(sTag) 
+	, _iActorID(++_iActorCount) {
 }
 
-int SynthActor::getActorID()
-{
-	return 0;
+SynthActor::~SynthActor() {
+
 }
 
-std::string SynthActor::getTag()
-{
-	return "";
-}
 }  // namespace core

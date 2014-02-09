@@ -1,45 +1,54 @@
-/* *****************************************************
- *      SynthActor.h - @ Jijidici - 09/02/14
- ***************************************************** */
+/*!
+ * \file SynthActor.h
+ * \brief Base classe of Synth game objects
+ * \author Jijidici
+ * \date 09/02/2014
+ */
 #ifndef CORE_SYNTH_ACTOR_H
 #define CORE_SYNTH_ACTOR_H
 
+#include <string>
 #include "cocos2d.h"
 
 USING_NS_CC;
 
-namespace core
-{
-class SynthActor : public Node
-{
-private:
-	static int _iActorCount;
+/*! \namespace core
+ *
+ * namespace of all essential and mother classes
+ */
+namespace core {
 
-	std::string _sTag;
-
-	Node node;
-
-protected:
-	int _iActorID;
-
-
+/*! \class SynthActor
+ * \brief Base object of Synth
+ *
+ * It inherits of Cocos2d Node object. Each SynthActor have a unique ID and a tag
+ */
+class SynthActor : public Node {
 public:
-	/**
-	 * Increment the actor count. Init actorID
-	 *
-	 *
-	 *
-	 *
+	/*! \brief Constructor
+	 * 
+	 * Constructor which initializes the SynthActor tag
+	 * \param sTag : initialization tag
 	 */
 	SynthActor(std::string sTag);
 
-	/**
-	 *
+	/*! \brief Default destructor
 	 */
-	int getActorID();
+	~SynthActor();
 
-	std::string getTag();
+	/*! \brief Get SynthActor's identifiant
+	 */
+	inline int getActorID() { return _iActorID; }
 
+	/*! \brief Get SynthActor's tag
+	 */
+	inline std::string getActorTag() { return _sTag; }
+	
+	static int _iActorCount; /*! counter of every SynthActor. It is automatically incremented */
+
+protected:
+	int _iActorID; /*! \brief unique identifiant */
+	std::string _sTag; /*! \brief tag which describes SynthActor's type */
 };
 
 }  // namespace core
