@@ -1,3 +1,9 @@
+/*!
+ * \file GraphicManager.h
+ * \brief Singleton dealing with the graphics of the game (sprites, images)
+ * \author Chupee
+ * \date 12/02/2014
+ */
 #ifndef GRAPHICS_GRAPHIC_MANAGER_H
 #define GRAPHICS_GRAPHIC_MANAGER_H
 
@@ -11,40 +17,38 @@ USING_NS_CC;
 
 
 
-namespace graphics
-{
-class GraphicManager
-{
-private:
-	std::vector<core::SynthActor*> _staticSprites;
+namespace graphics {
 
-	std::map<std::string,Animation> _animations;
-
-
-private:
-	GraphicManager();
+/*! \class GraphicManager
+ * \brief Singleton dealing with the graphics of the game (sprites, images)
+ *
+ * It inherits of Cocos2d Component object for using Cocos2d component system
+ */
+class GraphicManager {
 
 public:
+	/*! \brief Destructor */
 	~GraphicManager();
 
 	static GraphicManager* getInstance();
 
-	/**
-	 * ! Don't forget to load all animations after building data vector
-	 *
-	 */
 	void init(core::xml data);
 
 	Sprite* createSprite(std::string sSpriteName);
 
 	Animation* getAnimation(std::string sAnimName);
 
-	/**
-	 * return null if requested animation isn't chained
-	 */
 	Animation* getNextAnimation(std::string sAnimName);
 
 	bool isLoopAnimation(std::string sAnimName);
+
+private:
+	/*! \brief Constructor */
+	GraphicManager();
+
+	std::vector<core::SynthActor*> _staticSprites;
+
+	std::map<std::string,Animation> _animations;
 
 };
 

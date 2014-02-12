@@ -1,55 +1,44 @@
+/*!
+ * \file LightAttrComponent.h
+ * \brief Component giving a colored light to a SynthActor.
+ * \author Chupee
+ * \date 12/02/2014
+ */
 #include "LightAttrComponent.h"
+#include "Events/ChangeIntensityEvent.h"
 
-namespace game
-{
-char* LightAttrComponent::COMPONENT_TYPE;
+namespace game {
 
-LightAttrComponent::LightAttrComponent()
-{
+const char* LightAttrComponent::COMPONENT_TYPE  = "LightAttrComponent";
+
+LightAttrComponent::LightAttrComponent() {
 }
 
-LightAttrComponent::~LightAttrComponent()
-{
+LightAttrComponent::~LightAttrComponent() {
 }
 
-bool LightAttrComponent::init()
-{
-	return 0;
+bool LightAttrComponent::init() {
+	SynthComponent::init(LightAttrComponent::COMPONENT_TYPE);
+	return true;
 }
 
-LightAttrComponent* LightAttrComponent::create(Color4B color)
-{
-	return 0;
+LightAttrComponent* LightAttrComponent::create(Color4B * pColor) {
+	LightAttrComponent* pRet = new LightAttrComponent();
+    if (pRet != NULL && pRet->init()) {
+        pRet->autorelease();
+		pRet->_pColor =			pColor;
+    } else {
+        CC_SAFE_DELETE(pRet);
+    }
+	return pRet;
 }
 
-Color4B LightAttrComponent::getColor()
-{
-	return Color4B::BLACK;
+void LightAttrComponent::initListeners() {
+	_pChangeIntensityListener = cocos2d::EventListenerCustom::create(events::ChangeIntensityEvent::EVENT_NAME, CC_CALLBACK_1(LightAttrComponent::onChangeIntensity, this));
 }
 
-void LightAttrComponent::setColor(Color4B color)
-{
+void LightAttrComponent::onChangeIntensity(EventCustom* pEvent) {
 }
 
-bool LightAttrComponent::isOn()
-{
-	return 0;
-}
 
-void LightAttrComponent::initListeners()
-{
-}
-
-void LightAttrComponent::onChangeIntensity(EventCustom* pEvent)
-{
-}
-
-float LightAttrComponent::getIntensity()
-{
-	return 0;
-}
-
-void LightAttrComponent::setIntensity(float intensity)
-{
-}
 }  // namespace game

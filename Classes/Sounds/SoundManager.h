@@ -2,6 +2,7 @@
 #define SOUNDS_SOUND_MANAGER_H
 
 #include <map>
+#include <string>
 #include "core/SynthConfig.h"
 
 namespace sounds

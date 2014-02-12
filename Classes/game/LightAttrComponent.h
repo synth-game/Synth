@@ -1,3 +1,9 @@
+/*!
+ * \file LightAttrComponent.h
+ * \brief Component giving a colored light to a SynthActor.
+ * \author Chupee
+ * \date 12/02/2014
+ */
 #ifndef GAME_LIGHT_ATTR_COMPONENT_H
 #define GAME_LIGHT_ATTR_COMPONENT_H
 
@@ -6,67 +12,90 @@
 
 USING_NS_CC;
 
-namespace game
-{
-class LightAttrComponent :  core::SynthComponent
-{
-private:
-	EventListenerCustom* _pChangeIntensityListener;
+namespace game {
+
+/*! \class LightAttrComponent
+ * \brief Component giving a colored light to a SynthActor.
+ *
+ * 
+ */
+class LightAttrComponent :  core::SynthComponent {
+
+public:
+	/*
+	 * Methods
+	 */
+
+	/*! \brief Destructor */
+	~LightAttrComponent();
+
+	/*! \brief Initialize the component thanks to its COMPONENT_TYPE
+	 * \return true
+	 */
+	bool init();
+
+	/*! \brief Create the component
+	 * \param color The color of the light (r,g,b,a)
+	 * \return LightAttrComponent*
+	 */
+	static LightAttrComponent* create(Color4B* pColor);
+
+	inline Color4B getColor();
+
+	inline void setColor(Color4B color);
+
+	inline bool isOn();
+
+	inline float getIntensity();
+
+	inline void setIntensity(float intensity);
+
+	/*
+	 * Members
+	 */
+
+	/*! \brief The identifier of the component. */
+	static const char* COMPONENT_TYPE;
 
 
 protected:
-	/**
-	 * Color4B : r g b a
-	 * constantes: RED BLUE MAGENTA ETC...
+	/*
+	 * Methods
 	 */
+
+	/*! \brief Constructor */
+	LightAttrComponent();
+
+	/*! \brief Initialize the listeners
+	 * \return void
+	 */
+	void initListeners();
+
+	/*! \brief Method called when a ChangeIntensityEvent is catched
+	 * \param pEvent the event catched
+	 * \return void
+	 */
+	void onChangeIntensity(EventCustom* pEvent);
+
+	/*
+	 * Members
+	 */
+
+	/*! \brief The color of the light (r,g,b,a) */
 	Color4B* _pColor;
 
-	/**
-	 * intensity of the light : between 0 and 1
-	 *
-	 */
+	/*! \brief The intensity of the light. The alpha layer from _pColor member */
 	float _intensity;
 
 
-public:
-	static char* COMPONENT_TYPE;
-
-
-protected:
-	/**
-	 *
+private:
+	/*
+	 * Members
 	 */
-	LightAttrComponent();
 
-	void initListeners();
+	/*! \brief ChangePositionEvent listener. */
+	EventListenerCustom* _pChangeIntensityListener;
 
-	void onChangeIntensity(EventCustom* pEvent);
-
-public:
-	/**
-	 *
-	 */
-	~LightAttrComponent();
-
-	bool init();
-
-	static LightAttrComponent* create(Color4B color);
-
-	Color4B getColor();
-
-	/**
-	 *
-	 */
-	void setColor(Color4B color);
-
-	bool isOn();
-
-	float getIntensity();
-
-	/**
-	 *
-	 */
-	void setIntensity(float intensity);
 
 };
 

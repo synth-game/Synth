@@ -8,7 +8,7 @@
 
 namespace events {
 
-char* ChangePositionEvent::sEventName;
+const char* ChangePositionEvent::EVENT_NAME = "ChangePositionEvent";
 
 ChangePositionEvent::ChangePositionEvent() {
 

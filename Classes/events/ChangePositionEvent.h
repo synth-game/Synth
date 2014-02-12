@@ -26,7 +26,7 @@ public:
 	inline Point getCurrentPosition() { return _currentPosition; }
 	inline void setCurrentPosition(Point position) { _currentPosition = position; }
 
-	static char* sEventName;
+	static const char* EVENT_NAME;
 
 private:
 	Point _currentPosition;

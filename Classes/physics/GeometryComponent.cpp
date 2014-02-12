@@ -1,72 +1,48 @@
-/* *****************************************************
- *      GeometryComponent.cpp - @ Flora Jullien - 30/01/14
- ***************************************************** */
-
+/*!
+ * \file GeometryComponent.h
+ * \brief Class giving a position, a size, a rotation angle and an anchorpoint to the SynthActor.
+ * \author Chupee
+ * \date 12/02/2014
+ */
 #include "GeometryComponent.h"
+#include "events/ChangePositionEvent.h"
 
-namespace physics
-{
+namespace physics {
 
 const char* GeometryComponent::COMPONENT_TYPE = "GeometryComponent";
 
 GeometryComponent::GeometryComponent()
     : SynthComponent() {
-
 }
 
-GeometryComponent::~GeometryComponent()
-{
+GeometryComponent::~GeometryComponent() {
 }
 
 bool GeometryComponent::init() {
-	return false;
+	SynthComponent::init(GeometryComponent::COMPONENT_TYPE);
+	return true;
 }
 
 GeometryComponent* GeometryComponent::create(Point position, Size size, float fRotationAngle, Point anchorPoint) {
-	return nullptr;
+	GeometryComponent* pRet = new GeometryComponent();
+    if (pRet != NULL && pRet->init()) {
+        pRet->autorelease();
+		pRet->_position =			position;
+		pRet->_size =				size;
+		pRet->_fRotationAngle =		fRotationAngle;
+		pRet->_anchorPoint =		anchorPoint;
+    } else {
+        CC_SAFE_DELETE(pRet);
+    }
+	return pRet;
 }
 
-Point GeometryComponent::getPosition()
-{
-	return Point::ZERO;
+void GeometryComponent::initListeners() {
+	_pChangePositionListener = cocos2d::EventListenerCustom::create(events::ChangePositionEvent::EVENT_NAME, CC_CALLBACK_1(GeometryComponent::onChangePosition, this));
 }
 
-Size GeometryComponent::getSize()
-{
-	return Size::ZERO;
+void GeometryComponent::onChangePosition(EventCustom* pEvent) {
 }
 
-float GeometryComponent::getRotationAngle()
-{
-	return 0.f;
-}
 
-Point GeometryComponent::getAnchorPoint()
-{
-	return Point::ZERO;
-}
-
-void GeometryComponent::setPosition(Point position)
-{
-}
-
-void GeometryComponent::setSize(Size size)
-{
-}
-
-void GeometryComponent::setRotationAngle(float fRotationAngle)
-{
-}
-
-void GeometryComponent::setAnchorPoint(Point anchorPoint)
-{
-}
-
-void GeometryComponent::initListeners()
-{
-}
-
-void GeometryComponent::onChangePosition(EventCustom* pEvent)
-{
-}
 }  // namespace physics
