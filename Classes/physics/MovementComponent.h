@@ -1,87 +1,61 @@
+/*!
+ * \file MovementComponent.h
+ * \brief Main manager, the entry point of our program
+ * \author Flora Jullien
+ * \date 12/02/2014
+ */
 #ifndef PHYSICS_MOVEMENT_COMPONENT_H
 #define PHYSICS_MOVEMENT_COMPONENT_H
 
 #include "cocos2d.h"
 #include "core/SynthComponent.h"
 
-
 USING_NS_CC;
 
-namespace physics
-{
-class MovementComponent : public core::SynthComponent
-{
-protected:
-	Point _speed;
+namespace physics {
 
-	Point _direction;
-
-	Point _acceleration;
-
-	Point _gravity;
-
-	bool _bStartMoving;
-
-	EventListenerCustom* _pEditMoveEventListener;
-
-	EventListenerCustom* _pJumpEventListener;
-
-	EventListenerCustom* _pInterruptMoveEventListener;
+/*! \class MovementComponent */
+class MovementComponent : public core::SynthComponent {
 
 public:
-	static const char* COMPONENT_TYPE;
-
-
-protected:
-	/**
-	 *
-	 */
-	MovementComponent();
-
-	virtual bool init();
-
-	virtual void initListeners();
-
-	void onEditMove(EventCustom* pEvent);
-
-	void onJump(EventCustom* pEvent);
-
-	void onInterruptMove(EventCustom* pEvent);
-
-	/**
-	 *
-	 */
-	void update(float fDt);
-
-public:
-	/**
-	 *
-	 */
+	/*! \brief Destructor */
 	~MovementComponent();
 
 	static MovementComponent* create(Point acceleration, Point gravity);
 
-	Point getSpeed();
+	inline Point getSpeed() { return _speed; }
+	inline Point getDirection() { return _direction; }
+	inline Point getAcceleration() { return _acceleration; }
+	inline Point getGravity() { return _gravity; }
+	inline bool isStarting() { return _bStartMoving; }
+	inline void setSpeed(Point speed) { _speed = speed; }
+	inline void setDirection(Point direction) { _direction = direction; }
+	inline void setAcceleration(Point acceleration) { _acceleration = acceleration; }
+	inline void setGravity(Point gravity) { _gravity = gravity; }
 
-	Point getDirection();
+	static const char* COMPONENT_TYPE;
 
-	Point getAcceleration();
+protected:
+	/*! \brief Constructor */
+	MovementComponent();
 
-	Point getGravity();
+	virtual bool init();
+	virtual void initListeners();
 
-	void setSpeed(Point speed);
+	void onEditMove(EventCustom* pEvent);
+	void onJump(EventCustom* pEvent);
+	void onInterruptMove(EventCustom* pEvent);
+	void update(float fDt);
 
-	/**
-	 *
-	 */
-	void setDirection(Point direction);
+	Point _speed;
+	Point _direction;
+	Point _acceleration;
+	Point _gravity;
+	bool _bStartMoving;
 
-	void setAcceleration(Point acceleration);
-
-	void setGravity(Point gravity);
-
-	bool isStarting();
-
+	EventListenerCustom* _pEditMoveEventListener;
+	EventListenerCustom* _pJumpEventListener;
+	EventListenerCustom* _pInterruptMoveEventListener;
 };
 
 }  // namespace physics

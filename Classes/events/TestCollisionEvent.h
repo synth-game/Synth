@@ -1,3 +1,9 @@
+/*!
+ * \file TestCollisionEvent.h
+ * \brief Main manager, the entry point of our program
+ * \author Flora Jullien
+ * \date 12/02/2014
+ */
 #ifndef EVENTS_GAMEEVENTS_TEST_COLLISION_EVENT_H
 #define EVENTS_GAMEEVENTS_TEST_COLLISION_EVENT_H
 
@@ -6,45 +12,31 @@
 
 USING_NS_CC;
 
-namespace events
-{
-namespace GameEvents
-{
-class TestCollisionEvent : public events::SynthEvent
-{
-private:
-	Point _currentPosition;
+namespace events {
 
-	Point _targetPosition;
-
-	Size _size;
+/*! \class TestCollisionEvent */
+class TestCollisionEvent : public events::SynthEvent {
 
 public:
-	static char* sEventName;
-
-
-public:
+	/*! \brief Constructor */
 	TestCollisionEvent();
-
-	/**
-	 *
-	 */
+	/*! \brief Destructor */
 	~TestCollisionEvent();
 
-	Point getCurrentPosition();
+	inline Point getCurrentPosition() { return _currentPosition; }
+	inline Point getTargetPosition() { return _targetPosition; }
+	inline Size getSize() { return _size; }
+	inline void setCurrentPosition(Point position) { _currentPosition = position; }
+	inline void setTargetPosition(Point position) { _targetPosition = position; }
+	inline void setSize(Size size) { _size = size; }
 
-	Point getTargetPosition();
+	static char* sEventName;
 
-	Size getSize();
-
-	void setCurrentPosition(Point position);
-
-	void setTargetPosition(Point position);
-
-	void setSize(Size size);
-
+private:
+	Point _currentPosition;
+	Point _targetPosition;
+	Size _size;
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

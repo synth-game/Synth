@@ -5,8 +5,6 @@
 
 namespace events
 {
-namespace GameEvents
-{
 class JumpEvent : public events::SynthEvent
 {
 private:
@@ -30,6 +28,5 @@ public:
 
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

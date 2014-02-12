@@ -1,26 +1,21 @@
+/*!
+ * \file ChangePositionEvent.cpp
+ * \brief Main manager, the entry point of our program
+ * \author Flora Jullien
+ * \date 12/02/2014
+ */
 #include "ChangePositionEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
+namespace events {
+
 char* ChangePositionEvent::sEventName;
 
-ChangePositionEvent::ChangePositionEvent()
-{
+ChangePositionEvent::ChangePositionEvent() {
+
 }
 
-ChangePositionEvent::~ChangePositionEvent()
-{
+ChangePositionEvent::~ChangePositionEvent() {
+
 }
 
-Point ChangePositionEvent::getCurrentPosition()
-{
-	return Point::ZERO;
-}
-
-void ChangePositionEvent::setCurrentPosition(Point position)
-{
-}
-}  // namespace GameEvents
 }  // namespace events

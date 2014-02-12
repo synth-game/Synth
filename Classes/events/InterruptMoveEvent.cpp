@@ -2,8 +2,7 @@
 
 namespace events
 {
-namespace GameEvents
-{
+
 char* InterruptMoveEvent::sEventName;
 
 InterruptMoveEvent::InterruptMoveEvent()
@@ -41,5 +40,5 @@ bool InterruptMoveEvent::setHasMoved()
 {
 	return 0;
 }
-}  // namespace GameEvents
+
 }  // namespace events

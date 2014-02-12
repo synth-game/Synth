@@ -8,8 +8,6 @@ USING_NS_CC;
 
 namespace events
 {
-namespace GameEvents
-{
 class EditMoveEvent : public events::SynthEvent
 {
 private:
@@ -45,6 +43,5 @@ public:
 
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

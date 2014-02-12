@@ -5,8 +5,6 @@
 
 namespace events
 {
-namespace GameEvents
-{
 class InterruptMoveEvent : public events::SynthEvent
 {
 private:
@@ -42,6 +40,5 @@ public:
 
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

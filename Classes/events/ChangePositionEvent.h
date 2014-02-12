@@ -1,3 +1,9 @@
+/*!
+ * \file ChangePositionEvent.h
+ * \brief Main manager, the entry point of our program
+ * \author Flora Jullien
+ * \date 12/02/2014
+ */
 #ifndef EVENTS_GAMEEVENTS_CHANGE_POSITION_EVENT_H
 #define EVENTS_GAMEEVENTS_CHANGE_POSITION_EVENT_H
 
@@ -6,33 +12,25 @@
 
 USING_NS_CC;
 
-namespace events
-{
-namespace GameEvents
-{
-class ChangePositionEvent : public events::SynthEvent
-{
-private:
-	Point _currentPosition;
+namespace events {
+
+/*! \class ChangePositionEvent */
+class ChangePositionEvent : public events::SynthEvent {
 
 public:
-	static char* sEventName;
-
-
-public:
+	/*! \brief Constructor */
 	ChangePositionEvent();
-
-	/**
-	 *
-	 */
+	/*! \brief Destructor */
 	~ChangePositionEvent();
 
-	Point getCurrentPosition();
+	inline Point getCurrentPosition() { return _currentPosition; }
+	inline void setCurrentPosition(Point position) { _currentPosition = position; }
 
-	void setCurrentPosition(Point position);
+	static char* sEventName;
 
+private:
+	Point _currentPosition;
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

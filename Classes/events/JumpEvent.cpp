@@ -2,8 +2,7 @@
 
 namespace events
 {
-namespace GameEvents
-{
+
 char* JumpEvent::sEventName;
 
 JumpEvent::JumpEvent()
@@ -22,5 +21,5 @@ bool JumpEvent::getStartJump()
 void JumpEvent::setStartJump(bool startJump)
 {
 }
-}  // namespace GameEvents
+
 }  // namespace events
