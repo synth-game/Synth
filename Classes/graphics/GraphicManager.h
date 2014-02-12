@@ -27,9 +27,14 @@ namespace graphics {
 class GraphicManager {
 
 public:
+	/*
+	 * Methods
+	 */
+
 	/*! \brief Destructor */
 	~GraphicManager();
 
+	/*! \brief Get the singleton instance _pInstance */
 	static GraphicManager* getInstance();
 
 	void init(core::xml data);
@@ -43,8 +48,19 @@ public:
 	bool isLoopAnimation(std::string sAnimName);
 
 private:
+	/*
+	 * Methods
+	 */
+
 	/*! \brief Constructor */
 	GraphicManager();
+
+	/*
+	 * Members
+	 */
+
+	/*! \brief The singleton instance */
+	static GraphicManager* _pInstance;
 
 	std::vector<core::SynthActor*> _staticSprites;
 

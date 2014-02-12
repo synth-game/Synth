@@ -15,7 +15,10 @@ GraphicManager::~GraphicManager() {
 }
 
 GraphicManager* GraphicManager::getInstance() {
-	return 0;
+	if(_pInstance == nullptr) {
+        _pInstance = new GraphicManager();
+    }
+	return _pInstance;
 }
 
 void GraphicManager::init(core::xml data) {
