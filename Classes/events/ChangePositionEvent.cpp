@@ -2,9 +2,8 @@
 
 namespace events
 {
-namespace GameEvents
-{
-char* ChangePositionEvent::sEventName;
+
+const char* ChangePositionEvent::EVENT_NAME = "ChangePositionEvent";
 
 ChangePositionEvent::ChangePositionEvent()
 {
@@ -22,5 +21,5 @@ Point ChangePositionEvent::getCurrentPosition()
 void ChangePositionEvent::setCurrentPosition(Point position)
 {
 }
-}  // namespace GameEvents
+
 }  // namespace events

@@ -55,7 +55,7 @@ public:
 	 */
 
 	/*! \brief The identifier of the component. */
-	static char* COMPONENT_TYPE;
+	static const char* COMPONENT_TYPE;
 
 
 protected:

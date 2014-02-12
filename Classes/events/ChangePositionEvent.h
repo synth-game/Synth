@@ -15,7 +15,7 @@ private:
 	Point _currentPosition;
 
 public:
-	static char* EVENT_NAME;
+	static const char* EVENT_NAME;
 
 
 public:
