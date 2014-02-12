@@ -1,7 +1,9 @@
-/* *****************************************************
- *      GeometryComponent.cpp - @ Flora Jullien - 30/01/14
- ***************************************************** */
-
+/*!
+ * \file GeometryComponent.h
+ * \brief Class giving a position, a size, a rotation angle and an anchorpoint to the SynthActor.
+ * \author Chupee
+ * \date 12/02/2014
+ */
 #include "GeometryComponent.h"
 
 namespace physics
@@ -14,8 +16,7 @@ GeometryComponent::GeometryComponent()
 
 }
 
-GeometryComponent::~GeometryComponent()
-{
+GeometryComponent::~GeometryComponent() {
 }
 
 bool GeometryComponent::init() {
@@ -26,47 +27,40 @@ GeometryComponent* GeometryComponent::create(Point position, Size size, float fR
 	return nullptr;
 }
 
-Point GeometryComponent::getPosition()
-{
+Point GeometryComponent::getPosition() {
 	return Point::ZERO;
 }
 
-Size GeometryComponent::getSize()
-{
+Size GeometryComponent::getSize() {
 	return Size::ZERO;
 }
 
-float GeometryComponent::getRotationAngle()
-{
+float GeometryComponent::getRotationAngle() {
 	return 0.f;
 }
 
-Point GeometryComponent::getAnchorPoint()
-{
+Point GeometryComponent::getAnchorPoint() {
 	return Point::ZERO;
 }
 
-void GeometryComponent::setPosition(Point position)
-{
+void GeometryComponent::setPosition(Point position) {
 }
 
-void GeometryComponent::setSize(Size size)
-{
+void GeometryComponent::setSize(Size size) {
 }
 
-void GeometryComponent::setRotationAngle(float fRotationAngle)
-{
+void GeometryComponent::setRotationAngle(float fRotationAngle) {
+
 }
 
-void GeometryComponent::setAnchorPoint(Point anchorPoint)
-{
+void GeometryComponent::setAnchorPoint(Point anchorPoint) {
 }
 
-void GeometryComponent::initListeners()
-{
+void GeometryComponent::initListeners() {
 }
 
-void GeometryComponent::onChangePosition(EventCustom* pEvent)
-{
+void GeometryComponent::onChangePosition(EventCustom* pEvent) {
 }
+
+
 }  // namespace physics
