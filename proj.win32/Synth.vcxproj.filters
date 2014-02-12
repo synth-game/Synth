@@ -279,6 +279,9 @@
     <ClCompile Include="..\Classes\graphics\SpriteComponent.cpp">
       <Filter>Classes\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Events\ChangeIntensityEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -532,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\graphics\SpriteComponent.h">
       <Filter>Classes\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Events\ChangeIntensityEvent.h">
+      <Filter>Classes\events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

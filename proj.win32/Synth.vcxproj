@@ -138,6 +138,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\core\SynthConfig.cpp" />
     <ClCompile Include="..\Classes\core\SynthManager.cpp" />
     <ClCompile Include="..\Classes\core\TextManager.cpp" />
+    <ClCompile Include="..\Classes\Events\ChangeIntensityEvent.cpp" />
     <ClCompile Include="..\Classes\events\ChangeNodeOwnerEvent.cpp" />
     <ClCompile Include="..\Classes\events\ChangePositionEvent.cpp" />
     <ClCompile Include="..\Classes\events\ChangeTargetEvent.cpp" />
@@ -222,6 +223,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\core\SynthConfig.h" />
     <ClInclude Include="..\Classes\core\SynthManager.h" />
     <ClInclude Include="..\Classes\core\TextManager.h" />
+    <ClInclude Include="..\Classes\Events\ChangeIntensityEvent.h" />
     <ClInclude Include="..\Classes\events\ChangeNodeOwnerEvent.h" />
     <ClInclude Include="..\Classes\events\ChangePositionEvent.h" />
     <ClInclude Include="..\Classes\events\ChangeTargetEvent.h" />
