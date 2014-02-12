@@ -6,57 +6,38 @@
  */
 #include "GeometryComponent.h"
 
-namespace physics
-{
+namespace physics {
 
 const char* GeometryComponent::COMPONENT_TYPE = "GeometryComponent";
 
 GeometryComponent::GeometryComponent()
     : SynthComponent() {
-
 }
 
 GeometryComponent::~GeometryComponent() {
 }
 
 bool GeometryComponent::init() {
-	return false;
+	SynthComponent::init(GeometryComponent::COMPONENT_TYPE);
+	return true;
 }
 
 GeometryComponent* GeometryComponent::create(Point position, Size size, float fRotationAngle, Point anchorPoint) {
-	return nullptr;
-}
-
-Point GeometryComponent::getPosition() {
-	return Point::ZERO;
-}
-
-Size GeometryComponent::getSize() {
-	return Size::ZERO;
-}
-
-float GeometryComponent::getRotationAngle() {
-	return 0.f;
-}
-
-Point GeometryComponent::getAnchorPoint() {
-	return Point::ZERO;
-}
-
-void GeometryComponent::setPosition(Point position) {
-}
-
-void GeometryComponent::setSize(Size size) {
-}
-
-void GeometryComponent::setRotationAngle(float fRotationAngle) {
-
-}
-
-void GeometryComponent::setAnchorPoint(Point anchorPoint) {
+	GeometryComponent* pRet = new GeometryComponent();
+    if (pRet != NULL && pRet->init()) {
+        pRet->autorelease();
+		pRet->_position =			position;
+		pRet->_size =				size;
+		pRet->_fRotationAngle =		fRotationAngle;
+		pRet->_anchorPoint =		anchorPoint;
+    } else {
+        CC_SAFE_DELETE(pRet);
+    }
+	return pRet;
 }
 
 void GeometryComponent::initListeners() {
+	//_pChangePositionListener = cocos2d::EventListenerCustom::create(ChangePositionEvent::eventName, CC_CALLBACK_1(GeometryComponent::onChangePosition, this));
 }
 
 void GeometryComponent::onChangePosition(EventCustom* pEvent) {

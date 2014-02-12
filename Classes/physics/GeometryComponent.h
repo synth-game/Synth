@@ -29,30 +29,41 @@ public:
 	/*! \brief Destructor */
 	~GeometryComponent();
 
-	virtual bool init() = 0;
+	/*! \brief Initialize the component thanks to its COMPONENT_TYPE
+	 * \return true
+	 */
+	virtual bool init();
 
+	/*! \brief Create the component
+	 * \param position The position of the actor.
+	 * \param size The size of the actor.
+	 * \param fRotationAngle The rotation angle of the actor.
+	 * \param anchorPoint The anchor point of the actor.
+	 * \return GeometryComponent*
+	 */
 	static GeometryComponent* create(Point position, Size size, float fRotationAngle, Point anchorPoint);
 
-	Point getPosition();
+	inline Point getPosition() { return _position; };
 
-	Size getSize();
+	inline Size getSize() { return _size; };
 
-	float getRotationAngle();
+	inline float getRotationAngle() { return _fRotationAngle; };
 
-	Point getAnchorPoint();
+	inline Point getAnchorPoint() { return _anchorPoint; };
 
-	void setPosition(Point position);
+	inline void setPosition(Point position) { _position = position; };
 
-	void setSize(Size size);
+	inline void setSize(Size size) { _size = size; };
 
-	void setRotationAngle(float fRotationAngle);
+	inline void setRotationAngle(float fRotationAngle) { _fRotationAngle = fRotationAngle; };
 
-	void setAnchorPoint(Point anchorPoint);
+	inline void setAnchorPoint(Point anchorPoint) { _anchorPoint = anchorPoint; };
 
 	/*
 	 * Members
 	 */
 
+	/*! \brief The identifier of the component. */
 	static const char* COMPONENT_TYPE;
 
 protected:
@@ -63,20 +74,31 @@ protected:
 	/*! \brief Constructor */
 	GeometryComponent();
 
+	/*! \brief Initialize the listeners
+	 * \return void
+	 */
 	void initListeners();
 
+	/*! \brief Method called when a ChangePositionEvent is catched
+	 * \param pEvent the event catched
+	 * \return void
+	 */
 	void onChangePosition(EventCustom* pEvent);
 
 	/*
 	 * Members
 	 */
 
+	/*! \brief The position (x,y) of the actor. (0,0) is at the bottom left of the scene */
 	Point _position;
 
+	/*! \brief The size (w,h) of the actor. Used to determine the future bounding box of the actor. */
 	Size _size;
 
+	/*! \brief The rotation angle of the actor. Rotation is done towards the left. */
 	float _fRotationAngle;
 
+	/*! \brief The anchor point of the actor. The rotation is done around this point. (0,0) is at the bottom left of the actor. */
 	Point _anchorPoint;
 
 private:
@@ -84,6 +106,7 @@ private:
 	 * Members
 	 */
 
+	/*! \brief ChangePositionEvent listener. */
 	EventListenerCustom* _pChangePositionListener;
 
 
