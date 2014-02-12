@@ -46,6 +46,8 @@ public:
 
 	static Color4B getLightColor(core::SynthActor* pLight);
 
+	core::SynthActor* hero;
+
 protected:
 	/*! \brief Constructor */
 	GameManager();

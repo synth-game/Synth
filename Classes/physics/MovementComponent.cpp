@@ -8,7 +8,15 @@
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
 #include "events/InterruptMoveEvent.h"
+#include "events/ChangePositionEvent.h"
 #include "core/SynthActor.h"
+#include "physics/GeometryComponent.h"
+#include "physics/CollisionComponent.h"
+
+#define MAX_X_SPEED 200.f
+#define MAX_Y_SPEED 300.f
+#define MAX_JUMP_SPEED 300.f
+#define MIN_JUMP_SPEED 150.f
 
 namespace physics {
 
@@ -80,7 +88,42 @@ void MovementComponent::onInterruptMove(EventCustom* pEvent) {
 }
 
 void MovementComponent::update(float fDt) {
+	// compute next speed
+	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
 
+	// cap the next lateral speed
+	if (_bStartMoving) {
+		if (abs(_speed.x) > MAX_X_SPEED) {
+			_speed.x = _direction.x * MAX_X_SPEED;
+		}
+	} else {
+		if (_speed.x * _direction.x > 0.f) {
+			_speed.x = 0.f;
+		}
+	}
+
+	if (_speed.y < - MAX_Y_SPEED) {
+		_speed.y = -MAX_Y_SPEED;
+	}
+	if (_speed.y > MAX_Y_SPEED) {
+		_speed.y = MAX_Y_SPEED;
+	}
+
+	// compute next position
+	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+	CCASSERT(pGeometryComponent != nullptr, "MovementComponent needs a GeometryComponent added to its owner");
+
+	Point nextPosition = pGeometryComponent->getPosition() + (_speed * fDt);
+	nextPosition.x = floor(nextPosition.x);
+	nextPosition.y = floor(nextPosition.y);
+
+	physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+	if (pCollisionComponent != nullptr) {
+		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent();
+
+		//TODO
+
+	}
 }
 
 }  // namespace physics

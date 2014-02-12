@@ -5,6 +5,8 @@
  * \date 09/02/2014
  */
 #include "GameManager.h"
+#include "physics/GeometryComponent.h"
+#include "physics/MovementComponent.h"
 
 namespace game {
 
@@ -67,6 +69,12 @@ bool GameManager::init() {
 	_pParallaxManager->addChild(_pSkinningLayer, 4, Point(1.f, 1.f), Point(0.f, 0.f));
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
 	Layer::addChild(_pParallaxManager);
+
+	//hero = new core::SynthActor("hero");
+	//hero->addComponent(physics::GeometryComponent::create(Point(0.f, 0.f), Size(1.f, 1.f), 0.f, Point(0.f, 0.f)));
+	//hero->addComponent(physics::MovementComponent::create(Point(0.f, 0.f), Point(0.f, -10.f)));
+	
+
 
 	return bTest;
 }

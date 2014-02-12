@@ -25,7 +25,7 @@ private:
 	EventListenerCustom* _pTestCollisionEventListener;
 
 public:
-	char* COMPONENT_TYPE;
+	static const char* COMPONENT_TYPE;
 
 
 protected:
