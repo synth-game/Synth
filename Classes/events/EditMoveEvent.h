@@ -1,3 +1,9 @@
+/*!
+ * \file EditMoveEvent.h
+ * 
+ * \author Flora Jullien
+ * \date 12/02/2014
+ */
 #ifndef EVENTS_GAMEEVENTS_EDIT_MOVE_EVENT_H
 #define EVENTS_GAMEEVENTS_EDIT_MOVE_EVENT_H
 
@@ -6,41 +12,33 @@
 
 USING_NS_CC;
 
-namespace events
-{
-class EditMoveEvent : public events::SynthEvent
-{
-private:
-	Point _direction;
+namespace events {
 
-	bool _bChangeX;
-
-	bool _bChangeY;
+/*! \class EditMoveEvent */
+class EditMoveEvent : public events::SynthEvent {
 
 public:
-	static char* sEventName;
-
-
-public:
+	/*! \brief Constructor */
 	EditMoveEvent();
-
-	/**
-	 *
-	 */
+	/*! \brief Destructor */
 	~EditMoveEvent();
 
-	Point getDirection();
+	inline Point getDirection() { return _direction; }
+	inline bool getChangeX() { return _bChangeX; }
+	inline bool getChangeY() { return _bChangeY; }
+	inline bool isStartMoving() { return _bStartMoving; }
+	inline void setDirection(Point direction) { _direction = direction; } 
+	inline void setChangeX(bool changeX) { _bChangeX = changeX; }
+	inline void setChangeY(bool changeY) { _bChangeY = changeY; }
+	inline void setStartMoving(bool start) { _bStartMoving = start; }
 
-	bool getChangeX();
+	static char* sEventName;
 
-	bool getChangeY();
-
-	void setDirection(Point direction);
-
-	void setChangeX(bool changeX);
-
-	void setChangeY(bool changeY);
-
+private:
+	Point _direction;
+	bool _bChangeX;
+	bool _bChangeY;
+	bool _bStartMoving;
 };
 
 }  // namespace events
