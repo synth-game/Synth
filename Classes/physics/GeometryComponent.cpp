@@ -5,6 +5,7 @@
  * \date 12/02/2014
  */
 #include "GeometryComponent.h"
+#include "events/ChangePositionEvent.h"
 
 namespace physics {
 
@@ -37,7 +38,7 @@ GeometryComponent* GeometryComponent::create(Point position, Size size, float fR
 }
 
 void GeometryComponent::initListeners() {
-	//_pChangePositionListener = cocos2d::EventListenerCustom::create(ChangePositionEvent::eventName, CC_CALLBACK_1(GeometryComponent::onChangePosition, this));
+	_pChangePositionListener = cocos2d::EventListenerCustom::create(events::ChangePositionEvent::EVENT_NAME, CC_CALLBACK_1(GeometryComponent::onChangePosition, this));
 }
 
 void GeometryComponent::onChangePosition(EventCustom* pEvent) {

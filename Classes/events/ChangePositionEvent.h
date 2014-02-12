@@ -8,15 +8,14 @@ USING_NS_CC;
 
 namespace events
 {
-namespace GameEvents
-{
+
 class ChangePositionEvent : public events::SynthEvent
 {
 private:
 	Point _currentPosition;
 
 public:
-	static char* sEventName;
+	static char* EVENT_NAME;
 
 
 public:
@@ -33,6 +32,5 @@ public:
 
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif
