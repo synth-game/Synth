@@ -8,6 +8,7 @@
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
 #include "events/InterruptMoveEvent.h"
+#include "core/SynthActor.h"
 
 namespace physics {
 
@@ -46,15 +47,36 @@ void MovementComponent::initListeners() {
 }
 
 void MovementComponent::onEditMove(EventCustom* pEvent) {
-
+	events::EditMoveEvent* editMoveEvent = static_cast<events::EditMoveEvent*>(pEvent);
+	core::SynthActor* eventSource = static_cast<core::SynthActor*>(editMoveEvent->getSource());
+	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
+	if (componentOwner == eventSource) {
+		if (editMoveEvent->getChangeX()) {
+			_direction.x = editMoveEvent->getDirection().x;
+		}
+		if (editMoveEvent->getChangeY()) {
+			_direction.y = editMoveEvent->getDirection().y;
+		}
+		_bStartMoving = editMoveEvent->isStartMoving();
+	}
 }
 
 void MovementComponent::onJump(EventCustom* pEvent) {
-
+	events::JumpEvent* jumpEvent = static_cast<events::JumpEvent*>(pEvent);
+	core::SynthActor* eventSource = static_cast<core::SynthActor*>(jumpEvent->getSource());
+	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
+	if (componentOwner == eventSource) {
+		
+	}
 }
 
 void MovementComponent::onInterruptMove(EventCustom* pEvent) {
-
+	events::InterruptMoveEvent* interruptMoveEvent = static_cast<events::InterruptMoveEvent*>(pEvent);
+	core::SynthActor* eventSource = static_cast<core::SynthActor*>(interruptMoveEvent->getSource());
+	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
+	if (componentOwner == eventSource) {
+		
+	}
 }
 
 void MovementComponent::update(float fDt) {
