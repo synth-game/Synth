@@ -1,6 +1,6 @@
 /*!
  * \file SynthComponent.h
- * \brief Base classe of components in the game
+ * \brief Base class of components in the game
  * \author Jijidici
  * \date 09/02/2014
  */
