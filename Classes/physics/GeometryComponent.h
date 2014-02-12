@@ -32,7 +32,7 @@ public:
 	/*! \brief Initialize the component thanks to its COMPONENT_TYPE
 	 * \return true
 	 */
-	virtual bool init();
+	bool init();
 
 	/*! \brief Create the component
 	 * \param position The position of the actor.

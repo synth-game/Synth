@@ -17,35 +17,23 @@ LightAttrComponent::~LightAttrComponent() {
 }
 
 bool LightAttrComponent::init() {
-	return 0;
+	SynthComponent::init(LightAttrComponent::COMPONENT_TYPE);
+	return true;
 }
 
-LightAttrComponent* LightAttrComponent::create(Color4B color) {
-	return 0;
-}
-
-Color4B LightAttrComponent::getColor() {
-	return Color4B::BLACK;
-}
-
-void LightAttrComponent::setColor(Color4B color) {
-}
-
-bool LightAttrComponent::isOn() {
-	return 0;
-}
-
-void LightAttrComponent::initListeners() {
+LightAttrComponent* LightAttrComponent::create(Color4B * pColor) {
+	LightAttrComponent* pRet = new LightAttrComponent();
+    if (pRet != NULL && pRet->init()) {
+        pRet->autorelease();
+		pRet->_pColor =			pColor;
+    } else {
+        CC_SAFE_DELETE(pRet);
+    }
+	return pRet;
 }
 
 void LightAttrComponent::onChangeIntensity(EventCustom* pEvent) {
 }
 
-float LightAttrComponent::getIntensity() {
-	return 0;
-}
-
-void LightAttrComponent::setIntensity(float intensity) {
-}
 
 }  // namespace game

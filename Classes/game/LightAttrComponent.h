@@ -14,8 +14,8 @@ USING_NS_CC;
 
 namespace game {
 
-/*! \class GeometryComponent
- * \brief Class giving a position, a size, a rotation angle and an anchorpoint to the SynthActor.
+/*! \class LightAttrComponent
+ * \brief Component giving a colored light to a SynthActor.
  *
  * 
  */
@@ -29,24 +29,32 @@ public:
 	/*! \brief Destructor */
 	~LightAttrComponent();
 
+	/*! \brief Initialize the component thanks to its COMPONENT_TYPE
+	 * \return true
+	 */
 	bool init();
 
-	static LightAttrComponent* create(Color4B color);
+	/*! \brief Create the component
+	 * \param color The color of the light (r,g,b,a)
+	 * \return LightAttrComponent*
+	 */
+	static LightAttrComponent* create(Color4B* pColor);
 
-	Color4B getColor();
+	inline Color4B getColor();
 
-	void setColor(Color4B color);
+	inline void setColor(Color4B color);
 
-	bool isOn();
+	inline bool isOn();
 
-	float getIntensity();
+	inline float getIntensity();
 
-	void setIntensity(float intensity);
+	inline void setIntensity(float intensity);
 
 	/*
 	 * Members
 	 */
 
+	/*! \brief The identifier of the component. */
 	static char* COMPONENT_TYPE;
 
 
@@ -58,16 +66,25 @@ protected:
 	/*! \brief Constructor */
 	LightAttrComponent();
 
+	/*! \brief Initialize the listeners
+	 * \return void
+	 */
 	void initListeners();
 
+	/*! \brief Method called when a ChangeIntensityEvent is catched
+	 * \param pEvent the event catched
+	 * \return void
+	 */
 	void onChangeIntensity(EventCustom* pEvent);
 
 	/*
 	 * Members
 	 */
 
+	/*! \brief The color of the light (r,g,b,a) */
 	Color4B* _pColor;
 
+	/*! \brief The intensity of the light. The alpha layer from _pColor member */
 	float _intensity;
 
 
@@ -76,6 +93,7 @@ private:
 	 * Members
 	 */
 
+	/*! \brief ChangePositionEvent listener. */
 	EventListenerCustom* _pChangeIntensityListener;
 
 
