@@ -35,6 +35,9 @@ public:
 	/*! \brief Destructor */
 	~SynthActor();
 
+	/*! \brief compare actor IDs */
+	inline bool operator==(SynthActor other) { return _iActorID == other.getActorID(); }
+
 	/*! \brief Get SynthActor's identifiant
 	 */
 	inline int getActorID() { return _iActorID; }
