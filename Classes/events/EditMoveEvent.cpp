@@ -2,9 +2,8 @@
 
 namespace events
 {
-namespace GameEvents
-{
-char* EditMoveEvent::sEventName;
+
+const char* EditMoveEvent::EVENT_NAME = "EditMoveEvent";
 
 EditMoveEvent::EditMoveEvent()
 {
@@ -40,5 +39,4 @@ void EditMoveEvent::setChangeX(bool changeX)
 void EditMoveEvent::setChangeY(bool changeY)
 {
 }
-}  // namespace GameEvents
 }  // namespace events

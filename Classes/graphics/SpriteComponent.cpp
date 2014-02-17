@@ -4,6 +4,7 @@
  * \author Chupee
  * \date 12/02/2014
  */
+
 #include "SpriteComponent.h"
 #include "events/EditMoveEvent.h"
 
@@ -21,6 +22,15 @@ SpriteComponent::~SpriteComponent() {
 
 bool SpriteComponent::init() {
     SynthComponent::init(SpriteComponent::COMPONENT_TYPE);
+
+	// Create sprite
+	const std::string sSpriteName = _sSpriteName;
+	_pSprite = Sprite::create("sprites/cake.png");
+	_pSprite->setAnchorPoint(Point(0,1));
+	_pSprite->setPosition(Point(0.f, _pSprite->getContentSize().height));
+	_pParent->addChild(_pSprite, 0, 2);
+
+
 	return true;
 }
 

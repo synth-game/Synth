@@ -57,7 +57,7 @@ protected:
 
 	Layer* _pParent;
 
-	EventCustom* _pEditMoveEventListener;
+	EventListenerCustom* _pEditMoveEventListener;
 
 };
 
