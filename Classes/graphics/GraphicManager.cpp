@@ -27,7 +27,11 @@ void GraphicManager::init(core::xml data) {
 }
 
 Sprite* GraphicManager::createSprite(std::string sSpriteName) {
-	return 0;
+	// Create sprite
+	Sprite* pSprite = Sprite::create(sSpriteName.c_str());
+	pSprite->setAnchorPoint(Point(0.f, 1.f));
+	pSprite->setPosition(Point(0.f, pSprite->getContentSize().height));
+	return pSprite;
 }
 
 Animation* GraphicManager::getAnimation(std::string sAnimName) {

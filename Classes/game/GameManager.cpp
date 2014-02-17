@@ -5,6 +5,10 @@
  * \date 09/02/2014
  */
 #include "GameManager.h"
+#include "core/SynthActor.h"
+#include "physics/GeometryComponent.h"
+#include "graphics/GraphicManager.h"
+#include "graphics/SpriteComponent.h"
 
 namespace game {
 
@@ -67,6 +71,13 @@ bool GameManager::init() {
 	_pParallaxManager->addChild(_pSkinningLayer, 4, Point(1.f, 1.f), Point(0.f, 0.f));
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
 	Layer::addChild(_pParallaxManager);
+
+	// test geometryComponent
+	core::SynthActor actor = core::SynthActor("CAKE");
+	actor.addComponent(physics::GeometryComponent::create(Point(100.f,100.f), Size(16,16), 0.f, Point(0,0)));
+	// test spriteComponent
+	graphics::GraphicManager* graphicManager = graphics::GraphicManager::getInstance();
+	actor.addComponent(graphics::SpriteComponent::create("sprites/cake.png", _pLevelLayer));
 
 	return bTest;
 }

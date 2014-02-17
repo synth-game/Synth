@@ -62,9 +62,9 @@ private:
 	/*! \brief The singleton instance */
 	static GraphicManager* GraphicManager::_pInstance;
 
-	std::vector<core::SynthActor*> _staticSprites;
+	std::vector<Sprite*> _staticSprites;
 
-	std::map<std::string,Animation> _animations;
+	std::map<std::string,Animation*> _animations;
 
 };
 
