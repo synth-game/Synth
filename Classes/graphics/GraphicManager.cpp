@@ -8,6 +8,8 @@
 
 namespace graphics {
 
+GraphicManager* GraphicManager::_pInstance = nullptr;
+
 GraphicManager::GraphicManager() {
 }
 

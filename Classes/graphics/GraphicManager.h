@@ -58,9 +58,9 @@ private:
 	/*
 	 * Members
 	 */
-
+	
 	/*! \brief The singleton instance */
-	static GraphicManager* _pInstance;
+	static GraphicManager* GraphicManager::_pInstance;
 
 	std::vector<core::SynthActor*> _staticSprites;
 
