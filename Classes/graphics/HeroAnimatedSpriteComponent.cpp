@@ -6,6 +6,7 @@
  */
 #include "HeroAnimatedSpriteComponent.h"
 #include "graphics/GraphicManager.h"
+#include "physics/GeometryComponent.h"
 
 namespace graphics {
 
@@ -31,8 +32,8 @@ bool HeroAnimatedSpriteComponent::init() {
 		frameCache->addSpriteFramesWithFile("sprites/girl.plist");
 		frameCache->retain();
 
-		Sprite* sprite = cocos2d::Sprite::createWithSpriteFrameName("walk_0.png");
-		_pBatchNode->addChild(sprite);
+		_pSprite = cocos2d::Sprite::createWithSpriteFrameName("walk_0.png");
+		_pBatchNode->addChild(_pSprite);
 		_pBatchNode->setPosition(cocos2d::Point(0.f, 0.f));
 
 		_pParent->addChild(_pBatchNode, 1, 3);
@@ -49,6 +50,9 @@ bool HeroAnimatedSpriteComponent::init() {
 		}
 		cocos2d::Animate* walkAnimation = cocos2d::Animate::create(cocos2d::Animation::createWithSpriteFrames(animFrames, 0.1f));
 		walkAnimation->retain();
+
+		_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimation ));
+
 	}
 
 
@@ -66,6 +70,14 @@ HeroAnimatedSpriteComponent* HeroAnimatedSpriteComponent::create(Layer* pParent)
         CC_SAFE_DELETE(pRet);
     }
 	return pRet;
+}
+
+void HeroAnimatedSpriteComponent::onEnter() {
+	physics::GeometryComponent* geometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+	CCASSERT(geometryComponent != NULL, "HeroAnimatedSpriteComponent need a GeometryComponent added to its owner");
+	if(_pBatchNode!= nullptr) {
+		_pBatchNode->setPosition(geometryComponent->getPosition());
+	}
 }
 
 void HeroAnimatedSpriteComponent::initListeners() {

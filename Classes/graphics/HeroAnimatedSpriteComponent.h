@@ -32,6 +32,8 @@ public:
 	/*! \brief Get the batchnode from the GraphicManager and init with the idl_animation */
 	static HeroAnimatedSpriteComponent* create(Layer* pParent);
 
+	void onEnter();
+
 	void onChangePosition(EventCustom* pEvent);
 
 	void onEditMove(EventCustom* pEvent);
