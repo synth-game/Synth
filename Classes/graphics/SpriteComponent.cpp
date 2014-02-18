@@ -54,7 +54,7 @@ void SpriteComponent::initListeners() {
 void SpriteComponent::onEditMove(EventCustom* pEvent) {
 }
 
-void SpriteComponent::onEnter() { //Appelée après l'ajout dans le componentContainer par la classe Node (avant le owner n'est pas défini)
+void SpriteComponent::onEnter() {
 	physics::GeometryComponent* geometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(geometryComponent != NULL, "SpriteComponent need a GeometryComponent added to its owner");
 	_pSprite->setPosition(geometryComponent->getPosition());
