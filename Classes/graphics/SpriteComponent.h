@@ -35,6 +35,9 @@ public:
 
 	void onEditMove(EventCustom* pEvent);
 
+	void onEnter(); //Appelée après l'ajout dans le componentContainer par la classe Node (avant le owner n'est pas défini)
+
+
 	/*
 	 * Members
 	 */
@@ -45,6 +48,7 @@ protected:
 	 * Methods
 	 */
 	SpriteComponent();
+	SpriteComponent(std::string sSpriteName, Layer* pParent); 
 
 	virtual void initListeners();
 

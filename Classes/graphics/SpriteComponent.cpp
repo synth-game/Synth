@@ -18,28 +18,29 @@ const char* SpriteComponent::COMPONENT_TYPE = "SpriteComponent";
 SpriteComponent::SpriteComponent() {
 
 }
+SpriteComponent::SpriteComponent(std::string sSpriteName, Layer* pParent) :
+	SynthComponent(),
+	_sSpriteName(sSpriteName),
+	_pParent(pParent) {
+	// Create sprite
+	graphics::GraphicManager* graphicManager = graphics::GraphicManager::getInstance();
+	_pSprite = graphicManager->createSprite(_sSpriteName);
+	_pParent->addChild(_pSprite, 0, 2);
+}
 
 SpriteComponent::~SpriteComponent() {
 }
 
 bool SpriteComponent::init() {
     SynthComponent::init(SpriteComponent::COMPONENT_TYPE);
+	initListeners();
 	return true;
 }
 
 SpriteComponent* SpriteComponent::create(std::string sSpriteName, Layer* pParent) {
-	SpriteComponent* pRet = new SpriteComponent();
+	SpriteComponent* pRet = new SpriteComponent(sSpriteName, pParent);
     if (pRet != NULL && pRet->init()) {
         pRet->autorelease();
-		pRet->_sSpriteName =			sSpriteName;
-		pRet->_pParent =				pParent;
-		// Create sprite
-		graphics::GraphicManager* graphicManager = graphics::GraphicManager::getInstance();
-		Sprite* pSprite = graphicManager->createSprite(pRet->_sSpriteName);
-		//physics::GeometryComponent* geometryComponent = static_cast<physics::GeometryComponent*>(pRet->_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-		//CCASSERT(geometryComponent != NULL, "SpriteComponent need a GeometryComponent added to its owner");
-		//pSprite->setPosition(geometryComponent->getPosition());
-		pRet->_pParent->addChild(pSprite, 0, 2);
     } else {
         CC_SAFE_DELETE(pRet);
     }
@@ -51,6 +52,12 @@ void SpriteComponent::initListeners() {
 }
 
 void SpriteComponent::onEditMove(EventCustom* pEvent) {
+}
+
+void SpriteComponent::onEnter() { //Appelée après l'ajout dans le componentContainer par la classe Node (avant le owner n'est pas défini)
+	physics::GeometryComponent* geometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+	CCASSERT(geometryComponent != NULL, "SpriteComponent need a GeometryComponent added to its owner");
+	_pSprite->setPosition(geometryComponent->getPosition());
 }
 
 }  // namespace graphics
