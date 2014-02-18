@@ -23,7 +23,6 @@ SpriteComponent::SpriteComponent(Layer* pParent) :
 	_pParent(pParent),
 	_sSpriteName(""),
 	_pSprite(nullptr) {
-
 }
 
 SpriteComponent::SpriteComponent(std::string sSpriteName, Layer* pParent) :

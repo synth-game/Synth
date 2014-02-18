@@ -9,6 +9,8 @@
 #include "physics/GeometryComponent.h"
 #include "core/SynthActor.h"
 
+#include "events/EditMoveEvent.h"
+
 namespace graphics {
 
 HeroAnimatedSpriteComponent::HeroAnimatedSpriteComponent() {
@@ -54,20 +56,19 @@ void HeroAnimatedSpriteComponent::onEnter() {
 		// animation
 		_pSprite = cocos2d::Sprite::createWithSpriteFrameName("walk_0.png");
 		_pBatchNode->addChild(_pSprite);
-
 		_pParent->addChild(_pBatchNode, 1, 3);
 
-		cocos2d::Animation* walkAnimation = graphicManager->getAnimation("walk", _pFrameCache);
-		
+		_sState = "on_floor";
+		_sCurrentAnimName = "walk";
+		cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_sCurrentAnimName, _pFrameCache);
 		cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
 		walkAnimate->retain();
-
 		_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
 	}
 }
 
 void HeroAnimatedSpriteComponent::initListeners() {
-	//_pChangePositionEventListener = cocos2d::EventListenerCustom::create(events::ChangePositionEvent::EVENT_NAME, CC_CALLBACK_1(SpriteComponent::onEditMove, this));
+	_pEditMoveEventListener = cocos2d::EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(SpriteComponent::onEditMove, this));
 	// etc.. TODO
 }
 
@@ -75,10 +76,35 @@ void HeroAnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {
 }
 
 void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
+	events::EditMoveEvent*	pEditMoveEvent	= static_cast<events::EditMoveEvent*>(pEvent);
+    core::SynthActor*		pSource			= static_cast<core::SynthActor*>(pEditMoveEvent->getSource());
+    core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
+
+	GraphicManager* graphicManager = GraphicManager::getInstance();
+	cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_sCurrentAnimName, _pFrameCache);
+	cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
+
+    if (pSource->getActorID() == pOwner->getActorID()) {
+		if (pEditMoveEvent->getStart()) {
+			if (pEditMoveEvent->getDirection().x < 0) {
+				_pSprite->setFlippedX(true);
+				_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
+			}
+			else if(pEditMoveEvent->getDirection().x > 0) {
+				_pSprite->setFlippedX(false);
+
+				_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
+			}
+		} else {
+			_pSprite->stopAllActions();
+		}
+    }
+    else {
+        CCLOG("MOVE EVENT RECEIVED BUT ID NOT THE SAME");
+    }
 }
 
 void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
-
 }
 
 void HeroAnimatedSpriteComponent::onInterruptMove(EventCustom* pEvent) {

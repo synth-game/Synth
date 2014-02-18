@@ -15,7 +15,9 @@ AnimatedSpriteComponent::AnimatedSpriteComponent() {
 AnimatedSpriteComponent::AnimatedSpriteComponent(Layer* pParent) :
 	SpriteComponent(pParent),
 	_pFrameCache(nullptr),
-	_pBatchNode(nullptr) {
+	_pBatchNode(nullptr),
+	_sState(NULL),
+	_sCurrentAnimName(NULL) {
 }
 
 AnimatedSpriteComponent::~AnimatedSpriteComponent() {

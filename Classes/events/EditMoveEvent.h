@@ -18,6 +18,8 @@ private:
 
 	bool _bChangeY;
 
+	bool _bStart;
+
 public:
 	static const char* EVENT_NAME;
 
@@ -36,11 +38,15 @@ public:
 
 	bool getChangeY();
 
+	bool getStart();
+
 	void setDirection(Point direction);
 
-	void setChangeX(bool changeX);
+	void setChangeX(bool bChangeX);
 
-	void setChangeY(bool changeY);
+	void setChangeY(bool bChangeY);
+
+	void setStart(bool bStart);
 
 };
 

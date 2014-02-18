@@ -51,12 +51,16 @@ protected:
 	 * Members
 	 */
 
+	/*! \brief The batch node of the animation (takes the pvr file) */
 	SpriteBatchNode* _pBatchNode;
 
+	/*! \brief The cache of the images (takes the plist file) */
 	SpriteFrameCache* _pFrameCache;
 
+	/*! \brief The current state of the animated actor (eg on_air, on_floor) */
 	std::string _sState;
 
+	/*! \brief The current animation */
 	std::string _sCurrentAnimName;
 
 
