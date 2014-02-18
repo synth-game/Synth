@@ -48,6 +48,7 @@ protected:
 	 * Methods
 	 */
 	SpriteComponent();
+	SpriteComponent(Layer* pParent); 
 	SpriteComponent(std::string sSpriteName, Layer* pParent); 
 
 	virtual void initListeners();

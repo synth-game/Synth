@@ -9,6 +9,13 @@
 namespace graphics {
 
 AnimatedSpriteComponent::AnimatedSpriteComponent() {
+
+}
+
+AnimatedSpriteComponent::AnimatedSpriteComponent(Layer* pParent) :
+	SpriteComponent(pParent),
+	_pFrameCache(nullptr),
+	_pBatchNode(nullptr) {
 }
 
 AnimatedSpriteComponent::~AnimatedSpriteComponent() {

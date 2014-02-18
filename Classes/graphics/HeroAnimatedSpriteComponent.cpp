@@ -15,11 +15,8 @@ HeroAnimatedSpriteComponent::HeroAnimatedSpriteComponent() {
 }
 
 HeroAnimatedSpriteComponent::HeroAnimatedSpriteComponent(Layer* pParent) : 
-	AnimatedSpriteComponent() {
-	_pParent = pParent;
-	_pSprite = nullptr;
-	_pFrameCache = nullptr;
-	_pBatchNode = nullptr;
+	AnimatedSpriteComponent(pParent) {
+	
 }
 
 HeroAnimatedSpriteComponent::~HeroAnimatedSpriteComponent() {

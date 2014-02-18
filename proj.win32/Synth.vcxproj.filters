@@ -78,9 +78,6 @@
     <ClCompile Include="..\Classes\graphics\AnimatedSpriteComponent.cpp">
       <Filter>Classes\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\graphics\FireFlyAnimatedSprite.cpp">
-      <Filter>Classes\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\graphics\GraphicManager.cpp">
       <Filter>Classes\graphics</Filter>
     </ClCompile>
@@ -282,6 +279,9 @@
     <ClCompile Include="..\Classes\Events\ChangeIntensityEvent.cpp">
       <Filter>Classes\events</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\graphics\FireFlyAnimatedSpriteComponent.cpp">
+      <Filter>Classes\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -327,9 +327,6 @@
       <Filter>Classes\game</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\graphics\AnimatedSpriteComponent.h">
-      <Filter>Classes\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\graphics\FireFlyAnimatedSprite.h">
       <Filter>Classes\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\graphics\GraphicManager.h">
@@ -538,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Events\ChangeIntensityEvent.h">
       <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\FireFlyAnimatedSpriteComponent.h">
+      <Filter>Classes\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -42,6 +42,7 @@ protected:
 
 	/*! \brief Constructor */
 	AnimatedSpriteComponent();
+	AnimatedSpriteComponent(Layer* pParent);
 
 	/*! \brief Callback function of chained animation */
 	void requestNextAnimation();

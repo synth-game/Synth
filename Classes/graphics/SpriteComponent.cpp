@@ -16,8 +16,16 @@ namespace graphics {
 const char* SpriteComponent::COMPONENT_TYPE = "SpriteComponent";
 
 SpriteComponent::SpriteComponent() {
+}
+
+SpriteComponent::SpriteComponent(Layer* pParent) : 
+	SynthComponent(),
+	_pParent(pParent),
+	_sSpriteName(""),
+	_pSprite(nullptr) {
 
 }
+
 SpriteComponent::SpriteComponent(std::string sSpriteName, Layer* pParent) :
 	SynthComponent(),
 	_sSpriteName(sSpriteName),
