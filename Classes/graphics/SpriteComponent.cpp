@@ -57,7 +57,9 @@ void SpriteComponent::onEditMove(EventCustom* pEvent) {
 void SpriteComponent::onEnter() {
 	physics::GeometryComponent* geometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(geometryComponent != NULL, "SpriteComponent need a GeometryComponent added to its owner");
-	_pSprite->setPosition(geometryComponent->getPosition());
+	if(_pSprite != nullptr) {
+		_pSprite->setPosition(geometryComponent->getPosition());
+	}
 }
 
 }  // namespace graphics

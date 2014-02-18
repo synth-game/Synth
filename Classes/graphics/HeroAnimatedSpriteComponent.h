@@ -30,7 +30,7 @@ public:
 	virtual bool init();
 
 	/*! \brief Get the batchnode from the GraphicManager and init with the idl_animation */
-	static HeroAnimatedSpriteComponent* create();
+	static HeroAnimatedSpriteComponent* create(Layer* pParent);
 
 	void onChangePosition(EventCustom* pEvent);
 
@@ -53,7 +53,6 @@ public:
 	/*
 	 * Members
 	 */
-	static const char* COMPONENT_TYPE;
 
 
 protected:
@@ -63,6 +62,7 @@ protected:
 
 	/*! \brief Constructor */
 	HeroAnimatedSpriteComponent();
+	HeroAnimatedSpriteComponent(Layer* pParent);
 
 	void initListeners();
 

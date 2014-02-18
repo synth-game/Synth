@@ -9,6 +9,7 @@
 #include "physics/GeometryComponent.h"
 #include "graphics/GraphicManager.h"
 #include "graphics/SpriteComponent.h"
+#include "graphics/HeroAnimatedSpriteComponent.h"
 
 namespace game {
 
@@ -72,13 +73,20 @@ bool GameManager::init() {
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
 	Layer::addChild(_pParallaxManager);
 
+	// Background
+	graphics::GraphicManager* graphicManager = graphics::GraphicManager::getInstance();
+	Sprite* pBgSprite = graphicManager->createSprite("sprites/decor.jpg");
+	_pBackgroundLayer->addChild(pBgSprite, 0, 42);
+
 	// test geometryComponent
 	core::SynthActor actor = core::SynthActor("CAKE");
 	actor.addComponent(physics::GeometryComponent::create(Point(100.f,100.f), Size(16,16), 0.f, Point(0,0)));
 	// test spriteComponent
-	graphics::GraphicManager* graphicManager = graphics::GraphicManager::getInstance();
 	actor.addComponent(graphics::SpriteComponent::create("sprites/cake.png", _pLevelLayer));
-
+	// test animatedspritecomponent
+	core::SynthActor animatedActor = core::SynthActor("GIRL");
+	animatedActor.addComponent(physics::GeometryComponent::create(Point(300.f,300.f), Size(48,100), 0.f, Point(0,0)));
+	animatedActor.addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
 	return bTest;
 }
 
