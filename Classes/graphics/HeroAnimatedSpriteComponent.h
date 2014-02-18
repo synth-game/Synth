@@ -74,23 +74,23 @@ private:
 	 * Methods
 	 */
 
-	EventListenerCustom* pChangePositionEventListener;
+	EventListenerCustom* _pChangePositionEventListener;
 
-	EventListenerCustom* pEditMoveEventListener;
+	EventListenerCustom* _pEditMoveEventListener;
 
-	EventListenerCustom* pJumpEventListener;
+	EventListenerCustom* _pJumpEventListener;
 
-	EventListenerCustom* pInterruptMoveEventListener;
+	EventListenerCustom* _pInterruptMoveEventListener;
 
-	EventListenerCustom* pChangeNodeOwnerEventListener;
+	EventListenerCustom* _pChangeNodeOwnerEventListener;
 
-	EventListenerCustom* pToggleLightEventListener;
+	EventListenerCustom* _pToggleLightEventListener;
 
-	EventListenerCustom* pDeathEventListener;
+	EventListenerCustom* _pDeathEventListener;
 
-	EventListenerCustom* pWinEventListener;
+	EventListenerCustom* _pWinEventListener;
 
-	EventListenerCustom* pResetLevelEventListener;
+	EventListenerCustom* _pResetLevelEventListener;
 
 };
 
