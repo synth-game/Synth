@@ -41,9 +41,13 @@ public:
 
 	Sprite* createSprite(std::string sSpriteName);
 
-	Animation* getAnimation(std::string sAnimName);
+	Animation* getAnimation(std::string sAnimName, SpriteFrameCache* pFrameCache);
 
 	Animation* getNextAnimation(std::string sAnimName);
+
+	SpriteBatchNode* getBatchNode(std::string sActorName);
+
+	SpriteFrameCache* getFrameCache(std::string sActorName);
 
 	bool isLoopAnimation(std::string sAnimName);
 

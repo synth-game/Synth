@@ -84,7 +84,7 @@ bool GameManager::init() {
 	// test spriteComponent
 	actor.addComponent(graphics::SpriteComponent::create("sprites/cake.png", _pLevelLayer));
 	// test animatedspritecomponent
-	core::SynthActor animatedActor = core::SynthActor("GIRL");
+	core::SynthActor animatedActor = core::SynthActor("HERO");
 	animatedActor.addComponent(physics::GeometryComponent::create(Point(300.f,300.f), Size(48,100), 0.f, Point(0,0)));
 	animatedActor.addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
 	return bTest;

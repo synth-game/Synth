@@ -7,6 +7,7 @@
 #include "HeroAnimatedSpriteComponent.h"
 #include "graphics/GraphicManager.h"
 #include "physics/GeometryComponent.h"
+#include "core/SynthActor.h"
 
 namespace graphics {
 
@@ -17,6 +18,8 @@ HeroAnimatedSpriteComponent::HeroAnimatedSpriteComponent(Layer* pParent) :
 	AnimatedSpriteComponent() {
 	_pParent = pParent;
 	_pSprite = nullptr;
+	_pFrameCache = nullptr;
+	_pBatchNode = nullptr;
 }
 
 HeroAnimatedSpriteComponent::~HeroAnimatedSpriteComponent() {
@@ -24,40 +27,6 @@ HeroAnimatedSpriteComponent::~HeroAnimatedSpriteComponent() {
 
 bool HeroAnimatedSpriteComponent::init() {
     SynthComponent::init(HeroAnimatedSpriteComponent::COMPONENT_TYPE);
-
-	GraphicManager* graphicManager = GraphicManager::getInstance();
-	_pBatchNode = SpriteBatchNode::create("sprites/girl.pvr");
-	if(_pBatchNode != NULL) {
-		SpriteFrameCache* frameCache = cocos2d::SpriteFrameCache::sharedSpriteFrameCache();
-		frameCache->addSpriteFramesWithFile("sprites/girl.plist");
-		frameCache->retain();
-
-		_pSprite = cocos2d::Sprite::createWithSpriteFrameName("walk_0.png");
-		_pBatchNode->addChild(_pSprite);
-		_pBatchNode->setPosition(cocos2d::Point(0.f, 0.f));
-
-		_pParent->addChild(_pBatchNode, 1, 3);
-
-		// Sprite animation
-		cocos2d::Array* animFrames = cocos2d::Array::create();
-		char str[100] = {0};
-		for(int i = 1; i <= 7; i++)
-		{
-			sprintf(str, "walk_%d.png", i);
-			cocos2d::SpriteFrame* frame = frameCache->spriteFrameByName( str );
-			frame->retain();
-			animFrames->addObject(frame);
-		}
-		cocos2d::Animate* walkAnimation = cocos2d::Animate::create(cocos2d::Animation::createWithSpriteFrames(animFrames, 0.1f));
-		walkAnimation->retain();
-
-		_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimation ));
-
-	}
-
-
-	//Animation* anim = graphicManager->getAnimation("HERO_WALK");
-
 	initListeners();
 	return true;
 }
@@ -75,8 +44,28 @@ HeroAnimatedSpriteComponent* HeroAnimatedSpriteComponent::create(Layer* pParent)
 void HeroAnimatedSpriteComponent::onEnter() {
 	physics::GeometryComponent* geometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(geometryComponent != NULL, "HeroAnimatedSpriteComponent need a GeometryComponent added to its owner");
-	if(_pBatchNode!= nullptr) {
+
+	GraphicManager* graphicManager = GraphicManager::getInstance();
+	std::string actorTag = static_cast<core::SynthActor*>(_owner)->getActorTag();
+	_pBatchNode = graphicManager->getBatchNode(actorTag);
+	_pFrameCache = graphicManager->getFrameCache(actorTag);
+
+	if(_pBatchNode != nullptr && _pFrameCache != nullptr) {
+		// position
 		_pBatchNode->setPosition(geometryComponent->getPosition());
+
+		// animation
+		_pSprite = cocos2d::Sprite::createWithSpriteFrameName("walk_0.png");
+		_pBatchNode->addChild(_pSprite);
+
+		_pParent->addChild(_pBatchNode, 1, 3);
+
+		cocos2d::Animation* walkAnimation = graphicManager->getAnimation("walk", _pFrameCache);
+		
+		cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
+		walkAnimate->retain();
+
+		_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
 	}
 }
 

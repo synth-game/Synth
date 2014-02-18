@@ -33,12 +33,49 @@ Sprite* GraphicManager::createSprite(std::string sSpriteName) {
 	return pSprite;
 }
 
-Animation* GraphicManager::getAnimation(std::string sAnimName) {
-	return 0;
+Animation* GraphicManager::getAnimation(std::string sAnimName, SpriteFrameCache* pFrameCache) {
+	cocos2d::Array* animFrames = cocos2d::Array::create();
+	char str[100] = {0};
+	for(int i = 1; i <= 7; i++) {
+		sprintf(str, "%s_%d.png", sAnimName.c_str(), i);
+		cocos2d::SpriteFrame* frame = pFrameCache->spriteFrameByName( str );
+		frame->retain();
+		animFrames->addObject(frame);
+	}
+	return cocos2d::Animation::createWithSpriteFrames(animFrames, 0.1f);
 }
 
 Animation* GraphicManager::getNextAnimation(std::string sAnimName) {
 	return 0;
+}
+
+SpriteBatchNode* GraphicManager::getBatchNode(std::string sActorName) {
+	std::string sPvrFile = "";
+	if(sActorName == "HERO") {
+		sPvrFile = "sprites/girl.pvr";
+	} else if(sActorName == "FIREFLY") {
+		sPvrFile = "";
+	}
+	SpriteBatchNode* pBatchNode = nullptr;
+	if(sPvrFile != "") {
+		pBatchNode = SpriteBatchNode::create(sPvrFile.c_str());
+	} 
+	return pBatchNode;
+}
+
+SpriteFrameCache* GraphicManager::getFrameCache(std::string sActorName) {
+	std::string sPlistFile = "";
+	if(sActorName == "HERO") {
+		sPlistFile = "sprites/girl.plist";
+	} else if(sActorName == "FIREFLY") {
+		sPlistFile = "";
+	}
+
+	SpriteFrameCache* pFrameCache = cocos2d::SpriteFrameCache::sharedSpriteFrameCache();
+	pFrameCache->addSpriteFramesWithFile(sPlistFile.c_str());
+	pFrameCache->retain();
+
+	return pFrameCache;
 }
 
 bool GraphicManager::isLoopAnimation(std::string sAnimName) {

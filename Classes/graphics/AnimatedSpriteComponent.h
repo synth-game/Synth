@@ -52,6 +52,8 @@ protected:
 
 	SpriteBatchNode* _pBatchNode;
 
+	SpriteFrameCache* _pFrameCache;
+
 	std::string _sState;
 
 	std::string _sCurrentAnimName;
