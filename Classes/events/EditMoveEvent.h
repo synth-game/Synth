@@ -19,7 +19,7 @@ class EditMoveEvent : public events::SynthEvent {
 
 public:
 	/*! \brief Constructor */
-	EditMoveEvent();
+	EditMoveEvent(Node* pSource, Point direction, bool changeX, bool changeY, bool startMoving);
 	/*! \brief Destructor */
 	~EditMoveEvent();
 
@@ -32,7 +32,7 @@ public:
 	inline void setChangeY(bool changeY) { _bChangeY = changeY; }
 	inline void setStartMoving(bool start) { _bStartMoving = start; }
 
-	static char* sEventName;
+	static const char* EVENT_NAME;
 
 private:
 	Point _direction;

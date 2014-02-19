@@ -7,6 +7,7 @@
 #include "GameManager.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
+#include "events/EditMoveEvent.h"
 
 namespace game {
 
@@ -70,9 +71,9 @@ bool GameManager::init() {
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
 	Layer::addChild(_pParallaxManager);
 
-	//hero = new core::SynthActor("hero");
-	//hero->addComponent(physics::GeometryComponent::create(Point(0.f, 0.f), Size(1.f, 1.f), 0.f, Point(0.f, 0.f)));
-	//hero->addComponent(physics::MovementComponent::create(Point(0.f, 0.f), Point(0.f, -10.f)));
+	hero = new core::SynthActor("hero");
+	hero->addComponent(physics::GeometryComponent::create(Point(0.f, 0.f), Size(1.f, 1.f), 0.f, Point(0.f, 0.f)));
+	hero->addComponent(physics::MovementComponent::create(Point(0.f, 0.f), Point(0.f, -10.f)));
 	
 
 
@@ -80,7 +81,9 @@ bool GameManager::init() {
 }
 
 void GameManager::update(float fDt) {
- 
+	hero->update(fDt);
+	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+	CCLOG("position %2.f, %2.f", pGeometryComponent->getPosition().x, pGeometryComponent->getPosition().y);
 }
 
 void GameManager::loadLevel(int iLevelId) {
@@ -92,6 +95,8 @@ void GameManager::resetLevel() {
 
 
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
+	events::EditMoveEvent* pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, true);
+	EventDispatcher::getInstance()->dispatchEvent(pEditMoveEvent);
 
 }
 
@@ -107,5 +112,9 @@ std::vector<core::SynthActor*> GameManager::getActorsByTag(std::string sTag) {
 	std::vector<core::SynthActor*> emptyVec;
 	return emptyVec;
 }
+
+//void GameManager::onEditMove(EventCustom* pEvent) { 
+//	CCLOG("on edit move gm");
+//}
 
 }  // namespace game

@@ -8,10 +8,10 @@
 
 namespace events {
 
-char* EditMoveEvent::sEventName;
+const char* EditMoveEvent::EVENT_NAME = "edit_move_event";
 
-EditMoveEvent::EditMoveEvent() {
-
+EditMoveEvent::EditMoveEvent(Node* pSource, Point direction, bool changeX, bool changeY, bool startMoving) 
+	: SynthEvent(pSource, EVENT_NAME), _direction(direction), _bChangeX(changeX), _bChangeY(changeY), _bStartMoving(startMoving){
 }
 
 EditMoveEvent::~EditMoveEvent() {

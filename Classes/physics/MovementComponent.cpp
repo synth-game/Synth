@@ -25,7 +25,7 @@ const char* MovementComponent::COMPONENT_TYPE = "MovementComponent";
 
 MovementComponent::MovementComponent()
 	: SynthComponent(), _pEditMoveEventListener(nullptr), _pJumpEventListener(nullptr), _pInterruptMoveEventListener(nullptr) {
-
+		_bStartMoving = false;
 }
 
 MovementComponent::~MovementComponent() {
@@ -50,9 +50,13 @@ bool MovementComponent::init() {
 }
 
 void MovementComponent::initListeners() {
-	_pEditMoveEventListener = EventListenerCustom::create(events::EditMoveEvent::sEventName, CC_CALLBACK_1(MovementComponent::onEditMove, this));
-	_pJumpEventListener = EventListenerCustom::create(events::JumpEvent::sEventName, CC_CALLBACK_1(MovementComponent::onJump, this)); 
-	_pInterruptMoveEventListener = EventListenerCustom::create(events::InterruptMoveEvent::sEventName, CC_CALLBACK_1(MovementComponent::onInterruptMove, this));
+	// Listeners initialization
+	_pEditMoveEventListener = EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onEditMove, this));
+	_pJumpEventListener = EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onJump, this)); 
+	_pInterruptMoveEventListener = EventListenerCustom::create(events::InterruptMoveEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onInterruptMove, this));
+
+	// Add listeners to dispacher
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
 }
 
 void MovementComponent::onEditMove(EventCustom* pEvent) {
@@ -90,14 +94,17 @@ void MovementComponent::onInterruptMove(EventCustom* pEvent) {
 
 void MovementComponent::update(float fDt) {
 	// compute next speed
-	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
+	//_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
+	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y);
 
 	// cap the next lateral speed
 	if (_bStartMoving) {
+		CCLOG("YES");
 		if (abs(_speed.x) > MAX_X_SPEED) {
 			_speed.x = _direction.x * MAX_X_SPEED;
 		}
 	} else {
+		CCLOG("NOT");
 		if (_speed.x * _direction.x > 0.f) {
 			_speed.x = 0.f;
 		}
@@ -115,11 +122,13 @@ void MovementComponent::update(float fDt) {
 	CCASSERT(pGeometryComponent != nullptr, "MovementComponent needs a GeometryComponent added to its owner");
 
 	Point nextPosition = pGeometryComponent->getPosition() + (_speed * fDt);
+	CCLOG("nextposition %2.f, %2.f, %d", _speed.x, _speed.y);
 	nextPosition.x = floor(nextPosition.x);
 	nextPosition.y = floor(nextPosition.y);
 
 	physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
-	if (pCollisionComponent != nullptr) {
+	if (pCollisionComponent == nullptr) {
+		//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);
 		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
 		EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
 	} else {

@@ -46,6 +46,8 @@ public:
 
 	static Color4B getLightColor(core::SynthActor* pLight);
 
+	/*void GameManager::onEditMove(EventCustom* event);*/
+
 	core::SynthActor* hero;
 
 protected:

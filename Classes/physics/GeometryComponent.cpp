@@ -6,6 +6,7 @@
  */
 #include "GeometryComponent.h"
 #include "events/ChangePositionEvent.h"
+#include "core/SynthActor.h"
 
 namespace physics {
 
@@ -39,9 +40,16 @@ GeometryComponent* GeometryComponent::create(Point position, Size size, float fR
 
 void GeometryComponent::initListeners() {
 	_pChangePositionListener = cocos2d::EventListenerCustom::create(events::ChangePositionEvent::EVENT_NAME, CC_CALLBACK_1(GeometryComponent::onChangePosition, this));
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangePositionListener, 1);
 }
 
 void GeometryComponent::onChangePosition(EventCustom* pEvent) {
+	events::ChangePositionEvent* changePositionEvent = static_cast<events::ChangePositionEvent*>(pEvent);
+	core::SynthActor* eventSource = static_cast<core::SynthActor*>(changePositionEvent->getSource());
+	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
+	if (componentOwner == eventSource) {
+		_position = changePositionEvent->getCurrentPosition();
+	}
 }
 
 

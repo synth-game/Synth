@@ -1,44 +1,21 @@
+/*!
+ * \file InterruptMoveEvent.cpp
+ * 
+ * \author Flora Jullien
+ * \date 19/02/2014
+ */
 #include "InterruptMoveEvent.h"
 
-namespace events
-{
+namespace events {
 
-char* InterruptMoveEvent::sEventName;
+const char* InterruptMoveEvent::EVENT_NAME = "interrupt_move_event";
 
-InterruptMoveEvent::InterruptMoveEvent()
-{
+InterruptMoveEvent::InterruptMoveEvent() {
+
 }
 
-InterruptMoveEvent::~InterruptMoveEvent()
-{
-}
+InterruptMoveEvent::~InterruptMoveEvent() {
 
-bool InterruptMoveEvent::getStopX()
-{
-	return 0;
-}
-
-bool InterruptMoveEvent::getStopY()
-{
-	return 0;
-}
-
-bool InterruptMoveEvent::getHasMoved()
-{
-	return 0;
-}
-
-void InterruptMoveEvent::setStopX(bool stopX)
-{
-}
-
-void InterruptMoveEvent::setStopY(bool stopY)
-{
-}
-
-bool InterruptMoveEvent::setHasMoved()
-{
-	return 0;
 }
 
 }  // namespace events
