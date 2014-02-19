@@ -1,6 +1,6 @@
 /*!
  * \file ChangePositionEvent.h
- * \brief Main manager, the entry point of our program
+ * 
  * \author Flora Jullien
  * \date 12/02/2014
  */
@@ -19,7 +19,7 @@ class ChangePositionEvent : public events::SynthEvent {
 
 public:
 	/*! \brief Constructor */
-	ChangePositionEvent();
+	ChangePositionEvent(Node* pSource, Point position);
 	/*! \brief Destructor */
 	~ChangePositionEvent();
 

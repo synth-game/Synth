@@ -1,6 +1,6 @@
 /*!
  * \file TestCollisionEvent.cpp
- * \brief Main manager, the entry point of our program
+ * 
  * \author Flora Jullien
  * \date 12/02/2014
  */
@@ -8,9 +8,10 @@
 
 namespace events {
 
-char* TestCollisionEvent::sEventName;
+const char* TestCollisionEvent::EVENT_NAME = "test_collision_event";
 
-TestCollisionEvent::TestCollisionEvent() {
+TestCollisionEvent::TestCollisionEvent(Node* pSource, Point position, Point targetPosition, Size size) 
+	: SynthEvent(pSource, EVENT_NAME), _currentPosition(position), _targetPosition(targetPosition), _size(size) {
 
 }
 

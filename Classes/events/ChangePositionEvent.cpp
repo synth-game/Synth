@@ -10,7 +10,8 @@ namespace events {
 
 const char* ChangePositionEvent::EVENT_NAME = "ChangePositionEvent";
 
-ChangePositionEvent::ChangePositionEvent() {
+ChangePositionEvent::ChangePositionEvent(Node* pSource, Point position)
+	: SynthEvent(pSource, ChangePositionEvent::EVENT_NAME), _currentPosition(position) {
 
 }
 

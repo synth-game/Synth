@@ -1,6 +1,6 @@
 /*!
  * \file TestCollisionEvent.h
- * \brief Main manager, the entry point of our program
+ * 
  * \author Flora Jullien
  * \date 12/02/2014
  */
@@ -19,7 +19,7 @@ class TestCollisionEvent : public events::SynthEvent {
 
 public:
 	/*! \brief Constructor */
-	TestCollisionEvent();
+	TestCollisionEvent(Node* pSource, Point position, Point targetPosition, Size size);
 	/*! \brief Destructor */
 	~TestCollisionEvent();
 
@@ -30,7 +30,7 @@ public:
 	inline void setTargetPosition(Point position) { _targetPosition = position; }
 	inline void setSize(Size size) { _size = size; }
 
-	static char* sEventName;
+	static const char* EVENT_NAME;
 
 private:
 	Point _currentPosition;

@@ -9,6 +9,7 @@
 #include "events/JumpEvent.h"
 #include "events/InterruptMoveEvent.h"
 #include "events/ChangePositionEvent.h"
+#include "events/TestCollisionEvent.h"
 #include "core/SynthActor.h"
 #include "physics/GeometryComponent.h"
 #include "physics/CollisionComponent.h"
@@ -119,10 +120,11 @@ void MovementComponent::update(float fDt) {
 
 	physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
 	if (pCollisionComponent != nullptr) {
-		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent();
-
-		//TODO
-
+		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
+		EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+	} else {
+		events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
+		EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
 	}
 }
 
