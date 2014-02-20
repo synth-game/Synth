@@ -24,7 +24,7 @@ public:
 	inline bool getHasMoved() { return _bHasMoved; }
 	inline void setStopX(bool stopX) { _bStopX = stopX; }
 	inline void setStopY(bool stopY) { _bStopY = stopY; }
-	inline bool setHasMoved() { _bHasMoved = true; }
+	inline void setHasMoved() { _bHasMoved = true; }
 
 	static const char* EVENT_NAME;
 
