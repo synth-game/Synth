@@ -29,9 +29,9 @@ public:
 	PhysicCollision(Image* pBitmask, Point absoluteOriginPosition);
 	~PhysicCollision();
 
-	void setOwnerSize(Size size);
-	void setBitmask(Image* pBitmask);
-	void setAbsoluteOriginPosition(Point pos);
+	void setOwnerSize(Size size) { _ownerSize = size; }
+	void setBitmask(Image* pBitmask) { _pBitmask = pBitmask; }
+	void setAbsoluteOriginPosition(Point pos) { _absoluteOriginPosition = pos; }
 
 	Point boundingTest(Point nextPosition, EDirection dir);
 	Point groundTest(Point currentPosition, Point nextPosition);

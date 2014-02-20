@@ -42,7 +42,40 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 	if (pOwner->getActorID() == pEventSource->getActorID()) {
 		// check if the component have a PhysicCollision
 		if (_pPhysicCollision != nullptr) {
-			// TO DO : Collision test
+			// boundings collision
+			_pPhysicCollision->setOwnerSize(pTestColEvent->getSize());
+			Point targetPosition = pTestColEvent->getTargetPosition();
+
+			Point bCollisionPosition = _pPhysicCollision->boundingTest(targetPosition, PhysicCollision::EDirection::BOTTOM);
+			Point tCollisionPosition = _pPhysicCollision->boundingTest(targetPosition, PhysicCollision::EDirection::TOP);
+			Point lCollisionPosition = _pPhysicCollision->boundingTest(targetPosition, PhysicCollision::EDirection::LEFT);
+			Point rCollisionPosition = _pPhysicCollision->boundingTest(targetPosition, PhysicCollision::EDirection::RIGHT);
+
+			bool bVerticalCollision = false;
+			Point collidePosition = targetPosition;
+
+			if (bCollisionPosition.y != targetPosition.y) {
+				collidePosition.y = bCollisionPosition.y;
+				bVerticalCollision = true;
+			} else if (tCollisionPosition.y != targetPosition.y) {
+				collidePosition.y = tCollisionPosition.y;
+				bVerticalCollision = true;
+			}
+
+			if (lCollisionPosition.x != targetPosition.x) {
+				collidePosition.x = lCollisionPosition.x;
+			} else if (rCollisionPosition.x != targetPosition.x) {
+				collidePosition.x = rCollisionPosition.x;
+			}
+
+			if (!collidePosition.equals(pTestColEvent->getCurrentPosition())) {
+				events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, collidePosition);
+				EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+			}
+
+			if (bVerticalCollision) {
+				// TO DO : Send InteruptMoveEvent <- hit a wall
+			}
 		} else {
 			// Change position without modification
 			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, pTestColEvent->getTargetPosition());
