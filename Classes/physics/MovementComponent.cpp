@@ -96,7 +96,8 @@ void MovementComponent::update(float fDt) {
 	// compute next speed
 	//_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
 	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y);
-
+    
+    CCLOG("direction %2.f, %2.f", _direction.x, _direction.y);
 	// cap the next lateral speed
 	if (_bStartMoving) {
 		CCLOG("YES");
@@ -122,7 +123,7 @@ void MovementComponent::update(float fDt) {
 	CCASSERT(pGeometryComponent != nullptr, "MovementComponent needs a GeometryComponent added to its owner");
 
 	Point nextPosition = pGeometryComponent->getPosition() + (_speed * fDt);
-	CCLOG("nextposition %2.f, %2.f, %d", _speed.x, _speed.y);
+	CCLOG("speed %2.f, %2.f", _speed.x, _speed.y);
 	nextPosition.x = floor(nextPosition.x);
 	nextPosition.y = floor(nextPosition.y);
 
