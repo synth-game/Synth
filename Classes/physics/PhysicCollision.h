@@ -1,3 +1,9 @@
+/*!
+ * \file PhysicCollision.h
+ * \brief Manage collision with the level bitmask
+ * \author Jijidici
+ * \date 20/02/2014
+ */
 #ifndef PHYSICS_PHYSIC_COLLISION_H
 #define PHYSICS_PHYSIC_COLLISION_H
 
@@ -5,44 +11,39 @@
 
 USING_NS_CC;
 
-namespace physics
-{
-	enum EDirection{NO_DIRECTION};
+namespace physics {
 
-class PhysicCollision
-{
-protected:
-	Image* _pBitmask;
-
-	Point _absoluteOriginPosition;
-
-	Size _ownerSize;
-	
-	unsigned char getAlpha(Point pixel);
-	Point getNextPixelInDirection(Point currentPixel, unsigned char wantedValue, EDirection dir);
-
+/*!
+ * \brief Manage collision with the level bitmask
+ */
+class PhysicCollision {
 public:
-	PhysicCollision(Image* pBitmask, Point absoluteOriginPosition, Size _ownerSize);
+	enum EDirection{
+		LEFT,
+		TOP,
+		RIGHT,
+		BOTTOM,
+		NO_DIRECTION
+	};
+
+	PhysicCollision(Image* pBitmask, Point absoluteOriginPosition);
+	~PhysicCollision();
 
 	void setOwnerSize(Size size);
-
 	void setBitmask(Image* pBitmask);
-
 	void setAbsoluteOriginPosition(Point pos);
-	/**
-	 * Test et repousse un pixel de bord du sprite
-	 */
-	Point boundingTest(Point nextPosition, EDirection dir);
 
+	Point boundingTest(Point nextPosition, EDirection dir);
+	Point groundTest(Point currentPosition, Point nextPosition);
 	bool isOnGround(Point currentPosition);
 
-	/**
-	 * test de pente : si le personnage est collé à une surface, il doit suivre son relief en se déplaçant contre
-	 *
-	 *
-	 */
-	Point groundTest(Point currentPosition, Point nextPosition);
+protected:
+	Point getNextPixelInDirection(Point currentPixel, unsigned char wantedValue, EDirection dir);
+	unsigned char getAlpha(Point pixel);
 
+	Image* _pBitmask;
+	Point _absoluteOriginPosition;
+	Size _ownerSize;
 };
 
 }  // namespace physics
