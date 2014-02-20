@@ -1,3 +1,9 @@
+/*!
+ * \file EditMoveEvent.h
+ * 
+ * \author Flora Jullien
+ * \date 12/02/2014
+ */
 #ifndef EVENTS_GAMEEVENTS_EDIT_MOVE_EVENT_H
 #define EVENTS_GAMEEVENTS_EDIT_MOVE_EVENT_H
 
@@ -6,48 +12,33 @@
 
 USING_NS_CC;
 
-namespace events
-{
+namespace events {
 
-class EditMoveEvent : public events::SynthEvent
-{
-private:
-	Point _direction;
-
-	bool _bChangeX;
-
-	bool _bChangeY;
-
-	bool _bStart;
+/*! \class EditMoveEvent */
+class EditMoveEvent : public events::SynthEvent {
 
 public:
-	static const char* EVENT_NAME;
-
-
-public:
-	EditMoveEvent();
-
-	/**
-	 *
-	 */
+	/*! \brief Constructor */
+	EditMoveEvent(Node* pSource, Point direction, bool changeX, bool changeY, bool startMoving);
+	/*! \brief Destructor */
 	~EditMoveEvent();
 
-	Point getDirection();
+	inline Point getDirection() { return _direction; }
+	inline bool getChangeX() { return _bChangeX; }
+	inline bool getChangeY() { return _bChangeY; }
+	inline bool isStartMoving() { return _bStartMoving; }
+	inline void setDirection(Point direction) { _direction = direction; } 
+	inline void setChangeX(bool changeX) { _bChangeX = changeX; }
+	inline void setChangeY(bool changeY) { _bChangeY = changeY; }
+	inline void setStartMoving(bool start) { _bStartMoving = start; }
 
-	bool getChangeX();
+	static const char* EVENT_NAME;
 
-	bool getChangeY();
-
-	bool getStart();
-
-	void setDirection(Point direction);
-
-	void setChangeX(bool bChangeX);
-
-	void setChangeY(bool bChangeY);
-
-	void setStart(bool bStart);
-
+private:
+	Point _direction;
+	bool _bChangeX;
+	bool _bChangeY;
+	bool _bStartMoving;
 };
 
 }  // namespace events

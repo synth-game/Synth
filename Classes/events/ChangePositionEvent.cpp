@@ -1,25 +1,22 @@
+/*!
+ * \file ChangePositionEvent.cpp
+ * \brief Main manager, the entry point of our program
+ * \author Flora Jullien
+ * \date 12/02/2014
+ */
 #include "ChangePositionEvent.h"
 
-namespace events
-{
+namespace events {
 
 const char* ChangePositionEvent::EVENT_NAME = "ChangePositionEvent";
 
-ChangePositionEvent::ChangePositionEvent()
-{
+ChangePositionEvent::ChangePositionEvent(Node* pSource, Point position)
+	: SynthEvent(pSource, ChangePositionEvent::EVENT_NAME), _currentPosition(position) {
+
 }
 
-ChangePositionEvent::~ChangePositionEvent()
-{
-}
+ChangePositionEvent::~ChangePositionEvent() {
 
-Point ChangePositionEvent::getCurrentPosition()
-{
-	return Point::ZERO;
-}
-
-void ChangePositionEvent::setCurrentPosition(Point position)
-{
 }
 
 }  // namespace events

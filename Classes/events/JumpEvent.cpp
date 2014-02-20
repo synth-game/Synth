@@ -1,26 +1,21 @@
+/*!
+ * \file JumpEvent.cpp
+ * 
+ * \author Flora Jullien
+ * \date 19/02/2014
+ */
 #include "JumpEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
-char* JumpEvent::sEventName;
+namespace events {
 
-JumpEvent::JumpEvent()
-{
+const char* JumpEvent::EVENT_NAME = "jump_event";
+
+JumpEvent::JumpEvent() {
+
 }
 
-JumpEvent::~JumpEvent()
-{
+JumpEvent::~JumpEvent() {
+
 }
 
-bool JumpEvent::getStartJump()
-{
-	return false;
-}
-
-void JumpEvent::setStartJump(bool startJump)
-{
-}
-}  // namespace GameEvents
 }  // namespace events

@@ -1,3 +1,9 @@
+/*!
+ * \file ChangePositionEvent.h
+ * 
+ * \author Flora Jullien
+ * \date 12/02/2014
+ */
 #ifndef EVENTS_GAMEEVENTS_CHANGE_POSITION_EVENT_H
 #define EVENTS_GAMEEVENTS_CHANGE_POSITION_EVENT_H
 
@@ -6,30 +12,24 @@
 
 USING_NS_CC;
 
-namespace events
-{
+namespace events {
 
-class ChangePositionEvent : public events::SynthEvent
-{
-private:
-	Point _currentPosition;
+/*! \class ChangePositionEvent */
+class ChangePositionEvent : public events::SynthEvent {
 
 public:
-	static const char* EVENT_NAME;
-
-
-public:
-	ChangePositionEvent();
-
-	/**
-	 *
-	 */
+	/*! \brief Constructor */
+	ChangePositionEvent(Node* pSource, Point position);
+	/*! \brief Destructor */
 	~ChangePositionEvent();
 
-	Point getCurrentPosition();
+	inline Point getCurrentPosition() { return _currentPosition; }
+	inline void setCurrentPosition(Point position) { _currentPosition = position; }
 
-	void setCurrentPosition(Point position);
+	static const char* EVENT_NAME;
 
+private:
+	Point _currentPosition;
 };
 
 }  // namespace events

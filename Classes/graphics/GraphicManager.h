@@ -64,7 +64,7 @@ private:
 	 */
 	
 	/*! \brief The singleton instance */
-	static GraphicManager* GraphicManager::_pInstance;
+	static GraphicManager* _pInstance;
 
 	std::vector<Sprite*> _staticSprites;
 

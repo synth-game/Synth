@@ -1,35 +1,32 @@
+/*!
+ * \file JumpEvent.h
+ * 
+ * \author Flora Jullien
+ * \date 19/02/2014
+ */
 #ifndef EVENTS_GAMEEVENTS_JUMP_EVENT_H
 #define EVENTS_GAMEEVENTS_JUMP_EVENT_H
 
 #include "Events/SynthEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
-class JumpEvent : public events::SynthEvent
-{
-private:
-	bool _bStartJump;
+namespace events {
+/*! \class JumpEvent */
+class JumpEvent : public events::SynthEvent {
 
 public:
-	static char* sEventName;
-
-
-public:
+	/*! \brief Constructor */
 	JumpEvent();
-
-	/**
-	 *
-	 */
+	/*! \brief Destructor */
 	~JumpEvent();
 
-	bool getStartJump();
+	inline bool getStartJump() { return _bStartJump; }
+	void setStartJump(bool startJump) { _bStartJump = startJump; }
 
-	void setStartJump(bool startJump);
+	static const char* EVENT_NAME;
 
+private:
+	bool _bStartJump;
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

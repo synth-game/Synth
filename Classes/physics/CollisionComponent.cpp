@@ -3,6 +3,8 @@
 namespace physics
 {
 
+const char* CollisionComponent::COMPONENT_TYPE = "CollisionComponent";
+
 CollisionComponent::CollisionComponent()
 {
 }

@@ -1,47 +1,38 @@
+/*!
+ * \file InterruptMoveEvent.h
+ * 
+ * \author Flora Jullien
+ * \date 19/02/2014
+ */
 #ifndef EVENTS_GAMEEVENTS_INTERRUPT_MOVE_EVENT_H
 #define EVENTS_GAMEEVENTS_INTERRUPT_MOVE_EVENT_H
 
 #include "Events/SynthEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
-class InterruptMoveEvent : public events::SynthEvent
-{
-private:
-	bool _bStopX;
-
-	bool _bStopY;
-
-	bool _bHasMoved;
+namespace events {
+/*! \class InterruptMoveEvent */
+class InterruptMoveEvent : public events::SynthEvent {
 
 public:
-	static char* sEventName;
-
-
-public:
+	/*! \brief Constructor */
 	InterruptMoveEvent();
-
-	/**
-	 *
-	 */
+	/*! \brief Destructor */
 	~InterruptMoveEvent();
 
-	bool getStopX();
+	inline bool getStopX() { return _bStopX; }
+	inline bool getStopY() { return _bStopY; }
+	inline bool getHasMoved() { return _bHasMoved; }
+	inline void setStopX(bool stopX) { _bStopX = stopX; }
+	inline void setStopY(bool stopY) { _bStopY = stopY; }
+	inline void setHasMoved() { _bHasMoved = true; }
 
-	bool getStopY();
+	static const char* EVENT_NAME;
 
-	bool getHasMoved();
-
-	void setStopX(bool stopX);
-
-	void setStopY(bool stopY);
-
-	bool setHasMoved();
-
+private:
+	bool _bStopX;
+	bool _bStopY;
+	bool _bHasMoved;
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

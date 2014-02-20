@@ -85,7 +85,7 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 	cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
 
     if (pSource->getActorID() == pOwner->getActorID()) {
-		if (pEditMoveEvent->getStart()) {
+		if (pEditMoveEvent->isStartMoving()) {
 			if (pEditMoveEvent->getDirection().x < 0) {
 				_pSprite->setFlippedX(true);
 				_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
