@@ -1,60 +1,52 @@
+/*!
+ * \file CollisionComponent.h
+ * \brief Allow and compute collisions
+ * \author Jijidici
+ * \date 20/02/2014
+ */
 #ifndef PHYSICS_COLLISION_COMPONENT_H
 #define PHYSICS_COLLISION_COMPONENT_H
 
-
 #include "cocos2d.h"
 #include "core/SynthComponent.h"
-#include "Physics/PhysicCollision.h"
-#include "Physics/LightCollision.h"
+#include "physics/PhysicCollision.h"
+#include "physics/LightCollision.h"
 
 USING_NS_CC;
 
-namespace physics
-{
-class CollisionComponent : public core::SynthComponent
-{
-private:
-	Point _absoluteOriginPosition;
-
-	Image* _pBitmask;
-
-	PhysicCollision* _pPhysicCollision;
-
-	LightCollision* _pLightCollision;
-
-	EventListenerCustom* _pTestCollisionEventListener;
-
+namespace physics {
+/*! \class GeometryComponent
+ * \brief Allow and compute collisions
+ *
+ * It is called by a TestCollisionEvent (from MovementComponent)
+ */
+class CollisionComponent : public core::SynthComponent {
 public:
+	/*! \brief Destructor */
+	~CollisionComponent();
+
+	static CollisionComponent* create();
+
+	void addPhysicCollision(PhysicCollision* pCollision) { _pPhysicCollision = pCollision; }
+	void addLightCollision(LightCollision* pCollision) { _pLightCollision = pCollision; }
+	PhysicCollision* getPhysicCollision() { return _pPhysicCollision; }
+	LightCollision* getLightCollision() { return _pLightCollision; }
+
+	void onTestCollision(EventCustom* pEvent);
+
 	static const char* COMPONENT_TYPE;
 
-
 protected:
+	/*! \brief Constructor */
 	CollisionComponent();
 
 	bool init();
-
 	void initListeners();
 
-public:
-	~CollisionComponent();
+	PhysicCollision* _pPhysicCollision;
+	LightCollision* _pLightCollision;
 
-	/**
-	 *
-	 */
-	static CollisionComponent* create(Image* bitmask, Point absoluteOriginPosition);
-
-	void addPhysicCollision(PhysicCollision* pCollision);
-
-	void addLightCollision(LightCollision* pCollision);
-
-	/**
-	 * Test de collision avec les 4 points cardinaux de l'Actor -> repoussement si collision
-	 * Puis test de pente
-	 *
-	 *
-	 */
-	void onTestCollision(EventCustom* pEvent);
-
+	EventListenerCustom* _pTestCollisionEventListener;
 };
 
 }  // namespace physics
