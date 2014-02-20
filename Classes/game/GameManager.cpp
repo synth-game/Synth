@@ -88,8 +88,6 @@ bool GameManager::init() {
 	Image* pBitmask = new Image();
 	pBitmask->initWithImageFile("levels/test/bitmask.png");
 	physics::PhysicCollision* pPhyCol = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
-	CCLOG(">> Bitmask value test [398|224] : %i", pPhyCol->getValue(Point(398, 224)));
-	CCLOG(">> Bitmask value test [399|224] : %i", pPhyCol->getValue(Point(399, 224)));
 	pHeroColComp->addPhysicCollision(pPhyCol);
 	hero->addComponent(pHeroColComp);
 
