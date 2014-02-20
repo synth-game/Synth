@@ -59,6 +59,7 @@ void HeroAnimatedSpriteComponent::onEnter() {
 		_pBatchNode->addChild(_pSprite);
 		_pParent->addChild(_pBatchNode, 1, 3);
 
+		//TODO: add idle animation
 		_sState = "on_floor";
 		_sCurrentAnimName = "walk";
 		cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_sCurrentAnimName, _pFrameCache);
@@ -70,15 +71,17 @@ void HeroAnimatedSpriteComponent::onEnter() {
 
 void HeroAnimatedSpriteComponent::initListeners() {
 	AnimatedSpriteComponent::initListeners();
-	//_pEditMoveEventListener = cocos2d::EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(SpriteComponent::onEditMove, this));
-	// etc.. TODO
+	_pEditMoveEventListener = cocos2d::EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onEditMove, this));
+	
+	// Add listeners to dispacher
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
 }
 
 void HeroAnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {
 }
 
 void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
-	/*events::EditMoveEvent*	pEditMoveEvent	= static_cast<events::EditMoveEvent*>(pEvent);
+	events::EditMoveEvent*	pEditMoveEvent	= static_cast<events::EditMoveEvent*>(pEvent);
     core::SynthActor*		pSource			= static_cast<core::SynthActor*>(pEditMoveEvent->getSource());
     core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
 
@@ -103,7 +106,7 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
     }
     else {
         CCLOG("MOVE EVENT RECEIVED BUT ID NOT THE SAME");
-    }*/
+    }
 }
 
 void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
