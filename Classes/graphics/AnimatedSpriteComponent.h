@@ -44,8 +44,12 @@ protected:
 	AnimatedSpriteComponent();
 	AnimatedSpriteComponent(Layer* pParent);
 
+	virtual void initListeners();
+
 	/*! \brief Callback function of chained animation */
 	void requestNextAnimation();
+
+	void onChangePosition(EventCustom* pEvent);
 
 	/*
 	 * Members
@@ -62,9 +66,6 @@ protected:
 
 	/*! \brief The current animation */
 	std::string _sCurrentAnimName;
-
-
-
 };
 
 }  // namespace graphics

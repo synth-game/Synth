@@ -33,7 +33,7 @@ public:
 	 */
 	static SpriteComponent* create(std::string sSpriteName, Layer* pParent);
 
-	void onEditMove(EventCustom* pEvent);
+	void onChangePosition(EventCustom* pEvent);
 
 	void onEnter(); //Appelée après l'ajout dans le componentContainer par la classe Node (avant le owner n'est pas défini)
 
@@ -62,7 +62,7 @@ protected:
 
 	Layer* _pParent;
 
-	EventListenerCustom* _pEditMoveEventListener;
+	EventListenerCustom* _pChangePositionEventListener;
 
 };
 

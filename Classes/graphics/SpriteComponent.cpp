@@ -6,7 +6,9 @@
  */
 
 #include "SpriteComponent.h"
-#include "events/EditMoveEvent.h"
+
+#include "core/SynthActor.h"
+#include "events/ChangePositionEvent.h"
 #include "graphics/GraphicManager.h"
 #include "physics/GeometryComponent.h"
 
@@ -55,10 +57,20 @@ SpriteComponent* SpriteComponent::create(std::string sSpriteName, Layer* pParent
 }
 
 void SpriteComponent::initListeners() {
-	_pEditMoveEventListener = cocos2d::EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(SpriteComponent::onEditMove, this));
+	// Listeners initialization
+	_pChangePositionEventListener = cocos2d::EventListenerCustom::create(events::ChangePositionEvent::EVENT_NAME, CC_CALLBACK_1(SpriteComponent::onChangePosition, this));
+
+	// Add listeners to dispacher
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangePositionEventListener, 1);
 }
 
-void SpriteComponent::onEditMove(EventCustom* pEvent) {
+void SpriteComponent::onChangePosition(EventCustom* pEvent) {
+	events::ChangePositionEvent* pChangePosEvent = static_cast<events::ChangePositionEvent*>(pEvent);
+	core::SynthActor* pOwner = static_cast<core::SynthActor*>(_owner);
+	core::SynthActor* pEventSource = static_cast<core::SynthActor*>(pChangePosEvent->getSource());
+	if (pOwner->getActorID() == pEventSource->getActorID()) {
+		_pSprite->setPosition(pChangePosEvent->getCurrentPosition());
+	}
 }
 
 void SpriteComponent::onEnter() {

@@ -9,7 +9,7 @@
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
 #include "physics/CollisionComponent.h"
-#include "graphics/SpriteComponent.h"
+#include "graphics/HeroAnimatedSpriteComponent.h"
 #include "events/EditMoveEvent.h"
 
 namespace game {
@@ -75,10 +75,14 @@ bool GameManager::init() {
 	Layer::addChild(_pParallaxManager);
 
 	//TEST
+	LayerColor* pWhiteLayer = LayerColor::create(Color4B::WHITE);
+	_pLevelLayer->addChild(pWhiteLayer);
+
 	hero = new core::SynthActor(core::ActorType::HERO);
 	hero->addComponent(physics::GeometryComponent::create(Point(0.f, 0.f), Size(1.f, 1.f), 0.f, Point(0.f, 0.f)));
 	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -10.f)));
-	hero->addComponent(physics::CollisionComponent::create());
+	//hero->addComponent(physics::CollisionComponent::create());
+	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
 	
 
 
