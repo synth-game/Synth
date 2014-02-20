@@ -94,8 +94,8 @@ void MovementComponent::onInterruptMove(EventCustom* pEvent) {
 
 void MovementComponent::update(float fDt) {
 	// compute next speed
-	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
-	//_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y);
+	//_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
+	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y);
     
     CCLOG("direction %2.f, %2.f", _direction.x, _direction.y);
 	// cap the next lateral speed

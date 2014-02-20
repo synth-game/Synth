@@ -5,7 +5,9 @@
  * \date 20/02/2014
  */
 #include "CollisionComponent.h"
+#include "core/SynthActor.h"
 #include "events/TestCollisionEvent.h"
+#include "events/ChangePositionEvent.h"
 
 namespace physics {
 
@@ -34,7 +36,19 @@ CollisionComponent* CollisionComponent::create() {
 }
 
 void CollisionComponent::onTestCollision(EventCustom* pEvent) {
-	CCLOG("heyheyhey");
+	events::TestCollisionEvent* pTestColEvent = static_cast<events::TestCollisionEvent*>(pEvent);
+	core::SynthActor* pOwner = static_cast<core::SynthActor*>(_owner);
+	core::SynthActor* pEventSource = static_cast<core::SynthActor*>(pTestColEvent->getSource());
+	if (pOwner->getActorID() == pEventSource->getActorID()) {
+		// check if the component have a PhysicCollision
+		if (_pPhysicCollision != nullptr) {
+			// TO DO : Collision test
+		} else {
+			// Change position without modification
+			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, pTestColEvent->getTargetPosition());
+			EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+		}
+	}
 }
 
 bool CollisionComponent::init() {

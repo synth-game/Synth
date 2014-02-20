@@ -81,7 +81,7 @@ bool GameManager::init() {
 	hero = new core::SynthActor(core::ActorType::HERO);
 	hero->addComponent(physics::GeometryComponent::create(Point(0.f, 0.f), Size(1.f, 1.f), 0.f, Point(0.f, 0.f)));
 	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -10.f)));
-	//hero->addComponent(physics::CollisionComponent::create());
+	hero->addComponent(physics::CollisionComponent::create());
 	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
 	
 
