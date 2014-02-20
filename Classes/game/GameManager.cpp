@@ -74,17 +74,18 @@ bool GameManager::init() {
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
 	Layer::addChild(_pParallaxManager);
 
-	//TEST
-	LayerColor* pWhiteLayer = LayerColor::create(Color4B::WHITE);
-	_pLevelLayer->addChild(pWhiteLayer);
+	//TEST ZONE - BEGIN
+	Sprite* pLevelSprite = Sprite::create("levels/test/bitmask.png");
+	pLevelSprite->setAnchorPoint(Point::ZERO);
+	_pLevelLayer->addChild(pLevelSprite);
 
 	hero = new core::SynthActor(core::ActorType::HERO);
-	hero->addComponent(physics::GeometryComponent::create(Point(0.f, 0.f), Size(1.f, 1.f), 0.f, Point(0.f, 0.f)));
-	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -10.f)));
+	hero->addComponent(physics::GeometryComponent::create(Point(200.f, 200.f), Size(20.f, 90.f), 0.f, Point(0.f, 0.f)));
+	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -5.f)));
 	hero->addComponent(physics::CollisionComponent::create());
 	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
 	
-
+	//TEST ZONE - END
 
 	return bTest;
 }
