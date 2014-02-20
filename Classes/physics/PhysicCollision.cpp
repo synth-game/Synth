@@ -27,8 +27,15 @@ Point PhysicCollision::getNextPixelInDirection(Point currentPixel, unsigned char
 	return Point::ZERO;
 }
 
-unsigned char PhysicCollision::getAlpha(Point pixel) {
-	return 0;
+unsigned char PhysicCollision::getValue(Point pixel) {
+	CCASSERT(pixel.x >= 0 , "PhysicCollision : Out of array search for pixel value.");
+	CCASSERT(pixel.x < _pBitmask->getWidth() , "PhysicCollision : Out of array search for pixel value.");
+	CCASSERT(pixel.y >= 0 , "PhysicCollision : Out of array search for pixel value.");
+	CCASSERT(pixel.y < _pBitmask->getHeight() , "PhysicCollision : Out of array search for pixel value.");
+
+	int iX = static_cast<int>(pixel.x);
+	int iY = static_cast<int>(pixel.y);
+	return _pBitmask->getData()[4*(iX + iY*_pBitmask->getWidth())];
 }
 
 }  // namespace physics

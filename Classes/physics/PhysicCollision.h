@@ -36,10 +36,11 @@ public:
 	Point boundingTest(Point nextPosition, EDirection dir);
 	Point groundTest(Point currentPosition, Point nextPosition);
 	bool isOnGround(Point currentPosition);
+	unsigned char getValue(Point pixel);
 
 protected:
 	Point getNextPixelInDirection(Point currentPixel, unsigned char wantedValue, EDirection dir);
-	unsigned char getAlpha(Point pixel);
+	
 
 	Image* _pBitmask;
 	Point _absoluteOriginPosition;

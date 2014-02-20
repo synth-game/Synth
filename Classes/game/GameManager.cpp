@@ -9,6 +9,7 @@
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
 #include "physics/CollisionComponent.h"
+#include "physics/PhysicCollision.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "events/EditMoveEvent.h"
 
@@ -82,7 +83,16 @@ bool GameManager::init() {
 	hero = new core::SynthActor(core::ActorType::HERO);
 	hero->addComponent(physics::GeometryComponent::create(Point(200.f, 200.f), Size(20.f, 90.f), 0.f, Point(0.f, 0.f)));
 	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -5.f)));
-	hero->addComponent(physics::CollisionComponent::create());
+
+	physics::CollisionComponent* pHeroColComp = physics::CollisionComponent::create();
+	Image* pBitmask = new Image();
+	pBitmask->initWithImageFile("levels/test/bitmask.png");
+	physics::PhysicCollision* pPhyCol = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
+	CCLOG(">> Bitmask value test [398|224] : %i", pPhyCol->getValue(Point(398, 224)));
+	CCLOG(">> Bitmask value test [399|224] : %i", pPhyCol->getValue(Point(399, 224)));
+	pHeroColComp->addPhysicCollision(pPhyCol);
+	hero->addComponent(pHeroColComp);
+
 	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
 	
 	//TEST ZONE - END
