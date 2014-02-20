@@ -62,10 +62,10 @@ void HeroAnimatedSpriteComponent::onEnter() {
 		//TODO: add idle animation
 		_sState = "on_floor";
 		_sCurrentAnimName = "walk";
-		cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_sCurrentAnimName, _pFrameCache);
-		cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
-		walkAnimate->retain();
-		_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
+		//cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_sCurrentAnimName, _pFrameCache);
+		//cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
+		//walkAnimate->retain();
+		//_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
 	}
 }
 
