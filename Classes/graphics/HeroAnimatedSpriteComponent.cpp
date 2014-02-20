@@ -5,10 +5,11 @@
  * \date 18/02/2014
  */
 #include "HeroAnimatedSpriteComponent.h"
+
+#include "core/SynthActor.h"
+#include "core/ActorType.h"
 #include "graphics/GraphicManager.h"
 #include "physics/GeometryComponent.h"
-#include "core/SynthActor.h"
-
 #include "events/EditMoveEvent.h"
 
 namespace graphics {
@@ -45,9 +46,9 @@ void HeroAnimatedSpriteComponent::onEnter() {
 	CCASSERT(geometryComponent != NULL, "HeroAnimatedSpriteComponent need a GeometryComponent added to its owner");
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	std::string actorTag = static_cast<core::SynthActor*>(_owner)->getActorTag();
-	_pBatchNode = graphicManager->getBatchNode(actorTag);
-	_pFrameCache = graphicManager->getFrameCache(actorTag);
+	core::ActorType eActorType = static_cast<core::SynthActor*>(_owner)->getActorType();
+	_pBatchNode = graphicManager->getBatchNode(eActorType);
+	_pFrameCache = graphicManager->getFrameCache(eActorType);
 
 	if(_pBatchNode != nullptr && _pFrameCache != nullptr) {
 		// position

@@ -10,9 +10,9 @@ namespace core {
 
 int SynthActor::_iActorCount = 0;
 
-SynthActor::SynthActor(std::string sTag) 
+SynthActor::SynthActor(ActorType eType) 
 	: Node()
-	, _sTag(sTag) 
+	, _eType(eType) 
 	, _iActorID(++_iActorCount) {
 }
 

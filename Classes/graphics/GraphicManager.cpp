@@ -49,11 +49,11 @@ Animation* GraphicManager::getNextAnimation(std::string sAnimName) {
 	return 0;
 }
 
-SpriteBatchNode* GraphicManager::getBatchNode(std::string sActorName) {
+SpriteBatchNode* GraphicManager::getBatchNode(core::ActorType eType) {
 	std::string sPvrFile = "";
-	if(sActorName == "HERO") {
+	if(eType == core::ActorType::HERO) {
 		sPvrFile = "sprites/girl.pvr";
-	} else if(sActorName == "FIREFLY") {
+	} else if(eType == core::ActorType::FIREFLY) {
 		sPvrFile = "";
 	}
 	SpriteBatchNode* pBatchNode = nullptr;
@@ -63,11 +63,11 @@ SpriteBatchNode* GraphicManager::getBatchNode(std::string sActorName) {
 	return pBatchNode;
 }
 
-SpriteFrameCache* GraphicManager::getFrameCache(std::string sActorName) {
+SpriteFrameCache* GraphicManager::getFrameCache(core::ActorType eType) {
 	std::string sPlistFile = "";
-	if(sActorName == "HERO") {
+	if(eType == core::ActorType::HERO) {
 		sPlistFile = "sprites/girl.plist";
-	} else if(sActorName == "FIREFLY") {
+	} else if(eType == core::ActorType::FIREFLY) {
 		sPlistFile = "";
 	}
 

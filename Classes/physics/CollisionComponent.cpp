@@ -34,6 +34,7 @@ CollisionComponent* CollisionComponent::create() {
 }
 
 void CollisionComponent::onTestCollision(EventCustom* pEvent) {
+	CCLOG("heyheyhey");
 }
 
 bool CollisionComponent::init() {

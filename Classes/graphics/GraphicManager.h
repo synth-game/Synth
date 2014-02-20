@@ -11,6 +11,7 @@
 #include <map>
 #include "cocos2d.h"
 #include "core/SynthActor.h"
+#include "core/ActorType.h"
 #include "core/SynthConfig.h"
 
 USING_NS_CC;
@@ -45,9 +46,9 @@ public:
 
 	Animation* getNextAnimation(std::string sAnimName);
 
-	SpriteBatchNode* getBatchNode(std::string sActorName);
+	SpriteBatchNode* getBatchNode(core::ActorType eType);
 
-	SpriteFrameCache* getFrameCache(std::string sActorName);
+	SpriteFrameCache* getFrameCache(core::ActorType eType);
 
 	bool isLoopAnimation(std::string sAnimName);
 

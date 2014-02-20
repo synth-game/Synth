@@ -5,8 +5,11 @@
  * \date 09/02/2014
  */
 #include "GameManager.h"
+#include "core/ActorType.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
+#include "physics/CollisionComponent.h"
+#include "graphics/SpriteComponent.h"
 #include "events/EditMoveEvent.h"
 
 namespace game {
@@ -71,9 +74,11 @@ bool GameManager::init() {
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
 	Layer::addChild(_pParallaxManager);
 
-	hero = new core::SynthActor("hero");
+	//TEST
+	hero = new core::SynthActor(core::ActorType::HERO);
 	hero->addComponent(physics::GeometryComponent::create(Point(0.f, 0.f), Size(1.f, 1.f), 0.f, Point(0.f, 0.f)));
 	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -10.f)));
+	hero->addComponent(physics::CollisionComponent::create());
 	
 
 
@@ -95,10 +100,9 @@ void GameManager::resetLevel() {
 
 
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
-	events::EditMoveEvent* pEditMoveEvent;
-	EventDispatcher::getInstance()->dispatchEvent(pEditMoveEvent);
-    
+	events::EditMoveEvent* pEditMoveEvent = nullptr;
     auto dispatcher = EventDispatcher::getInstance();
+
     switch(keyCode) {
         case EventKeyboard::KeyCode::KEY_Q:
             pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, true);
@@ -113,11 +117,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:
-            /*jumpEvent = new ActorJumpEvent(_hero);
-            jumpEvent->_bStart = true;
-            CCLOG("Dispatching ActorStartMoveEvent JUMP");
-            dispatcher->dispatchEvent(jumpEvent);
-            break;*/
+            break;
             
         default:
             break;

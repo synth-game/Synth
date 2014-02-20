@@ -9,6 +9,7 @@
 
 #include <string>
 #include "cocos2d.h"
+#include "core/ActorType.h"
 
 USING_NS_CC;
 
@@ -28,9 +29,9 @@ public:
 	/*! \brief Constructor
 	 * 
 	 * Constructor which initializes the SynthActor tag
-	 * \param sTag : initialization tag
+	 * \param eType : type of the actor
 	 */
-	SynthActor(std::string sTag);
+	SynthActor(ActorType eType);
 
 	/*! \brief Destructor */
 	~SynthActor();
@@ -42,15 +43,15 @@ public:
 	 */
 	inline int getActorID() { return _iActorID; }
 
-	/*! \brief Get SynthActor's tag
+	/*! \brief Get SynthActor's type
 	 */
-	inline std::string getActorTag() { return _sTag; }
+	inline ActorType getActorType() { return _eType; }
 	
 	static int _iActorCount; /*!< counter of every SynthActor. It is automatically incremented */
 
 protected:
 	int _iActorID; /*! \brief unique identifiant */
-	std::string _sTag; /*! \brief tag which describes SynthActor's type */
+	ActorType _eType; /*! \brief enum which describes SynthActor's type */
 };
 
 }  // namespace core

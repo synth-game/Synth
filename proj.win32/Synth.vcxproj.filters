@@ -539,6 +539,9 @@
     <ClInclude Include="..\Classes\graphics\FireFlyAnimatedSpriteComponent.h">
       <Filter>Classes\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\core\ActorType.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
