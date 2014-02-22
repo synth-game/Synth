@@ -6,17 +6,15 @@
 
 USING_NS_CC;
 
-namespace events
-{
-namespace GameEvents
-{
-class ChangeNodeOwnerEvent : public events::SynthEvent
-{
+namespace events {
+
+
+class ChangeNodeOwnerEvent : public events::SynthEvent {
 private:
 	Node* _newOwner;
 
 public:
-	static char* sEventName;
+	static const char* EVENT_NAME;
 
 
 public:
@@ -27,6 +25,5 @@ public:
 	Node* _getNewOwner();
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

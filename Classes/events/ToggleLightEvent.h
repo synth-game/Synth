@@ -3,25 +3,19 @@
 
 #include "Events/SynthEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
-class ToggleLightEvent : public events::SynthEvent
-{
+namespace events {
+
+class ToggleLightEvent : public events::SynthEvent {
+
 private:
 	bool bOn;
 
 public:
-	static char* sEventName;
-
+	static const char* EVENT_NAME;
 
 public:
 	ToggleLightEvent();
 
-	/**
-	 *
-	 */
 	~ ToggleLightEvent();
 
 	bool isOn();
@@ -30,6 +24,5 @@ public:
 
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

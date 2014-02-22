@@ -1,17 +1,13 @@
 #include "ResetLevelEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
-char* ResetLevelEvent::sEventName;
+namespace events {
 
-ResetLevelEvent::ResetLevelEvent()
-{
+const char* ResetLevelEvent::EVENT_NAME = "ResetLevelEvent";
+
+ResetLevelEvent::ResetLevelEvent() {
 }
 
-ResetLevelEvent::~ResetLevelEvent()
-{
+ResetLevelEvent::~ResetLevelEvent() {
 }
-}  // namespace GameEvents
+
 }  // namespace events

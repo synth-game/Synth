@@ -10,7 +10,16 @@
 #include "core/ActorType.h"
 #include "graphics/GraphicManager.h"
 #include "physics/GeometryComponent.h"
+
 #include "events/EditMoveEvent.h"
+#include "events/ChangePositionEvent.h"
+#include "events/JumpEvent.h"
+#include "events/InterruptMoveEvent.h"
+#include "events/ChangeNodeOWnerEvent.h"
+#include "events/ToggleLightEvent.h"
+#include "events/DeathEvent.h"
+#include "events/WinEvent.h"
+#include "events/ResetLevelEvent.h"
 
 namespace graphics {
 
@@ -72,6 +81,14 @@ void HeroAnimatedSpriteComponent::onEnter() {
 void HeroAnimatedSpriteComponent::initListeners() {
 	AnimatedSpriteComponent::initListeners();
 	_pEditMoveEventListener = cocos2d::EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onEditMove, this));
+	_pChangePositionEventListener = cocos2d::EventListenerCustom::create(events::ChangePositionEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onChangePosition, this));
+	_pJumpEventListener = cocos2d::EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onJump, this));
+	_pInterruptMoveEventListener = cocos2d::EventListenerCustom::create(events::InterruptMoveEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onInterruptMove, this));
+	_pChangeNodeOwnerEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onChangeNodeOwner, this));
+	_pToggleLightEventListener = cocos2d::EventListenerCustom::create(events::ToggleLightEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onToggleLight, this));
+	_pDeathEventListener = cocos2d::EventListenerCustom::create(events::DeathEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onDeath, this));
+	_pWinEventListener = cocos2d::EventListenerCustom::create(events::WinEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onWin, this));
+	_pResetLevelEventListener = cocos2d::EventListenerCustom::create(events::ResetLevelEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onResetLevel, this));
 	
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);

@@ -3,26 +3,19 @@
 
 #include "Events/SynthEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
-class DeathEvent : public events::SynthEvent
-{
+namespace events {
+
+class DeathEvent : public events::SynthEvent {
 public:
-	static char* sEventName;
+	static const char* EVENT_NAME;
 
 
 public:
 	DeathEvent();
 
-	/**
-	 *
-	 */
 	~DeathEvent();
 
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

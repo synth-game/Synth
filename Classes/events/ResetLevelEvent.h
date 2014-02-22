@@ -3,26 +3,19 @@
 
 #include "Events/SynthEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
-class ResetLevelEvent : public events::SynthEvent
-{
-public:
-	static char* sEventName;
+namespace events {
 
+class ResetLevelEvent : public events::SynthEvent {
+
+public:
+	static const char* EVENT_NAME;
 
 public:
 	ResetLevelEvent();
 
-	/**
-	 *
-	 */
 	~ResetLevelEvent();
 
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif
