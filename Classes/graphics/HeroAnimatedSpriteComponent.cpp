@@ -95,6 +95,7 @@ void HeroAnimatedSpriteComponent::initListeners() {
 }
 
 void HeroAnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {
+
 }
 
 void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
@@ -105,18 +106,18 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::WALK;
 	_eState = ActorState::ON_FLOOR_STATE;
-	cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
-	cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
+	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
+	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
 
     if (pSource->getActorID() == pOwner->getActorID()) {
 		if (pEditMoveEvent->isStartMoving()) {
 			if (pEditMoveEvent->getDirection().x < 0) {
 				_pSprite->setFlippedX(true);
-				_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
+				_pSprite->runAction(cocos2d::RepeatForever::create(animate));
 			}
 			else if(pEditMoveEvent->getDirection().x > 0) {
 				_pSprite->setFlippedX(false);
-				_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
+				_pSprite->runAction(cocos2d::RepeatForever::create(animate));
 			}
 		} else {
 			_pSprite->stopAllActions();
@@ -128,15 +129,81 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 }
 
 void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
+
+	events::JumpEvent* pJumpEvent = static_cast<events::JumpEvent*>(pEvent);
+    core::SynthActor* pSource							= static_cast<core::SynthActor*>(pJumpEvent->getSource());
+    core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
+
+	GraphicManager* graphicManager = GraphicManager::getInstance();
+	_eCurrentAnimType = AnimationType::START_JUMP;
+	_eState = ActorState::ON_FLOOR_STATE;
+	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
+	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
+
+    if (pSource->getActorID() == pOwner->getActorID()) {
+		_pSprite->runAction(animate); // not looping
+    }
+    else {
+        CCLOG("JUMP EVENT RECEIVED BUT ID NOT THE SAME");
+    }
 }
 
 void HeroAnimatedSpriteComponent::onInterruptMove(EventCustom* pEvent) {
+
+	events::InterruptMoveEvent* pInterruptMoveEvent = static_cast<events::InterruptMoveEvent*>(pEvent);
+    core::SynthActor* pSource							= static_cast<core::SynthActor*>(pInterruptMoveEvent->getSource());
+    core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
+
+	_eCurrentAnimType = AnimationType::IDLE;
+	_eState = ActorState::IDLE_STATE;
+
+    if (pSource->getActorID() == pOwner->getActorID()) {
+		_pSprite->stopAllActions();
+    }
+    else {
+        CCLOG("INTERRUPT MOVE EVENT RECEIVED BUT ID NOT THE SAME");
+    }
+
 }
 
 void HeroAnimatedSpriteComponent::onChangeNodeOwner(EventCustom* pEvent) {
+
+	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
+    core::SynthActor* pSource							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+    core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
+
+	GraphicManager* graphicManager = GraphicManager::getInstance();
+	_eCurrentAnimType = AnimationType::INTERACT;
+	_eState = ActorState::ON_FLOOR_STATE;
+	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
+	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
+
+    if (pSource->getActorID() == pOwner->getActorID()) {
+		_pSprite->runAction(animate); // not looping
+    }
+    else {
+        CCLOG("CHANGE NODE OWNER EVENT RECEIVED BUT ID NOT THE SAME");
+    }
+
 }
 
 void HeroAnimatedSpriteComponent::onToggleLight(EventCustom* pEvent) {
+	events::ToggleLightEvent*	pToggleLightEvent	= static_cast<events::ToggleLightEvent*>(pEvent);
+    core::SynthActor*		pSource			= static_cast<core::SynthActor*>(pToggleLightEvent->getSource());
+    core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
+
+	GraphicManager* graphicManager = GraphicManager::getInstance();
+	_eCurrentAnimType = AnimationType::PULL_SWITCH;
+	_eState = ActorState::ON_FLOOR_STATE;
+	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
+	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
+
+    if (pSource->getActorID() == pOwner->getActorID()) {
+		_pSprite->runAction(cocos2d::RepeatForever::create(animate));
+    }
+    else {
+        CCLOG("TOGGLE LIGHT EVENT RECEIVED BUT ID NOT THE SAME");
+    }
 }
 
 void HeroAnimatedSpriteComponent::onDeath(EventCustom* pEvent) {

@@ -175,6 +175,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\events\ToggleLightEvent.cpp" />
     <ClCompile Include="..\Classes\events\ToggleTextEvent.cpp" />
     <ClCompile Include="..\Classes\events\VoiceEvent.cpp" />
+    <ClCompile Include="..\Classes\Events\WinEvent.cpp" />
     <ClCompile Include="..\Classes\game\GameManager.cpp" />
     <ClCompile Include="..\Classes\game\LevelFactory.cpp" />
     <ClCompile Include="..\Classes\game\LevelSprite.cpp" />
@@ -261,6 +262,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\events\ToggleLightEvent.h" />
     <ClInclude Include="..\Classes\events\ToggleTextEvent.h" />
     <ClInclude Include="..\Classes\events\VoiceEvent.h" />
+    <ClInclude Include="..\Classes\Events\WinEvent.h" />
     <ClInclude Include="..\Classes\game\GameManager.h" />
     <ClInclude Include="..\Classes\game\LevelFactory.h" />
     <ClInclude Include="..\Classes\game\LevelSprite.h" />
