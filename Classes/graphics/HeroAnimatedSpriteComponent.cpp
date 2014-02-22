@@ -61,7 +61,7 @@ void HeroAnimatedSpriteComponent::onEnter() {
 
 		//TODO: add idle animation
 		_sState = "on_floor";
-		_sCurrentAnimName = "walk";
+		_eCurrentAnimType = AnimationType::IDLE;
 		//cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_sCurrentAnimName, _pFrameCache);
 		//cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
 		//walkAnimate->retain();
@@ -86,7 +86,8 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
     core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_sCurrentAnimName, _pFrameCache);
+	_eCurrentAnimType = AnimationType::WALK;
+	cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
 	cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
 
     if (pSource->getActorID() == pOwner->getActorID()) {
@@ -97,7 +98,6 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 			}
 			else if(pEditMoveEvent->getDirection().x > 0) {
 				_pSprite->setFlippedX(false);
-
 				_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
 			}
 		} else {

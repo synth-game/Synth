@@ -33,8 +33,20 @@ Sprite* GraphicManager::createSprite(std::string sSpriteName) {
 	return pSprite;
 }
 
-Animation* GraphicManager::getAnimation(std::string sAnimName, SpriteFrameCache* pFrameCache) {
+Animation* GraphicManager::getAnimation(AnimationType eAnimationType, SpriteFrameCache* pFrameCache) {
 	cocos2d::Array* animFrames = cocos2d::Array::create();
+	std::string sAnimName = "";
+	switch(eAnimationType) {
+		case AnimationType::WALK :
+			sAnimName = "walk";
+			break;
+		case AnimationType::FLY :
+			sAnimName = "fly";
+			break;
+		default :
+			sAnimName = "idle";
+			break;
+	}
 	char str[100] = {0};
 	for(int i = 1; i <= 7; i++) {
 		sprintf(str, "%s_%d.png", sAnimName.c_str(), i);
@@ -45,7 +57,7 @@ Animation* GraphicManager::getAnimation(std::string sAnimName, SpriteFrameCache*
 	return cocos2d::Animation::createWithSpriteFrames(animFrames, 0.1f);
 }
 
-Animation* GraphicManager::getNextAnimation(std::string sAnimName) {
+Animation* GraphicManager::getNextAnimation(AnimationType eAnimationType) {
 	return 0;
 }
 

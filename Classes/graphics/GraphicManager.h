@@ -13,6 +13,7 @@
 #include "core/SynthActor.h"
 #include "core/ActorType.h"
 #include "core/SynthConfig.h"
+#include "graphics/AnimationType.h"
 
 USING_NS_CC;
 
@@ -42,9 +43,9 @@ public:
 
 	Sprite* createSprite(std::string sSpriteName);
 
-	Animation* getAnimation(std::string sAnimName, SpriteFrameCache* pFrameCache);
+	Animation* getAnimation(AnimationType eAnimationType, SpriteFrameCache* pFrameCache);
 
-	Animation* getNextAnimation(std::string sAnimName);
+	Animation* getNextAnimation(AnimationType eAnimationType);
 
 	SpriteBatchNode* getBatchNode(core::ActorType eType);
 

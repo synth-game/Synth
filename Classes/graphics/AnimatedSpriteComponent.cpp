@@ -20,7 +20,7 @@ AnimatedSpriteComponent::AnimatedSpriteComponent(Layer* pParent)
 	, _pFrameCache(nullptr)
 	, _pBatchNode(nullptr)
 	, _sState()
-	, _sCurrentAnimName() {
+	, _eCurrentAnimType(AnimationType::IDLE) {
 }
 
 AnimatedSpriteComponent::~AnimatedSpriteComponent() {

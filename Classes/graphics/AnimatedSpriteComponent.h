@@ -8,7 +8,8 @@
 #define GRAPHICS_ANIMATED_SPRITE_COMPONENT_H
 
 #include "cocos2d.h"
-#include "Graphics/SpriteComponent.h"
+#include "graphics/SpriteComponent.h"
+#include "graphics/AnimationType.h"
 
 USING_NS_CC;
 
@@ -65,7 +66,7 @@ protected:
 	std::string _sState;
 
 	/*! \brief The current animation */
-	std::string _sCurrentAnimName;
+	graphics::AnimationType _eCurrentAnimType;
 };
 
 }  // namespace graphics
