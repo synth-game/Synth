@@ -47,6 +47,14 @@ Animation* GraphicManager::getAnimation(AnimationType eAnimationType, SpriteFram
 			sAnimName = "idle";
 			break;
 	}
+
+	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
+	if(pXMLFile->LoadFile("xml/animations.xml")) {
+		pXMLFile->Print();
+	} else {
+		CCLOG("ERROR WHILE LOADING ANIMATIONS XML FILE.");
+	}
+
 	char str[100] = {0};
 	for(int i = 1; i <= 7; i++) {
 		sprintf(str, "%s_%d.png", sAnimName.c_str(), i);
