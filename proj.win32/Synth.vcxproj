@@ -268,6 +268,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\game\LightColor.h" />
     <ClInclude Include="..\Classes\game\NodeOwnerComponent.h" />
     <ClInclude Include="..\Classes\game\PeriodicLauncherComponent.h" />
+    <ClInclude Include="..\Classes\graphics\ActorState.h" />
     <ClInclude Include="..\Classes\graphics\AnimatedSpriteComponent.h" />
     <ClInclude Include="..\Classes\graphics\AnimationType.h" />
     <ClInclude Include="..\Classes\graphics\FireFlyAnimatedSpriteComponent.h" />

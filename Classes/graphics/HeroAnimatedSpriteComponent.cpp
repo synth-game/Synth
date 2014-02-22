@@ -60,7 +60,7 @@ void HeroAnimatedSpriteComponent::onEnter() {
 		_pParent->addChild(_pBatchNode, 1, 3);
 
 		//TODO: add idle animation
-		_sState = "on_floor";
+		_eState = ActorState::IDLE_STATE;
 		_eCurrentAnimType = AnimationType::IDLE;
 		//cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_sCurrentAnimName, _pFrameCache);
 		//cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
@@ -87,6 +87,7 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::WALK;
+	_eState = ActorState::ON_FLOOR_STATE;
 	cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
 	cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
 

@@ -545,6 +545,9 @@
     <ClInclude Include="..\Classes\graphics\AnimationType.h">
       <Filter>Classes\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\graphics\ActorState.h">
+      <Filter>Classes\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
