@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<animation type="WALK">
+	<frame name="walk_0.png">
+	</frame>
+	<frame name="walk_1.png">
+	</frame>
+	<frame name="walk_2.png">
+	</frame>
+	<frame name="walk_3.png">
+	</frame>
+	<frame name="walk_4.png">
+	</frame>
+	<frame name="walk_5.png">
+	</frame>
+	<frame name="walk_6.png">
+	</frame>
+	<frame name="walk_7.png">
+	</frame>
+</animation>

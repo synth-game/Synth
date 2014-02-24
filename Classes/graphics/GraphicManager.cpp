@@ -49,10 +49,30 @@ Animation* GraphicManager::getAnimation(AnimationType eAnimationType, SpriteFram
 	}
 
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
-	if(pXMLFile->LoadFile("xml/animations.xml")) {
-		pXMLFile->Print();
+	int xmlerror = pXMLFile->LoadFile("xml/animations.xml");
+	if(xmlerror == 0) {
+		CCLOG("NO ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlerror);
+		tinyxml2::XMLHandle hDoc(pXMLFile);
+		tinyxml2::XMLElement *pAnimation, *pFrame;
+
+			pAnimation = pXMLFile->FirstChildElement("animation");
+			int i = 0; // for sorting the entries
+			int j = 0;
+			std::string type, name = "";
+			while(pAnimation)
+			{	
+				type = pAnimation->Attribute("type");
+				CCLOG("ANIMATION n°%d, type: %s ,PARSED !", ++i, type.c_str());
+				pFrame = pAnimation->FirstChildElement("frame");
+				while(pFrame) {
+					name = pFrame->Attribute("name");
+					CCLOG("FRAME n°%d, name: %s, PARSED !", ++j, name.c_str());
+					pFrame = pFrame->NextSiblingElement("frame");
+				}
+				pAnimation = pAnimation->NextSiblingElement("animation");
+			}
 	} else {
-		CCLOG("ERROR WHILE LOADING ANIMATIONS XML FILE.");
+		CCLOG("ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlerror);
 	}
 
 	char str[100] = {0};

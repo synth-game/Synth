@@ -70,7 +70,7 @@ private:
 
 	std::vector<Sprite*> _staticSprites;
 
-	std::map<std::string,Animation*> _animations;
+	std::map<AnimationType, Animation*> _animations;
 
 };
 
