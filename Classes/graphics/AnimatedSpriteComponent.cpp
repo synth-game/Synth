@@ -8,6 +8,7 @@
 #include "core/SynthActor.h"
 #include "physics/GeometryComponent.h"
 #include "events/ChangePositionEvent.h"
+#include "graphics/GraphicManager.h"
 
 namespace graphics {
 
@@ -17,8 +18,6 @@ AnimatedSpriteComponent::AnimatedSpriteComponent() {
 
 AnimatedSpriteComponent::AnimatedSpriteComponent(Layer* pParent)
 	: SpriteComponent(pParent)
-	, _pFrameCache(nullptr)
-	, _pBatchNode(nullptr)
 	, _eState(ActorState::IDLE_STATE)
 	, _eCurrentAnimType(AnimationType::IDLE) {
 }
@@ -41,8 +40,10 @@ void AnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {
 	events::ChangePositionEvent* pChangePosEvent = static_cast<events::ChangePositionEvent*>(pEvent);
 	core::SynthActor* pOwner = static_cast<core::SynthActor*>(_owner);
 	core::SynthActor* pEventSource = static_cast<core::SynthActor*>(pChangePosEvent->getSource());
+	GraphicManager* graphicManager = GraphicManager::getInstance();
+	SpriteBatchNode* pBatchNode = graphicManager->getBatchNode();
 	if (pOwner->getActorID() == pEventSource->getActorID()) {
-		_pBatchNode->setPosition(pChangePosEvent->getCurrentPosition());
+		pBatchNode->setPosition(pChangePosEvent->getCurrentPosition());
 	}
 }
 

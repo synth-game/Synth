@@ -10,7 +10,7 @@
 namespace graphics {
 typedef enum {
 	IDLE,
-	WALK,
+	HERO_WALK,
 	START_JUMP,
 	JUMP,
 	FALL,

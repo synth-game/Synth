@@ -39,17 +39,17 @@ public:
 	/*! \brief Get the singleton instance _pInstance */
 	static GraphicManager* getInstance();
 
-	void init(core::xml data);
+	void init(/*core::xml data*/);
 
 	Sprite* createSprite(std::string sSpriteName);
 
-	Animation* getAnimation(AnimationType eAnimationType, SpriteFrameCache* pFrameCache);
+	Animation* getAnimation(AnimationType eAnimationType);
 
 	Animation* getNextAnimation(AnimationType eAnimationType);
 
-	SpriteBatchNode* getBatchNode(core::ActorType eType);
+	inline SpriteBatchNode* getBatchNode() { return _pBatchNode; }
 
-	SpriteFrameCache* getFrameCache(core::ActorType eType);
+	inline SpriteFrameCache* getFrameCache() { return _pFrameCache; }
 
 	bool isLoopAnimation(std::string sAnimName);
 
@@ -57,6 +57,7 @@ private:
 	/*
 	 * Methods
 	 */
+	Animation* __createAnimation(std::vector<std::string> aFrames);
 
 	/*! \brief Constructor */
 	GraphicManager();
@@ -68,8 +69,16 @@ private:
 	/*! \brief The singleton instance */
 	static GraphicManager* _pInstance;
 
+	/*! \brief The cache of the images (takes the plist file) */
+	SpriteFrameCache* _pFrameCache;
+
+	/*! \brief The batch node of the animation (takes the pvr file) */
+	SpriteBatchNode* _pBatchNode;
+
+	/*! \brief All the static sprite of the game */
 	std::vector<Sprite*> _staticSprites;
 
+	/*! \brief All the animations of the game */
 	std::map<AnimationType, Animation*> _animations;
 
 };

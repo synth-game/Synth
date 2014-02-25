@@ -56,17 +56,17 @@ void HeroAnimatedSpriteComponent::onEnter() {
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	core::ActorType eActorType = static_cast<core::SynthActor*>(_owner)->getActorType();
-	_pBatchNode = graphicManager->getBatchNode(eActorType);
-	_pFrameCache = graphicManager->getFrameCache(eActorType);
+	SpriteBatchNode* pBatchNode = graphicManager->getBatchNode();
+	SpriteFrameCache* pFrameCache = graphicManager->getFrameCache();
 
-	if(_pBatchNode != nullptr && _pFrameCache != nullptr) {
+	if(pBatchNode != nullptr && pFrameCache != nullptr) {
 		// position
-		_pBatchNode->setPosition(geometryComponent->getPosition());
+		pBatchNode->setPosition(geometryComponent->getPosition());
 
 		// animation
 		_pSprite = cocos2d::Sprite::createWithSpriteFrameName("walk_0.png");
-		_pBatchNode->addChild(_pSprite);
-		_pParent->addChild(_pBatchNode, 1, 3);
+		pBatchNode->addChild(_pSprite);
+		_pParent->addChild(pBatchNode, 1, 3);
 
 		//TODO: add idle animation
 		_eState = ActorState::IDLE_STATE;
@@ -104,9 +104,9 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
     core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	_eCurrentAnimType = AnimationType::WALK;
+	_eCurrentAnimType = AnimationType::HERO_WALK;
 	_eState = ActorState::ON_FLOOR_STATE;
-	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
+	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
 
     if (pSource->getActorID() == pOwner->getActorID()) {
@@ -137,7 +137,7 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::START_JUMP;
 	_eState = ActorState::ON_FLOOR_STATE;
-	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
+	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
 
     if (pSource->getActorID() == pOwner->getActorID()) {
@@ -175,7 +175,7 @@ void HeroAnimatedSpriteComponent::onChangeNodeOwner(EventCustom* pEvent) {
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::INTERACT;
 	_eState = ActorState::ON_FLOOR_STATE;
-	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
+	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
 
     if (pSource->getActorID() == pOwner->getActorID()) {
@@ -188,6 +188,7 @@ void HeroAnimatedSpriteComponent::onChangeNodeOwner(EventCustom* pEvent) {
 }
 
 void HeroAnimatedSpriteComponent::onToggleLight(EventCustom* pEvent) {
+
 	events::ToggleLightEvent*	pToggleLightEvent	= static_cast<events::ToggleLightEvent*>(pEvent);
     core::SynthActor*		pSource			= static_cast<core::SynthActor*>(pToggleLightEvent->getSource());
     core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
@@ -195,7 +196,7 @@ void HeroAnimatedSpriteComponent::onToggleLight(EventCustom* pEvent) {
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::PULL_SWITCH;
 	_eState = ActorState::ON_FLOOR_STATE;
-	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType, _pFrameCache);
+	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
 
     if (pSource->getActorID() == pOwner->getActorID()) {

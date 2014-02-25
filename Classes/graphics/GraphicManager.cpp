@@ -19,11 +19,53 @@ GraphicManager::~GraphicManager() {
 GraphicManager* GraphicManager::getInstance() {
 	if(_pInstance == nullptr) {
         _pInstance = new GraphicManager();
+		_pInstance->init();
     }
 	return _pInstance;
 }
 
-void GraphicManager::init(core::xml data) {
+void GraphicManager::init(/*core::xml data*/) {
+
+	// framecache
+	_pFrameCache = cocos2d::SpriteFrameCache::sharedSpriteFrameCache();
+	_pFrameCache->addSpriteFramesWithFile("sprites/girl.plist");
+	_pFrameCache->retain();
+
+	// batchnode
+	_pBatchNode = SpriteBatchNode::create("sprites/girl.pvr");
+
+	// parsing animations
+	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
+	int xmlerror = pXMLFile->LoadFile("xml/animations.xml");
+	if(xmlerror == 0) {
+		CCLOG("NO ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlerror);
+		tinyxml2::XMLHandle hDoc(pXMLFile);
+		tinyxml2::XMLElement *pAnimationData, *pFrameData;
+		std::string type, name = "";
+		Animation* pAnimation;
+		std::vector<std::string> aFrames;
+		int i = 0; 
+		int j = 0;
+
+		pAnimationData = pXMLFile->FirstChildElement("animation");
+		while(pAnimationData)
+		{	
+			type = pAnimationData->Attribute("type");
+			CCLOG("ANIMATION n°%d, type: %s ,PARSED !", ++i, type.c_str());
+			pFrameData = pAnimationData->FirstChildElement("frame");
+			while(pFrameData) {
+				name = pFrameData->Attribute("name");
+				aFrames.push_back(name);
+				CCLOG("FRAME n°%d, name: %s, PARSED !", ++j, name.c_str());
+				pFrameData = pFrameData->NextSiblingElement("frame");
+			}
+			pAnimation = __createAnimation(aFrames);
+			_animations.insert(std::pair<AnimationType, Animation*>(AnimationType::HERO_WALK, pAnimation));
+			pAnimationData = pAnimationData->NextSiblingElement("animation");
+		}
+	} else {
+		CCLOG("ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlerror);
+	}
 }
 
 Sprite* GraphicManager::createSprite(std::string sSpriteName) {
@@ -33,89 +75,26 @@ Sprite* GraphicManager::createSprite(std::string sSpriteName) {
 	return pSprite;
 }
 
-Animation* GraphicManager::getAnimation(AnimationType eAnimationType, SpriteFrameCache* pFrameCache) {
+Animation* GraphicManager::__createAnimation(std::vector<std::string> aFrames) {
 	cocos2d::Array* animFrames = cocos2d::Array::create();
-	std::string sAnimName = "";
-	switch(eAnimationType) {
-		case AnimationType::WALK :
-			sAnimName = "walk";
-			break;
-		case AnimationType::FLY :
-			sAnimName = "fly";
-			break;
-		default :
-			sAnimName = "idle";
-			break;
-	}
-
-	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
-	int xmlerror = pXMLFile->LoadFile("xml/animations.xml");
-	if(xmlerror == 0) {
-		CCLOG("NO ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlerror);
-		tinyxml2::XMLHandle hDoc(pXMLFile);
-		tinyxml2::XMLElement *pAnimation, *pFrame;
-
-			pAnimation = pXMLFile->FirstChildElement("animation");
-			int i = 0; // for sorting the entries
-			int j = 0;
-			std::string type, name = "";
-			while(pAnimation)
-			{	
-				type = pAnimation->Attribute("type");
-				CCLOG("ANIMATION n°%d, type: %s ,PARSED !", ++i, type.c_str());
-				pFrame = pAnimation->FirstChildElement("frame");
-				while(pFrame) {
-					name = pFrame->Attribute("name");
-					CCLOG("FRAME n°%d, name: %s, PARSED !", ++j, name.c_str());
-					pFrame = pFrame->NextSiblingElement("frame");
-				}
-				pAnimation = pAnimation->NextSiblingElement("animation");
-			}
-	} else {
-		CCLOG("ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlerror);
-	}
-
-	char str[100] = {0};
-	for(int i = 1; i <= 7; i++) {
-		sprintf(str, "%s_%d.png", sAnimName.c_str(), i);
-		cocos2d::SpriteFrame* frame = pFrameCache->spriteFrameByName( str );
+	for(int i = 0; i < aFrames.size(); i++) {
+		cocos2d::SpriteFrame* frame = _pFrameCache->spriteFrameByName( aFrames[i].c_str() );
 		frame->retain();
 		animFrames->addObject(frame);
 	}
-	return cocos2d::Animation::createWithSpriteFrames(animFrames, 0.1f);
+	Animation* pAnimation = cocos2d::Animation::createWithSpriteFrames(animFrames, 0.05f);
+	pAnimation->retain();
+	return pAnimation;
+}
+
+Animation* GraphicManager::getAnimation(AnimationType eAnimationType) {
+	std::map<AnimationType,Animation*>::iterator it = _animations.find(eAnimationType);
+	Animation* pRes = it->second;	
+	return pRes;
 }
 
 Animation* GraphicManager::getNextAnimation(AnimationType eAnimationType) {
 	return 0;
-}
-
-SpriteBatchNode* GraphicManager::getBatchNode(core::ActorType eType) {
-	std::string sPvrFile = "";
-	if(eType == core::ActorType::HERO) {
-		sPvrFile = "sprites/girl.pvr";
-	} else if(eType == core::ActorType::FIREFLY) {
-		sPvrFile = "";
-	}
-	SpriteBatchNode* pBatchNode = nullptr;
-	if(sPvrFile != "") {
-		pBatchNode = SpriteBatchNode::create(sPvrFile.c_str());
-	} 
-	return pBatchNode;
-}
-
-SpriteFrameCache* GraphicManager::getFrameCache(core::ActorType eType) {
-	std::string sPlistFile = "";
-	if(eType == core::ActorType::HERO) {
-		sPlistFile = "sprites/girl.plist";
-	} else if(eType == core::ActorType::FIREFLY) {
-		sPlistFile = "";
-	}
-
-	SpriteFrameCache* pFrameCache = cocos2d::SpriteFrameCache::sharedSpriteFrameCache();
-	pFrameCache->addSpriteFramesWithFile(sPlistFile.c_str());
-	pFrameCache->retain();
-
-	return pFrameCache;
 }
 
 bool GraphicManager::isLoopAnimation(std::string sAnimName) {
