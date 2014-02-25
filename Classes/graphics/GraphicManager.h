@@ -56,6 +56,8 @@ private:
 	 */
 	Animation* __createAnimation(std::vector<std::string> aFrames);
 
+	AnimationType __getAnimationType(std::string sTag);
+
 	/*! \brief Constructor */
 	GraphicManager();
 
@@ -77,6 +79,9 @@ private:
 
 	/*! \brief All the animations of the game */
 	std::map<AnimationType, core::SynthAnimation*> _animations;
+
+	/*! \brief The string tag and the AnimationType tag are related through this map */
+	std::map<std::string, AnimationType> _tagsMap;
 
 };
 

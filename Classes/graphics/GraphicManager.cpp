@@ -34,6 +34,27 @@ void GraphicManager::init(/*core::xml data*/) {
 	// batchnode
 	_pBatchNode = SpriteBatchNode::create("sprites/girl.pvr");
 
+	// invert enum animation type
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_IDLE",			AnimationType::HERO_IDLE	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_WALK",			AnimationType::HERO_WALK	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_STOP_WALK",		AnimationType::HERO_STOP_WALK	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_START_JUMP",		AnimationType::HERO_START_JUMP	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_JUMP",			AnimationType::HERO_JUMP	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_FALL",			AnimationType::HERO_FALL	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_START_BOUNCE",	AnimationType::HERO_START_BOUNCE	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_BOUNCE",			AnimationType::HERO_BOUNCE	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_STOP_BOUNCE",		AnimationType::HERO_STOP_BOUNCE	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_CRAWL",			AnimationType::HERO_CRAWL	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_STOP_CRAWL",		AnimationType::HERO_STOP_CRAWL	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_IDLE_CRAWL",		AnimationType::HERO_IDLE_CRAWL	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_FLY",				AnimationType::HERO_FLY	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_HIT",				AnimationType::HERO_HIT	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_INTERACT",		AnimationType::HERO_INTERACT	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_COUGH",			AnimationType::HERO_COUGH	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_DIE",				AnimationType::HERO_DIE	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_WIN",				AnimationType::HERO_WIN	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_SPAWN",			AnimationType::HERO_SPAWN	));
+
 	// parsing animations
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
 	int xmlerror = pXMLFile->LoadFile("xml/animations.xml");
@@ -41,7 +62,7 @@ void GraphicManager::init(/*core::xml data*/) {
 		CCLOG("NO ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlerror);
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pAnimationData, *pFrameData;
-		std::string type, name = "";
+		std::string type, nextType, name = "";
 		bool bIsLoop = false;
 		core::SynthAnimation* pAnimation;
 		std::vector<std::string> aFrames;
@@ -65,11 +86,12 @@ void GraphicManager::init(/*core::xml data*/) {
 				bIsLoop = true;
 			}
 			if (pAnimationData->Attribute("next") != "") {
-				pAnimation = new core::SynthAnimation(AnimationType::HERO_WALK, __createAnimation(aFrames), bIsLoop);
+				pAnimation = new core::SynthAnimation(__getAnimationType(type), __createAnimation(aFrames), bIsLoop);
 			} else {
-				pAnimation = new core::SynthAnimation(AnimationType::HERO_WALK, AnimationType::HERO_WALK, __createAnimation(aFrames), bIsLoop);
+				nextType = pAnimationData->Attribute("next");
+				pAnimation = new core::SynthAnimation(__getAnimationType(type), __getAnimationType(nextType), __createAnimation(aFrames), bIsLoop);
 			}
-			_animations.insert(std::pair<AnimationType, core::SynthAnimation*>(AnimationType::HERO_WALK, pAnimation));
+			_animations.insert(std::pair<AnimationType, core::SynthAnimation*>(__getAnimationType(type), pAnimation));
 	 		pAnimationData = pAnimationData->NextSiblingElement("animation");
 		}
 	} else {
@@ -84,6 +106,12 @@ Sprite* GraphicManager::createSprite(std::string sSpriteName) {
 	return pSprite;
 }
 
+core::SynthAnimation* GraphicManager::getAnimation(AnimationType eAnimationType) {
+	std::map<AnimationType,core::SynthAnimation*>::iterator it = _animations.find(eAnimationType);
+	core::SynthAnimation* pRes = it->second;	
+	return pRes;
+}
+
 Animation* GraphicManager::__createAnimation(std::vector<std::string> aFrames) {
 	cocos2d::Array* animFrames = cocos2d::Array::create();
 	for(int i = 0; i < aFrames.size(); i++) {
@@ -96,11 +124,10 @@ Animation* GraphicManager::__createAnimation(std::vector<std::string> aFrames) {
 	return pAnimation;
 }
 
-core::SynthAnimation* GraphicManager::getAnimation(AnimationType eAnimationType) {
-	std::map<AnimationType,core::SynthAnimation*>::iterator it = _animations.find(eAnimationType);
-	core::SynthAnimation* pRes = it->second;	
-	return pRes;
+AnimationType GraphicManager::__getAnimationType(std::string sTag) {
+	return _tagsMap.find(sTag)->second;
 }
+
 
 
 
