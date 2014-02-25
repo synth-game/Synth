@@ -285,6 +285,9 @@
     <ClCompile Include="..\Classes\Events\WinEvent.cpp">
       <Filter>Classes\events</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Events\ChangeStateEvent.cpp">
+      <Filter>Classes\events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -552,6 +555,9 @@
       <Filter>Classes\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Events\WinEvent.h">
+      <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Events\ChangeStateEvent.h">
       <Filter>Classes\events</Filter>
     </ClInclude>
   </ItemGroup>

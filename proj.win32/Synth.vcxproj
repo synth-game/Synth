@@ -141,6 +141,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\Events\ChangeIntensityEvent.cpp" />
     <ClCompile Include="..\Classes\events\ChangeNodeOwnerEvent.cpp" />
     <ClCompile Include="..\Classes\events\ChangePositionEvent.cpp" />
+    <ClCompile Include="..\Classes\Events\ChangeStateEvent.cpp" />
     <ClCompile Include="..\Classes\events\ChangeTargetEvent.cpp" />
     <ClCompile Include="..\Classes\events\CollisionEvent.cpp" />
     <ClCompile Include="..\Classes\events\ContinueGameEvent.cpp" />
@@ -228,6 +229,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Events\ChangeIntensityEvent.h" />
     <ClInclude Include="..\Classes\events\ChangeNodeOwnerEvent.h" />
     <ClInclude Include="..\Classes\events\ChangePositionEvent.h" />
+    <ClInclude Include="..\Classes\Events\ChangeStateEvent.h" />
     <ClInclude Include="..\Classes\events\ChangeTargetEvent.h" />
     <ClInclude Include="..\Classes\events\CollisionEvent.h" />
     <ClInclude Include="..\Classes\events\ContinueGameEvent.h" />

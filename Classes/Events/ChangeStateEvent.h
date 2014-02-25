@@ -19,7 +19,7 @@ class ChangeStateEvent : public events::SynthEvent {
 
 public:
 
-	ChangeStateEvent();
+	ChangeStateEvent(Node* pSource, graphics::ActorState eState);
 
 	~ChangeStateEvent();
 

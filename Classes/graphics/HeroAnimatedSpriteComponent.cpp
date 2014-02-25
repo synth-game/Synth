@@ -70,9 +70,9 @@ void HeroAnimatedSpriteComponent::onEnter() {
 		_pParent->addChild(pBatchNode, 1, 3);
 
 		//TODO: add idle animation
-		_eState = ActorState::IDLE_STATE;
 		_eCurrentAnimType = AnimationType::IDLE;
-
+		events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, ActorState::ON_FLOOR_STATE);
+		EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
 	}
 }
 
@@ -91,6 +91,7 @@ void HeroAnimatedSpriteComponent::initListeners() {
 	
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateEventListener, 1);
 }
 
 void HeroAnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {
@@ -102,9 +103,16 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
     core::SynthActor*		pSource			= static_cast<core::SynthActor*>(pEditMoveEvent->getSource());
     core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
 
+	switch (_eState) {
+	case ActorState::ON_FLOOR_STATE :
+		_eCurrentAnimType = AnimationType::HERO_WALK;
+		break;
+	default:
+		//_eCurrentAnimType = AnimationType::HERO_WALK;
+		break;
+	}
+
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	_eCurrentAnimType = AnimationType::HERO_WALK;
-	_eState = ActorState::ON_FLOOR_STATE;
 	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
 
@@ -216,6 +224,18 @@ void HeroAnimatedSpriteComponent::onResetLevel(EventCustom* pEvent) {
 }
 
 void HeroAnimatedSpriteComponent::onChangeState(EventCustom* pEvent) {
+
+	events::ChangeStateEvent*	pChangeStateEvent	= static_cast<events::ChangeStateEvent*>(pEvent);
+    core::SynthActor*			pSource				= static_cast<core::SynthActor*>(pChangeStateEvent->getSource());
+    core::SynthActor*			pOwner				= static_cast<core::SynthActor*>(_owner);
+
+	 if (pSource->getActorID() == pOwner->getActorID()) {
+		 _eState = pChangeStateEvent->getNewState();
+    }
+    else {
+        CCLOG("CHANGE STATE EVENT RECEIVED BUT ID NOT THE SAME");
+    }
+
 }
 
 }  // namespace graphics

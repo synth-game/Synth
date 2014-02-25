@@ -4,10 +4,12 @@ namespace events {
 
 const char* ChangeStateEvent::EVENT_NAME = "ChangeStateEvent";
 
-ChangeStateEvent::ChangeIntensityEvent() {
+ChangeStateEvent::ChangeStateEvent(Node* pSource, graphics::ActorState eState)
+	: SynthEvent(pSource, ChangeStateEvent::EVENT_NAME)
+	, _eNewState(eState) {
 }
 
-ChangeStateEvent::~ChangeIntensityEvent() {
+ChangeStateEvent::~ChangeStateEvent() {
 }
 
 }  // namespace events
