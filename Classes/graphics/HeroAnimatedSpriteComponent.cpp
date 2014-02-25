@@ -20,6 +20,7 @@
 #include "events/DeathEvent.h"
 #include "events/WinEvent.h"
 #include "events/ResetLevelEvent.h"
+#include "events/ChangeStateEvent.h"
 
 namespace graphics {
 
@@ -71,10 +72,7 @@ void HeroAnimatedSpriteComponent::onEnter() {
 		//TODO: add idle animation
 		_eState = ActorState::IDLE_STATE;
 		_eCurrentAnimType = AnimationType::IDLE;
-		//cocos2d::Animation* walkAnimation = graphicManager->getAnimation(_sCurrentAnimName, _pFrameCache);
-		//cocos2d::Animate* walkAnimate = cocos2d::Animate::create(walkAnimation);
-		//walkAnimate->retain();
-		//_pSprite->runAction(cocos2d::RepeatForever::create( walkAnimate ));
+
 	}
 }
 
@@ -89,6 +87,7 @@ void HeroAnimatedSpriteComponent::initListeners() {
 	_pDeathEventListener = cocos2d::EventListenerCustom::create(events::DeathEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onDeath, this));
 	_pWinEventListener = cocos2d::EventListenerCustom::create(events::WinEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onWin, this));
 	_pResetLevelEventListener = cocos2d::EventListenerCustom::create(events::ResetLevelEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onResetLevel, this));
+	_pChangeStateEventListener = cocos2d::EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onChangeState, this));
 	
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
@@ -130,7 +129,7 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 
 void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
 
-	events::JumpEvent* pJumpEvent = static_cast<events::JumpEvent*>(pEvent);
+	events::JumpEvent* pJumpEvent						= static_cast<events::JumpEvent*>(pEvent);
     core::SynthActor* pSource							= static_cast<core::SynthActor*>(pJumpEvent->getSource());
     core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
@@ -150,7 +149,7 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
 
 void HeroAnimatedSpriteComponent::onInterruptMove(EventCustom* pEvent) {
 
-	events::InterruptMoveEvent* pInterruptMoveEvent = static_cast<events::InterruptMoveEvent*>(pEvent);
+	events::InterruptMoveEvent* pInterruptMoveEvent		= static_cast<events::InterruptMoveEvent*>(pEvent);
     core::SynthActor* pSource							= static_cast<core::SynthActor*>(pInterruptMoveEvent->getSource());
     core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
@@ -214,6 +213,9 @@ void HeroAnimatedSpriteComponent::onWin(EventCustom* pEvent) {
 }
 
 void HeroAnimatedSpriteComponent::onResetLevel(EventCustom* pEvent) {
+}
+
+void HeroAnimatedSpriteComponent::onChangeState(EventCustom* pEvent) {
 }
 
 }  // namespace graphics

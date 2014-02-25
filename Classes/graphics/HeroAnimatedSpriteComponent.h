@@ -52,6 +52,8 @@ public:
 
 	void onResetLevel(EventCustom* pEvent);
 
+	void onChangeState(EventCustom* pEvent);
+
 	/*
 	 * Members
 	 */
@@ -91,6 +93,8 @@ private:
 	EventListenerCustom* _pWinEventListener;
 
 	EventListenerCustom* _pResetLevelEventListener;
+
+	EventListenerCustom* _pChangeStateEventListener;
 
 };
 
