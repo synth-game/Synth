@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <animation type="HERO_IDLE" isLoop="true" next="">
-	<frame name="walk_0.png">
+	<frame name="walk_5.png">
 	</frame>
 </animation>
 

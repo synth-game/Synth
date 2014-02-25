@@ -104,41 +104,72 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
     core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
 
     if (pSource->getActorID() == pOwner->getActorID()) {
-		switch (_eState) {
-		case ActorState::ON_FLOOR_STATE :
-			_eCurrentAnimType = AnimationType::HERO_WALK;
-			break;
-		case ActorState::STUCK_STATE :
-			_eCurrentAnimType = AnimationType::HERO_CRAWL;
-			break;
-		case ActorState::ON_AIR_STATE :
-			_eCurrentAnimType = AnimationType::HERO_FLY;
-			break;
-		case ActorState::BOUNCE_STATE :
-			_eCurrentAnimType = AnimationType::HERO_BOUNCE;
-			break;
-		default:
-			_eCurrentAnimType = AnimationType::HERO_WALK;
-			break;
-		}
-
-		GraphicManager* graphicManager = GraphicManager::getInstance();
-		core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
-		Animate* animate = Animate::create(pAnimation->getAnimation());		
-
+		
 		if (pEditMoveEvent->isStartMoving()) {
+			// the movement starts
+			switch (_eState) {
+			case ActorState::ON_FLOOR_STATE :
+				_eCurrentAnimType = AnimationType::HERO_WALK;
+				break;
+			case ActorState::STUCK_STATE :
+				_eCurrentAnimType = AnimationType::HERO_CRAWL;
+				break;
+			case ActorState::ON_AIR_STATE :
+				_eCurrentAnimType = AnimationType::HERO_FLY;
+				break;
+			case ActorState::BOUNCE_STATE :
+				_eCurrentAnimType = AnimationType::HERO_BOUNCE;
+				break;
+			default:
+				_eCurrentAnimType = AnimationType::HERO_WALK;
+				break;
+			}
+			GraphicManager* graphicManager = GraphicManager::getInstance();
+			core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+			Animate* animate = Animate::create(pAnimation->getAnimation());	
 			if (pEditMoveEvent->getDirection().x < 0) {
-				_pSprite->stopAllActions();
 				_pSprite->setFlippedX(true);
-				_pSprite->runAction(cocos2d::RepeatForever::create(animate));
 			}
 			else if(pEditMoveEvent->getDirection().x > 0) {
-				_pSprite->stopAllActions();
 				_pSprite->setFlippedX(false);
-				_pSprite->runAction(cocos2d::RepeatForever::create(animate));
 			}
-		} else {
 			_pSprite->stopAllActions();
+			_pSprite->runAction(cocos2d::RepeatForever::create(animate));
+		} else {
+			// the movement stops
+			switch (_eState) {
+			case ActorState::ON_FLOOR_STATE :
+				_eCurrentAnimType = AnimationType::HERO_STOP_WALK;
+				break;
+			case ActorState::STUCK_STATE :
+				_eCurrentAnimType = AnimationType::HERO_STOP_CRAWL;
+				break;
+			case ActorState::ON_AIR_STATE :
+				_eCurrentAnimType = AnimationType::HERO_FLY;
+				break;
+			case ActorState::BOUNCE_STATE :
+				_eCurrentAnimType = AnimationType::HERO_BOUNCE;
+				break;
+			default:
+				_eCurrentAnimType = AnimationType::HERO_STOP_WALK;
+				break;
+			}
+			GraphicManager* graphicManager = GraphicManager::getInstance();
+			core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+			Animate* animate = Animate::create(pAnimation->getAnimation());	
+			// inverted in this case
+			if (pEditMoveEvent->getDirection().x < 0) {
+				_pSprite->setFlippedX(false);
+			}
+			else if(pEditMoveEvent->getDirection().x > 0) {
+				_pSprite->setFlippedX(true);
+			}
+			_pSprite->stopAllActions();
+			if(pAnimation->isLoop()) {
+				_pSprite->runAction(cocos2d::RepeatForever::create(animate));
+			} else {
+				_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(animate, 0), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
+			}
 		}
     }
     else {

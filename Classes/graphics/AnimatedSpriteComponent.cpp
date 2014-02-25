@@ -45,7 +45,7 @@ void AnimatedSpriteComponent::requestNextAnimation() {
 			_pSprite->runAction(RepeatForever::create(animate));
 		} else {
 			if (pNextAnimation->getNextTag() != NULL) {
-				_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(animate, 1), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
+				_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(animate, 0), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
 			} else {
 				_pSprite->runAction(RepeatForever::create(animate));
 			}
