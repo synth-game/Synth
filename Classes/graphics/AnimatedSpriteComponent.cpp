@@ -19,7 +19,7 @@ AnimatedSpriteComponent::AnimatedSpriteComponent() {
 AnimatedSpriteComponent::AnimatedSpriteComponent(Layer* pParent)
 	: SpriteComponent(pParent)
 	, _eState(ActorState::IDLE_STATE)
-	, _eCurrentAnimType(AnimationType::IDLE) {
+	, _eCurrentAnimType(AnimationType::HERO_IDLE) {
 }
 
 AnimatedSpriteComponent::~AnimatedSpriteComponent() {
@@ -34,6 +34,23 @@ void AnimatedSpriteComponent::initListeners() {
 }
 
 void AnimatedSpriteComponent::requestNextAnimation() {
+	GraphicManager* graphicManager = GraphicManager::getInstance();
+	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+	AnimationType eNextAnimationType = pAnimation->getNextTag();
+	if(eNextAnimationType != NULL) {
+		_eCurrentAnimType = eNextAnimationType;
+		core::SynthAnimation* pNextAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+		Animate* animate = Animate::create(pNextAnimation->getAnimation());	
+		if(pNextAnimation->isLoop()) {
+			_pSprite->runAction(RepeatForever::create(animate));
+		} else {
+			if (pNextAnimation->getNextTag() != NULL) {
+				_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(animate, 1), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
+			} else {
+				_pSprite->runAction(RepeatForever::create(animate));
+			}
+		}	
+	}
 }
 
 void AnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {

@@ -70,7 +70,7 @@ void HeroAnimatedSpriteComponent::onEnter() {
 		_pParent->addChild(pBatchNode, 1, 3);
 
 		//TODO: add idle animation
-		_eCurrentAnimType = AnimationType::IDLE;
+		_eCurrentAnimType = AnimationType::HERO_IDLE;
 		events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, ActorState::ON_FLOOR_STATE);
 		EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
 	}
@@ -103,20 +103,29 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
     core::SynthActor*		pSource			= static_cast<core::SynthActor*>(pEditMoveEvent->getSource());
     core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
 
-	switch (_eState) {
-	case ActorState::ON_FLOOR_STATE :
-		_eCurrentAnimType = AnimationType::HERO_WALK;
-		break;
-	default:
-		//_eCurrentAnimType = AnimationType::HERO_WALK;
-		break;
-	}
-
-	GraphicManager* graphicManager = GraphicManager::getInstance();
-	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
-	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
-
     if (pSource->getActorID() == pOwner->getActorID()) {
+		switch (_eState) {
+		case ActorState::ON_FLOOR_STATE :
+			_eCurrentAnimType = AnimationType::HERO_WALK;
+			break;
+		case ActorState::STUCK_STATE :
+			_eCurrentAnimType = AnimationType::HERO_CRAWL;
+			break;
+		case ActorState::ON_AIR_STATE :
+			_eCurrentAnimType = AnimationType::HERO_FLY;
+			break;
+		case ActorState::BOUNCE_STATE :
+			_eCurrentAnimType = AnimationType::HERO_BOUNCE;
+			break;
+		default:
+			_eCurrentAnimType = AnimationType::HERO_WALK;
+			break;
+		}
+
+		GraphicManager* graphicManager = GraphicManager::getInstance();
+		core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+		Animate* animate = Animate::create(pAnimation->getAnimation());		
+
 		if (pEditMoveEvent->isStartMoving()) {
 			if (pEditMoveEvent->getDirection().x < 0) {
 				_pSprite->stopAllActions();
@@ -144,7 +153,7 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
     core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	_eCurrentAnimType = AnimationType::START_JUMP;
+	_eCurrentAnimType = AnimationType::HERO_START_JUMP;
 	_eState = ActorState::ON_FLOOR_STATE;
 	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
@@ -164,7 +173,7 @@ void HeroAnimatedSpriteComponent::onInterruptMove(EventCustom* pEvent) {
     core::SynthActor* pSource							= static_cast<core::SynthActor*>(pInterruptMoveEvent->getSource());
     core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
-	_eCurrentAnimType = AnimationType::IDLE;
+	_eCurrentAnimType = AnimationType::HERO_IDLE;
 	_eState = ActorState::IDLE_STATE;
 
     if (pSource->getActorID() == pOwner->getActorID()) {
@@ -183,7 +192,7 @@ void HeroAnimatedSpriteComponent::onChangeNodeOwner(EventCustom* pEvent) {
     core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	_eCurrentAnimType = AnimationType::INTERACT;
+	_eCurrentAnimType = AnimationType::HERO_INTERACT;
 	_eState = ActorState::ON_FLOOR_STATE;
 	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
@@ -205,7 +214,7 @@ void HeroAnimatedSpriteComponent::onToggleLight(EventCustom* pEvent) {
     core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	_eCurrentAnimType = AnimationType::PULL_SWITCH;
+	_eCurrentAnimType = AnimationType::HERO_PULL_SWITCH;
 	_eState = ActorState::ON_FLOOR_STATE;
 	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());

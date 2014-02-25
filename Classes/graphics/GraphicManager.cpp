@@ -102,13 +102,6 @@ core::SynthAnimation* GraphicManager::getAnimation(AnimationType eAnimationType)
 	return pRes;
 }
 
-Animation* GraphicManager::getNextAnimation(AnimationType eAnimationType) {
-	return 0;
-}
-
-bool GraphicManager::isLoopAnimation(std::string sAnimName) {
-	return 0;
-}
 
 
 }  // namespace graphics

@@ -39,7 +39,7 @@ public:
 	~SynthAnimation();
 
 	inline graphics::AnimationType getTag() { return _eTag; }
-	inline bool bIsLoop() { return _bIsLoop; }
+	inline bool isLoop() { return _bIsLoop; }
 	inline graphics::AnimationType getNextTag() { return _eNextTag; }
 	inline Animation* getAnimation() { return _pAnimation; }
 

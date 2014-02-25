@@ -46,13 +46,9 @@ public:
 
 	core::SynthAnimation* getAnimation(AnimationType eAnimationType);
 
-	Animation* getNextAnimation(AnimationType eAnimationType);
-
 	inline SpriteBatchNode* getBatchNode() { return _pBatchNode; }
 
 	inline SpriteFrameCache* getFrameCache() { return _pFrameCache; }
-
-	bool isLoopAnimation(std::string sAnimName);
 
 private:
 	/*

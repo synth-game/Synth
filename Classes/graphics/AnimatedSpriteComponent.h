@@ -37,6 +37,9 @@ public:
 	/*! \brief Destructor */
 	~AnimatedSpriteComponent();
 
+	/*! \brief Callback function of chained animation */
+	void requestNextAnimation();
+
 protected:
 	/*
 	 * Methods
@@ -47,9 +50,6 @@ protected:
 	AnimatedSpriteComponent(Layer* pParent);
 
 	virtual void initListeners();
-
-	/*! \brief Callback function of chained animation */
-	void requestNextAnimation();
 
 	void onChangePosition(EventCustom* pEvent);
 
