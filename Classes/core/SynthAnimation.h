@@ -32,7 +32,8 @@ public:
 	 * Constructor which initializes the SynthActor tag
 	 * \param eType : type of the actor
 	 */
-	SynthAnimation();
+	SynthAnimation(graphics::AnimationType eTag, graphics::AnimationType eNextTag, Animation* pAnimation, bool bIsLoop);
+	SynthAnimation(graphics::AnimationType eTag, Animation* pAnimation, bool bIsLoop);
 
 	/*! \brief Destructor */
 	~SynthAnimation();
@@ -40,10 +41,12 @@ public:
 	inline graphics::AnimationType getTag() { return _eTag; }
 	inline bool bIsLoop() { return _bIsLoop; }
 	inline graphics::AnimationType getNextTag() { return _eNextTag; }
+	inline Animation* getAnimation() { return _pAnimation; }
 
 	inline void setTag( graphics::AnimationType eTag ) { _eTag = eTag; }
 	inline void setIsLoop( bool bIsLoop) { _bIsLoop = bIsLoop; }
-	inline void setTag( graphics::AnimationType eNextTag ) { _eNextTag = eNextTag; }
+	inline void setNextTag( graphics::AnimationType eNextTag ) { _eNextTag = eNextTag; }
+	inline void setAnimation( Animation* pAnimation ) { _pAnimation = pAnimation; }
 
 
 
@@ -54,6 +57,8 @@ protected:
 	bool _bIsLoop;
 
 	graphics::AnimationType _eNextTag;
+
+	Animation* _pAnimation;
 
 };
 

@@ -288,6 +288,9 @@
     <ClCompile Include="..\Classes\Events\ChangeStateEvent.cpp">
       <Filter>Classes\events</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\core\SynthAnimation.cpp">
+      <Filter>Classes\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -559,6 +562,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Events\ChangeStateEvent.h">
       <Filter>Classes\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\core\SynthAnimation.h">
+      <Filter>Classes\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

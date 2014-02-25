@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 #include "core/SynthActor.h"
 #include "core/ActorType.h"
+#include "core/SynthAnimation.h"
 #include "core/SynthConfig.h"
 #include "graphics/AnimationType.h"
 
@@ -43,7 +44,7 @@ public:
 
 	Sprite* createSprite(std::string sSpriteName);
 
-	Animation* getAnimation(AnimationType eAnimationType);
+	core::SynthAnimation* getAnimation(AnimationType eAnimationType);
 
 	Animation* getNextAnimation(AnimationType eAnimationType);
 
@@ -79,7 +80,7 @@ private:
 	std::vector<Sprite*> _staticSprites;
 
 	/*! \brief All the animations of the game */
-	std::map<AnimationType, Animation*> _animations;
+	std::map<AnimationType, core::SynthAnimation*> _animations;
 
 };
 

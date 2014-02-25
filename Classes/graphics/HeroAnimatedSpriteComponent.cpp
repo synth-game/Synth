@@ -113,16 +113,18 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 	}
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType);
-	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
+	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 
     if (pSource->getActorID() == pOwner->getActorID()) {
 		if (pEditMoveEvent->isStartMoving()) {
 			if (pEditMoveEvent->getDirection().x < 0) {
+				_pSprite->stopAllActions();
 				_pSprite->setFlippedX(true);
 				_pSprite->runAction(cocos2d::RepeatForever::create(animate));
 			}
 			else if(pEditMoveEvent->getDirection().x > 0) {
+				_pSprite->stopAllActions();
 				_pSprite->setFlippedX(false);
 				_pSprite->runAction(cocos2d::RepeatForever::create(animate));
 			}
@@ -144,10 +146,11 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::START_JUMP;
 	_eState = ActorState::ON_FLOOR_STATE;
-	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType);
-	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
+	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 
     if (pSource->getActorID() == pOwner->getActorID()) {
+		_pSprite->stopAllActions();
 		_pSprite->runAction(animate); // not looping
     }
     else {
@@ -182,10 +185,11 @@ void HeroAnimatedSpriteComponent::onChangeNodeOwner(EventCustom* pEvent) {
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::INTERACT;
 	_eState = ActorState::ON_FLOOR_STATE;
-	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType);
-	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
+	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 
     if (pSource->getActorID() == pOwner->getActorID()) {
+		_pSprite->stopAllActions();
 		_pSprite->runAction(animate); // not looping
     }
     else {
@@ -203,10 +207,11 @@ void HeroAnimatedSpriteComponent::onToggleLight(EventCustom* pEvent) {
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::PULL_SWITCH;
 	_eState = ActorState::ON_FLOOR_STATE;
-	cocos2d::Animation* animation = graphicManager->getAnimation(_eCurrentAnimType);
-	cocos2d::Animate* animate = cocos2d::Animate::create(animation);
+	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 
     if (pSource->getActorID() == pOwner->getActorID()) {
+		_pSprite->stopAllActions();
 		_pSprite->runAction(cocos2d::RepeatForever::create(animate));
     }
     else {

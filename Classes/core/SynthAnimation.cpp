@@ -8,7 +8,18 @@
 
 namespace core {
 
-SynthAnimation::SynthAnimation(ActorType eType) {
+SynthAnimation::SynthAnimation(graphics::AnimationType eTag, graphics::AnimationType eNextTag, Animation* pAnimation, bool bIsLoop) :
+	_eTag(eTag),
+	_eNextTag(eNextTag), 
+	_pAnimation(pAnimation),
+	_bIsLoop(bIsLoop) {
+}
+
+SynthAnimation::SynthAnimation(graphics::AnimationType eTag, Animation* pAnimation, bool bIsLoop) :
+	_eTag(eTag),
+	_eNextTag(), 
+	_pAnimation(pAnimation),
+	_bIsLoop(bIsLoop) {
 }
 
 SynthAnimation::~SynthAnimation() {

@@ -42,7 +42,7 @@ void GraphicManager::init(/*core::xml data*/) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pAnimationData, *pFrameData;
 		std::string type, name = "";
-		Animation* pAnimation;
+		core::SynthAnimation* pAnimation;
 		std::vector<std::string> aFrames;
 		int i = 0; 
 		int j = 0;
@@ -59,9 +59,9 @@ void GraphicManager::init(/*core::xml data*/) {
 				CCLOG("FRAME n°%d, name: %s, PARSED !", ++j, name.c_str());
 				pFrameData = pFrameData->NextSiblingElement("frame");
 			}
-			pAnimation = __createAnimation(aFrames);
-			_animations.insert(std::pair<AnimationType, Animation*>(AnimationType::HERO_WALK, pAnimation));
-			pAnimationData = pAnimationData->NextSiblingElement("animation");
+			pAnimation = new core::SynthAnimation(AnimationType::HERO_WALK, __createAnimation(aFrames), true);
+			_animations.insert(std::pair<AnimationType, core::SynthAnimation*>(AnimationType::HERO_WALK, pAnimation));
+	 		pAnimationData = pAnimationData->NextSiblingElement("animation");
 		}
 	} else {
 		CCLOG("ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlerror);
@@ -87,9 +87,9 @@ Animation* GraphicManager::__createAnimation(std::vector<std::string> aFrames) {
 	return pAnimation;
 }
 
-Animation* GraphicManager::getAnimation(AnimationType eAnimationType) {
-	std::map<AnimationType,Animation*>::iterator it = _animations.find(eAnimationType);
-	Animation* pRes = it->second;	
+core::SynthAnimation* GraphicManager::getAnimation(AnimationType eAnimationType) {
+	std::map<AnimationType,core::SynthAnimation*>::iterator it = _animations.find(eAnimationType);
+	core::SynthAnimation* pRes = it->second;	
 	return pRes;
 }
 

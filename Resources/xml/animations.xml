@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<animation type="WALK">
+<animation type="WALK" isLoop="true" next="">
 	<frame name="walk_0.png">
 	</frame>
 	<frame name="walk_1.png">
