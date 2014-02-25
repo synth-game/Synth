@@ -42,6 +42,7 @@ void GraphicManager::init(/*core::xml data*/) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pAnimationData, *pFrameData;
 		std::string type, name = "";
+		bool bIsLoop = false;
 		core::SynthAnimation* pAnimation;
 		std::vector<std::string> aFrames;
 		int i = 0; 
@@ -53,13 +54,21 @@ void GraphicManager::init(/*core::xml data*/) {
 			type = pAnimationData->Attribute("type");
 			CCLOG("ANIMATION n°%d, type: %s ,PARSED !", ++i, type.c_str());
 			pFrameData = pAnimationData->FirstChildElement("frame");
-			while(pFrameData) {
+			while (pFrameData) {
 				name = pFrameData->Attribute("name");
 				aFrames.push_back(name);
 				CCLOG("FRAME n°%d, name: %s, PARSED !", ++j, name.c_str());
 				pFrameData = pFrameData->NextSiblingElement("frame");
 			}
-			pAnimation = new core::SynthAnimation(AnimationType::HERO_WALK, __createAnimation(aFrames), true);
+			type = pAnimationData->Attribute("type");
+			if (pAnimationData->Attribute("isLoop") == "true") {
+				bIsLoop = true;
+			}
+			if (pAnimationData->Attribute("next") != "") {
+				pAnimation = new core::SynthAnimation(AnimationType::HERO_WALK, __createAnimation(aFrames), bIsLoop);
+			} else {
+				pAnimation = new core::SynthAnimation(AnimationType::HERO_WALK, AnimationType::HERO_WALK, __createAnimation(aFrames), bIsLoop);
+			}
 			_animations.insert(std::pair<AnimationType, core::SynthAnimation*>(AnimationType::HERO_WALK, pAnimation));
 	 		pAnimationData = pAnimationData->NextSiblingElement("animation");
 		}
