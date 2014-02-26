@@ -5,6 +5,7 @@
  * \date 26/02/2014
  */
 #include "LevelSprite.h"
+#include "game/SHA_level_sprite.h"
 
 #define LIGHT_MAX_COUNT 16
 
@@ -27,6 +28,16 @@ LevelSprite* LevelSprite::create(char* sBackgroundPath) {
 		CCLOG("LevelSprite created");
 		pRet->autorelease();
 		pRet->setAnchorPoint(Point::ZERO);
+
+		GLProgram* pProgram = new GLProgram();
+		pProgram->initWithVertexShaderByteArray(levelSprite_vert, levelSprite_frag);
+		pProgram->addAttribute(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+		pProgram->addAttribute(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
+		pProgram->link();
+		pProgram->updateUniforms();
+		pProgram->use();
+		pRet->setShaderProgram(pProgram);
+
 	} else {
 		CCLOG("LevelSprite created but deleted");
 		CC_SAFE_DELETE(pRet);
@@ -35,13 +46,17 @@ LevelSprite* LevelSprite::create(char* sBackgroundPath) {
 }
 
 void LevelSprite::addLight(Texture2D* pTexture, Color4F color, bool bOn) {
-	LightTexture* pLT = new LightTexture();
-	pLT->pTex = pTexture;
-	pLT->col.push_back(color.r);
-	pLT->col.push_back(color.g);
-	pLT->col.push_back(color.b);
-	pLT->bIsOn = bOn;
-	_lightTextures.push_back(pLT);
+	if (_lightTextures.size() < LIGHT_MAX_COUNT) {
+		LightTexture* pLT = new LightTexture();
+		pLT->pTex = pTexture;
+		pLT->col.push_back(color.r);
+		pLT->col.push_back(color.g);
+		pLT->col.push_back(color.b);
+		pLT->bIsOn = bOn;
+		_lightTextures.push_back(pLT);
+	} else {
+		CCLOG("There already are maximum of lights in LevelSprite. Can't add another one.");
+	}
 }
 
 void LevelSprite::draw() {

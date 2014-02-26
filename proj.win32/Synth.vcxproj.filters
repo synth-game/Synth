@@ -566,6 +566,9 @@
     <ClInclude Include="..\Classes\core\SynthAnimation.h">
       <Filter>Classes\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\game\SHA_level_sprite.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
