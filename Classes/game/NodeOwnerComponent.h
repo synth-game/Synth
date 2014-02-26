@@ -24,6 +24,7 @@ public:
 	/*
 	 * Methods
 	 */
+	/*! \brief Desctructor */
 	~NodeOwnerComponent();
 
 	/*! \brief Init the component */
