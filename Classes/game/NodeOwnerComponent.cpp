@@ -6,6 +6,8 @@
  */
 #include "NodeOwnerComponent.h"
 #include "core/SynthActor.h"
+#include "game/LightAttrComponent.h"
+
 #include "events/ToggleLightEvent.h"
 #include "events/ChangeNodeOwnerEvent.h"
 #include "events/ChangeNodeOwnerEvent.h"
@@ -45,21 +47,30 @@ void NodeOwnerComponent::initListeners() {
 }
 
 void NodeOwnerComponent::onToggleLight(EventCustom* pEvent) {
-	events::ToggleLightEvent* pToggleLightEvent						= static_cast<events::ToggleLightEvent*>(pEvent);
+	events::ToggleLightEvent* pToggleLightEvent					= static_cast<events::ToggleLightEvent*>(pEvent);
     core::SynthActor* pSource									= static_cast<core::SynthActor*>(pToggleLightEvent->getSource());
     core::SynthActor* pOwner									= static_cast<core::SynthActor*>(_owner);
 
-    if (pSource->getActorID() == pOwner->getActorID()) {
-		
+	if (pSource->getActorID() == pOwner->getActorID() && pOwner->getActorType() == core::ActorType::LIGHTSWITCH) {
+		core::SynthActor* pLamp = static_cast<core::SynthActor*>(getOwnedNode());
+		core::SynthActor* pFirefly = static_cast<core::SynthActor*>(static_cast<game::NodeOwnerComponent*>(pLamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE))->getOwnedNode());
+
+		game::LightAttrComponent* pLightAttrComponent = static_cast<game::LightAttrComponent*>(pFirefly->getComponent(game::LightAttrComponent::COMPONENT_TYPE));
+		CCASSERT(pLightAttrComponent != nullptr, "NodeOwnerComponent needs a LightAttrComponent added to its owner");
+		if(pToggleLightEvent->isOn()) {
+			pLightAttrComponent->setIntensity(1.f);
+		} else {
+			pLightAttrComponent->setIntensity(0.f);
+		}
     } else {
         CCLOG("TOGGLE LIGHT EVENT RECEIVED BUT ID NOT THE SAME");
     }
 }
 
 void NodeOwnerComponent::onChangeNodeOwner(EventCustom* pEvent) {
-	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent					= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
-    core::SynthActor* pSource											= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
-	core::SynthActor* pOwnedNode										= static_cast<core::SynthActor*>(_pOwnedNode);
+	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent			= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
+    core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+	core::SynthActor* pOwnedNode								= static_cast<core::SynthActor*>(_pOwnedNode);
 
     if (pSource->getActorID() == pOwnedNode->getActorID()) {
 		_pOwnedNode = pSource;
