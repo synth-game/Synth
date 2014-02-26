@@ -1,3 +1,9 @@
+/*!
+ * \file LevelSprite.h
+ * \brief Sprite of the level with lights rendering
+ * \author Jijidici
+ * \date 26/02/2014
+ */
 #ifndef GAME_LEVEL_SPRITE_H
 #define GAME_LEVEL_SPRITE_H
 
@@ -7,36 +13,30 @@
 
 USING_NS_CC;
 
-namespace game
-{
-typedef int LightTexture; //FAKE
+namespace game {
 
-class LevelSprite : public Sprite
-{
-private:
-	std::vector<LightTexture> _lightTexturesWithOcclusion;
+/* \brief Sprite of the level with lights rendering */
+class LevelSprite : public Sprite {
+public:
+	/*! \brief Destructor */
+	~LevelSprite();
 
-	std::vector<LightTexture> _lightTexturesWithoutOcclusion;
+	static LevelSprite* create(char* sBackgroundPath);
+	void addLight(Texture2D* pTexture, Color4F color, bool bOn);
+	void draw();
 
 
 protected:
+	struct LightTexture {
+		Texture2D* pTex;
+		std::vector<float> col;
+		bool bIsOn;
+	};
+
+	/*! \brief Constructor */
 	LevelSprite();
 
-public:
-	~LevelSprite();
-
-	/**
-	 * Load the background sprite and the Texture2D from the GraphicManager
-	 */
-	static LevelSprite* create(char* sSpriteName);
-
-	void updateLights(std::vector<core::SynthActor*> lights);
-
-	/**
-	 * redéfinition
-	 */
-	void draw();
-
+	std::vector<LightTexture*> _lightTextures;
 };
 
 }  // namespace game

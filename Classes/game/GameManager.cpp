@@ -6,6 +6,7 @@
  */
 #include "GameManager.h"
 #include "core/ActorType.h"
+#include "LevelSprite.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
 #include "physics/CollisionComponent.h"
@@ -77,8 +78,10 @@ bool GameManager::init() {
 	Layer::addChild(_pParallaxManager);
 
 	//TEST ZONE - BEGIN
-	Sprite* pLevelSprite = Sprite::create("levels/test/bitmask.png");
-	pLevelSprite->setAnchorPoint(Point::ZERO);
+	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png");
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Color4F::RED, true);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Color4F::GREEN, true);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Color4F::BLUE, true);
 	_pLevelLayer->addChild(pLevelSprite);
 
 	hero = new core::SynthActor(core::ActorType::HERO);
