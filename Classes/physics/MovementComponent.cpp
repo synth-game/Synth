@@ -57,6 +57,7 @@ void MovementComponent::initListeners() {
 
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
+    EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pJumpEventListener, 1);
 }
 
 void MovementComponent::onEditMove(EventCustom* pEvent) {
@@ -79,7 +80,13 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(jumpEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
 	if (componentOwner == eventSource) {
-		
+		if (jumpEvent->isStartJumping()) {
+            _speed.y = MAX_JUMP_SPEED;
+        } else {
+            if (_speed.y > MIN_JUMP_SPEED) {
+                _speed.y = MIN_JUMP_SPEED;
+            }
+        }
 	}
 }
 
@@ -95,7 +102,6 @@ void MovementComponent::onInterruptMove(EventCustom* pEvent) {
 void MovementComponent::update(float fDt) {
 	// compute next speed
 	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
-	//_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y);
     
     CCLOG("direction %2.f, %2.f", _direction.x, _direction.y);
 	// cap the next lateral speed

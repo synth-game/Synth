@@ -8,6 +8,7 @@
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
 #include "events/EditMoveEvent.h"
+#include "events/JumpEvent.h"
 
 namespace game {
 
@@ -96,6 +97,7 @@ void GameManager::resetLevel() {
 
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::EditMoveEvent* pEditMoveEvent;
+    events::JumpEvent* pJumpEvent;
 	EventDispatcher::getInstance()->dispatchEvent(pEditMoveEvent);
     
     auto dispatcher = EventDispatcher::getInstance();
@@ -113,11 +115,10 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:
-            /*jumpEvent = new ActorJumpEvent(_hero);
-            jumpEvent->_bStart = true;
+            pJumpEvent = new events::JumpEvent(hero, true);
             CCLOG("Dispatching ActorStartMoveEvent JUMP");
-            dispatcher->dispatchEvent(jumpEvent);
-            break;*/
+            dispatcher->dispatchEvent(pJumpEvent);
+            break;
             
         default:
             break;

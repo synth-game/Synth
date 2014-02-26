@@ -10,8 +10,8 @@ namespace events {
 
 const char* JumpEvent::EVENT_NAME = "jump_event";
 
-JumpEvent::JumpEvent() {
-
+JumpEvent::JumpEvent(Node* pSource, bool bStartJump)
+    : SynthEvent(pSource, EVENT_NAME), _bStartJump(bStartJump) {
 }
 
 JumpEvent::~JumpEvent() {
