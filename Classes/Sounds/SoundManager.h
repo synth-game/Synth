@@ -9,7 +9,10 @@
 
 #include <map>
 #include <string>
+#include "cocos2d.h"
 #include "core/SynthConfig.h"
+
+USING_NS_CC;
 
 namespace sounds {
 
@@ -31,7 +34,7 @@ public:
 	/*! \brief Get the singleton instance _pInstance */
 	static SoundManager* getInstance();
 
-	void init(core::xml data);
+	void init();
 
 	bool playSound(std::string soundName, int iTrackId);
 
