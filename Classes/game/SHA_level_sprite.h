@@ -13,6 +13,8 @@
 #define GL_STRINGIFY(s) #s
 #endif
 
+#define SHA_LIGHT_MAX_COUNT 16
+
 const GLchar* levelSprite_vert =
 GL_STRINGIFY(
 	//begin
@@ -38,11 +40,18 @@ GL_STRINGIFY(
 	varying vec2 v_texCoord;
 
 	uniform sampler2D CC_Texture0;
+	uniform sampler2D SY_Lights[16];
 
 	void main() {
 		vec3 texSample = texture2D(CC_Texture0, v_texCoord).rgb;
 
-		vec3 color = vec3(0., texSample.r, 0.);
+		vec3 color = vec3(0., 0., texSample.r);
+		if(texSample.r > 0.5) {
+			color += texture2D(SY_Lights[0], v_texCoord).rgb /3.;
+			color += texture2D(SY_Lights[1], v_texCoord).rgb /3.;
+			color += texture2D(SY_Lights[2], v_texCoord).rgb /3.;
+		}
+		//vec3 color = texture2D(SY_Lights[2], v_texCoord).rgb;
 
 		gl_FragColor = vec4(color, 1.);
 	}
