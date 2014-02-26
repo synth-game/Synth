@@ -95,7 +95,12 @@ void MovementComponent::onInterruptMove(EventCustom* pEvent) {
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(interruptMoveEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
 	if (componentOwner == eventSource) {
-		
+		if (interruptMoveEvent->getStopX()) {
+            _speed.x = 0.f;
+        }
+        if (interruptMoveEvent->getStopY()) {
+            _speed.y = 0.f;
+        }
 	}
 }
 
