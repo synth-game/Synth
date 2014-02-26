@@ -57,14 +57,14 @@ void NodeOwnerComponent::onToggleLight(EventCustom* pEvent) {
 }
 
 void NodeOwnerComponent::onChangeNodeOwner(EventCustom* pEvent) {
-	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent						= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
-    core::SynthActor* pSource												= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
-    core::SynthActor* pOwner												= static_cast<core::SynthActor*>(_owner);
+	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent					= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
+    core::SynthActor* pSource											= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+	core::SynthActor* pOwnedNode										= static_cast<core::SynthActor*>(_pOwnedNode);
 
-    if (pSource->getActorID() == pOwner->getActorID()) {
-		
+    if (pSource->getActorID() == pOwnedNode->getActorID()) {
+		_pOwnedNode = pSource;
     } else {
-        CCLOG("CHANGE NODE OWNER EVENT RECEIVED BUT ID NOT THE SAME");
+        CCLOG("CHANGE NODE OWNER EVENT : THIS ACTOR IS NOT THE OWNER");
     }
 }
 

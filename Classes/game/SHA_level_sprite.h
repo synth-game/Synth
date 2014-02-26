@@ -40,7 +40,7 @@ GL_STRINGIFY(
 	varying vec2 v_texCoord;
 
 	uniform sampler2D CC_Texture0;
-	uniform sampler2D SY_Lights[16];
+	uniform sampler2D SY_Lights[8];
 
 	void main() {
 		vec3 texSample = texture2D(CC_Texture0, v_texCoord).rgb;
