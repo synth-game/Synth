@@ -78,6 +78,9 @@ bool GameManager::init() {
 
 	//TEST ZONE - BEGIN
 	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png");
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Color4F::RED, true);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Color4F::GREEN, true);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Color4F::BLUE, true);
 	_pLevelLayer->addChild(pLevelSprite);
 
 	hero = new core::SynthActor(core::ActorType::HERO);

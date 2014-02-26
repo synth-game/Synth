@@ -7,7 +7,7 @@
 #ifndef GAME_LEVEL_SPRITE_H
 #define GAME_LEVEL_SPRITE_H
 
-#include <map>
+#include <vector>
 #include "cocos2d.h"
 #include "Core/SynthActor.h"
 
@@ -22,21 +22,21 @@ public:
 	~LevelSprite();
 
 	static LevelSprite* create(char* sBackgroundPath);
-	void addLight(Texture2D* pTexture, Color3B color, bool bOn);
+	void addLight(Texture2D* pTexture, Color4F color, bool bOn);
 	void draw();
 
 
 protected:
 	struct LightTexture {
 		Texture2D* pTex;
-		Color3B col;
+		std::vector<float> col;
 		bool bIsOn;
 	};
 
 	/*! \brief Constructor */
 	LevelSprite();
 
-	std::vector<LightTexture> _lightTextures;
+	std::vector<LightTexture*> _lightTextures;
 };
 
 }  // namespace game

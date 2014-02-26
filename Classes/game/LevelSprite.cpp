@@ -14,6 +14,10 @@ LevelSprite::LevelSprite() {
 }
 
 LevelSprite::~LevelSprite() {
+	for(std::vector<LightTexture*>::iterator it=_lightTextures.begin(); it!=_lightTextures.end(); ++it) {
+		delete *it;
+		*it = nullptr;
+	}
 	_lightTextures.clear();
 }
 
@@ -28,6 +32,16 @@ LevelSprite* LevelSprite::create(char* sBackgroundPath) {
 		CC_SAFE_DELETE(pRet);
 	}
 	return pRet;
+}
+
+void LevelSprite::addLight(Texture2D* pTexture, Color4F color, bool bOn) {
+	LightTexture* pLT = new LightTexture();
+	pLT->pTex = pTexture;
+	pLT->col.push_back(color.r);
+	pLT->col.push_back(color.g);
+	pLT->col.push_back(color.b);
+	pLT->bIsOn = bOn;
+	_lightTextures.push_back(pLT);
 }
 
 void LevelSprite::draw() {
