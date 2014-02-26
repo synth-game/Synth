@@ -11,6 +11,7 @@
 #include <string>
 #include "cocos2d.h"
 #include "core/SynthConfig.h"
+#include "SoundType.h"
 
 USING_NS_CC;
 
@@ -88,14 +89,17 @@ private:
 	/*! \brief The singleton instance */
 	static SoundManager* _pInstance;
 
-	std::map<std::string,Sound> _sounds;
+	std::map<SoundType,Sound> _sounds;
 
-	std::map<std::string,Music> _musics;
+	std::map<SoundType,Music> _musics;
 
 	/**
 	 * associate id of playing tracks and the sound which are played on.
 	 */
 	std::map<int,Sound> _playingSounds;
+
+	/*! \brief Associate the string tag to the SoundType tag */
+	std::map<std::string,SoundType> _tagsMap;
 
 
 };

@@ -25,6 +25,20 @@ SoundManager* SoundManager::getInstance() {
 }
 
 void SoundManager::init() {
+
+	// invert enum animation type
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"HERO_WALK",			SoundType::HERO_WALK	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"HERO_HIT",				SoundType::HERO_HIT	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"HERO_BOUNCE",			SoundType::HERO_BOUNCE	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"HERO_COUGH",			SoundType::HERO_COUGH	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"HERO_START_JUMP",		SoundType::HERO_START_JUMP	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"HERO_FLY",				SoundType::HERO_FLY	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"FIREFLY_INTERACT",		SoundType::FIREFLY_INTERACT	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"FIREFLY_MOVE",			SoundType::FIREFLY_MOVE	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"FIREFLY_OFF",			SoundType::FIREFLY_OFF	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"FIREFLY_ON",			SoundType::FIREFLY_ON	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"LIGHTSWITCH",			SoundType::LIGHTSWITCH	));
+
 	// parsing musics
 	tinyxml2::XMLDocument* pMusicsFile = new tinyxml2::XMLDocument();
 	int xmlmusicserror = pMusicsFile->LoadFile("xml/musics.xml");
