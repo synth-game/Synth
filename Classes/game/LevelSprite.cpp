@@ -1,26 +1,37 @@
+/*!
+ * \file LevelSprite.cpp
+ * \brief Sprite of the level with lights rendering
+ * \author Jijidici
+ * \date 26/02/2014
+ */
 #include "LevelSprite.h"
 
-namespace game
-{
+#define LIGHT_MAX_COUNT 16
 
-LevelSprite::LevelSprite()
-{
+namespace game {
+
+LevelSprite::LevelSprite() {
 }
 
-LevelSprite::~LevelSprite()
-{
+LevelSprite::~LevelSprite() {
+	_lightTextures.clear();
 }
 
-LevelSprite* LevelSprite::create(char* sSpriteName)
-{
-	return 0;
+LevelSprite* LevelSprite::create(char* sBackgroundPath) {
+	LevelSprite* pRet = new LevelSprite();
+	if (pRet != nullptr && pRet->initWithFile(sBackgroundPath)) {
+		CCLOG("LevelSprite created");
+		pRet->autorelease();
+		pRet->setAnchorPoint(Point::ZERO);
+	} else {
+		CCLOG("LevelSprite created but deleted");
+		CC_SAFE_DELETE(pRet);
+	}
+	return pRet;
 }
 
-void LevelSprite::updateLights(std::vector<core::SynthActor*> lights)
-{
+void LevelSprite::draw() {
+	Sprite::draw();
 }
 
-void LevelSprite::draw()
-{
-}
 }  // namespace game
