@@ -10,7 +10,8 @@ namespace events {
 
 const char* InterruptMoveEvent::EVENT_NAME = "interrupt_move_event";
 
-InterruptMoveEvent::InterruptMoveEvent() {
+InterruptMoveEvent::InterruptMoveEvent(Node* pSource, bool bStopX, bool bStopY, bool bHasMoved)
+    : SynthEvent(pSource, EVENT_NAME), _bStopX(bStopX), _bStopY(bStopY), _bHasMoved(bHasMoved){
 
 }
 
