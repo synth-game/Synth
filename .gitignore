@@ -224,3 +224,4 @@ proj.win32/Debug.win32
 proj.ios_mac/*
 PREC_*
 .svn/
+Resources/*
