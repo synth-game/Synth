@@ -15,7 +15,7 @@ class InterruptMoveEvent : public events::SynthEvent {
 
 public:
 	/*! \brief Constructor */
-	InterruptMoveEvent();
+	InterruptMoveEvent(Node* pSource, bool bStopX, bool bStopY, bool bHasMoved);
 	/*! \brief Destructor */
 	~InterruptMoveEvent();
 

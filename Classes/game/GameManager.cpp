@@ -12,6 +12,7 @@
 #include "physics/PhysicCollision.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "events/EditMoveEvent.h"
+#include "events/JumpEvent.h"
 
 namespace game {
 
@@ -114,6 +115,8 @@ void GameManager::resetLevel() {
 
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::EditMoveEvent* pEditMoveEvent = nullptr;
+    events::JumpEvent* pJumpEvent = nullptr;
+
     auto dispatcher = EventDispatcher::getInstance();
 
     switch(keyCode) {
@@ -130,6 +133,9 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:
+            pJumpEvent = new events::JumpEvent(hero, true);
+            CCLOG("Dispatching ActorStartMoveEvent JUMP");
+            dispatcher->dispatchEvent(pJumpEvent);
             break;
             
         default:

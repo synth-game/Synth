@@ -15,11 +15,11 @@ class JumpEvent : public events::SynthEvent {
 
 public:
 	/*! \brief Constructor */
-	JumpEvent();
+	JumpEvent(Node* pSource, bool bStartJump);
 	/*! \brief Destructor */
 	~JumpEvent();
 
-	inline bool getStartJump() { return _bStartJump; }
+	inline bool isStartJumping() { return _bStartJump; }
 	void setStartJump(bool startJump) { _bStartJump = startJump; }
 
 	static const char* EVENT_NAME;
