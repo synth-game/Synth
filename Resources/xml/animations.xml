@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<animation type="HERO_IDLE" isLoop="true" next="">
+	<frame name="walk_5.png">
+	</frame>
+</animation>
+
+<animation type="HERO_WALK" isLoop="true" next="HERO_WALK">
+	<frame name="walk_0.png">
+	</frame>
+	<frame name="walk_1.png">
+	</frame>
+	<frame name="walk_2.png">
+	</frame>
+	<frame name="walk_3.png">
+	</frame>
+	<frame name="walk_4.png">
+	</frame>
+	<frame name="walk_5.png">
+	</frame>
+	<frame name="walk_6.png">
+	</frame>
+	<frame name="walk_7.png">
+	</frame>
+</animation>
+
+<animation type="HERO_STOP_WALK" isLoop="false" next="HERO_IDLE">
+	<frame name="walk_0.png">
+	</frame>
+	<frame name="walk_1.png">
+	</frame>
+	<frame name="walk_2.png">
+	</frame>
+	<frame name="walk_3.png">
+	</frame>
+	<frame name="walk_4.png">
+	</frame>
+	<frame name="walk_5.png">
+	</frame>
+	<frame name="walk_6.png">
+	</frame>
+	<frame name="walk_7.png">
+	</frame>
+</animation>
+
+<animation type="HERO_START_JUMP" isLoop="false" next="HERO_JUMP"></animation>
+<animation type="HERO_JUMP" isLoop="false" next=""></animation>
+<animation type="HERO_FALL" isLoop="true" next=""></animation>
+<animation type="HERO_START_BOUNCE" isLoop="false" next="HERO_BOUNCE"></animation>
+<animation type="HERO_BOUNCE" isLoop="true" next=""></animation>
+<animation type="HERO_STOP_BOUNCE" isLoop="false" next="HERO_IDLE"></animation>
+<animation type="HERO_CRAWL" isLoop="true" next=""></animation>
+<animation type="HERO_STOP_CRAWL" isLoop="false" next="HERO_IDLE_CRAWL"></animation> <!-- Same as HERO_CRAWL -->
+<animation type="HERO_IDLE_CRAWL" isLoop="true" next=""></animation>
+<animation type="HERO_FLY" isLoop="true" next=""></animation>
+<animation type="HERO_HIT" isLoop="false" next="HERO_IDLE"></animation>
+<animation type="HERO_INTERACT" isLoop="false" next="HERO_IDLE"></animation>
+<animation type="HERO_COUGH" isLoop="false" next="HERO_IDLE"></animation>
+<animation type="HERO_DIE" isLoop="false" next=""></animation>
+<animation type="HERO_WIN" isLoop="false" next=""></animation>
+<animation type="HERO_SPAWN" isLoop="false" next="HERO_IDLE"></animation>

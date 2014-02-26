@@ -1,28 +1,73 @@
-/* *****************************************************
- *		GameManager.h - @ Jeremie Defaye - 29/01/14
- ***************************************************** */
+/*!
+ * \file GameManager.h
+ * \brief Manager of the entire game
+ * \author Jijidici
+ * \date 09/02/2014
+ */
+#ifndef GAME_GAME_MANAGER_H
+#define GAME_GAME_MANAGER_H
 
-#ifndef __GAME_MANAGER_H__
-#define __GAME_MANAGER_H__
-
+#include <vector>
+#include <map>
 #include "cocos2d.h"
+#include "Game/LevelSprite.h"
+#include "Core/SynthActor.h"
 
-class GameManager : public cocos2d::Layer {
+USING_NS_CC;
+
+/*! \namespace events
+ *
+ * namespace regrouping gameplay classes
+ */
+namespace game {
+
+/*! \class GameManager
+ * \brief Manager of the entire game
+ *
+ * It our blob object. 
+ * It initializes the level, update SynthActor, etc.
+ * It inherites from Cocos2d's Layer to catch keyboard event
+ */
+class GameManager : public Layer {
 public:
+	/*! \brief Destructor */
 	~GameManager();
 
 	static GameManager* create();
-
+	/*! \brief Initialisation function called in create() method */
 	virtual bool init();
 	virtual void update(float fDt);
-	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+
+	void loadLevel(int iLevelId);
+	void resetLevel();
+
+	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event);
+	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event);
+
+	static Color4B getLightColor(core::SynthActor* pLight);
+
+	/*void GameManager::onEditMove(EventCustom* event);*/
+
+	core::SynthActor* hero;
 
 protected:
+	/*! \brief Constructor */
 	GameManager();
+	std::vector<core::SynthActor*> getActorsByTag(std::string sTag);
 
-	cocos2d::Sprite* _pBackground;
-	cocos2d::Sprite* _pHero;
+	int _iCurrentLevelId;
+	float _fTimeSinceLevelStart;
+	std::vector<core::SynthActor*> _levelActors;
+	std::map<std::string,Rect> _triggers;
+	LevelSprite* _pLevelSprite;
+
+	Layer* _pBackgroundLayer;
+	Layer* _pIntermediarLayer;
+	Layer* _pLevelLayer;
+	Layer* _pSkinningLayer;
+	Layer* _pSubtitlesLayer;
+	ParallaxNode* _pParallaxManager;
 };
 
-#endif //__GAME_MANAGER_H__
+}  // namespace game
+#endif

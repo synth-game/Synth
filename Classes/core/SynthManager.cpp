@@ -1,29 +1,68 @@
-/* *****************************************************
- *		SynthManager.cpp - @ Jeremie Defaye - 29/01/14
- ***************************************************** */
+/*!
+ * \file SynthManager.cpp
+ * \brief Main manager, the entry point of our program
+ * \author Jijidici
+ * \date 09/02/2014
+ */
+#include "SynthManager.h"
 
-#include "core/SynthManager.h"
+namespace core {
 
-USING_NS_CC;
-
-SynthManager::SynthManager()
-	: _pGameScene(nullptr)
-	, _pGameManager(nullptr) {
-
+SynthManager::SynthManager() 
+	: _pTitleScreenScene(nullptr) 
+	, _pCreditsScene(nullptr)
+	, _pGameScene(nullptr)
+	, _pSelectLevelScene(nullptr) 
+	, _pNewGameEventListener(nullptr)
+	, _pContinueGameEventListener(nullptr) 
+	, _pOpenTitleScreenEventListener(nullptr)
+	, _pOpenCreditsEventListener(nullptr)
+	, _pOpenSelectLevelScreenEventListener(nullptr)
+	, _pLoadSelectedLevelEventListener(nullptr) 
+	, _pExitGameEventListener(nullptr) {
+	
 }
 
 SynthManager::~SynthManager() {
-	if(_pGameScene != nullptr) delete _pGameScene;
+	
 }
 
 void SynthManager::init() {
-	// create and use the gamescene
-	_pGameScene = Scene::create();
+    //init scenes
+	_pGameScene = menu::GameScene::create();
+
+	//init listeners
+
+	//setup initial scene
 	Director::getInstance()->runWithScene(_pGameScene);
-
-	// init GameManager
-	_pGameManager = GameManager::create();
-	_pGameScene->addChild(_pGameManager);
-
-	_pGameManager->init();
 }
+
+void SynthManager::onNewGameEvent(EventCustom* event) {
+
+}
+
+void SynthManager::onContinueGameEvent(EventCustom* event) {
+
+}
+
+void SynthManager::onOpenTitleScreenEvent(EventCustom* event) {
+
+}
+
+void SynthManager::onOpenCreditsEvent(EventCustom* event) {
+
+}
+
+void SynthManager::onOpenSelectLevelScreenEvent(EventCustom* event) {
+
+}
+
+void SynthManager::onLoadSelectedLevelEvent(EventCustom* event) {
+
+}
+
+void SynthManager::onExitGameEvent(EventCustom* event) {
+
+}
+
+}  // namespace core
