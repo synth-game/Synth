@@ -15,6 +15,8 @@
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
 
+#include <SimpleAudioEngine.h>
+
 namespace game {
 
 GameManager::GameManager() 
@@ -162,6 +164,7 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
             /*jumpEvent = new ActorJumpEvent(_hero);
             jumpEvent->_bStart = false;
             dispatcher->dispatchEvent(jumpEvent);*/
+
             break;
         default:
             break;
