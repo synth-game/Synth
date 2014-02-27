@@ -80,10 +80,14 @@ bool GameManager::init() {
 	Layer::addChild(_pParallaxManager);
 
 	//TEST ZONE - BEGIN
+	Sprite* pBgSprite = Sprite::create("sprites/decor.jpg");
+	pBgSprite->setAnchorPoint(Point::ZERO);
+	_pBackgroundLayer->addChild(pBgSprite);
+
 	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png");
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Color4F::RED, true);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Color4F::GREEN, true);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Color4F::BLUE, true);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Color4B::RED);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Color4B::GREEN);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Color4B::BLUE);
 	_pLevelLayer->addChild(pLevelSprite);
 
 	hero = new core::SynthActor(core::ActorType::HERO);

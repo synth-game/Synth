@@ -22,7 +22,7 @@ public:
 	~LevelSprite();
 
 	static LevelSprite* create(char* sBackgroundPath);
-	void addLight(Texture2D* pTexture, Color4F color, bool bOn);
+	void addLight(Texture2D* pTexture, Color4B color);
 	void draw();
 
 
@@ -30,7 +30,6 @@ protected:
 	struct LightTexture {
 		Texture2D* pTex;
 		std::vector<float> col;
-		bool bIsOn;
 	};
 
 	/*! \brief Constructor */
