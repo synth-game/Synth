@@ -65,21 +65,24 @@ private:
 	/*! \brief Constructor */
 	SoundManager();
 
+	SoundType SoundManager::__getSoundType(std::string sTag);
+
 	/*
 	 * Classes
 	 */
 
 	class Music {
 	public:
-		int iTrackId;
+		SoundType eTag;
 		std::string filePath;
 	};
 
-	class Sound {
+	class Effect {
 	public:
+		SoundType eTag;
 		std::string filePath;
 		bool bLoop;
-		std::string chainedSoundName;
+		SoundType nextTag;
 	};
 
 	/*
@@ -89,14 +92,9 @@ private:
 	/*! \brief The singleton instance */
 	static SoundManager* _pInstance;
 
-	std::map<SoundType,Sound> _sounds;
+	std::map<SoundType,Effect> _effects;
 
 	std::map<SoundType,Music> _musics;
-
-	/**
-	 * associate id of playing tracks and the sound which are played on.
-	 */
-	std::map<int,Sound> _playingSounds;
 
 	/*! \brief Associate the string tag to the SoundType tag */
 	std::map<std::string,SoundType> _tagsMap;

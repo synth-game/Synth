@@ -27,6 +27,14 @@ SoundManager* SoundManager::getInstance() {
 void SoundManager::init() {
 
 	// invert enum animation type
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"BACKGROUND",			SoundType::BACKGROUND	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"RED",					SoundType::RED	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"BLUE",					SoundType::BLUE	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"GREEN",				SoundType::GREEN	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"YELLOW",				SoundType::YELLOW	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"CYAN",					SoundType::CYAN	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"MAGENTA",				SoundType::MAGENTA	));
+	_tagsMap.insert(std::pair<std::string, SoundType>(	"WHITE",				SoundType::WHITE	));
 	_tagsMap.insert(std::pair<std::string, SoundType>(	"HERO_WALK",			SoundType::HERO_WALK	));
 	_tagsMap.insert(std::pair<std::string, SoundType>(	"HERO_HIT",				SoundType::HERO_HIT	));
 	_tagsMap.insert(std::pair<std::string, SoundType>(	"HERO_BOUNCE",			SoundType::HERO_BOUNCE	));
@@ -46,13 +54,15 @@ void SoundManager::init() {
 		CCLOG("NO ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlmusicserror);
 		tinyxml2::XMLHandle hDoc(pMusicsFile);
 		tinyxml2::XMLElement *pMusicData;
-		std::string tag = "";
+		Music music;
 
 		pMusicData = pMusicsFile->FirstChildElement("music");
 		while(pMusicData)
 		{	
-			tag = pMusicData->Attribute("tag");
-			CCLOG("MUSIC tag: %s PARSED !", tag.c_str());
+			music = Music();
+			music.eTag = __getSoundType(pMusicData->Attribute("tag"));
+			music.filePath = pMusicData->Attribute("name");
+			_musics.insert(std::pair<SoundType, Music>(music.eTag, music));
 			pMusicData = pMusicData->NextSiblingElement("music");
 		}
 	} else {
@@ -66,13 +76,22 @@ void SoundManager::init() {
 		CCLOG("NO ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmleffectserror);
 		tinyxml2::XMLHandle hDoc(pEffectsFile);
 		tinyxml2::XMLElement *pEffectData;
-		std::string tag = "";
+		Effect effect;
+		std::string next;
 
 		pEffectData = pEffectsFile->FirstChildElement("effect");
 		while(pEffectData)
 		{	
-			tag = pEffectData->Attribute("tag");
-			CCLOG("EFFECT tag: %s PARSED !", tag.c_str());
+			effect = Effect();
+			effect.eTag = __getSoundType(pEffectData->Attribute("tag"));
+			effect.filePath = pEffectData->Attribute("name");
+			effect.bLoop = pEffectData->Attribute("isLoop");
+			effect.nextTag = SoundType();
+			next = pEffectData->Attribute("next");
+			if (!next.empty()) {
+				effect.nextTag = __getSoundType(next);
+			}
+			_effects.insert(std::pair<SoundType, Effect>(effect.eTag, effect));
 			pEffectData = pEffectData->NextSiblingElement("effect");
 		}
 	} else {
@@ -101,6 +120,10 @@ bool SoundManager::isFinished(int iTrackId) {
 }
 
 void SoundManager::refresh() {
+}
+
+SoundType SoundManager::__getSoundType(std::string sTag) {
+	return _tagsMap.find(sTag)->second;
 }
 
 }  // namespace sounds
