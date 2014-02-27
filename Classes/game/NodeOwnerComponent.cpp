@@ -15,14 +15,16 @@
 namespace game {
 const char* NodeOwnerComponent::COMPONENT_TYPE = "NodeOwnerComponent";
 
-NodeOwnerComponent::NodeOwnerComponent() {
+NodeOwnerComponent::NodeOwnerComponent()
+	: SynthComponent() {
 }
 
 NodeOwnerComponent::~NodeOwnerComponent() {
 }
 
 bool NodeOwnerComponent::init() {
-	return 0;
+	SynthComponent::init(NodeOwnerComponent::COMPONENT_TYPE);
+	return true;
 }
 
 NodeOwnerComponent* NodeOwnerComponent::create(Node* pOwnedNode) {
@@ -37,7 +39,6 @@ NodeOwnerComponent* NodeOwnerComponent::create(Node* pOwnedNode) {
 }
 
 void NodeOwnerComponent::initListeners() {
-	NodeOwnerComponent::initListeners();
 	_pToggleLightEventListener = cocos2d::EventListenerCustom::create(events::ToggleLightEvent::EVENT_NAME, CC_CALLBACK_1(NodeOwnerComponent::onToggleLight, this));
 	_pChangeNodeOwnerEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(NodeOwnerComponent::onChangeNodeOwner, this));
 

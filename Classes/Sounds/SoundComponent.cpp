@@ -10,7 +10,8 @@ namespace sounds {
 
 const char* SoundComponent::COMPONENT_TYPE = "SoundComponent";
 
-SoundComponent::SoundComponent() {
+SoundComponent::SoundComponent()
+	: SynthComponent() {
 }
 
 SoundComponent::~SoundComponent() {
@@ -18,7 +19,8 @@ SoundComponent::~SoundComponent() {
 
 
 bool SoundComponent::init() {
-	return false;
+	SynthComponent::init(SoundComponent::COMPONENT_TYPE);
+	return true;
 }
 
 SoundComponent* SoundComponent::create() {

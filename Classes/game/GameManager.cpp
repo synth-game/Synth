@@ -12,6 +12,8 @@
 #include "physics/CollisionComponent.h"
 #include "physics/PhysicCollision.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
+#include "game/NodeOwnerComponent.h"
+
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
 
@@ -91,17 +93,22 @@ bool GameManager::init() {
 	_pLevelLayer->addChild(pLevelSprite);
 
 	hero = new core::SynthActor(core::ActorType::HERO);
-	hero->addComponent(physics::GeometryComponent::create(Point(200.f, 200.f), Size(20.f, 90.f), 0.f, Point(0.f, 0.f)));
+	hero->addComponent(physics::GeometryComponent::create(Point(50.f, 200.f), Size(20.f, 90.f), 0.f, Point(0.f, 0.f)));
 	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -5.f)));
-
 	physics::CollisionComponent* pHeroColComp = physics::CollisionComponent::create();
 	Image* pBitmask = new Image();
 	pBitmask->initWithImageFile("levels/test/bitmask.png");
 	physics::PhysicCollision* pPhyCol = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
 	pHeroColComp->addPhysicCollision(pPhyCol);
-	hero->addComponent(pHeroColComp);
+	hero->addComponent(pHeroColComp); 
 
 	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
+
+	core::SynthActor* firefly = new core::SynthActor(core::ActorType::FIREFLY);
+	firefly->addComponent(physics::GeometryComponent::create(Point(250.f, 200.f), Size(30.f, 30.f), 0.f, Point(0.f, 0.f)));
+	firefly->addComponent(graphics::SpriteComponent::create("sprites/firefly.png", _pLevelLayer));
+
+	hero->addComponent(game::NodeOwnerComponent::create(firefly));
 	
 	//TEST ZONE - END
 
