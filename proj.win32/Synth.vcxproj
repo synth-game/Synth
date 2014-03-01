@@ -221,6 +221,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\core\ActorType.h" />
+    <ClInclude Include="..\Classes\core\ComponentType.h" />
     <ClInclude Include="..\Classes\core\Language.h" />
     <ClInclude Include="..\Classes\core\SynthActor.h" />
     <ClInclude Include="..\Classes\core\SynthAnimation.h" />

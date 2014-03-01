@@ -569,6 +569,9 @@
     <ClInclude Include="..\Classes\game\SHA_level_sprite.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\core\ComponentType.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
