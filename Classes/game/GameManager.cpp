@@ -5,6 +5,7 @@
  * \date 09/02/2014
  */
 #include "GameManager.h"
+#include "game/LevelFactory.h"
 #include "core/ActorType.h"
 #include "LevelSprite.h"
 #include "physics/GeometryComponent.h"
@@ -84,28 +85,21 @@ bool GameManager::init() {
 	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Color4F::BLUE, true);
 	_pLevelLayer->addChild(pLevelSprite);
 
-	hero = new core::SynthActor(core::ActorType::HERO);
-	hero->addComponent(physics::GeometryComponent::create(Point(200.f, 200.f), Size(20.f, 90.f), 0.f, Point(0.f, 0.f)));
-	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -5.f)));
+	_levelActors = game::LevelFactory::getInstance()->buildActors(_pLevelLayer);
 
-	physics::CollisionComponent* pHeroColComp = physics::CollisionComponent::create();
-	Image* pBitmask = new Image();
-	pBitmask->initWithImageFile("levels/test/bitmask.png");
-	physics::PhysicCollision* pPhyCol = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
-	pHeroColComp->addPhysicCollision(pPhyCol);
-	hero->addComponent(pHeroColComp);
+	hero = *find_if(_levelActors.begin(), _levelActors.end(), [](core::SynthActor* actor) { 
+						return actor->getActorType() == core::ActorType::HERO;
+					});
 
-	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
-	
 	//TEST ZONE - END
 
 	return bTest;
 }
 
 void GameManager::update(float fDt) {
-	hero->update(fDt);
-	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-	CCLOG("position %2.f, %2.f", pGeometryComponent->getPosition().x, pGeometryComponent->getPosition().y);
+	for (auto actor : _levelActors) {
+		actor->update(fDt);
+	}
 }
 
 void GameManager::loadLevel(int iLevelId) {
