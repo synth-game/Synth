@@ -1,3 +1,9 @@
+/*!
+ * \file FollowMovementComponent.h
+ * \brief The actor follows its owner
+ * \author Chupee
+ * \date 27/02/2014
+ */
 #ifndef PHYSICS_FOLLOW_MOVEMENT_COMPONENT_H
 #define PHYSICS_FOLLOW_MOVEMENT_COMPONENT_H
 
@@ -6,15 +12,28 @@
 
 USING_NS_CC;
 
-namespace physics
-{
-class FollowMovementComponent : public MovementComponent
-{
-protected:
-	Point _target;
+namespace physics {
 
+/*! \class FollowMovementComponent
+ * \brief The actor follows its owner
+ *
+ * 
+ */
+class FollowMovementComponent : public MovementComponent {
+
+public:
+	/*
+	 * Methods
+	 */
+
+	FollowMovementComponent* create(Point acceleration, Point target);
 
 protected:
+
+	/*
+	 * Methods
+	 */
+
 	/**
 	 * change the _target attribute with _direction attribute of the event
 	 */
@@ -25,8 +44,11 @@ protected:
 	 */
 	virtual void update(float fDt)=0;
 
-public:
-	FollowMovementComponent* create(Point acceleration, Point target);
+
+	/*
+	 * Members
+	 */
+	Point _target;
 
 };
 

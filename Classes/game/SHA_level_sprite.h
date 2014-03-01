@@ -40,20 +40,26 @@ GL_STRINGIFY(
 	varying vec2 v_texCoord;
 
 	uniform sampler2D CC_Texture0;
-	uniform sampler2D SY_Lights[16];
+	uniform int SY_LightCount;
+	uniform sampler2D SY_Lights[8];
+	uniform vec4 SY_Colors[8];
 
 	void main() {
-		vec3 texSample = texture2D(CC_Texture0, v_texCoord).rgb;
+		float threshold = 0.2;
+		float wallSample = texture2D(CC_Texture0, v_texCoord).r;
 
-		vec3 color = vec3(0., 0., texSample.r);
-		if(texSample.r > 0.5) {
-			color += texture2D(SY_Lights[0], v_texCoord).rgb /3.;
-			color += texture2D(SY_Lights[1], v_texCoord).rgb /3.;
-			color += texture2D(SY_Lights[2], v_texCoord).rgb /3.;
+		vec4 color = vec4(0.);
+		for(int i=0; i<SY_LightCount; ++i) {
+			vec4 lightColor = texture2D(SY_Lights[i], v_texCoord).r * SY_Colors[i];
+			lightColor.a = lightColor.a / 3.;
+			color +=  lightColor;
 		}
-		//vec3 color = texture2D(SY_Lights[2], v_texCoord).rgb;
 
-		gl_FragColor = vec4(color, 1.);
+		if(!(color.r > threshold && color.g > threshold && color.b > threshold) && wallSample < threshold) {
+			color = vec4(0., 0., 0., 1.);
+		}
+
+		gl_FragColor = vec4(color);
 	}
 
 	//end

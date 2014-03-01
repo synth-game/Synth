@@ -44,14 +44,14 @@ LevelSprite* LevelSprite::create(char* sBackgroundPath) {
 	return pRet;
 }
 
-void LevelSprite::addLight(Texture2D* pTexture, Color4F color, bool bOn) {
+void LevelSprite::addLight(Texture2D* pTexture, Color4B color) {
 	if (_lightTextures.size() < SHA_LIGHT_MAX_COUNT) {
 		LightTexture* pLT = new LightTexture();
 		pLT->pTex = pTexture;
-		pLT->col.push_back(color.r);
-		pLT->col.push_back(color.g);
-		pLT->col.push_back(color.b);
-		pLT->bIsOn = bOn;
+		pLT->col.push_back(static_cast<float>(color.r)/255.f);
+		pLT->col.push_back(static_cast<float>(color.g)/255.f);
+		pLT->col.push_back(static_cast<float>(color.b)/255.f);
+		pLT->col.push_back(static_cast<float>(color.a)/255.f);
 		_lightTextures.push_back(pLT);
 	} else {
 		CCLOG("There already are maximum of lights in LevelSprite. Can't add another one.");
@@ -60,11 +60,17 @@ void LevelSprite::addLight(Texture2D* pTexture, Color4F color, bool bOn) {
 
 void LevelSprite::draw() {
 	_shaderProgram->use();
-	
+	_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName("SY_LightCount"), _lightTextures.size());
+
 	for(unsigned int i=0; i<_lightTextures.size(); ++i) {
-		std::stringstream locationName;
-		locationName << "SY_Lights["<<i<<"]";
-		_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName(locationName.str().c_str()), i+1);
+		std::stringstream lightLocation;
+		lightLocation << "SY_Lights["<<i<<"]";
+		_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName(lightLocation.str().c_str()), i+1);
+
+		std::stringstream colorLocation;
+		colorLocation << "SY_Colors["<<i<<"]";
+		_shaderProgram->setUniformLocationWith4fv(_shaderProgram->getUniformLocationForName(colorLocation.str().c_str()), &(_lightTextures[i]->col[0]), 1);
+
 		GL::bindTexture2DN(i+1, _lightTextures[i]->pTex->getName());
 	}
 

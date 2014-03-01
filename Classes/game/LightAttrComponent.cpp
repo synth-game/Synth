@@ -11,7 +11,8 @@ namespace game {
 
 const char* LightAttrComponent::COMPONENT_TYPE  = "LightAttrComponent";
 
-LightAttrComponent::LightAttrComponent() {
+LightAttrComponent::LightAttrComponent() 
+	: SynthComponent() {
 }
 
 LightAttrComponent::~LightAttrComponent() {

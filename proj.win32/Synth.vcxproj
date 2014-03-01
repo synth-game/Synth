@@ -23,7 +23,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '10.0'">v100</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0'">v110</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v110_xp</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -307,6 +307,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Sounds\LightSwitchSoundComponent.h" />
     <ClInclude Include="..\Classes\Sounds\SoundComponent.h" />
     <ClInclude Include="..\Classes\Sounds\SoundManager.h" />
+    <ClInclude Include="..\Classes\Sounds\SoundType.h" />
     <ClInclude Include="..\Classes\Sounds\VoiceSoundComponent.h" />
     <ClInclude Include="..\Classes\system\BindedAction.h" />
     <ClInclude Include="..\Classes\system\IOManager.h" />

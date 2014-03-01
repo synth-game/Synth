@@ -5,6 +5,8 @@
  * \date 09/02/2014
  */
 #include "SynthManager.h"
+#include "graphics/GraphicManager.h"
+#include "sounds/SoundManager.h"
 
 namespace core {
 
@@ -30,6 +32,10 @@ SynthManager::~SynthManager() {
 void SynthManager::init() {
     //init scenes
 	_pGameScene = menu::GameScene::create();
+
+	//init managers
+	graphics::GraphicManager* gm = graphics::GraphicManager::getInstance();
+	sounds::SoundManager* sm = sounds::SoundManager::getInstance();
 
 	//init listeners
 

@@ -19,7 +19,7 @@ namespace game {
  *
  * 
  */
-class LightAttrComponent :  core::SynthComponent {
+class LightAttrComponent : public core::SynthComponent {
 
 public:
 	/*
@@ -40,15 +40,15 @@ public:
 	 */
 	static LightAttrComponent* create(Color4B* pColor);
 
-	inline Color4B getColor();
+	inline Color4B* getColor() { return _pColor; };
 
-	inline void setColor(Color4B color);
+	inline void setColor(Color4B* pColor) { _pColor = pColor; };
 
-	inline bool isOn();
+	inline bool isOn() { return _intensity == 1.f; };
 
-	inline float getIntensity();
+	inline float getIntensity() { return _intensity; };
 
-	inline void setIntensity(float intensity);
+	inline void setIntensity(float intensity) { _intensity = intensity; };
 
 	/*
 	 * Members

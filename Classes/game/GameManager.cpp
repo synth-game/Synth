@@ -13,8 +13,12 @@
 #include "physics/CollisionComponent.h"
 #include "physics/PhysicCollision.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
+#include "game/NodeOwnerComponent.h"
+
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
+
+#include <SimpleAudioEngine.h>
 
 namespace game {
 
@@ -79,10 +83,14 @@ bool GameManager::init() {
 	Layer::addChild(_pParallaxManager);
 
 	//TEST ZONE - BEGIN
+	Sprite* pBgSprite = Sprite::create("sprites/decor.jpg");
+	pBgSprite->setAnchorPoint(Point::ZERO);
+	_pBackgroundLayer->addChild(pBgSprite);
+
 	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png");
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Color4F::RED, true);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Color4F::GREEN, true);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Color4F::BLUE, true);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Color4B::RED);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Color4B::GREEN);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Color4B::BLUE);
 	_pLevelLayer->addChild(pLevelSprite);
 
 	_levelActors = game::LevelFactory::getInstance()->buildActors(_pLevelLayer);
@@ -90,6 +98,12 @@ bool GameManager::init() {
 	hero = *find_if(_levelActors.begin(), _levelActors.end(), [](core::SynthActor* actor) { 
 						return actor->getActorType() == core::ActorType::HERO;
 					});
+
+	core::SynthActor* firefly = new core::SynthActor(core::ActorType::FIREFLY);
+	firefly->addComponent(physics::GeometryComponent::create(Point(250.f, 200.f), Size(30.f, 30.f), 0.f, Point(0.f, 0.f)));
+	firefly->addComponent(graphics::SpriteComponent::create("sprites/firefly.png", _pLevelLayer));
+
+	hero->addComponent(game::NodeOwnerComponent::create(firefly));
 
 	//TEST ZONE - END
 
@@ -156,6 +170,7 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
             /*jumpEvent = new ActorJumpEvent(_hero);
             jumpEvent->_bStart = false;
             dispatcher->dispatchEvent(jumpEvent);*/
+
             break;
         default:
             break;

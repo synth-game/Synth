@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "menu/GameScene.h"
+#include <SimpleAudioEngine.h>
 
 USING_NS_CC;
 
@@ -30,6 +31,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	_pMainManager = new core::SynthManager();
 	_pMainManager->init();
 
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sound/music/vert_piano.wav", true);
     return true;
 }
 
