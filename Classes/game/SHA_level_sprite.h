@@ -40,9 +40,37 @@ GL_STRINGIFY(
 	varying vec2 v_texCoord;
 
 	uniform sampler2D CC_Texture0;
+	uniform sampler2D SY_HeroTex;
+	uniform vec2 SY_HeroTexPos;
+	uniform vec2 SY_HeroTexSize;
+	uniform int SY_HeroIsRotated;
+	uniform int SY_HeroIsFlippedX;
 	uniform int SY_LightCount;
 	uniform sampler2D SY_Lights[8];
 	uniform vec4 SY_Colors[8];
+
+	vec2 getHeroUV(vec2 uv) {
+		vec2 texSize = SY_HeroTexSize;
+		if(SY_HeroIsRotated == 1) {
+			float fTmp = uv.x;
+			uv.x = 1.-uv.y;
+			uv.y = fTmp;
+
+			fTmp = texSize.x;
+			texSize.x = texSize.y;
+			texSize.y = fTmp;
+		}
+
+		if(SY_HeroIsFlippedX == 1) {
+			if(SY_HeroIsRotated == 1) {
+				uv.y = 1.-uv.y;
+			} else {
+				uv.x = 1.-uv.x;
+			}
+		}
+
+		return vec2(SY_HeroTexPos.x + uv.x*texSize.x, SY_HeroTexPos.y + uv.y*texSize.y);
+	}
 
 	void main() {
 		float threshold = 0.2;
@@ -71,6 +99,15 @@ GL_STRINGIFY(
 				color = OccultedColor;
 			}
 		}
+
+		vec4 heroSample = texture2D(SY_HeroTex, getHeroUV(v_texCoord));
+		if(heroSample.a > 0.5) {
+			color = vec4(0., 0., 0., 1.);
+		} else {
+			color = vec4(1.);
+		}
+		
+		color = color/2. + texture2D(CC_Texture0, v_texCoord)/2.;
 
 		gl_FragColor = vec4(color);
 	}
