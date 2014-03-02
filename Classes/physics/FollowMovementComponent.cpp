@@ -118,10 +118,17 @@ void FollowMovementComponent::update( float fDt ) {
 	//nextPosition.y = floor(nextPosition.y);
 	//CCLOG("FOLLOW MOVEMENT NEXT POSITION =========== %f, %f", nextPosition.x, nextPosition.y);
 
-	Point target = Point(pOwnerGeometryComponent->getPosition().x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y - pOwnedGeometryComponent->getPosition().y).normalize();
+	Point target = Point(pOwnerGeometryComponent->getPosition().x-60.f - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y - pOwnedGeometryComponent->getPosition().y);
+	CCLOG("FOLLOW MOVEMENT TARGET =========== %f, %f", abs(target.x), abs(target.y));
+	if (abs(target.x) < 20.f && abs(target.y) < 20.f) {
+		target = Point::ZERO;
+	} else {
+		target = target.normalize();
+	}
+	CCLOG("FOLLOW MOVEMENT TARGET ZERO ? =========== %f, %f", abs(target.x), abs(target.y));
 	Point nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y);
 	CCLOG("FOLLOW MOVEMENT NEXT POSITION =========== %f, %f", nextPosition.x, nextPosition.y);
-	CCLOG("FOLLOW MOVEMENT TARGET =========== %f, %f", target.x, target.y);
+	
 
 	physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
 	if (pCollisionComponent == nullptr) {
