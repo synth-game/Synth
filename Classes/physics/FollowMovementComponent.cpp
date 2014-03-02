@@ -86,11 +86,11 @@ void FollowMovementComponent::update( float fDt ) {
 	physics::GeometryComponent* pOwnedGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pOwnedGeometryComponent != nullptr, "FollowMovementComponent needs a GeometryComponent added to its actor");
 
-	graphics::AnimatedSpriteComponent* pOwnerAnimatedSpriteComponent = static_cast<graphics::AnimatedSpriteComponent*>(_target->getComponent(graphics::AnimatedSpriteComponent::COMPONENT_TYPE));
-	CCASSERT(pOwnerAnimatedSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the owner of its actor");
+	graphics::SpriteComponent* pOwnerSpriteComponent = static_cast<graphics::SpriteComponent*>(_target->getComponent(graphics::SpriteComponent::COMPONENT_TYPE));
+	CCASSERT(pOwnerSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the owner of its actor");
 
 	Point relativeTarget = Point::ZERO;
-	if(pOwnerAnimatedSpriteComponent->getSprite()->isFlippedX()) {
+	if(pOwnerSpriteComponent->getSprite()->isFlippedX()) {
 		relativeTarget = Point(20.f, 0.f);
 	} else {
 		relativeTarget = Point(-60.f, 0.f);
