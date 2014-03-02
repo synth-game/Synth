@@ -105,9 +105,9 @@ bool GameManager::init() {
 	hero->addComponent(game::NodeOwnerComponent::create(firefly));
 	
 	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 460.f), Color4B::RED);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(590.f, 460.f), Color4B::GREEN);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(790.f, 460.f), Color4B::BLUE);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
 	_pLevelLayer->addChild(pLevelSprite, 0);
 	//TEST ZONE - END
 
