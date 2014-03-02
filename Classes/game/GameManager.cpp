@@ -14,6 +14,7 @@
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
+#include "FmodAudioPlayer.h"
 
 namespace game {
 
@@ -109,7 +110,7 @@ bool GameManager::init() {
 void GameManager::update(float fDt) {
 	hero->update(fDt);
 	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-	CCLOG("position %2.f, %2.f", pGeometryComponent->getPosition().x, pGeometryComponent->getPosition().y);
+	//CCLOG("position %2.f, %2.f", pGeometryComponent->getPosition().x, pGeometryComponent->getPosition().y);
 }
 
 void GameManager::loadLevel(int iLevelId) {
@@ -140,6 +141,9 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:
+            //CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sound/music/blanc_orchestre.wav");
+            //CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sound/effects/jump8bit.wav");
+            FmodAudioPlayer::sharedPlayer()->playEffect("sound/effects/jump.wav", false, 1.f, 0.f, 1.f);
             pJumpEvent = new events::JumpEvent(hero, true);
             CCLOG("Dispatching ActorStartMoveEvent JUMP");
             dispatcher->dispatchEvent(pJumpEvent);
