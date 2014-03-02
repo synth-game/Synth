@@ -49,14 +49,27 @@ GL_STRINGIFY(
 		float wallSample = texture2D(CC_Texture0, v_texCoord).r;
 
 		vec4 color = vec4(0.);
+		vec4 NoOccultedcolor = vec4(0.);
+		vec4 OccultedColor = vec4(0.);
 		for(int i=0; i<SY_LightCount; ++i) {
-			vec4 lightColor = texture2D(SY_Lights[i], v_texCoord).r * SY_Colors[i];
+			vec3 lightTexel = texture2D(SY_Lights[i], v_texCoord).rgb;
+
+			vec4 lightColor = SY_Colors[i];
 			lightColor.a = lightColor.a / 3.;
-			color +=  lightColor;
+
+			NoOccultedcolor +=  lightTexel.r * lightColor;
+			OccultedColor += lightTexel.g * lightColor;
+
 		}
 
-		if(!(color.r > threshold && color.g > threshold && color.b > threshold) && wallSample < threshold) {
-			color = vec4(0., 0., 0., 1.);
+		if(NoOccultedcolor.r > threshold && NoOccultedcolor.g > threshold && NoOccultedcolor.b > threshold) {
+			color = NoOccultedcolor;
+		} else {
+			if(wallSample < threshold) {
+				color = vec4(0., 0., 0., 1.);
+			} else {
+				color = OccultedColor;
+			}
 		}
 
 		gl_FragColor = vec4(color);
