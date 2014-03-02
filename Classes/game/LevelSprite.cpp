@@ -69,6 +69,7 @@ void LevelSprite::addLight(Texture2D* pTexture, Point position, Color4B color) {
 
 void LevelSprite::draw() {
 	_shaderProgram->use();
+	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_LevelSizeInPixel"), _contentSize.width, _contentSize.height);
 	
 	//construct sprite frame texture rectangle - because the frame texture is the entire spreadsheet
 	SpriteFrame* pCurrentFrame = _pHeroSprite->getDisplayFrame();
@@ -79,7 +80,6 @@ void LevelSprite::draw() {
 	int iIsFrameFlippedX = 0;
 	if(pCurrentFrame->isRotated()){ iIsFrameRotated = 1; }
 	if(_pHeroSprite->isFlippedX()){ iIsFrameFlippedX = 1; }
-
 
 	_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName("SY_HeroTex"), 1);
 	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_HeroTexPos"), frameRect.origin.x, frameRect.origin.y);
