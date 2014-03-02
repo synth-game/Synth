@@ -40,7 +40,10 @@ GL_STRINGIFY(
 	varying vec2 v_texCoord;
 
 	uniform sampler2D CC_Texture0;
-	uniform vec2 SY_LevelSizeInPixel;
+
+	uniform vec2 SY_LevelPixelSize;
+	uniform vec2 SY_HeroPixelSize;
+	uniform vec2 SY_HeroPos;
 
 	uniform sampler2D SY_HeroTex;
 	uniform vec2 SY_HeroTexPos;
@@ -76,15 +79,41 @@ GL_STRINGIFY(
 		return vec2(SY_HeroTexPos.x + uv.x*texSize.x, SY_HeroTexPos.y + uv.y*texSize.y);
 	}
 
-	bool isInHeroShadow(vec2 samplePos, vec2 lightPos, float fStep) {
+	vec4 getHeroTexel(vec2 levelSpaceUV) {
+		vec2 levelUV = vec2(levelSpaceUV.x - SY_HeroPos.x*SY_LevelPixelSize.x, levelSpaceUV.y - SY_HeroPos.y*SY_LevelPixelSize.y);
+		vec2 heroUV = vec2(levelUV.x*SY_HeroPixelSize.x/SY_LevelPixelSize.x, levelUV.y*SY_HeroPixelSize.y/SY_LevelPixelSize.y);
+		//return texture2D(SY_HeroTex, getHeroUV(heroUV));
+
+		if(heroUV.x > 0. && heroUV.x < 1. && heroUV.y > 0. && heroUV.y < 1.) {
+			return vec4(1., 0., 1., texture2D(SY_HeroTex, getHeroUV(heroUV)).a);
+		}
+
+		return vec4(0.);
+	}
+
+	bool isInHeroShadow(vec2 position, vec2 lightPos, float fStep, float threshold) {
+		vec2 l = normalize(lightPos - position);
+		vec2 samplePos = position;
+
+		float fDotTest = 1.;
+		while(fDotTest > 0.) {
+			samplePos = samplePos + vec2(l.x*fStep, l.y*fStep);
+			fDotTest = dot(lightPos-samplePos, lightPos-position);
+
+			float fAlphaTest = getHeroTexel(samplePos).a;
+			if(fAlphaTest > threshold && fDotTest > 0.) {
+				return true;
+				break;
+			}
+		}
+
 		return false;
 	}
 
 	void main() {
 		float threshold = 0.2;
 		float wallSample = texture2D(CC_Texture0, v_texCoord).r;
-		vec2 pixelSize = vec2(1./SY_LevelSizeInPixel.x, 1./SY_LevelSizeInPixel.y);
-		float fRayStep = (pixelSize.x + pixelSize.y) /2.;
+		float fRayStep = (SY_LevelPixelSize.x + SY_LevelPixelSize.y) /2.;
 
 		//apply precomute lighting
 		vec4 color = vec4(0.);
@@ -99,8 +128,8 @@ GL_STRINGIFY(
 			NoOccultedcolor +=  lightTexel.r * lightColor;
 
 			//compute shadows
-			if(lightTexel.g) {
-				if(!isInHeroShadow(v_texCoord, vec2(SY_LightPos[i].x*pixelSize.x, SY_LightPos[i].y*pixelSize.y), fRayStep)){
+			if(lightTexel.g > threshold) {
+				if(!isInHeroShadow(v_texCoord, vec2(SY_LightPos[i].x*SY_LevelPixelSize.x, SY_LightPos[i].y*SY_LevelPixelSize.y), fRayStep, threshold)){
 					OccultedColor += lightTexel.g * lightColor;
 				}
 			}
@@ -116,6 +145,8 @@ GL_STRINGIFY(
 				color = OccultedColor;
 			}
 		}
+
+		color = getHeroTexel(v_texCoord);
 
 		gl_FragColor = vec4(color);
 	}

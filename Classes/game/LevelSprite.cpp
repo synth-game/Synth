@@ -69,18 +69,24 @@ void LevelSprite::addLight(Texture2D* pTexture, Point position, Color4B color) {
 
 void LevelSprite::draw() {
 	_shaderProgram->use();
-	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_LevelSizeInPixel"), _contentSize.width, _contentSize.height);
+	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_LevelPixelSize"), 1.f/_contentSize.width, 1.f/_contentSize.height);
 	
 	//construct sprite frame texture rectangle - because the frame texture is the entire spreadsheet
 	SpriteFrame* pCurrentFrame = _pHeroSprite->getDisplayFrame();
 	Size entireTexSize = _pHeroSprite->getTexture()->getContentSizeInPixels();
 	Rect frameRectPix = pCurrentFrame->getRectInPixels();
 	Rect frameRect = Rect(frameRectPix.origin.x/entireTexSize.width, frameRectPix.origin.y/entireTexSize.height, frameRectPix.size.width/entireTexSize.width, frameRectPix.size.height/entireTexSize.height);
+	Point heroPos = Point(_pHeroSprite->getBatchNode()->getPosition().x-frameRectPix.size.width/2.f + pCurrentFrame->getOffsetInPixels().x, _contentSize.height - (_pHeroSprite->getBatchNode()->getPosition().y+frameRectPix.size.height/2.f + pCurrentFrame->getOffsetInPixels().y));
 	int iIsFrameRotated = 0;
 	int iIsFrameFlippedX = 0;
 	if(pCurrentFrame->isRotated()){ iIsFrameRotated = 1; }
-	if(_pHeroSprite->isFlippedX()){ iIsFrameFlippedX = 1; }
+	if(_pHeroSprite->isFlippedX()){
+		iIsFrameFlippedX = 1;
+		heroPos.x -=  2.*pCurrentFrame->getOffsetInPixels().x;
+	}
 
+	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_HeroPixelSize"), 1.f/frameRectPix.size.width, 1.f/frameRectPix.size.height);
+	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_HeroPos"), heroPos.x, heroPos.y);
 	_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName("SY_HeroTex"), 1);
 	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_HeroTexPos"), frameRect.origin.x, frameRect.origin.y);
 	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_HeroTexSize"), frameRect.size.width, frameRect.size.height);
