@@ -89,9 +89,10 @@ GL_STRINGIFY(
 		return vec4(0.);
 	}
 
-	bool isInHeroShadow(vec2 position, vec2 lightPos, float fStep, float threshold) {
+	float isInHeroShadow(vec2 position, vec2 lightPos, float fStep, float threshold) {
 		vec2 l = normalize(lightPos - position);
 		vec2 samplePos = position;
+		float attDist = 0.3;
 
 		float fDotTest = 1.;
 		while(fDotTest > 0.) {
@@ -100,12 +101,12 @@ GL_STRINGIFY(
 
 			float fAlphaTest = getHeroTexel(samplePos).a;
 			if(fAlphaTest > threshold && fDotTest > 0.) {
-				return true;
+				return 0.3 + min(distance(samplePos, position)/attDist, 0.7);
 				break;
 			}
 		}
 
-		return false;
+		return 1.;
 	}
 
 	void main() {
@@ -127,9 +128,9 @@ GL_STRINGIFY(
 
 			//compute shadows
 			if(lightTexel.g > threshold) {
-				if(!isInHeroShadow(v_texCoord, vec2(SY_LightPos[i].x*SY_LevelPixelSize.x, SY_LightPos[i].y*SY_LevelPixelSize.y), fRayStep, threshold)){
-					OccultedColor += lightTexel.g * lightColor;
-				}
+				float shadowAttenuation = isInHeroShadow(v_texCoord, vec2(SY_LightPos[i].x*SY_LevelPixelSize.x, SY_LightPos[i].y*SY_LevelPixelSize.y), fRayStep, threshold);
+				lightColor.a *= shadowAttenuation;
+				OccultedColor += lightTexel.g * lightColor;
 			}
 
 		}
