@@ -82,12 +82,10 @@ GL_STRINGIFY(
 	vec4 getHeroTexel(vec2 levelSpaceUV) {
 		vec2 levelUV = vec2(levelSpaceUV.x - SY_HeroPos.x*SY_LevelPixelSize.x, levelSpaceUV.y - SY_HeroPos.y*SY_LevelPixelSize.y);
 		vec2 heroUV = vec2(levelUV.x*SY_HeroPixelSize.x/SY_LevelPixelSize.x, levelUV.y*SY_HeroPixelSize.y/SY_LevelPixelSize.y);
-		//return texture2D(SY_HeroTex, getHeroUV(heroUV));
-
+		
 		if(heroUV.x > 0. && heroUV.x < 1. && heroUV.y > 0. && heroUV.y < 1.) {
-			return vec4(1., 0., 1., texture2D(SY_HeroTex, getHeroUV(heroUV)).a);
+			return texture2D(SY_HeroTex, getHeroUV(heroUV));
 		}
-
 		return vec4(0.);
 	}
 
@@ -146,7 +144,7 @@ GL_STRINGIFY(
 			}
 		}
 
-		color = getHeroTexel(v_texCoord);
+		//color = getHeroTexel(v_texCoord);
 
 		gl_FragColor = vec4(color);
 	}
