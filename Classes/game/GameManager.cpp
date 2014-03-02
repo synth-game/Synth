@@ -86,12 +86,6 @@ bool GameManager::init() {
 	pBgSprite->setAnchorPoint(Point::ZERO);
 	_pBackgroundLayer->addChild(pBgSprite);
 
-	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png");
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Color4B::RED);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Color4B::GREEN);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Color4B::BLUE);
-	_pLevelLayer->addChild(pLevelSprite);
-
 	hero = new core::SynthActor(core::ActorType::HERO);
 	hero->addComponent(physics::GeometryComponent::create(Point(50.f, 200.f), Size(20.f, 90.f), 0.f, Point(0.f, 0.f)));
 	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -5.f)));
@@ -110,6 +104,11 @@ bool GameManager::init() {
 
 	hero->addComponent(game::NodeOwnerComponent::create(firefly));
 	
+	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Color4B::RED);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Color4B::GREEN);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Color4B::BLUE);
+	_pLevelLayer->addChild(pLevelSprite);
 	//TEST ZONE - END
 
 	return bTest;

@@ -37,6 +37,7 @@ public:
 
 	void onEnter(); //Appelée après l'ajout dans le componentContainer par la classe Node (avant le owner n'est pas défini)
 
+	Sprite* const getSprite() { return _pSprite; }
 
 	/*
 	 * Members

@@ -7,10 +7,12 @@
 #include <sstream>
 #include "LevelSprite.h"
 #include "game/SHA_level_sprite.h"
+#include "graphics/SpriteComponent.h"
 
 namespace game {
 
-LevelSprite::LevelSprite() {
+LevelSprite::LevelSprite() 
+	: _pHeroSprite(nullptr) {
 }
 
 LevelSprite::~LevelSprite() {
@@ -21,7 +23,7 @@ LevelSprite::~LevelSprite() {
 	_lightTextures.clear();
 }
 
-LevelSprite* LevelSprite::create(char* sBackgroundPath) {
+LevelSprite* LevelSprite::create(char* sBackgroundPath, core::SynthActor* pHero) {
 	LevelSprite* pRet = new LevelSprite();
 	if (pRet != nullptr && pRet->initWithFile(sBackgroundPath)) {
 		CCLOG("LevelSprite created");
@@ -36,6 +38,11 @@ LevelSprite* LevelSprite::create(char* sBackgroundPath) {
 		pProgram->updateUniforms();
 		pProgram->use();
 		pRet->setShaderProgram(pProgram);
+
+		//get the hero sprite
+		graphics::SpriteComponent* pSpriteComp = static_cast<graphics::SpriteComponent*>(pHero->getComponent(graphics::SpriteComponent::COMPONENT_TYPE));
+		CCASSERT(pSpriteComp != nullptr, "LevelSprite needs a SynthActor (the hero) with a SpriteComponent");
+		pRet->_pHeroSprite = pSpriteComp->getSprite();
 
 	} else {
 		CCLOG("LevelSprite created but deleted");

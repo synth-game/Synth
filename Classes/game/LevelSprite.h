@@ -21,7 +21,7 @@ public:
 	/*! \brief Destructor */
 	~LevelSprite();
 
-	static LevelSprite* create(char* sBackgroundPath);
+	static LevelSprite* create(char* sBackgroundPath, core::SynthActor* pHero);
 	void addLight(Texture2D* pTexture, Color4B color);
 	void draw();
 
@@ -35,6 +35,7 @@ protected:
 	/*! \brief Constructor */
 	LevelSprite();
 
+	Sprite* _pHeroSprite;
 	std::vector<LightTexture*> _lightTextures;
 };
 
