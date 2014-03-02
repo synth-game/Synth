@@ -113,9 +113,9 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libExtensions.lib;libcocos2d.lib;libCocosDenshion.lib;libBox2d.lib;libchipmunk.lib;libcurl_imp.lib;websockets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmodex_vc.lib;libExtensions.lib;libcocos2d.lib;libCocosDenshion.lib;libBox2d.lib;libchipmunk.lib;libcurl_imp.lib;websockets.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>H:\Programmation\Synth_dev\projects\Synth;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -178,6 +178,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\events\ToggleTextEvent.cpp" />
     <ClCompile Include="..\Classes\events\VoiceEvent.cpp" />
     <ClCompile Include="..\Classes\Events\WinEvent.cpp" />
+    <ClCompile Include="..\Classes\FmodAudioPlayer.cpp" />
     <ClCompile Include="..\Classes\game\GameManager.cpp" />
     <ClCompile Include="..\Classes\game\LevelFactory.cpp" />
     <ClCompile Include="..\Classes\game\LevelSprite.cpp" />
@@ -220,6 +221,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\AudioPlayer.h" />
     <ClInclude Include="..\Classes\core\ActorType.h" />
     <ClInclude Include="..\Classes\core\Language.h" />
     <ClInclude Include="..\Classes\core\SynthActor.h" />
@@ -267,6 +269,14 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\events\ToggleTextEvent.h" />
     <ClInclude Include="..\Classes\events\VoiceEvent.h" />
     <ClInclude Include="..\Classes\Events\WinEvent.h" />
+    <ClInclude Include="..\Classes\fmod.h" />
+    <ClInclude Include="..\Classes\fmod.hpp" />
+    <ClInclude Include="..\Classes\FmodAudioPlayer.h" />
+    <ClInclude Include="..\Classes\fmod_codec.h" />
+    <ClInclude Include="..\Classes\fmod_dsp.h" />
+    <ClInclude Include="..\Classes\fmod_errors.h" />
+    <ClInclude Include="..\Classes\fmod_memoryinfo.h" />
+    <ClInclude Include="..\Classes\fmod_output.h" />
     <ClInclude Include="..\Classes\game\GameManager.h" />
     <ClInclude Include="..\Classes\game\LevelFactory.h" />
     <ClInclude Include="..\Classes\game\LevelSprite.h" />

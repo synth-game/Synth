@@ -58,10 +58,16 @@ void FmodAudioPlayer::init() {
 	result = pSystem->createChannelGroup("Channel Group", &pChannelGroup);
 	ERRCHECKWITHEXIT(result);
 
+	result = pSystem->createChannelGroup("Music Group", &pMusicGroup);
+	ERRCHECKWITHEXIT(result);
+
 	result = pSystem->getMasterChannelGroup(&masterChannelGroup);
 	ERRCHECKWITHEXIT(result);
 
 	result = masterChannelGroup->addGroup(pChannelGroup);
+	ERRCHECKWITHEXIT(result);
+
+	result = masterChannelGroup->addGroup(pMusicGroup);
 	ERRCHECKWITHEXIT(result);
 
 	mapEffectSound.clear();
@@ -453,3 +459,71 @@ void FmodAudioPlayer::unloadEffect(const char* pszFilePath) {
 }
 
 //~for sound effects
+FMOD::Channel* FmodAudioPlayer::playSound(const char* pszFilePath, bool bLoop,
+                                         float pitch, float pan, float gain) {
+	FMOD::Channel* pChannel;
+	FMOD::Sound* pSound = NULL;
+
+	do {
+		pSystem->update();
+
+		map<string, FMOD::Sound*>::iterator l_it = mapEffectSound.find(
+				string(pszFilePath));
+		if (l_it == mapEffectSound.end()) {
+			//no load it yet
+			preloadEffect(pszFilePath);
+			l_it = mapEffectSound.find(string(pszFilePath));
+		}
+		pSound = l_it->second;
+		if (pSound==NULL){
+			break;
+		}
+
+		FMOD_RESULT result = pSystem->playSound(FMOD_CHANNEL_FREE, pSound, true,
+				&pChannel);
+
+		if (ERRCHECK(result)) {
+			printf("sound effect in %s could not be played", pszFilePath);
+			break;
+		}
+
+		pChannel->setChannelGroup(pChannelGroup);
+        pChannel->setPan(pan);
+        float freq = 0;
+        pChannel->getFrequency(&freq);
+        pChannel->setFrequency(pitch * freq);
+        pChannel->setVolume(gain);
+
+		//set its loop
+		pChannel->setLoopCount((bLoop) ? -1 : 0);
+		result = pChannel->setPaused(false);
+
+		mapEffectSoundChannel[iSoundChannelCount] = pChannel;
+		return pChannel;
+	} while (0);
+
+	return pChannel;
+}
+
+void FmodAudioPlayer::InitMusic(){
+
+	pSystem->update();
+	FMOD::Channel* pChannel1 = FmodAudioPlayer::playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
+	pChannel1->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	FMOD::Channel* pChannel2 = FmodAudioPlayer::playSound("sound/music/bleu_xylo.wav", true, 1, 0, 0);
+	pChannel2->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	FMOD::Channel* pChannel3 = FmodAudioPlayer::playSound("sound/music/rouge_basse.wav", true, 1, 0, 0);
+	pChannel3->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+}
+
+void FmodAudioPlayer::PlayMusicTrack(int index){
+	FMOD::Channel* pChannel;
+	FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
+	pChannel->setVolume(1.0);
+}
+
+void FmodAudioPlayer::StopMusicTrack(int index){
+	FMOD::Channel* pChannel;
+	FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
+	pChannel->setVolume(0.0);
+}

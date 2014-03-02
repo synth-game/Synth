@@ -148,6 +148,20 @@ public:
 	 */
 	virtual void stopAllEffects();
 
+	/**
+	 @brief Play sound
+	 @param pszFilePath The path of the effect file,or the FileName of T_SoundResInfo
+	 @bLoop Whether to loop the effect playing, default value is false
+	 */
+	FMOD::Channel* playSound(const char* pszFilePath, bool bLoop,
+                                    float pitch, float pan, float gain);
+
+	void InitMusic();
+
+	void PlayMusicTrack(int index);
+
+	void StopMusicTrack(int index);
+
 private:
 
 	void init();
@@ -159,6 +173,7 @@ private:
 	FMOD::Channel* 	pBGMChannel;
 
 	FMOD::ChannelGroup* pChannelGroup;
+	FMOD::ChannelGroup* pMusicGroup;
 
 	unsigned int iSoundChannelCount;
 
