@@ -51,10 +51,12 @@ LevelSprite* LevelSprite::create(char* sBackgroundPath, core::SynthActor* pHero)
 	return pRet;
 }
 
-void LevelSprite::addLight(Texture2D* pTexture, Color4B color) {
+void LevelSprite::addLight(Texture2D* pTexture, Point position, Color4B color) {
 	if (_lightTextures.size() < SHA_LIGHT_MAX_COUNT) {
 		LightTexture* pLT = new LightTexture();
 		pLT->pTex = pTexture;
+		pLT->pos.push_back(position.x);
+		pLT->pos.push_back(position.y);
 		pLT->col.push_back(static_cast<float>(color.r)/255.f);
 		pLT->col.push_back(static_cast<float>(color.g)/255.f);
 		pLT->col.push_back(static_cast<float>(color.b)/255.f);
@@ -91,6 +93,10 @@ void LevelSprite::draw() {
 		std::stringstream lightLocation;
 		lightLocation << "SY_Lights["<<i<<"]";
 		_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName(lightLocation.str().c_str()), i+2);
+
+		std::stringstream posLocation;
+		posLocation << "SY_LightPos["<<i<<"]";
+		_shaderProgram->setUniformLocationWith2fv(_shaderProgram->getUniformLocationForName(posLocation.str().c_str()), &(_lightTextures[i]->pos[0]), 1);
 
 		std::stringstream colorLocation;
 		colorLocation << "SY_Colors["<<i<<"]";

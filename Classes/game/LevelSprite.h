@@ -22,13 +22,14 @@ public:
 	~LevelSprite();
 
 	static LevelSprite* create(char* sBackgroundPath, core::SynthActor* pHero);
-	void addLight(Texture2D* pTexture, Color4B color);
+	void addLight(Texture2D* pTexture, Point position, Color4B color);
 	void draw();
 
 
 protected:
 	struct LightTexture {
 		Texture2D* pTex;
+		std::vector<float> pos;
 		std::vector<float> col;
 	};
 

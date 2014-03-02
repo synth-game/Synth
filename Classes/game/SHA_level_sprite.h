@@ -47,6 +47,7 @@ GL_STRINGIFY(
 	uniform int SY_HeroIsFlippedX;
 	uniform int SY_LightCount;
 	uniform sampler2D SY_Lights[8];
+	uniform vec2 SY_LightPos[8];
 	uniform vec4 SY_Colors[8];
 
 	vec2 getHeroUV(vec2 uv) {
@@ -70,6 +71,13 @@ GL_STRINGIFY(
 		}
 
 		return vec2(SY_HeroTexPos.x + uv.x*texSize.x, SY_HeroTexPos.y + uv.y*texSize.y);
+	}
+
+	bool isInHeroShadow(vec2 samplePos, vec2 lightPos) {
+		if(lightPos.x > 1. && lightPos.y > 1.) {
+			return false;
+		}
+		return true;
 	}
 
 	void main() {
@@ -107,7 +115,7 @@ GL_STRINGIFY(
 			color = vec4(1.);
 		}
 		
-		color = color/2. + texture2D(CC_Texture0, v_texCoord)/2.;
+		color.rg = SY_LightPos[3];
 
 		gl_FragColor = vec4(color);
 	}
