@@ -11,6 +11,7 @@
 #include "physics/MovementComponent.h"
 #include "physics/CollisionComponent.h"
 #include "physics/PhysicCollision.h"
+#include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "game/NodeOwnerComponent.h"
 
@@ -93,7 +94,7 @@ bool GameManager::init() {
 	_pLevelLayer->addChild(pLevelSprite);
 
 	hero = new core::SynthActor(core::ActorType::HERO);
-	hero->addComponent(physics::GeometryComponent::create(Point(50.f, 200.f), Size(20.f, 90.f), 0.f, Point(0.f, 0.f)));
+	hero->addComponent(physics::GeometryComponent::create(Point(100.f, 200.f), Size(20.f, 90.f), 0.f, Point(0.f, 0.f)));
 	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -5.f)));
 	physics::CollisionComponent* pHeroColComp = physics::CollisionComponent::create();
 	Image* pBitmask = new Image();
@@ -104,11 +105,13 @@ bool GameManager::init() {
 
 	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
 
-	core::SynthActor* firefly = new core::SynthActor(core::ActorType::FIREFLY);
-	firefly->addComponent(physics::GeometryComponent::create(Point(250.f, 200.f), Size(30.f, 30.f), 0.f, Point(0.f, 0.f)));
+	firefly = new core::SynthActor(core::ActorType::FIREFLY);
+	firefly->addComponent(physics::GeometryComponent::create(Point(500.f, 400.f), Size(30.f, 30.f), 0.f, Point(0.f, 0.f)));
 	firefly->addComponent(graphics::SpriteComponent::create("sprites/firefly.png", _pLevelLayer));
 
 	hero->addComponent(game::NodeOwnerComponent::create(firefly));
+	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+	firefly->addComponent(physics::FollowMovementComponent::create(Point(5.f, 5.f), hero));
 	
 	//TEST ZONE - END
 
@@ -117,6 +120,7 @@ bool GameManager::init() {
 
 void GameManager::update(float fDt) {
 	hero->update(fDt);
+	firefly->update(fDt);
 	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCLOG("position %2.f, %2.f", pGeometryComponent->getPosition().x, pGeometryComponent->getPosition().y);
 }
