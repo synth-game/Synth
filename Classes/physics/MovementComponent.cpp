@@ -108,15 +108,12 @@ void MovementComponent::update(float fDt) {
 	// compute next speed
 	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
     
-    CCLOG("direction %2.f, %2.f", _direction.x, _direction.y);
 	// cap the next lateral speed
 	if (_bStartMoving) {
-		CCLOG("YES");
 		if (abs(_speed.x) > MAX_X_SPEED) {
 			_speed.x = _direction.x * MAX_X_SPEED;
 		}
 	} else {
-		CCLOG("NOT");
 		if (_speed.x * _direction.x > 0.f) {
 			_speed.x = 0.f;
 		}
@@ -132,9 +129,8 @@ void MovementComponent::update(float fDt) {
 	// compute next position
 	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pGeometryComponent != nullptr, "MovementComponent needs a GeometryComponent added to its owner");
-
+	CCLOG("MOVEMENT MOVEMENT SPEED AFTER SEUILLAGE !!!!!!!!!!!!!!!!!! %f, %f", _speed.x, _speed.y);
 	Point nextPosition = pGeometryComponent->getPosition() + (_speed * fDt);
-	CCLOG("speed %2.f, %2.f", _speed.x, _speed.y);
 	nextPosition.x = floor(nextPosition.x);
 	nextPosition.y = floor(nextPosition.y);
 
@@ -148,5 +144,6 @@ void MovementComponent::update(float fDt) {
 		EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
 	}
 }
+
 
 }  // namespace physics
