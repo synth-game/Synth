@@ -39,6 +39,7 @@ public:
 
 	inline Sprite* getSprite() { return _pSprite; }
 
+
 	/*
 	 * Members
 	 */
