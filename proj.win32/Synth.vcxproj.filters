@@ -571,6 +571,7 @@
     </ClInclude>
     <ClInclude Include="..\Classes\core\ComponentType.h">
       <Filter>Classes\core</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\Sounds\SoundType.h">
       <Filter>Classes\sounds</Filter>
     </ClInclude>
