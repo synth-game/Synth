@@ -49,14 +49,26 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 			Point movementDir = targetPosition - currentPosition;
 			float movementLength = movementDir.getLength();
 			Point movementStep = movementDir.normalize();
+			Size halfSize = pTestColEvent->getSize()/2;
 			
 			Point centerPos = pTestColEvent->getCurrentPosition();
 
 			// test pixel by pixel the center point movement - stop if collide
 			while((centerPos - pTestColEvent->getCurrentPosition()).getLength() < movementLength) {
 				Point nextCenterPos = centerPos + movementStep;
+				Point blPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height);
+				Point brPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height);
+				Point trPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y+halfSize.height);
+				Point tlPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y+halfSize.height);
+				Point lPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y);
+				Point rPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y);
 
-				if(_pPhysicCollision->collide(nextCenterPos)) {
+				if(_pPhysicCollision->collide(blPos)
+				|| _pPhysicCollision->collide(brPos)
+				|| _pPhysicCollision->collide(trPos)
+				|| _pPhysicCollision->collide(tlPos)
+				|| _pPhysicCollision->collide(lPos)
+				|| _pPhysicCollision->collide(rPos)) {
 					break;
 				}
 				centerPos = nextCenterPos;
