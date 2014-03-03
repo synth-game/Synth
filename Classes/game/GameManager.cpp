@@ -136,14 +136,14 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(0);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::green);
             break;
             
         case EventKeyboard::KeyCode::KEY_D:
             pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent RIGHT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-			FmodAudioPlayer::sharedPlayer()->StopMusicTrack(0);
+			FmodAudioPlayer::sharedPlayer()->StopMusicTrack(FmodAudioPlayer::tracks::green);
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:

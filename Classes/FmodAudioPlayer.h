@@ -162,6 +162,8 @@ public:
 
 	void StopMusicTrack(int index);
 
+	enum tracks{white, cyan, magenta, yellow, red, blue, green};
+
 private:
 
 	void init();

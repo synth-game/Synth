@@ -508,22 +508,40 @@ FMOD::Channel* FmodAudioPlayer::playSound(const char* pszFilePath, bool bLoop,
 void FmodAudioPlayer::InitMusic(){
 
 	pSystem->update();
-	FMOD::Channel* pChannel1 = FmodAudioPlayer::playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
-	pChannel1->setChannelGroup(FmodAudioPlayer::pMusicGroup);
-	FMOD::Channel* pChannel2 = FmodAudioPlayer::playSound("sound/music/bleu_xylo.wav", true, 1, 0, 0);
-	pChannel2->setChannelGroup(FmodAudioPlayer::pMusicGroup);
-	FMOD::Channel* pChannel3 = FmodAudioPlayer::playSound("sound/music/rouge_basse.wav", true, 1, 0, 0);
+	FMOD::Channel* pChannel6 = FmodAudioPlayer::playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
+	pChannel6->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	FMOD::Channel* pChannel5 = FmodAudioPlayer::playSound("sound/music/bleu_xylo.wav", true, 1, 0, 0);
+	pChannel5->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	FMOD::Channel* pChannel4 = FmodAudioPlayer::playSound("sound/music/rouge_basse.wav", true, 1, 0, 0);
+	pChannel4->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	FMOD::Channel* pChannel3 = FmodAudioPlayer::playSound("sound/music/jaune_guitare.wav", true, 1, 0, 0);
 	pChannel3->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	FMOD::Channel* pChannel2 = FmodAudioPlayer::playSound("sound/music/magenta_accordeon.wav", true, 1, 0, 0);
+	pChannel2->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	FMOD::Channel* pChannel1 = FmodAudioPlayer::playSound("sound/music/cyan_violon.wav", true, 1, 0, 0);
+	pChannel1->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	FMOD::Channel* pChannel0 = FmodAudioPlayer::playSound("sound/music/blanc_orchestre.wav", true, 1, 0, 0);
+	pChannel0->setChannelGroup(FmodAudioPlayer::pMusicGroup);
 }
 
 void FmodAudioPlayer::PlayMusicTrack(int index){
-	FMOD::Channel* pChannel;
-	FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
-	pChannel->setVolume(1.0);
+	int numChannels;
+	FmodAudioPlayer::pMusicGroup->getNumChannels(&numChannels);
+
+	if (index<numChannels){
+		FMOD::Channel* pChannel;
+		FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
+		pChannel->setVolume(1.0);
+	}
 }
 
 void FmodAudioPlayer::StopMusicTrack(int index){
-	FMOD::Channel* pChannel;
-	FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
-	pChannel->setVolume(0.0);
+	int numChannels;
+	FmodAudioPlayer::pMusicGroup->getNumChannels(&numChannels);
+
+	if (index<numChannels){
+		FMOD::Channel* pChannel;
+		FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
+		pChannel->setVolume(0.0);
+	}
 }
