@@ -122,7 +122,7 @@ GL_STRINGIFY(
 			vec3 lightTexel = texture2D(SY_Lights[i], v_texCoord).rgb;
 
 			vec4 lightColor = SY_Colors[i];
-			lightColor.a = lightColor.a / 3.;
+			lightColor.a = lightColor.a/3. + lightTexel.b;
 
 			NoOccultedcolor +=  lightTexel.r * lightColor;
 
