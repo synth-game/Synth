@@ -98,6 +98,12 @@ bool GameManager::init() {
 	hero->addComponent(pHeroColComp); 
 
 	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
+	
+	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
+	_pLevelLayer->addChild(pLevelSprite, 0);
 
 	firefly = new core::SynthActor(core::ActorType::FIREFLY);
 	firefly->addComponent(physics::GeometryComponent::create(Point(500.f, 400.f), Size(30.f, 30.f), 0.f, Point(0.f, 0.f)));
@@ -105,14 +111,10 @@ bool GameManager::init() {
 
 	hero->addComponent(game::NodeOwnerComponent::create(firefly));
 	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-	firefly->addComponent(physics::FollowMovementComponent::create(Point(5.f, 5.f), hero));
-	
-	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
-	_pLevelLayer->addChild(pLevelSprite, 0);
+	firefly->addComponent(physics::FollowMovementComponent::create(Point(7.f, 7.f), hero));
+
 	//TEST ZONE - END
+
 
 	return bTest;
 }
