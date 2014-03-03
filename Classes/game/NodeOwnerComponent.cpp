@@ -70,7 +70,7 @@ void NodeOwnerComponent::onToggleLight(EventCustom* pEvent) {
 
 void NodeOwnerComponent::onChangeNodeOwner(EventCustom* pEvent) {
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent			= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
-    core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getOwned());
 	core::SynthActor* pOwnedNode								= static_cast<core::SynthActor*>(_pOwnedNode);
 
     if (pSource->getActorID() == pOwnedNode->getActorID()) {

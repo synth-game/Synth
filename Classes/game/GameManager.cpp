@@ -18,6 +18,7 @@
 
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
+#include "events/ChangeNodeOwnerEvent.h"
 
 #include <SimpleAudioEngine.h>
 
@@ -111,9 +112,8 @@ bool GameManager::init() {
 	firefly->addComponent(physics::GeometryComponent::create(Point(500.f, 400.f), Size(30.f, 30.f), 0.f, Point(0.f, 0.f)));
 	firefly->addComponent(graphics::SpriteComponent::create("sprites/firefly.png", _pLevelLayer));
 
-	hero->addComponent(game::NodeOwnerComponent::create(firefly));
-	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-	firefly->addComponent(physics::FollowMovementComponent::create(Point(7.f, 7.f), hero));
+	hero->addComponent(game::NodeOwnerComponent::create(nullptr));
+	firefly->addComponent(physics::FollowMovementComponent::create( Point(7.f, 7.f), firefly ));
 
 	//TEST ZONE - END
 
@@ -139,6 +139,9 @@ void GameManager::resetLevel() {
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::EditMoveEvent* pEditMoveEvent = nullptr;
     events::JumpEvent* pJumpEvent = nullptr;
+	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
+	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(hero->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+	physics::FollowMovementComponent* pFollowMovementComponent = static_cast<physics::FollowMovementComponent*>(firefly->getComponent(physics::FollowMovementComponent::COMPONENT_TYPE));
 
     auto dispatcher = EventDispatcher::getInstance();
 
@@ -168,6 +171,21 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             CCLOG("Dispatching ActorStartMoveEvent JUMP");
             dispatcher->dispatchEvent(pJumpEvent);
             break;
+
+		case EventKeyboard::KeyCode::KEY_P:
+		   if (pNodeOwnerComponent->getOwnedNode() == firefly) {
+			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, nullptr);
+			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITHOUT OWNED");
+			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+			   pFollowMovementComponent->setTarget(firefly);
+		   } else {
+			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, hero);
+			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
+			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+			   pFollowMovementComponent->setTarget(hero);
+		   }
+           
+           break;
             
         default:
             break;

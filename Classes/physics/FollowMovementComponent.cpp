@@ -80,38 +80,41 @@ void FollowMovementComponent::onEditMove(EventCustom* pEvent) {
 
 void FollowMovementComponent::update( float fDt ) {
 
-	physics::GeometryComponent* pOwnerGeometryComponent = static_cast<physics::GeometryComponent*>(_target->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-	CCASSERT(pOwnerGeometryComponent != nullptr, "FollowMovementComponent needs a GeometryComponent added to the owner of the actor");
+	if( _owner != _target) {
 
-	physics::GeometryComponent* pOwnedGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-	CCASSERT(pOwnedGeometryComponent != nullptr, "FollowMovementComponent needs a GeometryComponent added to its actor");
+		physics::GeometryComponent* pOwnerGeometryComponent = static_cast<physics::GeometryComponent*>(_target->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+		CCASSERT(pOwnerGeometryComponent != nullptr, "FollowMovementComponent needs a GeometryComponent added to the owner of the actor");
 
-	graphics::SpriteComponent* pOwnerSpriteComponent = static_cast<graphics::SpriteComponent*>(_target->getComponent(graphics::SpriteComponent::COMPONENT_TYPE));
-	CCASSERT(pOwnerSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the owner of its actor");
+		physics::GeometryComponent* pOwnedGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+		CCASSERT(pOwnedGeometryComponent != nullptr, "FollowMovementComponent needs a GeometryComponent added to its actor");
 
-	Point relativeTarget = Point::ZERO;
-	if(pOwnerSpriteComponent->getSprite()->isFlippedX()) {
-		relativeTarget = Point(20.f, 0.f);
-	} else {
-		relativeTarget = Point(-60.f, 0.f);
-	}
+		graphics::SpriteComponent* pOwnerSpriteComponent = static_cast<graphics::SpriteComponent*>(_target->getComponent(graphics::SpriteComponent::COMPONENT_TYPE));
+		CCASSERT(pOwnerSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the owner of its actor");
 
-	Point target = Point(pOwnerGeometryComponent->getPosition().x + relativeTarget.x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y + relativeTarget.y - pOwnedGeometryComponent->getPosition().y);
-	if (abs(target.x) < 20.f && abs(target.y) < 20.f) {
-		target = Point::ZERO;
-	} else {
-		target = target.normalize();
-	}
-	Point nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y);
+		Point relativeTarget = Point::ZERO;
+		if(pOwnerSpriteComponent->getSprite()->isFlippedX()) {
+			relativeTarget = Point(20.f, 0.f);
+		} else {
+			relativeTarget = Point(-60.f, 0.f);
+		}
+
+		Point target = Point(pOwnerGeometryComponent->getPosition().x + relativeTarget.x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y + relativeTarget.y - pOwnedGeometryComponent->getPosition().y);
+		if (abs(target.x) < 20.f && abs(target.y) < 20.f) {
+			target = Point::ZERO;
+		} else {
+			target = target.normalize();
+		}
+		Point nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y);
 	
-	physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
-	if (pCollisionComponent == nullptr) {
-		//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);
-		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
-		EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
-	} else {
-		events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pOwnedGeometryComponent->getPosition(), nextPosition, pOwnedGeometryComponent->getSize());
-		EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+		physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+		if (pCollisionComponent == nullptr) {
+			//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);
+			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
+			EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+		} else {
+			events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pOwnedGeometryComponent->getPosition(), nextPosition, pOwnedGeometryComponent->getSize());
+			EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+		}
 	}
 }
 
