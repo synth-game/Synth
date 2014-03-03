@@ -4,6 +4,7 @@
  * \author Jijidici
  * \date 20/02/2014
  */
+#include <cmath>
 #include "CollisionComponent.h"
 #include "core/SynthActor.h"
 #include "events/TestCollisionEvent.h"
@@ -42,12 +43,28 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 	if (pOwner->getActorID() == pEventSource->getActorID()) {
 		// check if the component have a PhysicCollision
 		if (_pPhysicCollision != nullptr) {
-			Point testPixel = _pPhysicCollision->getNextWallPixel(Point(435, 375), PhysicCollision::LEFT);
+			// build position-target vector
+			Point currentPosition = Point(floor(pTestColEvent->getCurrentPosition().x), floor(pTestColEvent->getCurrentPosition().y));
+			Point targetPosition = Point(floor(pTestColEvent->getTargetPosition().x), floor(pTestColEvent->getTargetPosition().y));
+			Point movementDir = targetPosition - currentPosition;
+			float movementLength = movementDir.getLength();
+			Point movementStep = movementDir.normalize();
+			
+			Point centerPos = pTestColEvent->getCurrentPosition();
 
-			bool bTest = _pPhysicCollision->collide(Point(355, 375));
-			bTest = _pPhysicCollision->collide(Point(418, 375));
-			bTest = _pPhysicCollision->collide(Point(419, 375));
-			bTest = false;
+			// test pixel by pixel the center point movement - stop if collide
+			while((centerPos - pTestColEvent->getCurrentPosition()).getLength() < movementLength) {
+				Point nextCenterPos = centerPos + movementStep;
+
+				if(_pPhysicCollision->collide(nextCenterPos)) {
+					break;
+				}
+				centerPos = nextCenterPos;
+			}
+
+			// send the collided position
+			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, centerPos);
+			EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
 		} else {
 			// Change position without modification
 			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, pTestColEvent->getTargetPosition());
