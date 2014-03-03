@@ -16,10 +16,18 @@ bool PhysicCollision::collide(Point position) {
 	bool bRet = false;
 
 	unsigned char posValue = getValue(convertToImageSpace(position));
-	if(posValue < 10) {
+	if(posValue == 0) {
 		bRet = true;
 	}
 	return bRet; 
+}
+
+Point PhysicCollision::getNextVoidPixel(Point position, EDirection dir) {
+	return convertToWorldSpace(getNextPixelInDirection(convertToImageSpace(position), 255, dir));
+}
+
+Point PhysicCollision::getNextWallPixel(Point position, EDirection dir) {
+	return convertToWorldSpace(getNextPixelInDirection(convertToImageSpace(position), 0, dir));
 }
 
 Point PhysicCollision::convertToImageSpace(Point absolutePos) {
@@ -27,6 +35,13 @@ Point PhysicCollision::convertToImageSpace(Point absolutePos) {
 	imageSpacePosition.x = absolutePos.x;
 	imageSpacePosition.y = _absoluteOriginPosition.y - absolutePos.y;
 	return imageSpacePosition;
+}
+
+Point PhysicCollision::convertToWorldSpace(Point imageSpacePos) {
+	Point worldSpacePosition;
+	worldSpacePosition.x = imageSpacePos.x;
+	worldSpacePosition.y = _absoluteOriginPosition.y - imageSpacePos.y;
+	return worldSpacePosition;
 }
 
 Point PhysicCollision::getNextPixelInDirection(Point currentPixel, unsigned char wantedValue, EDirection dir) {

@@ -42,6 +42,8 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 	if (pOwner->getActorID() == pEventSource->getActorID()) {
 		// check if the component have a PhysicCollision
 		if (_pPhysicCollision != nullptr) {
+			Point testPixel = _pPhysicCollision->getNextWallPixel(Point(435, 375), PhysicCollision::LEFT);
+
 			bool bTest = _pPhysicCollision->collide(Point(355, 375));
 			bTest = _pPhysicCollision->collide(Point(418, 375));
 			bTest = _pPhysicCollision->collide(Point(419, 375));

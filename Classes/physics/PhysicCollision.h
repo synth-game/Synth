@@ -33,16 +33,18 @@ public:
 	void setAbsoluteOriginPosition(Point pos) { _absoluteOriginPosition = pos; }
 	
 	bool collide(Point position);
+	Point getNextVoidPixel(Point position, EDirection dir);
+	Point getNextWallPixel(Point position, EDirection dir);
 
 protected:
 	Point convertToImageSpace(Point absolutePos);
+	Point convertToWorldSpace(Point imageSpacePos);
 	Point getNextPixelInDirection(Point currentPixel, unsigned char wantedValue, EDirection dir);
 	unsigned char getValue(Point pixel);
 	
 
 	Image* _pBitmask;
 	Point _absoluteOriginPosition;
-	Size _ownerSize;
 };
 
 }  // namespace physics
