@@ -4,6 +4,7 @@
  * \author Jijidici
  * \date 09/02/2014
  */
+
 #include "GameManager.h"
 #include "core/ActorType.h"
 #include "LevelSprite.h"
@@ -141,9 +142,9 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 
     auto dispatcher = EventDispatcher::getInstance();
 
-	_keyPressedCode = keyCode;
+	_keyPressedCode.push(keyCode);
 
-    switch(_keyPressedCode) {
+    switch(_keyPressedCode.top()) {
         case EventKeyboard::KeyCode::KEY_Q:
             pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");
@@ -177,7 +178,7 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
     events::EditMoveEvent* pEditMoveEvent;
     auto dispatcher = EventDispatcher::getInstance();
 
-	if(keyCode == _keyPressedCode) {
+	if(keyCode == _keyPressedCode.top()) {
 		switch(keyCode) {
 			case EventKeyboard::KeyCode::KEY_Q:
 				pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, false);
@@ -196,6 +197,7 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 			default:
 				break;
 		}
+		_keyPressedCode.pop();
 	}
 }
 

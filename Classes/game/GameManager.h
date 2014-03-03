@@ -8,6 +8,7 @@
 #define GAME_GAME_MANAGER_H
 
 #include <vector>
+#include <stack>
 #include <map>
 #include "cocos2d.h"
 #include "Game/LevelSprite.h"
@@ -69,7 +70,7 @@ protected:
 	Layer* _pSubtitlesLayer;
 	ParallaxNode* _pParallaxManager;
 
-	EventKeyboard::KeyCode _keyPressedCode;
+	std::stack<EventKeyboard::KeyCode> _keyPressedCode;
 
 };
 

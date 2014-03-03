@@ -129,7 +129,6 @@ void MovementComponent::update(float fDt) {
 	// compute next position
 	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pGeometryComponent != nullptr, "MovementComponent needs a GeometryComponent added to its owner");
-	CCLOG("MOVEMENT MOVEMENT SPEED AFTER SEUILLAGE !!!!!!!!!!!!!!!!!! %f, %f", _speed.x, _speed.y);
 	Point nextPosition = pGeometryComponent->getPosition() + (_speed * fDt);
 	nextPosition.x = floor(nextPosition.x);
 	nextPosition.y = floor(nextPosition.y);
