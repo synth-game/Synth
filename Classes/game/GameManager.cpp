@@ -34,7 +34,8 @@ GameManager::GameManager()
 	, _pLevelLayer(nullptr) 
 	, _pSkinningLayer(nullptr) 
 	, _pSubtitlesLayer(nullptr) 
-	, _pParallaxManager(nullptr) {
+	, _pParallaxManager(nullptr)
+	, _keyPressedCode() {
 
 }
 
@@ -140,7 +141,9 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 
     auto dispatcher = EventDispatcher::getInstance();
 
-    switch(keyCode) {
+	_keyPressedCode = keyCode;
+
+    switch(_keyPressedCode) {
         case EventKeyboard::KeyCode::KEY_Q:
             pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");
@@ -158,6 +161,12 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             CCLOG("Dispatching ActorStartMoveEvent JUMP");
             dispatcher->dispatchEvent(pJumpEvent);
             break;
+
+		case EventKeyboard::KeyCode::KEY_Z:
+            pJumpEvent = new events::JumpEvent(hero, true);
+            CCLOG("Dispatching ActorStartMoveEvent JUMP");
+            dispatcher->dispatchEvent(pJumpEvent);
+            break;
             
         default:
             break;
@@ -167,23 +176,26 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
     events::EditMoveEvent* pEditMoveEvent;
     auto dispatcher = EventDispatcher::getInstance();
-    switch(keyCode) {
-        case EventKeyboard::KeyCode::KEY_Q:
-            pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, false);
-            dispatcher->dispatchEvent(pEditMoveEvent);
-            break;
-        case EventKeyboard::KeyCode::KEY_D:
-            pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, false);
-            dispatcher->dispatchEvent(pEditMoveEvent);
-            break;
-        case EventKeyboard::KeyCode::KEY_SPACE:
-            /*jumpEvent = new ActorJumpEvent(_hero);
-            jumpEvent->_bStart = false;
-            dispatcher->dispatchEvent(jumpEvent);*/
 
-            break;
-        default:
-            break;
+	if(keyCode == _keyPressedCode) {
+		switch(keyCode) {
+			case EventKeyboard::KeyCode::KEY_Q:
+				pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, false);
+				dispatcher->dispatchEvent(pEditMoveEvent);
+				break;
+			case EventKeyboard::KeyCode::KEY_D:
+				pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, false);
+				dispatcher->dispatchEvent(pEditMoveEvent);
+				break;
+			case EventKeyboard::KeyCode::KEY_SPACE:
+				/*jumpEvent = new ActorJumpEvent(_hero);
+				jumpEvent->_bStart = false;
+				dispatcher->dispatchEvent(jumpEvent);*/
+
+				break;
+			default:
+				break;
+		}
 	}
 }
 

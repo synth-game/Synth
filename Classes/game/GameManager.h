@@ -68,6 +68,9 @@ protected:
 	Layer* _pSkinningLayer;
 	Layer* _pSubtitlesLayer;
 	ParallaxNode* _pParallaxManager;
+
+	EventKeyboard::KeyCode _keyPressedCode;
+
 };
 
 }  // namespace game
