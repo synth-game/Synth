@@ -77,30 +77,53 @@ bool CollisionComponent::boundingTest(events::TestCollisionEvent* initiatorEvent
 	float movementLength = movementDir.getLength();
 	Point movementStep = movementDir.normalize();
 	Size halfSize = initiatorEvent->getSize()/2;
+	Size thirdSize = initiatorEvent->getSize()/3;
 			
 	Point centerPos = currentPosition;
 
 	// test pixel by pixel the center point movement - stop if collide
 	while((centerPos-currentPosition).getLength() < movementLength) {
 		Point nextCenterPos = centerPos + movementStep;
+		//corner points
 		Point blPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height);
 		Point brPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height);
 		Point trPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y+halfSize.height);
 		Point tlPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y+halfSize.height);
-		Point lPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y);
-		Point rPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y);
 
-		if(_pPhysicCollision->collide(blPos)
-		|| _pPhysicCollision->collide(brPos)
-		|| _pPhysicCollision->collide(trPos)
-		|| _pPhysicCollision->collide(tlPos)
-		|| _pPhysicCollision->collide(lPos)
-		|| _pPhysicCollision->collide(rPos)) {
+		//intermediar lateral point
+		Point l1Pos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height+thirdSize.height);
+		Point l2Pos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height+2*thirdSize.height);
+		Point r1Pos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height+thirdSize.height);
+		Point r2Pos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height+2*thirdSize.height);
+
+		// case of hypothetical landing
+		if(_pPhysicCollision->collide(blPos) || _pPhysicCollision->collide(brPos)) {
+			bRet = true;
+			//test if bottom-center point collide the ground
+			while((centerPos-currentPosition).getLength() < movementLength) {
+				nextCenterPos = centerPos + movementStep;
+				Point bcPos = Point(nextCenterPos.x, nextCenterPos.y-halfSize.height);
+
+				if(_pPhysicCollision->collide(bcPos)) {
+					bRet = false;
+					break;
+				}
+				centerPos = nextCenterPos;
+			}
+
+			break;
+		} else if(_pPhysicCollision->collide(trPos)
+			   || _pPhysicCollision->collide(tlPos)
+			   || _pPhysicCollision->collide(l1Pos)
+			   || _pPhysicCollision->collide(l2Pos)
+			   || _pPhysicCollision->collide(r1Pos)
+			   || _pPhysicCollision->collide(r2Pos)) {
 			bRet = true;
 			break;
 		}
 		centerPos = nextCenterPos;
 	}
+
 	resPosition = centerPos;
 	return bRet;
 }
