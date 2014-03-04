@@ -10,6 +10,9 @@
 #include "stdlib.h"
 #include "assert.h"
 #include "string.h"
+#include <ctime>
+#include "cocos2d.h"
+
 
 #define szMusicSuffix "|"
 
@@ -508,6 +511,7 @@ FMOD::Channel* FmodAudioPlayer::playSound(const char* pszFilePath, bool bLoop,
 void FmodAudioPlayer::InitMusic(){
 
 	pSystem->update();
+	FmodAudioPlayer::fadeTime = 0.5;
 	FMOD::Channel* pChannel6 = FmodAudioPlayer::playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
 	pChannel6->setChannelGroup(FmodAudioPlayer::pMusicGroup);
 	FMOD::Channel* pChannel5 = FmodAudioPlayer::playSound("sound/music/bleu_xylo.wav", true, 1, 0, 0);
@@ -525,13 +529,26 @@ void FmodAudioPlayer::InitMusic(){
 }
 
 void FmodAudioPlayer::PlayMusicTrack(int index){
+
+	CCLOG ("%s ","A string");
+
 	int numChannels;
 	FmodAudioPlayer::pMusicGroup->getNumChannels(&numChannels);
 
 	if (index<numChannels){
-		FMOD::Channel* pChannel;
-		FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
-		pChannel->setVolume(1.0);
+		int boole=0;
+		clock_t start, current;
+		start = clock();
+		current = clock();
+		//while(boole < 100000){
+		while( ((current-start)/CLOCKS_PER_SEC) < FmodAudioPlayer::fadeTime ){
+			/*FMOD::Channel* pChannel;
+			FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
+			pChannel->setVolume( 1-((current-start)/ (FmodAudioPlayer::fadeTime*1000)) );*/
+			current = clock();
+			boole++;
+		}
+		//breakpoint
 	}
 }
 

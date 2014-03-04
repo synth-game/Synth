@@ -572,6 +572,9 @@
     <ClInclude Include="..\Classes\game\SHA_level_sprite.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\SoundType.h">
+      <Filter>Classes\sounds</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\AudioPlayer.h">
       <Filter>Classes</Filter>
     </ClInclude>

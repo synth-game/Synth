@@ -181,6 +181,8 @@ private:
 
 	string sMusicPath;
 
+	float fadeTime; //in seconds
+
 };
 
 #endif /* FMODAUDIOPLAYER_H_ */
