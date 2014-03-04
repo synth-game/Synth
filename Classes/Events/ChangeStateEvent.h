@@ -9,7 +9,7 @@
 
 #include "cocos2d.h"
 #include "Events/SynthEvent.h"
-#include "graphics/ActorState.h"
+#include "core/ActorState.h"
 
 USING_NS_CC;
 
@@ -19,18 +19,18 @@ class ChangeStateEvent : public events::SynthEvent {
 
 public:
 
-	ChangeStateEvent(Node* pSource, graphics::ActorState eState);
+	ChangeStateEvent(Node* pSource, core::ActorState eState);
 
 	~ChangeStateEvent();
 
 	static const char* EVENT_NAME;
 
-	inline graphics::ActorState getNewState() { return _eNewState; }
+	inline core::ActorState getNewState() { return _eNewState; }
 
-	inline void setNewState(graphics::ActorState eNewState) { _eNewState = eNewState; }
+	inline void setNewState(core::ActorState eNewState) { _eNewState = eNewState; }
 
 private:
-	graphics::ActorState _eNewState;
+	core::ActorState _eNewState;
 
 };
 

@@ -18,7 +18,7 @@ AnimatedSpriteComponent::AnimatedSpriteComponent() {
 
 AnimatedSpriteComponent::AnimatedSpriteComponent(Layer* pParent)
 	: SpriteComponent(pParent)
-	, _eState(ActorState::IDLE_STATE)
+	, _eState(core::ActorState::IDLE_STATE)
 	, _eCurrentAnimType(AnimationType::HERO_IDLE) {
 }
 
