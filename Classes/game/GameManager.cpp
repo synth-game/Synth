@@ -19,6 +19,7 @@
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
 #include "events/ChangeNodeOwnerEvent.h"
+#include "events/ChangeTargetEvent.h"
 
 #include <SimpleAudioEngine.h>
 
@@ -140,6 +141,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::EditMoveEvent* pEditMoveEvent = nullptr;
     events::JumpEvent* pJumpEvent = nullptr;
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
+	events::ChangeTargetEvent* pChangeTargetEvent = nullptr;
 	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(hero->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
 	physics::FollowMovementComponent* pFollowMovementComponent = static_cast<physics::FollowMovementComponent*>(firefly->getComponent(physics::FollowMovementComponent::COMPONENT_TYPE));
 
@@ -177,12 +179,16 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, nullptr);
 			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITHOUT OWNED");
 			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-			   pFollowMovementComponent->setTarget(firefly);
+			   pChangeTargetEvent = new events::ChangeTargetEvent(firefly, firefly);
+			   CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+			   dispatcher->dispatchEvent(pChangeTargetEvent);
 		   } else {
 			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, hero);
 			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
 			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-			   pFollowMovementComponent->setTarget(hero);
+			   pChangeTargetEvent = new events::ChangeTargetEvent(firefly, hero);
+			   CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+			   dispatcher->dispatchEvent(pChangeTargetEvent);
 		   }
            
            break;

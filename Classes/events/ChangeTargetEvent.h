@@ -19,18 +19,18 @@ class ChangeTargetEvent : public events::SynthEvent {
 
 public:
 	/*! \brief Constructor */
-	ChangeTargetEvent(Node* pSource, Point newTarget);
+	ChangeTargetEvent(Node* pSource, core::SynthActor* newTarget);
 
 	/*! \brief Destructor */
 	~ChangeTargetEvent();
 
-	inline Point getNewTarget() { return _newTarget; }
-	inline void setNewTarget(Point newTarget) { _newTarget = newTarget; }
+	inline core::SynthActor* getNewTarget() { return _newTarget; }
+	inline void setNewTarget(core::SynthActor* newTarget) { _newTarget = newTarget; }
 
 	static const char* EVENT_NAME;
 
 private:
-	Point _newTarget;
+	core::SynthActor* _newTarget;
 
 
 

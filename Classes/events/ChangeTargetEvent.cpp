@@ -10,7 +10,7 @@ namespace events {
 
 const char* ChangeTargetEvent::EVENT_NAME = "ChangeTargetEvent";
 
-ChangeTargetEvent::ChangeTargetEvent(Node* pSource, Point newTarget) :
+ChangeTargetEvent::ChangeTargetEvent(Node* pSource, core::SynthActor* newTarget) :
 	SynthEvent(pSource, EVENT_NAME),
 	_newTarget(newTarget) {
 }
