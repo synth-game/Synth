@@ -4,7 +4,7 @@ namespace events {
 
 const char* ChangeStateEvent::EVENT_NAME = "ChangeStateEvent";
 
-ChangeStateEvent::ChangeStateEvent(Node* pSource, graphics::ActorState eState)
+ChangeStateEvent::ChangeStateEvent(Node* pSource, core::ActorState eState)
 	: SynthEvent(pSource, ChangeStateEvent::EVENT_NAME)
 	, _eNewState(eState) {
 }

@@ -10,7 +10,7 @@
 #include "cocos2d.h"
 #include "graphics/SpriteComponent.h"
 #include "graphics/AnimationType.h"
-#include "graphics/ActorState.h"
+#include "core/ActorState.h"
 
 USING_NS_CC;
 
@@ -58,7 +58,7 @@ protected:
 	 */
 
 	/*! \brief The current state of the animated actor (eg on_air, on_floor) */
-	graphics::ActorState _eState;
+	core::ActorState _eState;
 
 	/*! \brief The current animation */
 	graphics::AnimationType _eCurrentAnimType;

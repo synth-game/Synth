@@ -18,7 +18,7 @@ AnimatedSpriteComponent::AnimatedSpriteComponent() {
 
 AnimatedSpriteComponent::AnimatedSpriteComponent(Layer* pParent)
 	: SpriteComponent(pParent)
-	, _eState(ActorState::IDLE_STATE)
+	, _eState(core::ActorState::IDLE_STATE)
 	, _eCurrentAnimType(AnimationType::HERO_IDLE) {
 }
 
@@ -58,9 +58,8 @@ void AnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {
 	core::SynthActor* pOwner = static_cast<core::SynthActor*>(_owner);
 	core::SynthActor* pEventSource = static_cast<core::SynthActor*>(pChangePosEvent->getSource());
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	SpriteBatchNode* pBatchNode = graphicManager->getBatchNode();
 	if (pOwner->getActorID() == pEventSource->getActorID()) {
-		pBatchNode->setPosition(pChangePosEvent->getCurrentPosition());
+		_pSprite->setPosition(pChangePosEvent->getCurrentPosition());
 	}
 }
 

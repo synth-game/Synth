@@ -61,17 +61,14 @@ void HeroAnimatedSpriteComponent::onEnter() {
 	SpriteFrameCache* pFrameCache = graphicManager->getFrameCache();
 
 	if(pBatchNode != nullptr && pFrameCache != nullptr) {
-		// position
-		pBatchNode->setPosition(geometryComponent->getPosition());
-
-		// animation
 		_pSprite = cocos2d::Sprite::createWithSpriteFrameName("walk_0.png");
+		_pSprite->setPosition(geometryComponent->getPosition());
 		pBatchNode->addChild(_pSprite);
 		_pParent->addChild(pBatchNode, 1, 3);
 
 		//TODO: add idle animation
 		_eCurrentAnimType = AnimationType::HERO_IDLE;
-		events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, ActorState::ON_FLOOR_STATE);
+		events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, core::ActorState::ON_FLOOR_STATE);
 		EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
 	}
 }
@@ -108,16 +105,16 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 		if (pEditMoveEvent->isStartMoving()) {
 			// the movement starts
 			switch (_eState) {
-			case ActorState::ON_FLOOR_STATE :
+			case core::ActorState::ON_FLOOR_STATE :
 				_eCurrentAnimType = AnimationType::HERO_WALK;
 				break;
-			case ActorState::STUCK_STATE :
+			case core::ActorState::STUCK_STATE :
 				_eCurrentAnimType = AnimationType::HERO_CRAWL;
 				break;
-			case ActorState::ON_AIR_STATE :
+			case core::ActorState::ON_AIR_STATE :
 				_eCurrentAnimType = AnimationType::HERO_FLY;
 				break;
-			case ActorState::BOUNCE_STATE :
+			case core::ActorState::BOUNCE_STATE :
 				_eCurrentAnimType = AnimationType::HERO_BOUNCE;
 				break;
 			default:
@@ -138,16 +135,16 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 		} else {
 			// the movement stops
 			switch (_eState) {
-			case ActorState::ON_FLOOR_STATE :
+			case core::ActorState::ON_FLOOR_STATE :
 				_eCurrentAnimType = AnimationType::HERO_STOP_WALK;
 				break;
-			case ActorState::STUCK_STATE :
+			case core::ActorState::STUCK_STATE :
 				_eCurrentAnimType = AnimationType::HERO_STOP_CRAWL;
 				break;
-			case ActorState::ON_AIR_STATE :
+			case core::ActorState::ON_AIR_STATE :
 				_eCurrentAnimType = AnimationType::HERO_FLY;
 				break;
-			case ActorState::BOUNCE_STATE :
+			case core::ActorState::BOUNCE_STATE :
 				_eCurrentAnimType = AnimationType::HERO_BOUNCE;
 				break;
 			default:
@@ -185,7 +182,7 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::HERO_START_JUMP;
-	_eState = ActorState::ON_FLOOR_STATE;
+	_eState = core::ActorState::ON_FLOOR_STATE;
 	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 
@@ -205,7 +202,7 @@ void HeroAnimatedSpriteComponent::onInterruptMove(EventCustom* pEvent) {
     core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
 	_eCurrentAnimType = AnimationType::HERO_IDLE;
-	_eState = ActorState::IDLE_STATE;
+	_eState = core::ActorState::IDLE_STATE;
 
     if (pSource->getActorID() == pOwner->getActorID()) {
 		_pSprite->stopAllActions();
@@ -224,7 +221,7 @@ void HeroAnimatedSpriteComponent::onChangeNodeOwner(EventCustom* pEvent) {
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::HERO_INTERACT;
-	_eState = ActorState::ON_FLOOR_STATE;
+	_eState = core::ActorState::ON_FLOOR_STATE;
 	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 
@@ -246,7 +243,7 @@ void HeroAnimatedSpriteComponent::onToggleLight(EventCustom* pEvent) {
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::HERO_PULL_SWITCH;
-	_eState = ActorState::ON_FLOOR_STATE;
+	_eState = core::ActorState::ON_FLOOR_STATE;
 	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 

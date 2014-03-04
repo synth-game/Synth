@@ -70,14 +70,28 @@ void NodeOwnerComponent::onToggleLight(EventCustom* pEvent) {
 
 void NodeOwnerComponent::onChangeNodeOwner(EventCustom* pEvent) {
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent			= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
-	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getOwned());
 	core::SynthActor* pOwnedNode								= static_cast<core::SynthActor*>(_pOwnedNode);
+	core::SynthActor* pNewOwner									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getNewOwner());
+	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+	core::SynthActor* pOwner									= static_cast<core::SynthActor*>(_owner);
 
-    if (pSource->getActorID() == pOwnedNode->getActorID()) {
-		_pOwnedNode = pSource;
-    } else {
-        CCLOG("CHANGE NODE OWNER EVENT : THIS ACTOR IS NOT THE OWNER");
-    }
+
+	if (pNewOwner != nullptr && pNewOwner->getActorID() == pOwner->getActorID()) {
+		if(pOwnedNode != nullptr) {
+			if (pSource == nullptr) {
+				_pOwnedNode = nullptr;
+			} else {
+				_pOwnedNode = pSource;
+			}
+		} else {
+			_pOwnedNode = pSource;
+		}
+	} else if(pOwnedNode != nullptr && pOwnedNode->getActorID() == pSource->getActorID()) {
+		_pOwnedNode = nullptr;
+	} else {
+		CCLOG("CHANGE NODE OWNER EVENT : THE OWNER IS NOT THE SAME");
+	}
+
 }
 
 }  // namespace game

@@ -19,6 +19,7 @@
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
 #include "events/ChangeNodeOwnerEvent.h"
+#include "events/ChangeTargetEvent.h"
 
 #include <SimpleAudioEngine.h>
 
@@ -91,7 +92,7 @@ bool GameManager::init() {
 	_pBackgroundLayer->addChild(pBgSprite);
 
 	hero = new core::SynthActor(core::ActorType::HERO);
-	hero->addComponent(physics::GeometryComponent::create(Point(100.f, 200.f), Size(20.f, 90.f), 0.f, Point(0.f, 0.f)));
+	hero->addComponent(physics::GeometryComponent::create(Point(50.f, 50.f), Size(20.f, 90.f), 0.f, Point(0.f, 0.f)));
 	hero->addComponent(physics::MovementComponent::create(Point(20.f, 20.f), Point(0.f, -5.f)));
 	physics::CollisionComponent* pHeroColComp = physics::CollisionComponent::create();
 	Image* pBitmask = new Image();
@@ -103,9 +104,9 @@ bool GameManager::init() {
 	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
 	
 	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
+	//pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
+	//pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
+	//pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
 	_pLevelLayer->addChild(pLevelSprite, 0);
 
 	firefly = new core::SynthActor(core::ActorType::FIREFLY);
@@ -140,6 +141,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::EditMoveEvent* pEditMoveEvent = nullptr;
     events::JumpEvent* pJumpEvent = nullptr;
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
+	events::ChangeTargetEvent* pChangeTargetEvent = nullptr;
 	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(hero->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
 	physics::FollowMovementComponent* pFollowMovementComponent = static_cast<physics::FollowMovementComponent*>(firefly->getComponent(physics::FollowMovementComponent::COMPONENT_TYPE));
 
@@ -177,12 +179,16 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, nullptr);
 			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITHOUT OWNED");
 			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-			   pFollowMovementComponent->setTarget(firefly);
+			   pChangeTargetEvent = new events::ChangeTargetEvent(firefly, firefly);
+			   CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+			   dispatcher->dispatchEvent(pChangeTargetEvent);
 		   } else {
 			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, hero);
 			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
 			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-			   pFollowMovementComponent->setTarget(hero);
+			   pChangeTargetEvent = new events::ChangeTargetEvent(firefly, hero);
+			   CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+			   dispatcher->dispatchEvent(pChangeTargetEvent);
 		   }
            
            break;
