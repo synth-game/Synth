@@ -7,7 +7,6 @@
 #include <cmath>
 #include "CollisionComponent.h"
 #include "core/SynthActor.h"
-#include "events/TestCollisionEvent.h"
 #include "events/ChangePositionEvent.h"
 
 namespace physics {
@@ -41,47 +40,17 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 	core::SynthActor* pOwner = static_cast<core::SynthActor*>(_owner);
 	core::SynthActor* pEventSource = static_cast<core::SynthActor*>(pTestColEvent->getSource());
 	if (pOwner->getActorID() == pEventSource->getActorID()) {
+		// initialize the computing position
+		Point computingPos = pTestColEvent->getTargetPosition();
+
 		// check if the component have a PhysicCollision
 		if (_pPhysicCollision != nullptr) {
-			// build position-target vector
-			Point currentPosition = Point(floor(pTestColEvent->getCurrentPosition().x), floor(pTestColEvent->getCurrentPosition().y));
-			Point targetPosition = Point(floor(pTestColEvent->getTargetPosition().x), floor(pTestColEvent->getTargetPosition().y));
-			Point movementDir = targetPosition - currentPosition;
-			float movementLength = movementDir.getLength();
-			Point movementStep = movementDir.normalize();
-			Size halfSize = pTestColEvent->getSize()/2;
-			
-			Point centerPos = pTestColEvent->getCurrentPosition();
-
-			// test pixel by pixel the center point movement - stop if collide
-			while((centerPos - pTestColEvent->getCurrentPosition()).getLength() < movementLength) {
-				Point nextCenterPos = centerPos + movementStep;
-				Point blPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height);
-				Point brPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height);
-				Point trPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y+halfSize.height);
-				Point tlPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y+halfSize.height);
-				Point lPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y);
-				Point rPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y);
-
-				if(_pPhysicCollision->collide(blPos)
-				|| _pPhysicCollision->collide(brPos)
-				|| _pPhysicCollision->collide(trPos)
-				|| _pPhysicCollision->collide(tlPos)
-				|| _pPhysicCollision->collide(lPos)
-				|| _pPhysicCollision->collide(rPos)) {
-					break;
-				}
-				centerPos = nextCenterPos;
-			}
-
-			// send the collided position
-			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, centerPos);
-			EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
-		} else {
-			// Change position without modification
-			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, pTestColEvent->getTargetPosition());
-			EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+			boundingTest(pTestColEvent, computingPos);
 		}
+
+		// Change position 
+		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, computingPos);
+		EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
 	}
 }
 
@@ -96,6 +65,44 @@ void CollisionComponent::initListeners() {
 
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pTestCollisionEventListener, 1);
+}
+
+bool CollisionComponent::boundingTest(events::TestCollisionEvent* initiatorEvent, Point& resPosition) {
+	bool bRet = false;
+
+	// build position-target vector
+	Point currentPosition = Point(floor(initiatorEvent->getCurrentPosition().x), floor(initiatorEvent->getCurrentPosition().y));
+	Point targetPosition = Point(floor(initiatorEvent->getTargetPosition().x), floor(initiatorEvent->getTargetPosition().y));
+	Point movementDir = targetPosition - currentPosition;
+	float movementLength = movementDir.getLength();
+	Point movementStep = movementDir.normalize();
+	Size halfSize = initiatorEvent->getSize()/2;
+			
+	Point centerPos = currentPosition;
+
+	// test pixel by pixel the center point movement - stop if collide
+	while((centerPos-currentPosition).getLength() < movementLength) {
+		Point nextCenterPos = centerPos + movementStep;
+		Point blPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height);
+		Point brPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height);
+		Point trPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y+halfSize.height);
+		Point tlPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y+halfSize.height);
+		Point lPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y);
+		Point rPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y);
+
+		if(_pPhysicCollision->collide(blPos)
+		|| _pPhysicCollision->collide(brPos)
+		|| _pPhysicCollision->collide(trPos)
+		|| _pPhysicCollision->collide(tlPos)
+		|| _pPhysicCollision->collide(lPos)
+		|| _pPhysicCollision->collide(rPos)) {
+			bRet = true;
+			break;
+		}
+		centerPos = nextCenterPos;
+	}
+	resPosition = centerPos;
+	return bRet;
 }
 
 }  // namespace physics

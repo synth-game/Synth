@@ -11,6 +11,7 @@
 #include "core/SynthComponent.h"
 #include "physics/PhysicCollision.h"
 #include "physics/LightCollision.h"
+#include "events/TestCollisionEvent.h"
 
 USING_NS_CC;
 
@@ -42,6 +43,8 @@ protected:
 
 	bool init();
 	void initListeners();
+
+	bool boundingTest(events::TestCollisionEvent* initiatorEvent, Point& resPosition);
 
 	PhysicCollision* _pPhysicCollision;
 	LightCollision* _pLightCollision;
