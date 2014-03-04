@@ -9,6 +9,7 @@
 
 #include "cocos2d.h"
 #include "core/SynthComponent.h"
+#include "core/ActorState.h"
 #include "physics/PhysicCollision.h"
 #include "physics/LightCollision.h"
 #include "events/TestCollisionEvent.h"
@@ -48,6 +49,7 @@ protected:
 
 	PhysicCollision* _pPhysicCollision;
 	LightCollision* _pLightCollision;
+	core::ActorState _eMovingState;
 
 	EventListenerCustom* _pTestCollisionEventListener;
 };

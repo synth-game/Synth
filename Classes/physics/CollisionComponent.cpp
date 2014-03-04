@@ -8,6 +8,7 @@
 #include "CollisionComponent.h"
 #include "core/SynthActor.h"
 #include "events/ChangePositionEvent.h"
+#include "Events/ChangeStateEvent.h"
 
 namespace physics {
 
@@ -17,6 +18,7 @@ CollisionComponent::CollisionComponent()
 	: SynthComponent()
 	, _pPhysicCollision(nullptr)
 	, _pLightCollision(nullptr)
+	, _eMovingState(core::ActorState::JUMPING_STATE)
 	, _pTestCollisionEventListener(nullptr) {
 }
 
@@ -80,6 +82,7 @@ bool CollisionComponent::boundingTest(events::TestCollisionEvent* initiatorEvent
 	Size thirdSize = initiatorEvent->getSize()/3;
 			
 	Point centerPos = currentPosition;
+	core::ActorState nextState = core::ActorState::JUMPING_STATE;
 
 	// test pixel by pixel the center point movement - stop if collide
 	while((centerPos-currentPosition).getLength() < movementLength) {
@@ -106,6 +109,7 @@ bool CollisionComponent::boundingTest(events::TestCollisionEvent* initiatorEvent
 
 				if(_pPhysicCollision->collide(bcPos)) {
 					bRet = false;
+					nextState = core::ActorState::ON_FLOOR_STATE;
 					break;
 				}
 				centerPos = nextCenterPos;
@@ -124,7 +128,16 @@ bool CollisionComponent::boundingTest(events::TestCollisionEvent* initiatorEvent
 		centerPos = nextCenterPos;
 	}
 
+	//update position
 	resPosition = centerPos;
+
+	//update state of Collision and Movement components
+	if(nextState != _eMovingState) {
+		_eMovingState = nextState;
+		events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, nextState);
+		EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+	}
+
 	return bRet;
 }
 

@@ -10,6 +10,7 @@
 #include "events/InterruptMoveEvent.h"
 #include "events/ChangePositionEvent.h"
 #include "events/TestCollisionEvent.h"
+#include "events/ChangeStateEvent.h"
 #include "core/SynthActor.h"
 #include "physics/GeometryComponent.h"
 #include "physics/CollisionComponent.h"
@@ -24,8 +25,13 @@ namespace physics {
 const char* MovementComponent::COMPONENT_TYPE = "MovementComponent";
 
 MovementComponent::MovementComponent()
-	: SynthComponent(), _pEditMoveEventListener(nullptr), _pJumpEventListener(nullptr), _pInterruptMoveEventListener(nullptr) {
-		_bStartMoving = false;
+	: SynthComponent()
+	, _bStartMoving(false)
+	, _eMovingState(core::ActorState::JUMPING_STATE)
+	, _pEditMoveEventListener(nullptr)
+	, _pJumpEventListener(nullptr)
+	, _pInterruptMoveEventListener(nullptr)
+	, _pChangeStateEventListener(nullptr) {
 }
 
 MovementComponent::~MovementComponent() {
@@ -54,10 +60,12 @@ void MovementComponent::initListeners() {
 	_pEditMoveEventListener = EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onEditMove, this));
 	_pJumpEventListener = EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onJump, this)); 
 	_pInterruptMoveEventListener = EventListenerCustom::create(events::InterruptMoveEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onInterruptMove, this));
+	_pChangeStateEventListener = EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onChangeState, this));
 
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
     EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pJumpEventListener, 1);
+    EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateEventListener, 1);
 }
 
 void MovementComponent::onEditMove(EventCustom* pEvent) {
@@ -80,7 +88,7 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(jumpEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
 	if (componentOwner == eventSource) {
-		if (jumpEvent->isStartJumping()) {
+		if (jumpEvent->isStartJumping() && _eMovingState == core::ActorState::ON_FLOOR_STATE) {
             _speed.y = MAX_JUMP_SPEED;
         } else {
             if (_speed.y > MIN_JUMP_SPEED) {
@@ -101,6 +109,19 @@ void MovementComponent::onInterruptMove(EventCustom* pEvent) {
         if (interruptMoveEvent->getStopY()) {
             _speed.y = 0.f;
         }
+	}
+}
+
+void MovementComponent::onChangeState(EventCustom* pEvent) {
+	events::ChangeStateEvent* pChangeStateEvent = static_cast<events::ChangeStateEvent*>(pEvent);
+	core::SynthActor* eventSource = static_cast<core::SynthActor*>(pChangeStateEvent->getSource());
+	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
+	if (componentOwner == eventSource) {
+		if(pChangeStateEvent->getNewState() == core::ActorState::JUMPING_STATE) {
+			_eMovingState = core::ActorState::JUMPING_STATE;
+		} else {
+			_eMovingState = core::ActorState::ON_FLOOR_STATE;
+		}
 	}
 }
 
