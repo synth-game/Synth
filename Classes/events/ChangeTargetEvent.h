@@ -1,37 +1,42 @@
+/*!
+ * \file ChangeTargetEvent.h
+ * \brief Change the target of the follow movement
+ * \author Chupee
+ * \date 04/03/2014
+ */
 #ifndef EVENTS_GAMEEVENTS_CHANGE_TARGET_EVENT_H
 #define EVENTS_GAMEEVENTS_CHANGE_TARGET_EVENT_H
 
 #include "cocos2d.h"
+#include "core/SynthActor.h"
+#include "Events/SynthEvent.h"
 
 USING_NS_CC;
 
-namespace events
-{
-namespace GameEvents
-{
-class ChangeTargetEvent
-{
-private:
-	Point newTarget;
+namespace events {
+
+class ChangeTargetEvent : public events::SynthEvent {
 
 public:
-	static char* sEventName;
+	/*! \brief Constructor */
+	ChangeTargetEvent(Node* pSource, Point newTarget);
 
-
-public:
-	ChangeTargetEvent();
-
-	/**
-	 *
-	 */
+	/*! \brief Destructor */
 	~ChangeTargetEvent();
 
-	Point getNewTarget();
+	inline Point getNewTarget() { return _newTarget; }
+	inline void setNewTarget(Point newTarget) { _newTarget = newTarget; }
 
-	void setNewTarget(Point newTarget);
+	static const char* EVENT_NAME;
+
+private:
+	Point _newTarget;
+
+
+
+
 
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif
