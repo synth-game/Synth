@@ -61,11 +61,8 @@ void HeroAnimatedSpriteComponent::onEnter() {
 	SpriteFrameCache* pFrameCache = graphicManager->getFrameCache();
 
 	if(pBatchNode != nullptr && pFrameCache != nullptr) {
-		// position
-		pBatchNode->setPosition(geometryComponent->getPosition());
-
-		// animation
 		_pSprite = cocos2d::Sprite::createWithSpriteFrameName("walk_0.png");
+		_pSprite->setPosition(geometryComponent->getPosition());
 		pBatchNode->addChild(_pSprite);
 		_pParent->addChild(pBatchNode, 1, 3);
 
