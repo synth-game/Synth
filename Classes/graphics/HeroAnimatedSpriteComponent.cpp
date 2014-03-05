@@ -24,9 +24,6 @@
 
 namespace graphics {
 
-HeroAnimatedSpriteComponent::HeroAnimatedSpriteComponent() {
-}
-
 HeroAnimatedSpriteComponent::HeroAnimatedSpriteComponent(Layer* pParent) : 
 	AnimatedSpriteComponent(pParent) {
 	
@@ -72,7 +69,7 @@ void HeroAnimatedSpriteComponent::onEnter() {
 		GraphicManager* graphicManager = GraphicManager::getInstance();
 		core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 		Animate* animate = Animate::create(pAnimation->getAnimation());	
-		__runAnimation(pAnimation, animate);
+		runAnimation(pAnimation, animate);
 		
 	}
 }
@@ -135,7 +132,7 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 			else if(pEditMoveEvent->getDirection().x > 0) {
 				_pSprite->setFlippedX(false);
 			}
-			__runAnimation(pAnimation, animate);
+			runAnimation(pAnimation, animate);
 		} else {
 			// the movement stops
 			switch (_eState) {
@@ -165,7 +162,7 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 			else if(pEditMoveEvent->getDirection().x > 0) {
 				_pSprite->setFlippedX(true);
 			}
-			__runAnimation(pAnimation, animate);
+			runAnimation(pAnimation, animate);
 		}
     }
     else {
@@ -185,7 +182,7 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
 	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 
     if (pSource->getActorID() == pOwner->getActorID()) {
-		__runAnimation(pAnimation, animate);
+		runAnimation(pAnimation, animate);
     }
     else {
         CCLOG("JUMP EVENT RECEIVED BUT ID NOT THE SAME");
@@ -277,14 +274,6 @@ void HeroAnimatedSpriteComponent::onChangeState(EventCustom* pEvent) {
 
 }
 
-void HeroAnimatedSpriteComponent::__runAnimation(core::SynthAnimation* pAnimation, Animate* pAnimate) {
-	CCLOG("RUN ANIMATION WITH TAG : %d", pAnimation->getTag());
-	_pSprite->stopAllActions();
-	if(pAnimation->isLoop()) {
-		_pSprite->runAction(cocos2d::RepeatForever::create(pAnimate));
-	} else {
-		_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(pAnimate, 0), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
-	}
-}
+
 
 }  // namespace graphics

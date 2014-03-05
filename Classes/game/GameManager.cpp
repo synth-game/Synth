@@ -14,6 +14,7 @@
 #include "physics/PhysicCollision.h"
 #include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
+#include "graphics/FireflyAnimatedSpriteComponent.h"
 #include "game/NodeOwnerComponent.h"
 
 #include "events/EditMoveEvent.h"
@@ -109,12 +110,12 @@ bool GameManager::init() {
 	//pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
 	_pLevelLayer->addChild(pLevelSprite, 0);
 
-	firefly = new core::SynthActor(core::ActorType::FIREFLY);
+	firefly = new core::SynthActor(core::ActorType::BLUE_FIREFLY);
 	firefly->addComponent(physics::GeometryComponent::create(Point(500.f, 400.f), Size(30.f, 30.f), 0.f, Point(0.f, 0.f)));
-	firefly->addComponent(graphics::SpriteComponent::create("sprites/firefly.png", _pLevelLayer));
+	firefly->addComponent(graphics::FireFlyAnimatedSpriteComponent::create(_pLevelLayer));
 
 	hero->addComponent(game::NodeOwnerComponent::create(nullptr));
-	firefly->addComponent(physics::FollowMovementComponent::create( Point(15.f, 15.f), firefly ));
+	firefly->addComponent(physics::FollowMovementComponent::create( Point(7.f, 7.f), firefly ));
 
 	//TEST ZONE - END
 

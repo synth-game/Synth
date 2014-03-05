@@ -66,7 +66,6 @@ protected:
 	 */
 
 	/*! \brief Constructor */
-	HeroAnimatedSpriteComponent();
 	HeroAnimatedSpriteComponent(Layer* pParent);
 
 	void initListeners();
@@ -77,7 +76,7 @@ private:
 	 * Methods
 	 */
 
-	void __runAnimation(core::SynthAnimation* pAnimation, Animate* pAnimate);
+	
 
 	/*
 	 * Members

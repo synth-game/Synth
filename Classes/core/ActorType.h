@@ -10,7 +10,9 @@
 namespace core {
 typedef enum {
 	HERO,
-	FIREFLY,
+	BLUE_FIREFLY,
+	RED_FIREFLY,
+	GREEN_FIREFLY,
 	LIGHT,
 	LIGHTSWITCH,
 	ACTORTYPE_COUNT

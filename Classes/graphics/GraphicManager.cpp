@@ -24,7 +24,7 @@ GraphicManager* GraphicManager::getInstance() {
 	return _pInstance;
 }
 
-void GraphicManager::init(/*core::xml data*/) {
+void GraphicManager::init() {
 
 	// framecache
 	_pFrameCache = cocos2d::SpriteFrameCache::sharedSpriteFrameCache();

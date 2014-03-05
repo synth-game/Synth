@@ -11,6 +11,7 @@
 #include "graphics/SpriteComponent.h"
 #include "graphics/AnimationType.h"
 #include "core/ActorState.h"
+#include "core/SynthAnimation.h"
 
 USING_NS_CC;
 
@@ -50,6 +51,8 @@ protected:
 	AnimatedSpriteComponent(Layer* pParent);
 
 	virtual void initListeners();
+
+	void runAnimation(core::SynthAnimation* pAnimation, Animate* pAnimate);
 
 	void onChangePosition(EventCustom* pEvent);
 

@@ -53,6 +53,16 @@ void AnimatedSpriteComponent::requestNextAnimation() {
 	}
 }
 
+void AnimatedSpriteComponent::runAnimation(core::SynthAnimation* pAnimation, Animate* pAnimate) {
+	CCLOG("RUN ANIMATION WITH TAG : %d", pAnimation->getTag());
+	_pSprite->stopAllActions();
+	if(pAnimation->isLoop()) {
+		_pSprite->runAction(cocos2d::RepeatForever::create(pAnimate));
+	} else {
+		_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(pAnimate, 0), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
+	}
+}
+
 void AnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {
 	events::ChangePositionEvent* pChangePosEvent = static_cast<events::ChangePositionEvent*>(pEvent);
 	core::SynthActor* pOwner = static_cast<core::SynthActor*>(_owner);
