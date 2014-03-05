@@ -9,8 +9,9 @@
 #include "core/SynthActor.h"
 #include "events/ChangePositionEvent.h"
 #include "Events/ChangeStateEvent.h"
+#include "events/InterruptMoveEvent.h"
 
-#define SLOPE_THRESHOLD 2.f
+#define SLOPE_THRESHOLD 3.f
 
 namespace physics {
 
@@ -50,10 +51,20 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 
 		// check if the component have a PhysicCollision
 		if (_pPhysicCollision != nullptr) {
+			ECollisionType eCollision = NO_COLLISION;
 			if (_eMovingState == core::ActorState::ON_FLOOR_STATE) {
-				slopeTest(pTestColEvent, computingPos);
+				eCollision = slopeTest(pTestColEvent, computingPos);
 			} else {
-				boundingTest(pTestColEvent, computingPos);
+				eCollision = boundingTest(pTestColEvent, computingPos);
+			}
+
+			events::InterruptMoveEvent* pInterruptMoneEvent = nullptr;
+			if (eCollision == VERTICAL) {
+				pInterruptMoneEvent = new events::InterruptMoveEvent(_owner, false, true, true);
+				EventDispatcher::getInstance()->dispatchEvent(pInterruptMoneEvent);
+			} else if (eCollision == HORIZONTAL) {
+				pInterruptMoneEvent = new events::InterruptMoveEvent(_owner, true, false, true);
+				EventDispatcher::getInstance()->dispatchEvent(pInterruptMoneEvent);
 			}
 		}
 
@@ -89,8 +100,8 @@ void CollisionComponent::initListeners() {
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateCollision, 1);
 }
 
-bool CollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
-	bool bRet = false;
+CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
+	ECollisionType eRet = NO_COLLISION;
 
 	// build position-target vector
 	Point currentPosition = Point(floor(pInitiatorEvent->getCurrentPosition().x), floor(pInitiatorEvent->getCurrentPosition().y));
@@ -118,17 +129,17 @@ bool CollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEven
 		Point l2Pos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height+2*thirdSize.height);
 		Point r1Pos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height+thirdSize.height);
 		Point r2Pos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height+2*thirdSize.height);
+		Point tPos = Point(nextCenterPos.x, nextCenterPos.y+halfSize.height);
 
 		// case of hypothetical landing
-		if(_pPhysicCollision->collide(blPos) || _pPhysicCollision->collide(brPos)) {
-			bRet = true;
+		if (_pPhysicCollision->collide(blPos) || _pPhysicCollision->collide(brPos)) {
 			//test if bottom-center point collide the ground
 			while((centerPos-currentPosition).getLength() < movementLength) {
 				nextCenterPos = centerPos + movementStep;
 				Point bcPos = Point(nextCenterPos.x, nextCenterPos.y-halfSize.height);
 
-				if(_pPhysicCollision->collide(bcPos)) {
-					bRet = false;
+				if (_pPhysicCollision->collide(bcPos)) {
+					eRet = VERTICAL;
 					nextState = core::ActorState::ON_FLOOR_STATE;
 					break;
 				}
@@ -136,13 +147,16 @@ bool CollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEven
 			}
 
 			break;
-		} else if(_pPhysicCollision->collide(trPos)
+		} else if (_pPhysicCollision->collide(trPos)
 			   || _pPhysicCollision->collide(tlPos)
 			   || _pPhysicCollision->collide(l1Pos)
 			   || _pPhysicCollision->collide(l2Pos)
 			   || _pPhysicCollision->collide(r1Pos)
 			   || _pPhysicCollision->collide(r2Pos)) {
-			bRet = true;
+			eRet = HORIZONTAL;
+			break;
+		} else if (_pPhysicCollision->collide(tPos)) {
+			eRet = VERTICAL;
 			break;
 		}
 		centerPos = nextCenterPos;
@@ -158,11 +172,11 @@ bool CollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEven
 		EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
 	}
 
-	return bRet;
+	return eRet;
 }
 
-bool CollisionComponent::slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
-	bool bRet = false;
+CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
+	ECollisionType eRet = VERTICAL;
 
 	Size halfSize = pInitiatorEvent->getSize()/2;
 	Size thirdSize = pInitiatorEvent->getSize()/3;
@@ -192,7 +206,7 @@ bool CollisionComponent::slopeTest(events::TestCollisionEvent* pInitiatorEvent, 
 		if (slopeCoef > SLOPE_THRESHOLD) {
 			//too big slope - stop it
 			targetPosition = currentPosition;
-			bRet = true;
+			eRet = HORIZONTAL;
 		} else if (slopeCoef < -SLOPE_THRESHOLD) {
 			//too big hole - test if the bottom-left and bottom-right point also fall - unefficient sleeping code
 			Point targetBLPosition = Point(targetPosition.x-halfSize.width, targetPosition.y-halfSize.height);
@@ -210,7 +224,6 @@ bool CollisionComponent::slopeTest(events::TestCollisionEvent* pInitiatorEvent, 
 	} else {
 		// manage passive gravity effect
 		targetPosition = currentPosition;
-		bRet = true;
 	}
 
 	// Bounding test on the 6 others bounding points
@@ -239,14 +252,14 @@ bool CollisionComponent::slopeTest(events::TestCollisionEvent* pInitiatorEvent, 
 		|| _pPhysicCollision->collide(l2Pos)
 		|| _pPhysicCollision->collide(r1Pos)
 		|| _pPhysicCollision->collide(r2Pos)) {
-			bRet = true;
+			eRet = HORIZONTAL;
 			break;
 		}
 		centerPos = nextCenterPos;
 	}
 	
 	resPosition = centerPos;
-	return bRet;
+	return eRet;
 }
 
 }  // namespace physics

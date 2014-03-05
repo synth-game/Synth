@@ -1,16 +1,18 @@
 /*!
  * \file InterruptMoveEvent.h
- * 
+ * \brief Event send to completly stop actor velocity
  * \author Flora Jullien
  * \date 19/02/2014
  */
-#ifndef EVENTS_GAMEEVENTS_INTERRUPT_MOVE_EVENT_H
-#define EVENTS_GAMEEVENTS_INTERRUPT_MOVE_EVENT_H
+#ifndef EVENTS_INTERRUPT_MOVE_EVENT_H
+#define EVENTS_INTERRUPT_MOVE_EVENT_H
 
 #include "Events/SynthEvent.h"
 
 namespace events {
-/*! \class InterruptMoveEvent */
+/*! \class InterruptMoveEvent
+ * \brief Event send to completly stop actor velocity
+ */
 class InterruptMoveEvent : public events::SynthEvent {
 
 public:
@@ -35,4 +37,4 @@ private:
 };
 
 }  // namespace events
-#endif
+#endif //EVENTS_INTERRUPT_MOVE_EVENT_H
