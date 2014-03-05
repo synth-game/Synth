@@ -61,15 +61,19 @@ void HeroAnimatedSpriteComponent::onEnter() {
 	SpriteFrameCache* pFrameCache = graphicManager->getFrameCache();
 
 	if(pBatchNode != nullptr && pFrameCache != nullptr) {
-		_pSprite = cocos2d::Sprite::createWithSpriteFrameName("walk_0.png");
+		SpriteFrame* pFrame = pFrameCache->getSpriteFrameByName("iddle_4.png");
+		_pSprite = cocos2d::Sprite::createWithSpriteFrame(pFrame);
 		_pSprite->setPosition(geometryComponent->getPosition());
 		pBatchNode->addChild(_pSprite);
 		_pParent->addChild(pBatchNode, 1, 3);
-
-		//TODO: add idle animation
+		
+		// Add idle animation
 		_eCurrentAnimType = AnimationType::HERO_IDLE;
-		events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, core::ActorState::ON_FLOOR_STATE);
-		EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+		GraphicManager* graphicManager = GraphicManager::getInstance();
+		core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+		Animate* animate = Animate::create(pAnimation->getAnimation());	
+		__runAnimation(pAnimation, animate);
+		
 	}
 }
 
@@ -130,8 +134,7 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 			else if(pEditMoveEvent->getDirection().x > 0) {
 				_pSprite->setFlippedX(false);
 			}
-			_pSprite->stopAllActions();
-			_pSprite->runAction(cocos2d::RepeatForever::create(animate));
+			__runAnimation(pAnimation, animate);
 		} else {
 			// the movement stops
 			switch (_eState) {
@@ -161,12 +164,7 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 			else if(pEditMoveEvent->getDirection().x > 0) {
 				_pSprite->setFlippedX(true);
 			}
-			_pSprite->stopAllActions();
-			if(pAnimation->isLoop()) {
-				_pSprite->runAction(cocos2d::RepeatForever::create(animate));
-			} else {
-				_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(animate, 0), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
-			}
+			__runAnimation(pAnimation, animate);
 		}
     }
     else {
@@ -188,7 +186,7 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
 
     if (pSource->getActorID() == pOwner->getActorID()) {
 		_pSprite->stopAllActions();
-		_pSprite->runAction(animate); // not looping
+		__runAnimation(pAnimation, animate);
     }
     else {
         CCLOG("JUMP EVENT RECEIVED BUT ID NOT THE SAME");
@@ -278,6 +276,16 @@ void HeroAnimatedSpriteComponent::onChangeState(EventCustom* pEvent) {
         CCLOG("CHANGE STATE EVENT RECEIVED BUT ID NOT THE SAME");
     }
 
+}
+
+void HeroAnimatedSpriteComponent::__runAnimation(core::SynthAnimation* pAnimation, Animate* pAnimate) {
+	CCLOG("RUN ANIMATION WITH TAG : %d", pAnimation->getTag());
+	_pSprite->stopAllActions();
+	if(pAnimation->isLoop()) {
+		_pSprite->runAction(cocos2d::RepeatForever::create(pAnimate));
+	} else {
+		_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(pAnimate, 0), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
+	}
 }
 
 }  // namespace graphics

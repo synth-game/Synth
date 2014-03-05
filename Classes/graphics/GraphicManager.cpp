@@ -28,22 +28,25 @@ void GraphicManager::init(/*core::xml data*/) {
 
 	// framecache
 	_pFrameCache = cocos2d::SpriteFrameCache::sharedSpriteFrameCache();
-	_pFrameCache->addSpriteFramesWithFile("sprites/girl.plist");
+	_pFrameCache->addSpriteFramesWithFile("sprites/actors.plist");
 	_pFrameCache->retain();
 
 	// batchnode
-	_pBatchNode = SpriteBatchNode::create("sprites/girl.pvr");
+	_pBatchNode = SpriteBatchNode::create("sprites/actors.pvr");
 
 	// invert enum animation type
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_IDLE",			AnimationType::HERO_IDLE	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_START_IDLE",		AnimationType::HERO_START_IDLE	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_WALK",			AnimationType::HERO_WALK	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_STOP_WALK",		AnimationType::HERO_STOP_WALK	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_START_JUMP",		AnimationType::HERO_START_JUMP	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_JUMP",			AnimationType::HERO_JUMP	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_DURING_JUMP",		AnimationType::HERO_DURING_JUMP	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_FALL",			AnimationType::HERO_FALL	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_START_BOUNCE",	AnimationType::HERO_START_BOUNCE	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_BOUNCE",			AnimationType::HERO_BOUNCE	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_STOP_BOUNCE",		AnimationType::HERO_STOP_BOUNCE	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_START_CRAWL",		AnimationType::HERO_START_CRAWL	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_CRAWL",			AnimationType::HERO_CRAWL	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_STOP_CRAWL",		AnimationType::HERO_STOP_CRAWL	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_IDLE_CRAWL",		AnimationType::HERO_IDLE_CRAWL	));
@@ -54,15 +57,18 @@ void GraphicManager::init(/*core::xml data*/) {
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_DIE",				AnimationType::HERO_DIE	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_WIN",				AnimationType::HERO_WIN	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_SPAWN",			AnimationType::HERO_SPAWN	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"BLUE_FIREFLY",			AnimationType::BLUE_FIREFLY	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"RED_FIREFLY",			AnimationType::RED_FIREFLY	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"GREEN_FIREFLY",		AnimationType::GREEN_FIREFLY	));
 
 	// parsing animations
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
 	int xmlerror = pXMLFile->LoadFile("xml/animations.xml");
 	if(xmlerror == 0) {
-		CCLOG("NO ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlerror);
+		CCLOG("NO ERROR WHILE LOADING XML FILE : %d", xmlerror);
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pAnimationData, *pFrameData;
-		std::string type, nextType, name = "";
+		std::string type, nextType, name, sIsLoop = "";
 		bool bIsLoop = false;
 		core::SynthAnimation* pAnimation;
 		std::vector<std::string> aFrames;
@@ -72,30 +78,32 @@ void GraphicManager::init(/*core::xml data*/) {
 		pAnimationData = pXMLFile->FirstChildElement("animation");
 		while(pAnimationData)
 		{	
+			aFrames.clear();
+			bIsLoop = false;
 			type = pAnimationData->Attribute("type");
+			nextType = pAnimationData->Attribute("next");
+			sIsLoop = pAnimationData->Attribute("isLoop");
 			CCLOG("ANIMATION n°%d, type: %s ,PARSED !", ++i, type.c_str());
 			pFrameData = pAnimationData->FirstChildElement("frame");
 			while (pFrameData) {
 				name = pFrameData->Attribute("name");
 				aFrames.push_back(name);
-				CCLOG("FRAME n°%d, name: %s, PARSED !", ++j, name.c_str());
 				pFrameData = pFrameData->NextSiblingElement("frame");
 			}
-			type = pAnimationData->Attribute("type");
-			if (pAnimationData->Attribute("isLoop") == "true") {
+			if ( sIsLoop == "true") {
 				bIsLoop = true;
 			}
-			if (pAnimationData->Attribute("next") != "") {
+			if (nextType.empty()) {
 				pAnimation = new core::SynthAnimation(__getAnimationType(type), __createAnimation(aFrames), bIsLoop);
 			} else {
-				nextType = pAnimationData->Attribute("next");
+				CCLOG("ANIMATION NEXT ATTRIBUTE : %s", pAnimationData->Attribute("next"));
 				pAnimation = new core::SynthAnimation(__getAnimationType(type), __getAnimationType(nextType), __createAnimation(aFrames), bIsLoop);
 			}
 			_animations.insert(std::pair<AnimationType, core::SynthAnimation*>(__getAnimationType(type), pAnimation));
 	 		pAnimationData = pAnimationData->NextSiblingElement("animation");
 		}
 	} else {
-		CCLOG("ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlerror);
+		CCLOG("ERROR WHILE LOADING XML FILE : %d", xmlerror);
 	}
 }
 

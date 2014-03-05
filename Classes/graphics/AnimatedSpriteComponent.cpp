@@ -37,15 +37,15 @@ void AnimatedSpriteComponent::requestNextAnimation() {
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 	AnimationType eNextAnimationType = pAnimation->getNextTag();
-	if(eNextAnimationType != NULL) {
+	if(eNextAnimationType != graphics::AnimationType::NO_ANIMATION) {
 		_eCurrentAnimType = eNextAnimationType;
 		core::SynthAnimation* pNextAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 		Animate* animate = Animate::create(pNextAnimation->getAnimation());	
 		if(pNextAnimation->isLoop()) {
 			_pSprite->runAction(RepeatForever::create(animate));
 		} else {
-			if (pNextAnimation->getNextTag() != NULL) {
-				_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(animate, 0), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
+			if (pNextAnimation->getNextTag() != graphics::AnimationType::NO_ANIMATION) {
+				_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(animate, 1), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
 			} else {
 				_pSprite->runAction(RepeatForever::create(animate));
 			}
