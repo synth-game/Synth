@@ -90,6 +90,9 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 	if (componentOwner == eventSource) {
 		if (jumpEvent->isStartJumping() && _eMovingState == core::ActorState::ON_FLOOR_STATE) {
             _speed.y = MAX_JUMP_SPEED;
+			_eMovingState = core::ActorState::JUMPING_STATE;
+			events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
+			EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
         } else {
             if (_speed.y > MIN_JUMP_SPEED) {
                 _speed.y = MIN_JUMP_SPEED;

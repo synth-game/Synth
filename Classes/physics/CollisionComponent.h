@@ -35,6 +35,7 @@ public:
 	LightCollision* getLightCollision() { return _pLightCollision; }
 
 	void onTestCollision(EventCustom* pEvent);
+	void onChangeState(EventCustom* pEvent);
 
 	static const char* COMPONENT_TYPE;
 
@@ -45,13 +46,15 @@ protected:
 	bool init();
 	void initListeners();
 
-	bool boundingTest(events::TestCollisionEvent* initiatorEvent, Point& resPosition);
+	bool boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
+	bool slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
 
 	PhysicCollision* _pPhysicCollision;
 	LightCollision* _pLightCollision;
 	core::ActorState _eMovingState;
 
 	EventListenerCustom* _pTestCollisionEventListener;
+	EventListenerCustom* _pChangeStateCollision;
 };
 
 }  // namespace physics
