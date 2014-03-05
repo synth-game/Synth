@@ -79,8 +79,8 @@ bool GameManager::init() {
 	_pSubtitlesLayer = Layer::create();
 	
 	_pParallaxManager = ParallaxNode::create();
-	_pParallaxManager->addChild(_pBackgroundLayer, 1, Point(0.7f, 1.f), Point(0.f, 0.f));
-	_pParallaxManager->addChild(_pIntermediarLayer, 2, Point(0.8f, 1.f), Point(0.f, 0.f));
+	_pParallaxManager->addChild(_pBackgroundLayer, 1, Point(0.7f, 0.7f), Point(0.f, 0.f));
+	_pParallaxManager->addChild(_pIntermediarLayer, 2, Point(0.8f, 0.8f), Point(0.f, 0.f));
 	_pParallaxManager->addChild(_pLevelLayer, 3, Point(1.f, 1.f), Point(0.f, 0.f));
 	_pParallaxManager->addChild(_pSkinningLayer, 4, Point(1.f, 1.f), Point(0.f, 0.f));
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
