@@ -10,7 +10,7 @@
 #include "events/ChangePositionEvent.h"
 #include "Events/ChangeStateEvent.h"
 
-#define SLOPE_THRESHOLD 4.f
+#define SLOPE_THRESHOLD 2.f
 
 namespace physics {
 
@@ -194,10 +194,16 @@ bool CollisionComponent::slopeTest(events::TestCollisionEvent* pInitiatorEvent, 
 			targetPosition = currentPosition;
 			bRet = true;
 		} else if (slopeCoef < -SLOPE_THRESHOLD) {
-			//too big hole - fall
-			_eMovingState = core::ActorState::JUMPING_STATE;
-			events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
-			EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+			//too big hole - test if the bottom-left and bottom-right point also fall - unefficient sleeping code
+			Point targetBLPosition = Point(targetPosition.x-halfSize.width, targetPosition.y-halfSize.height);
+			Point targetBRPosition = Point(targetPosition.x+halfSize.width, targetPosition.y-halfSize.height);
+			if (_pPhysicCollision->collide(targetBLPosition) || _pPhysicCollision->collide(targetBRPosition)) {
+				targetPosition.y = (targetPosition.y + currentPosition.y)/2.f;
+			} else {
+				_eMovingState = core::ActorState::JUMPING_STATE;
+				events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
+				EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+			}
 		} else {
 			targetPosition = targetBCPosition + Point(0.f, halfSize.height);
 		}
