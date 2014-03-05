@@ -128,7 +128,8 @@ GL_STRINGIFY(
 
 			//compute shadows
 			if(lightTexel.g > threshold) {
-				float shadowAttenuation = isInHeroShadow(v_texCoord, vec2(SY_LightPos[i].x*SY_LevelPixelSize.x, SY_LightPos[i].y*SY_LevelPixelSize.y), fRayStep, threshold);
+				//float shadowAttenuation = isInHeroShadow(v_texCoord, vec2(SY_LightPos[i].x*SY_LevelPixelSize.x, SY_LightPos[i].y*SY_LevelPixelSize.y), fRayStep, threshold);
+				float shadowAttenuation = 1.;
 				lightColor.a *= shadowAttenuation;
 				OccultedColor += lightTexel.g * lightColor;
 			}

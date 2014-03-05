@@ -9,6 +9,7 @@
 
 #include "cocos2d.h"
 #include "core/SynthComponent.h"
+#include "core/ActorState.h"
 
 USING_NS_CC;
 
@@ -45,6 +46,7 @@ protected:
 	void onEditMove(EventCustom* pEvent);
 	void onJump(EventCustom* pEvent);
 	void onInterruptMove(EventCustom* pEvent);
+	void onChangeState(EventCustom* pEvent);
 	void update(float fDt);
 
 	Point _speed;
@@ -52,10 +54,12 @@ protected:
 	Point _acceleration;
 	Point _gravity;
 	bool _bStartMoving;
+	core::ActorState _eMovingState;
 
 	EventListenerCustom* _pEditMoveEventListener;
 	EventListenerCustom* _pJumpEventListener;
 	EventListenerCustom* _pInterruptMoveEventListener;
+	EventListenerCustom* _pChangeStateEventListener;
 };
 
 }  // namespace physics
