@@ -93,6 +93,7 @@ void HeroAnimatedSpriteComponent::initListeners() {
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pJumpEventListener, 1);
 }
 
 void HeroAnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {
@@ -180,12 +181,10 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	_eCurrentAnimType = AnimationType::HERO_START_JUMP;
-	_eState = core::ActorState::ON_FLOOR_STATE;
 	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 
     if (pSource->getActorID() == pOwner->getActorID()) {
-		_pSprite->stopAllActions();
 		__runAnimation(pAnimation, animate);
     }
     else {
