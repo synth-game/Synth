@@ -85,7 +85,7 @@ void FollowMovementComponent::update( float fDt ) {
 		if(pOwnerSpriteComponent->getSprite()->isFlippedX()) {
 			relativeTarget = Point(20.f, 0.f);
 		} else {
-			relativeTarget = Point(-60.f, 0.f);
+			relativeTarget = Point(-20.f, 0.f);
 		}
 
 		if(pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
