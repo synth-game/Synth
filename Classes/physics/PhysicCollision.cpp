@@ -86,6 +86,7 @@ Point PhysicCollision::getNextPixelInDirection(Point currentPixel, unsigned char
 	}
 
 	unsigned char ucValue = getValue(wantedPixel);
+	OutputDebugString("bla");
 	while(ucValue != wantedValue) {
 		wantedPixel = wantedPixel + direction;
 

@@ -11,7 +11,6 @@
 #include "assert.h"
 #include "string.h"
 #include <ctime>
-#include "cocos2d.h"
 
 
 #define szMusicSuffix "|"
@@ -530,23 +529,18 @@ void FmodAudioPlayer::InitMusic(){
 
 void FmodAudioPlayer::PlayMusicTrack(int index){
 
-	CCLOG ("%s ","A string");
-
 	int numChannels;
 	FmodAudioPlayer::pMusicGroup->getNumChannels(&numChannels);
 
 	if (index<numChannels){
-		int boole=0;
 		clock_t start, current;
 		start = clock();
 		current = clock();
-		//while(boole < 100000){
 		while( ((current-start)/CLOCKS_PER_SEC) < FmodAudioPlayer::fadeTime ){
 			/*FMOD::Channel* pChannel;
 			FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
-			pChannel->setVolume( 1-((current-start)/ (FmodAudioPlayer::fadeTime*1000)) );*/
+			pChannel->setVolume( 1-((current-start)/ (FmodAudioPlayer::fadeTime*CLOCKS_PER_SEC)) );*/
 			current = clock();
-			boole++;
 		}
 		//breakpoint
 	}
