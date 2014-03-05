@@ -78,11 +78,20 @@ void FollowMovementComponent::update( float fDt ) {
 		graphics::SpriteComponent* pOwnerSpriteComponent = static_cast<graphics::SpriteComponent*>(_target->getComponent(graphics::SpriteComponent::COMPONENT_TYPE));
 		CCASSERT(pOwnerSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the owner of its actor");
 
+		graphics::SpriteComponent* pOwnedSpriteComponent = static_cast<graphics::SpriteComponent*>(_owner->getComponent(graphics::SpriteComponent::COMPONENT_TYPE));
+		CCASSERT(pOwnerSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the actor");
+
 		Point relativeTarget = Point::ZERO;
 		if(pOwnerSpriteComponent->getSprite()->isFlippedX()) {
 			relativeTarget = Point(20.f, 0.f);
 		} else {
 			relativeTarget = Point(-60.f, 0.f);
+		}
+
+		if(pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
+			pOwnedSpriteComponent->getSprite()->setFlippedX(true);
+		} else {
+			pOwnedSpriteComponent->getSprite()->setFlippedX(false);
 		}
 
 		Point target = Point(pOwnerGeometryComponent->getPosition().x + relativeTarget.x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y + relativeTarget.y - pOwnedGeometryComponent->getPosition().y);
