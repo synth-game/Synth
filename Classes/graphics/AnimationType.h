@@ -9,7 +9,9 @@
 
 namespace graphics {
 typedef enum {
+	NO_ANIMATION,
 	HERO_IDLE,
+	HERO_START_IDLE,
 	HERO_WALK,
 	HERO_STOP_WALK,
 	HERO_START_JUMP,
@@ -29,8 +31,9 @@ typedef enum {
 	HERO_DIE,
 	HERO_WIN,
 	HERO_SPAWN,
-	FIREFLY_IDLE,
-	FIREFLY_BE_HAPPY
+	BLUE_FIREFLY,
+	RED_FIREFLY,
+	GREEN_FIREFLY,
 } AnimationType;
 
 }  // namespace core

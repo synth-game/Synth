@@ -114,7 +114,7 @@ bool GameManager::init() {
 	firefly->addComponent(graphics::SpriteComponent::create("sprites/firefly.png", _pLevelLayer));
 
 	hero->addComponent(game::NodeOwnerComponent::create(nullptr));
-	firefly->addComponent(physics::FollowMovementComponent::create( Point(7.f, 7.f), firefly ));
+	firefly->addComponent(physics::FollowMovementComponent::create( Point(15.f, 15.f), firefly ));
 
 	//TEST ZONE - END
 
@@ -125,8 +125,6 @@ bool GameManager::init() {
 void GameManager::update(float fDt) {
 	hero->update(fDt);
 	firefly->update(fDt);
-	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-	CCLOG("position %2.f, %2.f", pGeometryComponent->getPosition().x, pGeometryComponent->getPosition().y);
 }
 
 void GameManager::loadLevel(int iLevelId) {

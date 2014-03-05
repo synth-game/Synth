@@ -86,12 +86,13 @@ void FollowMovementComponent::update( float fDt ) {
 		}
 
 		Point target = Point(pOwnerGeometryComponent->getPosition().x + relativeTarget.x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y + relativeTarget.y - pOwnedGeometryComponent->getPosition().y);
+		CCLOG("TARGET LENGTH : %f", target.getLength());
 		if (abs(target.x) < 20.f && abs(target.y) < 20.f) {
 			target = Point::ZERO;
-		} else {
-			target = target.normalize();
+		} else if ( target.getLength() > 30 ) {
+			target = target.normalize() * 30;
 		}
-		Point nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y);
+		Point nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y) * fDt;
 	
 		physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
 		if (pCollisionComponent == nullptr) {

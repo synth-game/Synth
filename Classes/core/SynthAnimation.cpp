@@ -17,7 +17,7 @@ SynthAnimation::SynthAnimation(graphics::AnimationType eTag, graphics::Animation
 
 SynthAnimation::SynthAnimation(graphics::AnimationType eTag, Animation* pAnimation, bool bIsLoop) :
 	_eTag(eTag),
-	_eNextTag(), 
+	_eNextTag(graphics::AnimationType::NO_ANIMATION), 
 	_pAnimation(pAnimation),
 	_bIsLoop(bIsLoop) {
 }

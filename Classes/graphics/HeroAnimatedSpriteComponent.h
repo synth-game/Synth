@@ -8,6 +8,7 @@
 #define GRAPHICS_HERO_ANIMATED_SPRITE_COMPONENT_H
 
 #include "cocos2d.h"
+#include "core/SynthAnimation.h"
 #include "Graphics/AnimatedSpriteComponent.h"
 
 USING_NS_CC;
@@ -74,6 +75,12 @@ protected:
 private:
 	/*
 	 * Methods
+	 */
+
+	void __runAnimation(core::SynthAnimation* pAnimation, Animate* pAnimate);
+
+	/*
+	 * Members
 	 */
 
 	EventListenerCustom* _pChangePositionEventListener;
