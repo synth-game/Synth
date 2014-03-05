@@ -186,7 +186,7 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
 
     if (pSource->getActorID() == pOwner->getActorID()) {
 		_pSprite->stopAllActions();
-		_pSprite->runAction(animate); // not looping
+		__runAnimation(pAnimation, animate);
     }
     else {
         CCLOG("JUMP EVENT RECEIVED BUT ID NOT THE SAME");

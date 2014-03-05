@@ -41,10 +41,12 @@ void GraphicManager::init(/*core::xml data*/) {
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_STOP_WALK",		AnimationType::HERO_STOP_WALK	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_START_JUMP",		AnimationType::HERO_START_JUMP	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_JUMP",			AnimationType::HERO_JUMP	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_DURING_JUMP",		AnimationType::HERO_DURING_JUMP	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_FALL",			AnimationType::HERO_FALL	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_START_BOUNCE",	AnimationType::HERO_START_BOUNCE	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_BOUNCE",			AnimationType::HERO_BOUNCE	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_STOP_BOUNCE",		AnimationType::HERO_STOP_BOUNCE	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_START_CRAWL",		AnimationType::HERO_START_CRAWL	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_CRAWL",			AnimationType::HERO_CRAWL	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_STOP_CRAWL",		AnimationType::HERO_STOP_CRAWL	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_IDLE_CRAWL",		AnimationType::HERO_IDLE_CRAWL	));
