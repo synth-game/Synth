@@ -132,20 +132,22 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 		Point tPos = Point(nextCenterPos.x, nextCenterPos.y+halfSize.height);
 
 		// case of hypothetical landing
-		if (_pPhysicCollision->collide(blPos) || _pPhysicCollision->collide(brPos)) {
+		if (_pPhysicCollision->collide(blPos) || _pPhysicCollision->collide(brPos)) { 
+			Point savedCenterPos = centerPos;
 			//test if bottom-center point collide the ground
-			while((centerPos-currentPosition).getLength() < movementLength) {
-				nextCenterPos = centerPos + movementStep;
-				Point bcPos = Point(nextCenterPos.x, nextCenterPos.y-halfSize.height);
+			while((savedCenterPos-currentPosition).getLength() < movementLength) {
+				Point nextSavedCenterPos = savedCenterPos + movementStep;
+				Point bcPos = Point(nextSavedCenterPos.x, nextSavedCenterPos.y-halfSize.height);
 
 				if (_pPhysicCollision->collide(bcPos)) {
 					eRet = VERTICAL;
 					nextState = core::ActorState::ON_FLOOR_STATE;
 					break;
 				}
-				centerPos = nextCenterPos;
+				savedCenterPos = nextSavedCenterPos;
 			}
 
+			centerPos = savedCenterPos;
 			break;
 		} else if (_pPhysicCollision->collide(trPos)
 			   || _pPhysicCollision->collide(tlPos)
@@ -159,6 +161,7 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 			eRet = VERTICAL;
 			break;
 		}
+		
 		centerPos = nextCenterPos;
 	}
 
