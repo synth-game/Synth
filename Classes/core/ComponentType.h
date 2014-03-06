@@ -12,7 +12,9 @@ typedef enum {
 	GEOMETRY,
 	MOVEMENT,
 	COLLISION,
-	HEROANIMATEDSPRITE
+	SPRITE,
+	HEROANIMATEDSPRITE,
+	FOLLOWMOVEMENT
 } ComponentType;
 
 }  // namespace core

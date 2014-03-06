@@ -4,6 +4,7 @@
  * \author Jijidici
  * \date 09/02/2014
  */
+
 #include "GameManager.h"
 #include "game/LevelFactory.h"
 #include "core/ActorType.h"
@@ -12,11 +13,13 @@
 #include "physics/MovementComponent.h"
 #include "physics/CollisionComponent.h"
 #include "physics/PhysicCollision.h"
+#include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "game/NodeOwnerComponent.h"
 
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
+#include "events/ChangeNodeOwnerEvent.h"
 
 #include <SimpleAudioEngine.h>
 
@@ -34,7 +37,8 @@ GameManager::GameManager()
 	, _pLevelLayer(nullptr) 
 	, _pSkinningLayer(nullptr) 
 	, _pSubtitlesLayer(nullptr) 
-	, _pParallaxManager(nullptr) {
+	, _pParallaxManager(nullptr)
+	, _keyPressedCode() {
 
 }
 
@@ -87,25 +91,27 @@ bool GameManager::init() {
 	pBgSprite->setAnchorPoint(Point::ZERO);
 	_pBackgroundLayer->addChild(pBgSprite);
 
-	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png");
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Color4B::RED);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Color4B::GREEN);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Color4B::BLUE);
-	_pLevelLayer->addChild(pLevelSprite);
-
 	_levelActors = game::LevelFactory::getInstance()->buildActors(_pLevelLayer);
 
 	hero = *find_if(_levelActors.begin(), _levelActors.end(), [](core::SynthActor* actor) { 
 						return actor->getActorType() == core::ActorType::HERO;
 					});
 
-	core::SynthActor* firefly = new core::SynthActor(core::ActorType::FIREFLY);
-	firefly->addComponent(physics::GeometryComponent::create(Point(250.f, 200.f), Size(30.f, 30.f), 0.f, Point(0.f, 0.f)));
-	firefly->addComponent(graphics::SpriteComponent::create("sprites/firefly.png", _pLevelLayer));
+	firefly = *find_if(_levelActors.begin(), _levelActors.end(), [](core::SynthActor* actor) { 
+						return actor->getActorType() == core::ActorType::FIREFLY;
+					});
 
-	hero->addComponent(game::NodeOwnerComponent::create(firefly));
+	hero->addComponent(game::NodeOwnerComponent::create(nullptr));
+	firefly->addComponent(physics::FollowMovementComponent::create( Point(7.f, 7.f), firefly ));
+
+	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
+	_pLevelLayer->addChild(pLevelSprite, 0);
 
 	//TEST ZONE - END
+
 
 	return bTest;
 }
@@ -114,6 +120,10 @@ void GameManager::update(float fDt) {
 	for (auto actor : _levelActors) {
 		actor->update(fDt);
 	}
+
+	//physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+	//CCLOG("position %2.f, %2.f", pGeometryComponent->getPosition().x, pGeometryComponent->getPosition().y);
+
 }
 
 void GameManager::loadLevel(int iLevelId) {
@@ -127,10 +137,15 @@ void GameManager::resetLevel() {
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::EditMoveEvent* pEditMoveEvent = nullptr;
     events::JumpEvent* pJumpEvent = nullptr;
+	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
+	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(hero->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+	physics::FollowMovementComponent* pFollowMovementComponent = static_cast<physics::FollowMovementComponent*>(firefly->getComponent(physics::FollowMovementComponent::COMPONENT_TYPE));
 
     auto dispatcher = EventDispatcher::getInstance();
 
-    switch(keyCode) {
+	_keyPressedCode.push(keyCode);
+
+    switch(_keyPressedCode.top()) {
         case EventKeyboard::KeyCode::KEY_Q:
             pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");
@@ -148,6 +163,27 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             CCLOG("Dispatching ActorStartMoveEvent JUMP");
             dispatcher->dispatchEvent(pJumpEvent);
             break;
+
+		case EventKeyboard::KeyCode::KEY_Z:
+            pJumpEvent = new events::JumpEvent(hero, true);
+            CCLOG("Dispatching ActorStartMoveEvent JUMP");
+            dispatcher->dispatchEvent(pJumpEvent);
+            break;
+
+		case EventKeyboard::KeyCode::KEY_P:
+		   if (pNodeOwnerComponent->getOwnedNode() == firefly) {
+			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, nullptr);
+			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITHOUT OWNED");
+			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+			   pFollowMovementComponent->setTarget(firefly);
+		   } else {
+			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, hero);
+			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
+			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+			   pFollowMovementComponent->setTarget(hero);
+		   }
+           
+           break;
             
         default:
             break;
@@ -157,23 +193,27 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
     events::EditMoveEvent* pEditMoveEvent;
     auto dispatcher = EventDispatcher::getInstance();
-    switch(keyCode) {
-        case EventKeyboard::KeyCode::KEY_Q:
-            pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, false);
-            dispatcher->dispatchEvent(pEditMoveEvent);
-            break;
-        case EventKeyboard::KeyCode::KEY_D:
-            pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, false);
-            dispatcher->dispatchEvent(pEditMoveEvent);
-            break;
-        case EventKeyboard::KeyCode::KEY_SPACE:
-            /*jumpEvent = new ActorJumpEvent(_hero);
-            jumpEvent->_bStart = false;
-            dispatcher->dispatchEvent(jumpEvent);*/
 
-            break;
-        default:
-            break;
+	if(keyCode == _keyPressedCode.top()) {
+		switch(keyCode) {
+			case EventKeyboard::KeyCode::KEY_Q:
+				pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, false);
+				dispatcher->dispatchEvent(pEditMoveEvent);
+				break;
+			case EventKeyboard::KeyCode::KEY_D:
+				pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, false);
+				dispatcher->dispatchEvent(pEditMoveEvent);
+				break;
+			case EventKeyboard::KeyCode::KEY_SPACE:
+				/*jumpEvent = new ActorJumpEvent(_hero);
+				jumpEvent->_bStart = false;
+				dispatcher->dispatchEvent(jumpEvent);*/
+
+				break;
+			default:
+				break;
+		}
+		_keyPressedCode.pop();
 	}
 }
 

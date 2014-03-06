@@ -27,8 +27,7 @@ LevelFactory* LevelFactory::getInstance() {
 }
 
 std::vector<core::SynthActor*> LevelFactory::buildActors(/*core::xml data, */Layer* pLevelLayer) {
-	std::vector<core::SynthActor*> aActors; 
-	std::vector<core::SynthComponent*> aComponents; 
+	std::vector<core::SynthActor*> aActors;  
 
 	// invert enum actor type
 	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("HERO",		core::ActorType::HERO));
@@ -39,7 +38,9 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(/*core::xml data, */Lay
 	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("GEOMETRY",			core::ComponentType::GEOMETRY));
 	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("MOVEMENT",			core::ComponentType::MOVEMENT));
 	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("COLLISION",			core::ComponentType::COLLISION));
+	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("SPRITE",				core::ComponentType::SPRITE));
 	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("HEROANIMATEDSPRITE",	core::ComponentType::HEROANIMATEDSPRITE));
+	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FOLLOWMOVEMENT",		core::ComponentType::FOLLOWMOVEMENT));
 
 	// parsing actors
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
@@ -48,13 +49,14 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(/*core::xml data, */Lay
 		CCLOG("XML FILE LOADED SUCCESSFULLY : %d", xmlerror);
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData;
-		std::string actorType, componentType;
+		std::string actorType, componentType, name;
 		float positionX, positionY, anchorPointX, anchorPointY, rotate, accelerationX, accelerationY, gravityX, gravityY, width, height = 0;
 		bool bIsLoop = false;
 		std::string pos = "";
 
 		pActorData = pXMLFile->FirstChildElement("actor");
 		while (pActorData) {
+			std::vector<core::SynthComponent*> aComponents;
 			actorType = pActorData->Attribute("type");
 			pComponentData = pActorData->FirstChildElement("component");
 			// Create components
@@ -95,6 +97,10 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(/*core::xml data, */Lay
 				case core::ComponentType::COLLISION:
 					// Create CollisionComponent
 					aComponents.push_back(__createCollisionComponent());
+					break;
+				case core::ComponentType::SPRITE:
+					name = pComponentData->FirstChildElement("name")->GetText();
+					aComponents.push_back(graphics::SpriteComponent::create(name, pLevelLayer));
 					break;
 				case core::ComponentType::HEROANIMATEDSPRITE:
 					// Create HeroAnimatedSpriteComponent

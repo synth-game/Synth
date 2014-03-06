@@ -8,6 +8,7 @@
 #define GAME_GAME_MANAGER_H
 
 #include <vector>
+#include <stack>
 #include <map>
 #include "cocos2d.h"
 #include "Game/LevelSprite.h"
@@ -49,6 +50,7 @@ public:
 	/*void GameManager::onEditMove(EventCustom* event);*/
 
 	core::SynthActor* hero;
+	core::SynthActor* firefly;
 
 protected:
 	/*! \brief Constructor */
@@ -67,6 +69,9 @@ protected:
 	Layer* _pSkinningLayer;
 	Layer* _pSubtitlesLayer;
 	ParallaxNode* _pParallaxManager;
+
+	std::stack<EventKeyboard::KeyCode> _keyPressedCode;
+
 };
 
 }  // namespace game

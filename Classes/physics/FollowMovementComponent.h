@@ -1,6 +1,6 @@
 /*!
  * \file FollowMovementComponent.h
- * \brief The actor follows its owner
+ * \brief The actor follows a target
  * \author Chupee
  * \date 27/02/2014
  */
@@ -9,6 +9,7 @@
 
 #include "cocos2d.h"
 #include "Physics/MovementComponent.h"
+#include "core/SynthActor.h"
 
 USING_NS_CC;
 
@@ -25,8 +26,14 @@ public:
 	/*
 	 * Methods
 	 */
+	/*! \brief Destructor */
+	~FollowMovementComponent();
 
-	FollowMovementComponent* create(Point acceleration, Point target);
+	static FollowMovementComponent* create(Point acceleration, core::SynthActor* target);
+	bool init();
+
+	inline core::SynthActor* getTarget() { return _target; }
+	inline void setTarget( core::SynthActor* target ) { _target = target; }
 
 protected:
 
@@ -34,21 +41,26 @@ protected:
 	 * Methods
 	 */
 
+	/*! \brief Constructor */
+	FollowMovementComponent();
+
+	void initListeners();
+
 	/**
 	 * change the _target attribute with _direction attribute of the event
 	 */
-	virtual void onEditMove(EventCustom* pEvent)=0;
+	void onEditMove(EventCustom* pEvent);
 
 	/**
 	 * Make the movment toward the target position
 	 */
-	virtual void update(float fDt)=0;
+	void update(float fDt);
 
 
 	/*
 	 * Members
 	 */
-	Point _target;
+	core::SynthActor* _target;
 
 };
 

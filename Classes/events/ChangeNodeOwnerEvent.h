@@ -9,6 +9,7 @@
 #define EVENTS_GAMEEVENTS_CHANGE_NODE_OWNER_EVENT_H
 
 #include "cocos2d.h"
+#include "core/SynthActor.h"
 #include "Events/SynthEvent.h"
 
 USING_NS_CC;
@@ -23,13 +24,14 @@ class ChangeNodeOwnerEvent : public events::SynthEvent {
 
 public:
 	/*! \brief Constructor */
-	ChangeNodeOwnerEvent();
+	ChangeNodeOwnerEvent(Node* owned, Node* newOwner);
 
 	/*! \brief Destructor */
 	~ChangeNodeOwnerEvent();
 
 	/*! \brief Get the new owner */
 	inline Node* getNewOwner() { return _newOwner; };
+	inline Node* getOwned() { return _owned; };
 
 public:
 	/*! \brief Identifies the event */
@@ -38,6 +40,9 @@ public:
 private:
 	/*! \brief The new owner of the actor */
 	Node* _newOwner;
+
+	/*! \brief The new owner of the actor */
+	Node* _owned;
 
 };
 
