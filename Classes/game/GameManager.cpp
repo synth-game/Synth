@@ -15,11 +15,13 @@
 #include "physics/PhysicCollision.h"
 #include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
+#include "graphics/FireflyAnimatedSpriteComponent.h"
 #include "game/NodeOwnerComponent.h"
 
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
 #include "events/ChangeNodeOwnerEvent.h"
+#include "events/ChangeTargetEvent.h"
 
 #include <SimpleAudioEngine.h>
 
@@ -79,8 +81,8 @@ bool GameManager::init() {
 	_pSubtitlesLayer = Layer::create();
 	
 	_pParallaxManager = ParallaxNode::create();
-	_pParallaxManager->addChild(_pBackgroundLayer, 1, Point(1.f, 1.f), Point(0.f, 0.f));
-	_pParallaxManager->addChild(_pIntermediarLayer, 2, Point(1.f, 1.f), Point(0.f, 0.f));
+	_pParallaxManager->addChild(_pBackgroundLayer, 1, Point(0.7f, 0.7f), Point(0.f, 0.f));
+	_pParallaxManager->addChild(_pIntermediarLayer, 2, Point(0.8f, 0.8f), Point(0.f, 0.f));
 	_pParallaxManager->addChild(_pLevelLayer, 3, Point(1.f, 1.f), Point(0.f, 0.f));
 	_pParallaxManager->addChild(_pSkinningLayer, 4, Point(1.f, 1.f), Point(0.f, 0.f));
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
@@ -91,14 +93,14 @@ bool GameManager::init() {
 	pBgSprite->setAnchorPoint(Point::ZERO);
 	_pBackgroundLayer->addChild(pBgSprite);
 
-	_levelActors = game::LevelFactory::getInstance()->buildActors(_pLevelLayer);
+	_levelActors = game::LevelFactory::getInstance()->buildActors("test", _pLevelLayer);
 
 	hero = *find_if(_levelActors.begin(), _levelActors.end(), [](core::SynthActor* actor) { 
 						return actor->getActorType() == core::ActorType::HERO;
 					});
 
 	firefly = *find_if(_levelActors.begin(), _levelActors.end(), [](core::SynthActor* actor) { 
-						return actor->getActorType() == core::ActorType::FIREFLY;
+						return actor->getActorType() == core::ActorType::BLUE_FIREFLY;
 					});
 
 	hero->addComponent(game::NodeOwnerComponent::create(nullptr));
@@ -110,6 +112,8 @@ bool GameManager::init() {
 	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
 	_pLevelLayer->addChild(pLevelSprite, 0);
 
+	firefly->addComponent(graphics::FireFlyAnimatedSpriteComponent::create(_pLevelLayer));
+
 	//TEST ZONE - END
 
 
@@ -120,10 +124,6 @@ void GameManager::update(float fDt) {
 	for (auto actor : _levelActors) {
 		actor->update(fDt);
 	}
-
-	//physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-	//CCLOG("position %2.f, %2.f", pGeometryComponent->getPosition().x, pGeometryComponent->getPosition().y);
-
 }
 
 void GameManager::loadLevel(int iLevelId) {
@@ -138,6 +138,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::EditMoveEvent* pEditMoveEvent = nullptr;
     events::JumpEvent* pJumpEvent = nullptr;
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
+	events::ChangeTargetEvent* pChangeTargetEvent = nullptr;
 	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(hero->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
 	physics::FollowMovementComponent* pFollowMovementComponent = static_cast<physics::FollowMovementComponent*>(firefly->getComponent(physics::FollowMovementComponent::COMPONENT_TYPE));
 
@@ -175,12 +176,16 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, nullptr);
 			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITHOUT OWNED");
 			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-			   pFollowMovementComponent->setTarget(firefly);
+			   pChangeTargetEvent = new events::ChangeTargetEvent(firefly, firefly);
+			   CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+			   dispatcher->dispatchEvent(pChangeTargetEvent);
 		   } else {
 			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, hero);
 			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
 			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-			   pFollowMovementComponent->setTarget(hero);
+			   pChangeTargetEvent = new events::ChangeTargetEvent(firefly, hero);
+			   CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+			   dispatcher->dispatchEvent(pChangeTargetEvent);
 		   }
            
            break;

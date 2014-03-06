@@ -34,7 +34,7 @@ public:
 
 	static LevelFactory* getInstance();
 
-	std::vector<core::SynthActor*> buildActors(/*core::xml data, */Layer* pLevelLayer);
+	std::vector<core::SynthActor*> buildActors(std::string levelName, Layer* pLevelLayer);
 
 	std::vector<std::vector<int>> buildLightsMap(core::xml data);
 

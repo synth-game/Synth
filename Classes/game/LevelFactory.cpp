@@ -26,14 +26,16 @@ LevelFactory* LevelFactory::getInstance() {
 	return _pInstance;
 }
 
-std::vector<core::SynthActor*> LevelFactory::buildActors(/*core::xml data, */Layer* pLevelLayer) {
+std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, Layer* pLevelLayer) {
 	std::vector<core::SynthActor*> aActors;  
 
 	// invert enum actor type
-	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("HERO",		core::ActorType::HERO));
-	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("FIREFLY",		core::ActorType::FIREFLY));
-	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("LIGHT",		core::ActorType::LIGHT));
-	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("LIGHTSWITCH",	core::ActorType::LIGHTSWITCH));
+	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("HERO",			core::ActorType::HERO));
+	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("BLUE_FIREFLY",	core::ActorType::BLUE_FIREFLY));
+	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("RED_FIREFLY",		core::ActorType::RED_FIREFLY));
+	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("GREEN_FIREFLY",	core::ActorType::GREEN_FIREFLY));
+	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("LIGHT",			core::ActorType::LIGHT));
+	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("LIGHTSWITCH",		core::ActorType::LIGHTSWITCH));
 
 	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("GEOMETRY",			core::ComponentType::GEOMETRY));
 	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("MOVEMENT",			core::ComponentType::MOVEMENT));
@@ -44,7 +46,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(/*core::xml data, */Lay
 
 	// parsing actors
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
-	int xmlerror = pXMLFile->LoadFile("xml/actors.xml");
+	int xmlerror = pXMLFile->LoadFile(std::string("levels/"+levelName+"/actors.xml").c_str());
 	if(xmlerror == 0) {
 		CCLOG("XML FILE LOADED SUCCESSFULLY : %d", xmlerror);
 		tinyxml2::XMLHandle hDoc(pXMLFile);

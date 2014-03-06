@@ -1,6 +1,6 @@
 /*!
  * \file FireflyAnimatedSpriteComponent.h
- * \brief Add a sprite image (fixed) to the actor.
+ * \brief Add animated sprite to a firefly
  * \author Chupee
  * \date 18/02/2014
  */
@@ -14,23 +14,34 @@ USING_NS_CC;
 
 namespace graphics {
 
+/*! \class FireflyAnimatedSpriteComponent
+ * \brief Add animated sprite to a firefly
+ *
+ * 
+ */
 class FireFlyAnimatedSpriteComponent : public AnimatedSpriteComponent {
 	
 public:
+	/*! \brief Destructor */
 	~FireFlyAnimatedSpriteComponent();
 
-	static FireFlyAnimatedSpriteComponent* create();
+	virtual bool init();
+
+	static FireFlyAnimatedSpriteComponent* create(Layer* pParent);
+
+	void onEnter();
 
 	void onChangeNodeOwner(EventCustom* pEvent);
 
 
 protected:
-	FireFlyAnimatedSpriteComponent();
+	/*! \brief Constructor */
+	FireFlyAnimatedSpriteComponent(Layer* pParent);
 
 	void initListeners();
 
 private:
-	EventListenerCustom* pChangeNodeOwnerEventListener;
+	EventListenerCustom* _pChangeNodeOwnerEventListener;
 
 };
 

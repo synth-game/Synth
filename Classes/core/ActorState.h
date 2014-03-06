@@ -4,16 +4,17 @@
  * \author Chupee
  * \date 22/02/2014
  */
-#ifndef GRAPHICS_ACTOR_STATE_H
-#define GRAPHICS_ACTOR_STATE_H
+#ifndef CORE_ACTOR_STATE_H
+#define CORE_ACTOR_STATE_H
 
-namespace graphics {
+namespace core {
 typedef enum {
 	IDLE_STATE,
 	ON_FLOOR_STATE,
 	ON_AIR_STATE,
 	BOUNCE_STATE,
-	STUCK_STATE
+	STUCK_STATE,
+	JUMPING_STATE
 } ActorState;
 
 }  // namespace core

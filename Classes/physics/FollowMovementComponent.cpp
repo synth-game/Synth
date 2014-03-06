@@ -11,14 +11,10 @@
 #include "game/NodeOwnerComponent.h"
 #include "graphics/AnimatedSpriteComponent.h"
 
-#include "events/EditMoveEvent.h"
+#include "events/ChangeTargetEvent.h"
 #include "events/ChangePositionEvent.h"
 #include "events/TestCollisionEvent.h"
 
-#define MAX_X_SPEED 200.f
-#define MAX_Y_SPEED 300.f
-#define MAX_JUMP_SPEED 300.f
-#define MIN_JUMP_SPEED 150.f
 
 namespace physics {
 
@@ -50,32 +46,23 @@ FollowMovementComponent* FollowMovementComponent::create(Point acceleration, cor
 
 void FollowMovementComponent::initListeners() {
 	// Listeners initialization
-	_pEditMoveEventListener = EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(FollowMovementComponent::onEditMove, this));
+	_pChangeTargetEventListener = EventListenerCustom::create(events::ChangeTargetEvent::EVENT_NAME, CC_CALLBACK_1(FollowMovementComponent::onChangeTarget, this));
 
 	// Add listeners to dispacher
-	//EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeTargetEventListener, 1);
 }
 
-void FollowMovementComponent::onEditMove(EventCustom* pEvent) {
-	//events::EditMoveEvent* editMoveEvent = static_cast<events::EditMoveEvent*>(pEvent);
-	//core::SynthActor* eventSource = static_cast<core::SynthActor*>(editMoveEvent->getSource());
-	//game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(eventSource->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-	//CCASSERT(pNodeOwnerComponent != nullptr, "FollowMovementComponent needs a NodeOwnerComponent added to the owner of the actor");
+void FollowMovementComponent::onChangeTarget(EventCustom* pEvent) {
+	events::ChangeTargetEvent* pChangeTargetEvent				= static_cast<events::ChangeTargetEvent*>(pEvent);
+    core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeTargetEvent->getSource());
+    core::SynthActor* pOwner									= static_cast<core::SynthActor*>(_owner);
+	core::SynthActor* newTarget									= pChangeTargetEvent->getNewTarget();
 
-	//core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
-	//physics::GeometryComponent* pOwnerGeometryComponent = static_cast<physics::GeometryComponent*>(eventSource->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-	//CCASSERT(pNodeOwnerComponent != nullptr, "FollowMovementComponent needs a GeometryComponent added to the owner of the actor");
-
-	//core::SynthActor* ownedNode = static_cast<core::SynthActor*>(pNodeOwnerComponent->getOwnedNode());
-	//physics::GeometryComponent* pOwnedGeometryComponent = static_cast<physics::GeometryComponent*>(ownedNode->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-	//CCASSERT(pNodeOwnerComponent != nullptr, "FollowMovementComponent needs a GeometryComponent added to its actor");
-
-	//if (componentOwner == ownedNode) {
-	//	Point target = Point(pOwnerGeometryComponent->getPosition().x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y - pOwnedGeometryComponent->getPosition().y).normalize();
-	//	CCLOG("TARGET OF FOLLOW MOVEMENT : %f,%f", target.x, target.y);
-	//	//_target = target;
-	//	_bStartMoving = editMoveEvent->isStartMoving();
-	//}
+	if (pSource->getActorID() == pOwner->getActorID()) {
+		setTarget(newTarget);
+    } else {
+        CCLOG("TOGGLE LIGHT EVENT RECEIVED BUT ID NOT THE SAME");
+    }
 }
 
 void FollowMovementComponent::update( float fDt ) {
@@ -91,6 +78,9 @@ void FollowMovementComponent::update( float fDt ) {
 		graphics::SpriteComponent* pOwnerSpriteComponent = static_cast<graphics::SpriteComponent*>(_target->getComponent(graphics::SpriteComponent::COMPONENT_TYPE));
 		CCASSERT(pOwnerSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the owner of its actor");
 
+		graphics::SpriteComponent* pOwnedSpriteComponent = static_cast<graphics::SpriteComponent*>(_owner->getComponent(graphics::SpriteComponent::COMPONENT_TYPE));
+		CCASSERT(pOwnerSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the actor");
+
 		Point relativeTarget = Point::ZERO;
 		if(pOwnerSpriteComponent->getSprite()->isFlippedX()) {
 			relativeTarget = Point(20.f, 0.f);
@@ -98,13 +88,20 @@ void FollowMovementComponent::update( float fDt ) {
 			relativeTarget = Point(-60.f, 0.f);
 		}
 
+		if(pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
+			pOwnedSpriteComponent->getSprite()->setFlippedX(true);
+		} else {
+			pOwnedSpriteComponent->getSprite()->setFlippedX(false);
+		}
+
 		Point target = Point(pOwnerGeometryComponent->getPosition().x + relativeTarget.x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y + relativeTarget.y - pOwnedGeometryComponent->getPosition().y);
+		CCLOG("TARGET LENGTH : %f", target.getLength());
 		if (abs(target.x) < 20.f && abs(target.y) < 20.f) {
 			target = Point::ZERO;
-		} else {
-			target = target.normalize();
+		} else if ( target.getLength() > 30 ) {
+			target = target.normalize() * 30;
 		}
-		Point nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y);
+		Point nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y) * fDt;
 	
 		physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
 		if (pCollisionComponent == nullptr) {

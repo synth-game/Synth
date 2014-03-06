@@ -46,10 +46,8 @@ protected:
 
 	void initListeners();
 
-	/**
-	 * change the _target attribute with _direction attribute of the event
-	 */
-	void onEditMove(EventCustom* pEvent);
+	/*! \brief  */
+	void onChangeTarget(EventCustom* pEvent);
 
 	/**
 	 * Make the movment toward the target position
@@ -60,7 +58,13 @@ protected:
 	/*
 	 * Members
 	 */
+
+	/*! \brief  */
+	EventListenerCustom* _pChangeTargetEventListener;
+
 	core::SynthActor* _target;
+
+
 
 };
 

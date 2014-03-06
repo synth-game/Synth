@@ -8,6 +8,7 @@
 #define GRAPHICS_HERO_ANIMATED_SPRITE_COMPONENT_H
 
 #include "cocos2d.h"
+#include "core/SynthAnimation.h"
 #include "Graphics/AnimatedSpriteComponent.h"
 
 USING_NS_CC;
@@ -65,7 +66,6 @@ protected:
 	 */
 
 	/*! \brief Constructor */
-	HeroAnimatedSpriteComponent();
 	HeroAnimatedSpriteComponent(Layer* pParent);
 
 	void initListeners();
@@ -74,6 +74,12 @@ protected:
 private:
 	/*
 	 * Methods
+	 */
+
+	
+
+	/*
+	 * Members
 	 */
 
 	EventListenerCustom* _pChangePositionEventListener;

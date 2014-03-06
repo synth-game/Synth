@@ -18,7 +18,7 @@ AnimatedSpriteComponent::AnimatedSpriteComponent() {
 
 AnimatedSpriteComponent::AnimatedSpriteComponent(Layer* pParent)
 	: SpriteComponent(pParent)
-	, _eState(ActorState::IDLE_STATE)
+	, _eState(core::ActorState::IDLE_STATE)
 	, _eCurrentAnimType(AnimationType::HERO_IDLE) {
 }
 
@@ -37,19 +37,29 @@ void AnimatedSpriteComponent::requestNextAnimation() {
 	GraphicManager* graphicManager = GraphicManager::getInstance();
 	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 	AnimationType eNextAnimationType = pAnimation->getNextTag();
-	if(eNextAnimationType != NULL) {
+	if(eNextAnimationType != graphics::AnimationType::NO_ANIMATION) {
 		_eCurrentAnimType = eNextAnimationType;
 		core::SynthAnimation* pNextAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 		Animate* animate = Animate::create(pNextAnimation->getAnimation());	
 		if(pNextAnimation->isLoop()) {
 			_pSprite->runAction(RepeatForever::create(animate));
 		} else {
-			if (pNextAnimation->getNextTag() != NULL) {
-				_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(animate, 0), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
+			if (pNextAnimation->getNextTag() != graphics::AnimationType::NO_ANIMATION) {
+				_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(animate, 1), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
 			} else {
 				_pSprite->runAction(RepeatForever::create(animate));
 			}
 		}	
+	}
+}
+
+void AnimatedSpriteComponent::runAnimation(core::SynthAnimation* pAnimation, Animate* pAnimate) {
+	CCLOG("RUN ANIMATION WITH TAG : %d", pAnimation->getTag());
+	_pSprite->stopAllActions();
+	if(pAnimation->isLoop()) {
+		_pSprite->runAction(cocos2d::RepeatForever::create(pAnimate));
+	} else {
+		_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(pAnimate, 0), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
 	}
 }
 
@@ -58,9 +68,8 @@ void AnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {
 	core::SynthActor* pOwner = static_cast<core::SynthActor*>(_owner);
 	core::SynthActor* pEventSource = static_cast<core::SynthActor*>(pChangePosEvent->getSource());
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	SpriteBatchNode* pBatchNode = graphicManager->getBatchNode();
 	if (pOwner->getActorID() == pEventSource->getActorID()) {
-		pBatchNode->setPosition(pChangePosEvent->getCurrentPosition());
+		_pSprite->setPosition(pChangePosEvent->getCurrentPosition());
 	}
 }
 

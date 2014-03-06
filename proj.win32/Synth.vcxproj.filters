@@ -554,9 +554,6 @@
     <ClInclude Include="..\Classes\graphics\AnimationType.h">
       <Filter>Classes\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\graphics\ActorState.h">
-      <Filter>Classes\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Events\WinEvent.h">
       <Filter>Classes\events</Filter>
     </ClInclude>
@@ -574,6 +571,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Sounds\SoundType.h">
       <Filter>Classes\sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\core\ActorState.h">
+      <Filter>Classes\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

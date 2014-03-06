@@ -9,8 +9,10 @@
 
 #include "cocos2d.h"
 #include "core/SynthComponent.h"
+#include "core/ActorState.h"
 #include "physics/PhysicCollision.h"
 #include "physics/LightCollision.h"
+#include "events/TestCollisionEvent.h"
 
 USING_NS_CC;
 
@@ -33,20 +35,32 @@ public:
 	LightCollision* getLightCollision() { return _pLightCollision; }
 
 	void onTestCollision(EventCustom* pEvent);
+	void onChangeState(EventCustom* pEvent);
 
 	static const char* COMPONENT_TYPE;
 
 protected:
+	enum ECollisionType {
+		HORIZONTAL,
+		VERTICAL,
+		NO_COLLISION
+	};
+
 	/*! \brief Constructor */
 	CollisionComponent();
 
 	bool init();
 	void initListeners();
 
+	ECollisionType boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
+	ECollisionType slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
+
 	PhysicCollision* _pPhysicCollision;
 	LightCollision* _pLightCollision;
+	core::ActorState _eMovingState;
 
 	EventListenerCustom* _pTestCollisionEventListener;
+	EventListenerCustom* _pChangeStateCollision;
 };
 
 }  // namespace physics

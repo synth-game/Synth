@@ -77,7 +77,7 @@ void LevelSprite::draw() {
 	Size entireTexSize = _pHeroSprite->getTexture()->getContentSizeInPixels();
 	Rect frameRectPix = pCurrentFrame->getRectInPixels();
 	Rect frameRect = Rect(frameRectPix.origin.x/entireTexSize.width, frameRectPix.origin.y/entireTexSize.height, frameRectPix.size.width/entireTexSize.width, frameRectPix.size.height/entireTexSize.height);
-	Point heroPos = Point(_pHeroSprite->getBatchNode()->getPosition().x-frameRectPix.size.width/2.f + pCurrentFrame->getOffsetInPixels().x, _contentSize.height - (_pHeroSprite->getBatchNode()->getPosition().y+frameRectPix.size.height/2.f + pCurrentFrame->getOffsetInPixels().y));
+	Point heroPos = Point(_pHeroSprite->getPosition().x-frameRectPix.size.width/2.f + pCurrentFrame->getOffsetInPixels().x, _contentSize.height - (_pHeroSprite->getPosition().y+frameRectPix.size.height/2.f + pCurrentFrame->getOffsetInPixels().y));
 	int iIsFrameRotated = 0;
 	int iIsFrameFlippedX = 0;
 	if(pCurrentFrame->isRotated()){ iIsFrameRotated = 1; }
