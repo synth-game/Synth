@@ -8,8 +8,9 @@
 #include "CollisionComponent.h"
 #include "core/SynthActor.h"
 #include "events/ChangePositionEvent.h"
-#include "Events/ChangeStateEvent.h"
+#include "events/ChangeStateEvent.h"
 #include "events/InterruptMoveEvent.h"
+#include "events/CollisionEvent.h"
 
 #define SLOPE_THRESHOLD 3.f
 
@@ -58,13 +59,17 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 				eCollision = boundingTest(pTestColEvent, computingPos);
 			}
 
-			events::InterruptMoveEvent* pInterruptMoneEvent = nullptr;
+			events::InterruptMoveEvent* pInterruptMovementEvent = nullptr;
 			if (eCollision == VERTICAL) {
-				pInterruptMoneEvent = new events::InterruptMoveEvent(_owner, false, true, true);
-				EventDispatcher::getInstance()->dispatchEvent(pInterruptMoneEvent);
+				pInterruptMovementEvent = new events::InterruptMoveEvent(_owner, false, true, true);
+				EventDispatcher::getInstance()->dispatchEvent(pInterruptMovementEvent);
 			} else if (eCollision == HORIZONTAL) {
-				pInterruptMoneEvent = new events::InterruptMoveEvent(_owner, true, false, true);
-				EventDispatcher::getInstance()->dispatchEvent(pInterruptMoneEvent);
+				pInterruptMovementEvent = new events::InterruptMoveEvent(_owner, true, false, true);
+				EventDispatcher::getInstance()->dispatchEvent(pInterruptMovementEvent);
+
+				// send CollisionEvent for sound and graphic components
+				events::CollisionEvent* pCollisionEvent = new events::CollisionEvent(_owner);
+				EventDispatcher::getInstance()->dispatchEvent(pCollisionEvent);
 			}
 		}
 

@@ -7,13 +7,16 @@
 #ifndef EVENTS_INTERRUPT_MOVE_EVENT_H
 #define EVENTS_INTERRUPT_MOVE_EVENT_H
 
+#include "cocos2d.h"
 #include "Events/SynthEvent.h"
+
+USING_NS_CC;
 
 namespace events {
 /*! \class InterruptMoveEvent
  * \brief Event send to completly stop actor velocity
  */
-class InterruptMoveEvent : public events::SynthEvent {
+class InterruptMoveEvent : public SynthEvent {
 
 public:
 	/*! \brief Constructor */

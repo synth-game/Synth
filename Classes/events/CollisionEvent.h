@@ -1,28 +1,31 @@
-#ifndef EVENTS_GAMEEVENTS_COLLISION_EVENT_H
-#define EVENTS_GAMEEVENTS_COLLISION_EVENT_H
+/*!
+ * \file CollisionEvent.h
+ * \brief Event send to signal a lateral collision
+ * \author Jijidici
+ * \date 06/03/2014
+ */
+#ifndef EVENTS_COLLISION_EVENT_H
+#define EVENTS_COLLISION_EVENT_H
 
-#include "Events/SynthEvent.h"
+#include "cocos2d.h"
+#include "events/SynthEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
-class CollisionEvent : public events::SynthEvent
-{
+USING_NS_CC;
+
+namespace events {
+/*! \class CollisionEvent
+ * \brief Event send to signal a lateral collision
+ */
+class CollisionEvent : public SynthEvent {
 public:
-	static char* sEventName;
-
-
-public:
-	CollisionEvent();
-
-	/**
-	 *
-	 */
+	/*! \brief Constructor */
+	CollisionEvent(Node* pSource);
+	/*! \brief Destructor */
 	~CollisionEvent();
+
+	static const char* EVENT_NAME;
 
 };
 
-}  // namespace GameEvents
 }  // namespace events
-#endif
+#endif //EVENTS_COLLISION_EVENT_H
