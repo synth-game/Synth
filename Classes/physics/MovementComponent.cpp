@@ -65,6 +65,7 @@ void MovementComponent::initListeners() {
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
     EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pJumpEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pInterruptMoveEventListener, 1);
     EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateEventListener, 1);
 }
 

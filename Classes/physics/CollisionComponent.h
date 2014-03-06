@@ -40,14 +40,20 @@ public:
 	static const char* COMPONENT_TYPE;
 
 protected:
+	enum ECollisionType {
+		HORIZONTAL,
+		VERTICAL,
+		NO_COLLISION
+	};
+
 	/*! \brief Constructor */
 	CollisionComponent();
 
 	bool init();
 	void initListeners();
 
-	bool boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
-	bool slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
+	ECollisionType boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
+	ECollisionType slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
 
 	PhysicCollision* _pPhysicCollision;
 	LightCollision* _pLightCollision;
