@@ -98,7 +98,7 @@ void LevelSprite::draw() {
 	_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName("SY_LightCount"), _lightTextures.size());
 	for(unsigned int i=0; i<_lightTextures.size(); ++i) {
 		std::stringstream lightLocation;
-		lightLocation << "SY_Lights";
+		lightLocation << "SY_Lights_" << i;
 		_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName(lightLocation.str().c_str()), i+2);
 
 		std::stringstream posLocation;

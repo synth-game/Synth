@@ -52,7 +52,14 @@ GL_STRINGIFY(
 	uniform int SY_HeroIsFlippedX;
 
 	uniform int SY_LightCount;
-	uniform sampler2D SY_Lights;
+	uniform sampler2D SY_Lights_0;
+	uniform sampler2D SY_Lights_1;
+	uniform sampler2D SY_Lights_2;
+	uniform sampler2D SY_Lights_3;
+	uniform sampler2D SY_Lights_4;
+	uniform sampler2D SY_Lights_5;
+	uniform sampler2D SY_Lights_6;
+	uniform sampler2D SY_Lights_7;
 	uniform vec2 SY_LightPos[8];
 	uniform vec4 SY_Colors[8];
 
@@ -108,20 +115,40 @@ GL_STRINGIFY(
 
 		return 1.;
 	}
+	
+	vec3 getLightTexel(sampler2D lightTex, int lightId) {
+		vec3 texelColor = vec3(0.);
+		if(lightId < SY_LightCount) {
+			texelColor = texture2D(lightTex, v_texCoord).rgb;
+		}
+
+		return texelColor;
+	}
 
 	void main() {
 		float threshold = 0.2;
 		float wallSample = texture2D(CC_Texture0, v_texCoord).r;
 		float fRayStep = (SY_LevelPixelSize.x + SY_LevelPixelSize.y) /2.;
 
+		//construct lights samples
+		vec3 ligthTexels[8] = vec3[](
+			getLightTexel(SY_Lights_0, 0),
+			getLightTexel(SY_Lights_1, 1),
+			getLightTexel(SY_Lights_2, 2),
+			getLightTexel(SY_Lights_3, 3),
+			getLightTexel(SY_Lights_4, 4),
+			getLightTexel(SY_Lights_5, 5),
+			getLightTexel(SY_Lights_6, 6),
+			getLightTexel(SY_Lights_7, 7));
+
 		//apply precomute lighting
 		vec4 color = vec4(0.);
 		vec4 NoOccultedcolor = vec4(0.);
 		vec4 OccultedColor = vec4(0.);
-		//for(int i=0; i<SY_LightCount; ++i) {
-			vec3 lightTexel = texture2D(SY_Lights, v_texCoord).rgb;
+		for(int i=0; i<SY_LightCount; ++i) {
+			vec3 lightTexel = ligthTexels[i];
 
-			vec4 lightColor = SY_Colors[0];
+			vec4 lightColor = SY_Colors[i];
 			lightColor.a = lightColor.a/3. + lightTexel.b;
 
 			NoOccultedcolor +=  lightTexel.r * lightColor;
@@ -132,8 +159,7 @@ GL_STRINGIFY(
 				lightColor.a *= shadowAttenuation;
 				OccultedColor += lightTexel.g * lightColor;
 			}
-
-		//}
+		}
 
 		if(NoOccultedcolor.r > threshold && NoOccultedcolor.g > threshold && NoOccultedcolor.b > threshold) {
 			color = NoOccultedcolor;
@@ -144,8 +170,6 @@ GL_STRINGIFY(
 				color = OccultedColor;
 			}
 		}
-
-		//color = getHeroTexel(v_texCoord);
 
 		gl_FragColor = vec4(color);
 	}
