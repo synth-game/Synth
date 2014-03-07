@@ -10,6 +10,7 @@
 #include "core/ActorType.h"
 #include "graphics/GraphicManager.h"
 #include "physics/GeometryComponent.h"
+#include "game/NodeOwnerComponent.h"
 
 #include "events/EditMoveEvent.h"
 #include "events/ChangePositionEvent.h"
@@ -91,6 +92,7 @@ void HeroAnimatedSpriteComponent::initListeners() {
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pJumpEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeNodeOwnerEventListener, 1);
 }
 
 void HeroAnimatedSpriteComponent::onChangePosition(EventCustom* pEvent) {
@@ -132,6 +134,7 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 			else if(pEditMoveEvent->getDirection().x > 0) {
 				_pSprite->setFlippedX(false);
 			}
+			CCLOG("RUN EDIT MOVE ANIMATION");
 			runAnimation(pAnimation, animate);
 		} else {
 			// the movement stops
@@ -162,6 +165,7 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 			else if(pEditMoveEvent->getDirection().x > 0) {
 				_pSprite->setFlippedX(true);
 			}
+			CCLOG("RUN STOP MOVE ANIMATION");
 			runAnimation(pAnimation, animate);
 		}
     }
@@ -182,6 +186,7 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
 	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 
     if (pSource->getActorID() == pOwner->getActorID()) {
+		CCLOG("RUN JUMP ANIMATION");
 		runAnimation(pAnimation, animate);
     }
     else {
@@ -197,6 +202,7 @@ void HeroAnimatedSpriteComponent::onInterruptMove(EventCustom* pEvent) {
 
 	_eCurrentAnimType = AnimationType::HERO_IDLE;
 	_eState = core::ActorState::IDLE_STATE;
+	CCLOG("RUN INTERRUPT MOVE ANIMATION");
 
     if (pSource->getActorID() == pOwner->getActorID()) {
 		_pSprite->stopAllActions();
@@ -210,22 +216,23 @@ void HeroAnimatedSpriteComponent::onInterruptMove(EventCustom* pEvent) {
 void HeroAnimatedSpriteComponent::onChangeNodeOwner(EventCustom* pEvent) {
 
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
+	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(_owner->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
     core::SynthActor* pSource							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
-    core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
-
-	GraphicManager* graphicManager = GraphicManager::getInstance();
-	_eCurrentAnimType = AnimationType::HERO_INTERACT;
-	_eState = core::ActorState::ON_FLOOR_STATE;
-	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
-	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
-
-    if (pSource->getActorID() == pOwner->getActorID()) {
-		_pSprite->stopAllActions();
-		_pSprite->runAction(animate); // not looping
-    }
-    else {
-        CCLOG("CHANGE NODE OWNER EVENT RECEIVED BUT ID NOT THE SAME");
-    }
+	core::SynthActor* pOwned							= static_cast<core::SynthActor*>(pNodeOwnerComponent->getOwnedNode());
+	
+	if(_eState == core::ActorState::ON_FLOOR_STATE) {
+		if (pOwned != nullptr && pSource->getActorID() == pOwned->getActorID()) {
+			_eCurrentAnimType = AnimationType::HERO_INTERACT;
+			GraphicManager* graphicManager = GraphicManager::getInstance();
+			core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
+			cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
+			CCLOG("RUN CHANGE NODE OWNER ANIMATION");
+			runAnimation(pAnimation, animate);
+		}
+		else {
+			CCLOG("CHANGE NODE OWNER EVENT RECEIVED BUT ID NOT THE SAME");
+		}
+	}
 
 }
 

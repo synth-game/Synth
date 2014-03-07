@@ -59,7 +59,8 @@ void AnimatedSpriteComponent::runAnimation(core::SynthAnimation* pAnimation, Ani
 	if(pAnimation->isLoop()) {
 		_pSprite->runAction(cocos2d::RepeatForever::create(pAnimate));
 	} else {
-		_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(pAnimate, 0), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this))));
+		if(
+		_pSprite->runAction(Sequence::createWithTwoActions(Repeat::create(pAnimate, 1), CallFunc::create(CC_CALLBACK_0(AnimatedSpriteComponent::requestNextAnimation, this)))));
 	}
 }
 

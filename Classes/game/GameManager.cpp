@@ -102,7 +102,7 @@ bool GameManager::init() {
 	firefly = *find_if(_levelActors.begin(), _levelActors.end(), [](core::SynthActor* actor) { 
 						return actor->getActorType() == core::ActorType::BLUE_FIREFLY;
 					});
-
+	
 	hero->addComponent(game::NodeOwnerComponent::create(nullptr));
 	firefly->addComponent(physics::FollowMovementComponent::create( Point(7.f, 7.f), firefly ));
 
