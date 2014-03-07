@@ -85,7 +85,7 @@ void FollowMovementComponent::update( float fDt ) {
 		if(pOwnerSpriteComponent->getSprite()->isFlippedX()) {
 			relativeTarget = Point(20.f, 0.f);
 		} else {
-			relativeTarget = Point(-60.f, 0.f);
+			relativeTarget = Point(-20.f, 0.f);
 		}
 
 		if(pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
@@ -95,7 +95,6 @@ void FollowMovementComponent::update( float fDt ) {
 		}
 
 		Point target = Point(pOwnerGeometryComponent->getPosition().x + relativeTarget.x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y + relativeTarget.y - pOwnedGeometryComponent->getPosition().y);
-		CCLOG("TARGET LENGTH : %f", target.getLength());
 		if (abs(target.x) < 20.f && abs(target.y) < 20.f) {
 			target = Point::ZERO;
 		} else if ( target.getLength() > 30 ) {
