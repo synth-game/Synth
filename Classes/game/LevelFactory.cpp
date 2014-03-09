@@ -62,8 +62,6 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData;
 		std::string actorType, componentType, name;
 		float positionX, positionY, anchorPointX, anchorPointY, rotate, accelerationX, accelerationY, gravityX, gravityY, width, height = 0;
-		bool bIsLoop = false;
-		std::string pos = "";
 
 		pActorData = pXMLFile->FirstChildElement("actor");
 		while (pActorData) {
@@ -177,8 +175,40 @@ LevelSprite* LevelFactory::buildLevelSprite(core::xml data) {
 	return nullptr;
 }
 
-std::map<std::string,Rect> LevelFactory::buildTriggers(core::xml data) {
+std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 	std::map<std::string,Rect> voidMap;
+
+	// Parse triggers
+	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
+	int xmlerror = pXMLFile->LoadFile(std::string("levels/"+levelName+"/actors.xml").c_str());
+	if(xmlerror == 0) {
+		CCLOG("XML FILE LOADED SUCCESSFULLY : %d", xmlerror);
+		tinyxml2::XMLHandle hDoc(pXMLFile);
+		tinyxml2::XMLElement *pTriggerData, *pOriginData, *pDimensionData;
+		std::string triggerType;
+		float x, y, width, height = 0;
+
+		pTriggerData = pXMLFile->FirstChildElement("trigger");
+		while (pTriggerData) {
+
+			// Get trigger type
+			triggerType = pTriggerData->Attribute("type");
+
+			// Get rectangle data
+			pOriginData = pTriggerData->FirstChildElement("origin");
+			x = pOriginData->FloatAttribute("x");
+			y = pOriginData->FloatAttribute("y");
+			pDimensionData = pTriggerData->FirstChildElement("dimension");
+			width = pDimensionData->FloatAttribute("width");
+			height = pDimensionData->FloatAttribute("height");
+
+			// Add new trigger
+			voidMap.insert(std::pair<std::string, Rect>(triggerType, Rect(x, y, width, height)));
+
+			pTriggerData = pTriggerData->NextSiblingElement("trigger");
+		}
+	}
+
 	return voidMap;
 }
 

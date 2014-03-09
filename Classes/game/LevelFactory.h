@@ -40,7 +40,7 @@ public:
 
 	LevelSprite* buildLevelSprite(core::xml data);
 
-	std::map<std::string,Rect> buildTriggers(core::xml data);
+	std::map<std::string,Rect> buildTriggers(std::string levelName);
 
 private:
 	/*
