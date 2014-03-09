@@ -5,9 +5,12 @@
  * \date 26/02/2014
  */
 #include "LevelFactory.h"
+#include "game/NodeOwnerComponent.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
+#include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
+#include "graphics/FireFlyAnimatedSpriteComponent.h"
 
 namespace game {
 
@@ -27,22 +30,28 @@ LevelFactory* LevelFactory::getInstance() {
 }
 
 std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, Layer* pLevelLayer) {
-	std::vector<core::SynthActor*> aActors;  
+
+	std::vector<core::SynthActor*> aActors;
+	std::map<std::string, core::ActorType> actorTagsMap;
+	std::map<std::string, core::ComponentType> componentTagsMap;
 
 	// invert enum actor type
-	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("HERO",			core::ActorType::HERO));
-	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("BLUE_FIREFLY",	core::ActorType::BLUE_FIREFLY));
-	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("RED_FIREFLY",		core::ActorType::RED_FIREFLY));
-	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("GREEN_FIREFLY",	core::ActorType::GREEN_FIREFLY));
-	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("LIGHT",			core::ActorType::LIGHT));
-	_actorTagsMap.insert(std::pair<std::string, core::ActorType>("LIGHTSWITCH",		core::ActorType::LIGHTSWITCH));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("HERO",				core::ActorType::HERO));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("BLUE_FIREFLY",		core::ActorType::BLUE_FIREFLY));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("RED_FIREFLY",		core::ActorType::RED_FIREFLY));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("GREEN_FIREFLY",	core::ActorType::GREEN_FIREFLY));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("LIGHT",			core::ActorType::LIGHT));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("LIGHTSWITCH",		core::ActorType::LIGHTSWITCH));
 
-	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("GEOMETRY",			core::ComponentType::GEOMETRY));
-	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("MOVEMENT",			core::ComponentType::MOVEMENT));
-	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("COLLISION",			core::ComponentType::COLLISION));
-	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("SPRITE",				core::ComponentType::SPRITE));
-	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("HEROANIMATEDSPRITE",	core::ComponentType::HEROANIMATEDSPRITE));
-	_componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FOLLOWMOVEMENT",		core::ComponentType::FOLLOWMOVEMENT));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("GEOMETRY",					core::ComponentType::GEOMETRY));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("MOVEMENT",					core::ComponentType::MOVEMENT));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FOLLOWMOVEMENT",			core::ComponentType::FOLLOWMOVEMENT));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("COLLISION",				core::ComponentType::COLLISION));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("SPRITE",					core::ComponentType::SPRITE));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("HEROANIMATEDSPRITE",		core::ComponentType::HEROANIMATEDSPRITE));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FIREFLYANIMATEDSPRITE",	core::ComponentType::FIREFLYANIMATEDSPRITE));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FOLLOWMOVEMENT",			core::ComponentType::FOLLOWMOVEMENT));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("NODEOWNER",				core::ComponentType::NODEOWNER));
 
 	// parsing actors
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
@@ -58,13 +67,19 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 
 		pActorData = pXMLFile->FirstChildElement("actor");
 		while (pActorData) {
-			std::vector<core::SynthComponent*> aComponents;
+
+			// Create actor
 			actorType = pActorData->Attribute("type");
-			pComponentData = pActorData->FirstChildElement("component");
+			core::SynthActor* actor = new core::SynthActor(actorTagsMap[actorType]);
+			aActors.push_back(actor);
+
 			// Create components
+			std::vector<core::SynthComponent*> aComponents;
+			pComponentData = pActorData->FirstChildElement("component");
+
 			while(pComponentData) {
 				componentType = pComponentData->Attribute("type");
-				switch(_componentTagsMap[componentType]) {
+				switch(componentTagsMap[componentType]) {
 				case core::ComponentType::GEOMETRY:
 					// Position
 					pPositionData = pComponentData->FirstChildElement("position");
@@ -96,6 +111,14 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					// Create MovementComponent
 					aComponents.push_back(physics::MovementComponent::create(Point(accelerationX, accelerationY), Point(gravityX, gravityY)));
 					break;
+				case core::ComponentType::FOLLOWMOVEMENT:
+					// Acceleration
+					pAccelerationData = pComponentData->FirstChildElement("acceleration");
+					accelerationX = pAccelerationData->FloatAttribute("x");
+					accelerationY = pAccelerationData->FloatAttribute("y");
+					// Create FollowMovementComponent
+					aComponents.push_back(physics::FollowMovementComponent::create(Point(accelerationX, accelerationY), actor));
+					break;
 				case core::ComponentType::COLLISION:
 					// Create CollisionComponent
 					aComponents.push_back(__createCollisionComponent());
@@ -108,15 +131,17 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					// Create HeroAnimatedSpriteComponent
 					aComponents.push_back(graphics::HeroAnimatedSpriteComponent::create(pLevelLayer));
 					break;
+				case core::ComponentType::FIREFLYANIMATEDSPRITE:
+					// Create FireflyAnimatedSpriteComponent
+					aComponents.push_back(graphics::FireFlyAnimatedSpriteComponent::create(pLevelLayer));
+					break;
+				case core::ComponentType::NODEOWNER:
+					aComponents.push_back(game::NodeOwnerComponent::create(nullptr));
 				default:
 					break;
 				}
 				pComponentData = pComponentData->NextSiblingElement("component");
 			}
-
-			// Create actor
-			core::SynthActor* actor = new core::SynthActor(_actorTagsMap[actorType]);
-			aActors.push_back(actor);
 
 			// Add components to the actor
 			for(auto component : aComponents) {

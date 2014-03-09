@@ -102,17 +102,12 @@ bool GameManager::init() {
 	firefly = *find_if(_levelActors.begin(), _levelActors.end(), [](core::SynthActor* actor) { 
 						return actor->getActorType() == core::ActorType::BLUE_FIREFLY;
 					});
-	
-	hero->addComponent(game::NodeOwnerComponent::create(nullptr));
-	firefly->addComponent(physics::FollowMovementComponent::create( Point(7.f, 7.f), firefly ));
 
 	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
 	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
 	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
 	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
 	_pLevelLayer->addChild(pLevelSprite, 0);
-
-	firefly->addComponent(graphics::FireFlyAnimatedSpriteComponent::create(_pLevelLayer));
 
 	//TEST ZONE - END
 

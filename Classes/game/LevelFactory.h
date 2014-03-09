@@ -57,8 +57,6 @@ private:
 	
 	/*! \brief The singleton instance */
 	static LevelFactory* _pInstance;
-	std::map<std::string, core::ActorType> _actorTagsMap;
-	std::map<std::string, core::ComponentType> _componentTagsMap;
 };
 
 }  // namespace game

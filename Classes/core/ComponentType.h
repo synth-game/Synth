@@ -11,10 +11,12 @@ namespace core {
 typedef enum {
 	GEOMETRY,
 	MOVEMENT,
+	FOLLOWMOVEMENT,
 	COLLISION,
 	SPRITE,
 	HEROANIMATEDSPRITE,
-	FOLLOWMOVEMENT
+	FIREFLYANIMATEDSPRITE,
+	NODEOWNER
 } ComponentType;
 
 }  // namespace core
