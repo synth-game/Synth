@@ -22,6 +22,7 @@
 #include "events/JumpEvent.h"
 #include "events/ChangeNodeOwnerEvent.h"
 #include "events/ChangeTargetEvent.h"
+#include "Events/WinEvent.h"
 
 #include <SimpleAudioEngine.h>
 
@@ -95,13 +96,7 @@ bool GameManager::init() {
 
 	_levelActors = game::LevelFactory::getInstance()->buildActors("test", _pLevelLayer);
 
-	hero = *find_if(_levelActors.begin(), _levelActors.end(), [](core::SynthActor* actor) { 
-						return actor->getActorType() == core::ActorType::HERO;
-					});
-
-	firefly = *find_if(_levelActors.begin(), _levelActors.end(), [](core::SynthActor* actor) { 
-						return actor->getActorType() == core::ActorType::BLUE_FIREFLY;
-					});
+	hero = GameManager::getActorsByTag("HERO").at(0);
 
 	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
 	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
@@ -110,7 +105,6 @@ bool GameManager::init() {
 	_pLevelLayer->addChild(pLevelSprite, 0);
 
 	//TEST ZONE - END
-
 
 	return bTest;
 }
@@ -135,10 +129,15 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
 	events::ChangeTargetEvent* pChangeTargetEvent = nullptr;
 	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(hero->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-	physics::FollowMovementComponent* pFollowMovementComponent = static_cast<physics::FollowMovementComponent*>(firefly->getComponent(physics::FollowMovementComponent::COMPONENT_TYPE));
+	//physics::FollowMovementComponent* pFollowMovementComponent = static_cast<physics::FollowMovementComponent*>(GameManager::getActorsByTag("BLUE_FIREFLY").at(0)->getComponent(physics::FollowMovementComponent::COMPONENT_TYPE));
 
-    auto dispatcher = EventDispatcher::getInstance();
+	std::vector<core::SynthActor*> fireflies = GameManager::getActorsByTag("RED_FIREFLY");
+	std::vector<core::SynthActor*> green_fireflies = GameManager::getActorsByTag("GREEN_FIREFLY");
+	std::vector<core::SynthActor*> blue_fireflies = GameManager::getActorsByTag("BLUE_FIREFLY");
+	fireflies.insert(fireflies.end(), green_fireflies.begin(), green_fireflies.end());
+	fireflies.insert(fireflies.end(), blue_fireflies.begin(), blue_fireflies.end());
 
+	auto dispatcher = EventDispatcher::getInstance();
 	_keyPressedCode.push(keyCode);
 
     switch(_keyPressedCode.top()) {
@@ -167,26 +166,28 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             break;
 
 		case EventKeyboard::KeyCode::KEY_P:
-		   if (pNodeOwnerComponent->getOwnedNode() == firefly) {
-			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, nullptr);
-			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITHOUT OWNED");
-			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-			   pChangeTargetEvent = new events::ChangeTargetEvent(firefly, firefly);
-			   CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
-			   dispatcher->dispatchEvent(pChangeTargetEvent);
-		   } else {
-			   pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, hero);
-			   CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
-			   dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-			   pChangeTargetEvent = new events::ChangeTargetEvent(firefly, hero);
-			   CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
-			   dispatcher->dispatchEvent(pChangeTargetEvent);
-		   }
-           
-           break;
-            
-        default:
-            break;
+			for (auto firefly : fireflies) {
+				if (pNodeOwnerComponent->getOwnedNode() == firefly) {
+					pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, nullptr);
+					CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITHOUT OWNED");
+					dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+					pChangeTargetEvent = new events::ChangeTargetEvent(firefly, firefly);
+					CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+					dispatcher->dispatchEvent(pChangeTargetEvent);
+				} else {
+					pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, hero);
+					CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
+					dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+					pChangeTargetEvent = new events::ChangeTargetEvent(firefly, hero);
+					CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+					dispatcher->dispatchEvent(pChangeTargetEvent);
+				}
+			}
+
+			break;
+
+		default:
+			break;
 	}
 }
 
@@ -223,6 +224,21 @@ Color4B GameManager::getLightColor(core::SynthActor* pLight) {
 
 std::vector<core::SynthActor*> GameManager::getActorsByTag(std::string sTag) {
 	std::vector<core::SynthActor*> emptyVec;
+
+	std::map<std::string, core::ActorType> actorTagsMap;
+	// invert enum actor type
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("HERO",				core::ActorType::HERO));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("BLUE_FIREFLY",		core::ActorType::BLUE_FIREFLY));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("RED_FIREFLY",		core::ActorType::RED_FIREFLY));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("GREEN_FIREFLY",	core::ActorType::GREEN_FIREFLY));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("LIGHT",			core::ActorType::LIGHT));
+	actorTagsMap.insert(std::pair<std::string, core::ActorType>("LIGHTSWITCH",		core::ActorType::LIGHTSWITCH));
+
+	for (auto actor : _levelActors) {
+		if(actor->getActorType() == actorTagsMap[sTag]) {
+			emptyVec.push_back(actor);
+		}
+	}
 	return emptyVec;
 }
 

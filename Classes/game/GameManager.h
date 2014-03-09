@@ -50,7 +50,6 @@ public:
 	/*void GameManager::onEditMove(EventCustom* event);*/
 
 	core::SynthActor* hero;
-	core::SynthActor* firefly;
 
 protected:
 	/*! \brief Constructor */
