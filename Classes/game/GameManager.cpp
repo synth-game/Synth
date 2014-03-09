@@ -95,6 +95,7 @@ bool GameManager::init() {
 	_pBackgroundLayer->addChild(pBgSprite);
 
 	_levelActors = game::LevelFactory::getInstance()->buildActors("test", _pLevelLayer);
+	_triggers = game::LevelFactory::getInstance()->buildTriggers("test");
 
 	hero = GameManager::getActorsByTag("HERO").at(0);
 
@@ -112,6 +113,11 @@ bool GameManager::init() {
 void GameManager::update(float fDt) {
 	for (auto actor : _levelActors) {
 		actor->update(fDt);
+	}
+	Point heroPos = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE))->getPosition();
+	if(_triggers["WIN"].containsPoint(heroPos)) {
+		CCLOG("YOU WIN");
+		events::WinEvent* pWinEvent = new events::WinEvent();
 	}
 }
 

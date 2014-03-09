@@ -114,6 +114,9 @@ void LevelSprite::draw() {
 
 	Sprite::draw();
 
+	// Win rectangle
+	DrawPrimitives::drawRect(Point(1050, 100), Point(1150, 300));
+
 	GL::bindTexture2DN(1, 0);
 	for(unsigned int i=0; i<_lightTextures.size(); ++i) {
 		GL::bindTexture2DN(i+2, 0);
