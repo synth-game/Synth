@@ -7,6 +7,7 @@
 
 #include "GameManager.h"
 #include "game/LevelFactory.h"
+#include "game/LightMap.h"
 #include "core/ActorType.h"
 #include "LevelSprite.h"
 #include "physics/GeometryComponent.h"
@@ -105,6 +106,8 @@ bool GameManager::init() {
 	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
 	_pLevelLayer->addChild(pLevelSprite, 0);
 
+
+	LightMap* pLM = LightMap::createFromXML("levels/test/PREC_lightmap.xml");
 	//TEST ZONE - END
 
 	return bTest;
