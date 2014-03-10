@@ -50,16 +50,19 @@ public:
 	/*void GameManager::onEditMove(EventCustom* event);*/
 
 	core::SynthActor* hero;
+	std::vector<core::SynthActor*> _levelActors;
+	std::map<std::string,Rect> _triggers;
 
 protected:
 	/*! \brief Constructor */
 	GameManager();
 	std::vector<core::SynthActor*> getActorsByTag(std::string sTag);
+	core::SynthActor* getNearActor(core::SynthActor* actor);
 
 	int _iCurrentLevelId;
 	float _fTimeSinceLevelStart;
-	std::vector<core::SynthActor*> _levelActors;
-	std::map<std::string,Rect> _triggers;
+	
+	
 	LevelSprite* _pLevelSprite;
 
 	Layer* _pBackgroundLayer;

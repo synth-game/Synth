@@ -135,13 +135,14 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
 	events::ChangeTargetEvent* pChangeTargetEvent = nullptr;
 	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(hero->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-	//physics::FollowMovementComponent* pFollowMovementComponent = static_cast<physics::FollowMovementComponent*>(GameManager::getActorsByTag("BLUE_FIREFLY").at(0)->getComponent(physics::FollowMovementComponent::COMPONENT_TYPE));
 
 	std::vector<core::SynthActor*> fireflies = GameManager::getActorsByTag("RED_FIREFLY");
 	std::vector<core::SynthActor*> green_fireflies = GameManager::getActorsByTag("GREEN_FIREFLY");
 	std::vector<core::SynthActor*> blue_fireflies = GameManager::getActorsByTag("BLUE_FIREFLY");
 	fireflies.insert(fireflies.end(), green_fireflies.begin(), green_fireflies.end());
 	fireflies.insert(fireflies.end(), blue_fireflies.begin(), blue_fireflies.end());
+
+	core::SynthActor* pTarget = nullptr;
 
 	auto dispatcher = EventDispatcher::getInstance();
 	_keyPressedCode.push(keyCode);
@@ -172,23 +173,38 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             break;
 
 		case EventKeyboard::KeyCode::KEY_P:
-			for (auto firefly : fireflies) {
-				if (pNodeOwnerComponent->getOwnedNode() == firefly) {
-					pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, nullptr);
+			//for (auto firefly : fireflies) {
+				// if the hero owns an actor
+				if (pNodeOwnerComponent->getOwnedNode() != nullptr) {
+					pTarget = getNearActor(hero);
+					// the owned actor can go to a lamp
+					if (pTarget != nullptr) {
+						pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), pTarget);
+						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
+						dispatcher->dispatchEvent(pChangeTargetEvent);
+					// the owned actor can stay at its position
+					} else {
+						pChangeTargetEvent = new events::ChangeTargetEvent(static_cast<core::SynthActor*>(pNodeOwnerComponent->getOwnedNode()), static_cast<core::SynthActor*>(pNodeOwnerComponent->getOwnedNode()));
+						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET SAME POSITION");
+						dispatcher->dispatchEvent(pChangeTargetEvent);
+					}
+					pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pNodeOwnerComponent->getOwnedNode(), nullptr);
 					CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITHOUT OWNED");
 					dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-					pChangeTargetEvent = new events::ChangeTargetEvent(firefly, firefly);
-					CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
-					dispatcher->dispatchEvent(pChangeTargetEvent);
+				
+				// if the hero has no actor
 				} else {
-					pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, hero);
-					CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
-					dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-					pChangeTargetEvent = new events::ChangeTargetEvent(firefly, hero);
-					CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
-					dispatcher->dispatchEvent(pChangeTargetEvent);
+					pTarget = getNearActor(hero);
+					if(pTarget != nullptr) {
+						pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pTarget, hero);
+						CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
+						dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+						pChangeTargetEvent = new events::ChangeTargetEvent(pTarget, hero);
+						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+						dispatcher->dispatchEvent(pChangeTargetEvent);
+					}
 				}
-			}
+			//}
 
 			break;
 
@@ -246,6 +262,30 @@ std::vector<core::SynthActor*> GameManager::getActorsByTag(std::string sTag) {
 		}
 	}
 	return emptyVec;
+}
+
+core::SynthActor* GameManager::getNearActor(core::SynthActor* actor) {
+	core::SynthActor* pRes = nullptr;
+	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(actor->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(actor->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+	physics::GeometryComponent* pCandidateGeometryComponent = nullptr;
+	Point actorPosition = pGeometryComponent->getPosition();
+	Point candidatePosition = Point::ZERO;
+	float distance = 0;
+	for (auto candidate : _levelActors) {
+		if (actor != candidate && pNodeOwnerComponent->getOwnedNode() != candidate) {
+			pCandidateGeometryComponent = static_cast<physics::GeometryComponent*>(candidate->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+			candidatePosition = pCandidateGeometryComponent->getPosition();
+			if ( pCandidateGeometryComponent != nullptr ) {
+				distance = sqrt( (candidatePosition.x - actorPosition.x)*(candidatePosition.x - actorPosition.x) + (candidatePosition.y - actorPosition.y)*(candidatePosition.y - actorPosition.y) );
+				if (distance < pGeometryComponent->getSize().height ) {
+					CCLOG("NEAR ACTOR FOUND");
+					pRes = candidate;
+				}
+			}
+		}
+	}
+	return pRes;
 }
 
 //void GameManager::onEditMove(EventCustom* pEvent) { 
