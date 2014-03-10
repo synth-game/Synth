@@ -5,6 +5,7 @@
  * \date 10/03/2014
  */
 #include "game/LightMap.h"
+#include "game/LightAttrComponent.h"
 
 namespace game {
 
@@ -42,12 +43,12 @@ LightMap* LightMap::createFromXML(std::string sFilePath) {
 
 		// fill the pixel map
 		tinyxml2::XMLElement* pPixelElt = pRootElt->FirstChildElement("pixel");
-		while(pPixelElt != nullptr) {
+		while (pPixelElt != nullptr) {
 			int index = pPixelElt->IntAttribute("array_index");
 			std::vector<std::pair<int, bool>> lightSamples;
 
 			tinyxml2::XMLElement* pLightSampleElt = pPixelElt->FirstChildElement("light_sample");
-			while(pLightSampleElt != nullptr) {
+			while (pLightSampleElt != nullptr) {
 				std::pair<int, bool> sample;
 				sample.first = pLightSampleElt->IntAttribute("id");
 				sample.second = pLightSampleElt->BoolAttribute("occulted");
@@ -64,6 +65,42 @@ LightMap* LightMap::createFromXML(std::string sFilePath) {
         CC_SAFE_DELETE(pRet);
     }
 	return pRet;
+}
+
+void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
+	for (int i=0; i<_iW*_iH; ++i) {
+		std::vector<std::pair<int, bool>> currentPixel = _pixelGrid[i].second;
+		if (currentPixel.size() > 0) {
+			Color4B occultedColor(0, 0, 0, 0);
+			Color4B notOccultedColor(0, 0, 0, 0);
+
+			for (std::vector<std::pair<int, bool>>::iterator itSample=currentPixel.begin(); itSample!=currentPixel.end(); ++itSample) {
+				core::SynthActor* currentLight = lights[itSample->first];
+				LightAttrComponent* pLightAttrComp =  dynamic_cast<LightAttrComponent*>(currentLight->getComponent(LightAttrComponent::COMPONENT_TYPE));
+				CCASSERT(pLightAttrComp != nullptr, "A SynthActor sent to update LightMap hasn't got a LightAttrComponent. It's not a light !");
+
+				Color4B lightColor = pLightAttrComp->getColor();
+				if (notOccultedColor.r == 255 || lightColor.r == 255) { notOccultedColor.r = 255; }
+				if (notOccultedColor.g == 255 || lightColor.g == 255) { notOccultedColor.g = 255; }
+				if (notOccultedColor.b == 255 || lightColor.b == 255) { notOccultedColor.b = 255; }
+				notOccultedColor.a = 255;
+
+				// check if the pixel is occulted from the light
+				if (itSample->second == false) {
+					if (occultedColor.r == 255 || lightColor.r == 255) { occultedColor.r = 255; }
+					if (occultedColor.g == 255 || lightColor.g == 255) { occultedColor.g = 255; }
+					if (occultedColor.b == 255 || lightColor.b == 255) { occultedColor.b = 255; }
+					occultedColor.a = 255;
+				}
+			}
+
+			if (notOccultedColor.r == 255 && notOccultedColor.g == 255 && notOccultedColor.b == 255) {
+				_pixelGrid[i].first = Color4B::WHITE;
+			} else {
+				_pixelGrid[i].first = occultedColor;
+			}
+		}
+	}
 }
 
 }	// namespace game
