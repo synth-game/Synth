@@ -20,4 +20,12 @@ SynthActor::~SynthActor() {
 
 }
 
+bool SynthActor::isFirefly() {
+	ActorType type = getActorType();
+	if( type == ActorType::BLUE_FIREFLY || type == ActorType::RED_FIREFLY || type == ActorType::GREEN_FIREFLY ) {
+		return true;
+	}
+	return false;
+}
+
 }  // namespace core

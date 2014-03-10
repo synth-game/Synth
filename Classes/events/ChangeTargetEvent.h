@@ -20,6 +20,7 @@ class ChangeTargetEvent : public events::SynthEvent {
 public:
 	/*! \brief Constructor */
 	ChangeTargetEvent(Node* pSource, core::SynthActor* newTarget);
+	ChangeTargetEvent(Node* pSource, Point newTarget);
 
 	/*! \brief Destructor */
 	~ChangeTargetEvent();

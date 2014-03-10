@@ -46,6 +46,8 @@ public:
 	/*! \brief Get SynthActor's type
 	 */
 	inline ActorType getActorType() { return _eType; }
+
+	bool isFirefly();
 	
 	static int _iActorCount; /*!< counter of every SynthActor. It is automatically incremented */
 
