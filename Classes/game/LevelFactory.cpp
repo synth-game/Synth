@@ -11,6 +11,7 @@
 #include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireFlyAnimatedSpriteComponent.h"
+#include "system/IOManager.h"
 
 namespace game {
 
@@ -55,9 +56,9 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 
 	// parsing actors
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
-	int xmlerror = pXMLFile->LoadFile(std::string("levels/"+levelName+"/actors.xml").c_str());
-	if(xmlerror == 0) {
-		CCLOG("XML FILE LOADED SUCCESSFULLY : %d", xmlerror);
+	synthsystem::IOManager* ioManager = synthsystem::IOManager::getInstance();
+	pXMLFile = ioManager->loadXML("levels/"+levelName+"/actors.xml");
+	if(pXMLFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData;
 		std::string actorType, componentType, name;
@@ -149,9 +150,6 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 
 			pActorData = pActorData->NextSiblingElement("actor");
 		}
-	}
-	else {
-		CCLOG("ERROR WHILE LOADING XML FILE : %d", xmlerror);
 	}
 
 	return aActors;

@@ -354,8 +354,4 @@ core::SynthActor* GameManager::getNearActor(core::SynthActor* actor) {
 	return pRes;
 }
 
-//void GameManager::onEditMove(EventCustom* pEvent) { 
-//	CCLOG("on edit move gm");
-//}
-
 }  // namespace game
