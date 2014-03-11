@@ -1,14 +1,21 @@
+/*!
+ * \file LightCollision.h
+ * \brief Manage collision with the lights cone
+ * \author Jijidici
+ * \date 11/03/2014
+ */
 #include "LightCollision.h"
 
-namespace physics
-{
+namespace physics {
 
-LightCollision::LightCollision(std::vector<core::SynthActor*> lightCollection)
-{
+LightCollision::LightCollision(std::vector<core::SynthActor*> lightCollection, game::LightMap* pLightMap) 
+	: _lightCollection(lightCollection)
+	, _pLightMap(pLightMap) {
+	_pLightMap->updateLighting(_lightCollection);
 }
 
-Color4B LightCollision::getPixelColor(Point pixel)
-{
-	return Color4B::BLACK;
+LightCollision::~LightCollision() {
+
 }
+
 }  // namespace physics
