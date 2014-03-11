@@ -76,7 +76,6 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 		//check if the component have a LightCollision
 		if (_pLightCollision != nullptr) {
 			Color4B aL = _pLightCollision->getCurrentColor(computingPos);
-			CCLOG("> HERO COLOR : %d | %d | %d | %d", aL.r, aL.g, aL.b, aL.a);	
 		}
 
 		// Change position 

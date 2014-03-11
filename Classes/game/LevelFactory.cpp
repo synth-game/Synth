@@ -121,7 +121,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					break;
 				case core::ComponentType::COLLISION:
 					// Create CollisionComponent
-					aComponents.push_back(__createCollisionComponent());
+					aComponents.push_back(__createCollisionComponent(levelName));
 					break;
 				case core::ComponentType::SPRITE:
 					name = pComponentData->FirstChildElement("name")->GetText();
@@ -156,14 +156,14 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	return aActors;
 }
 
-physics::CollisionComponent* LevelFactory::__createCollisionComponent() {
+physics::CollisionComponent* LevelFactory::__createCollisionComponent(std::string levelName) {
 	physics::CollisionComponent* pRet = physics::CollisionComponent::create();
 	Image* pBitmask = new Image();
-	pBitmask->initWithImageFile("levels/test/bitmask.png"); 
+	pBitmask->initWithImageFile(std::string("levels/"+levelName+"/bitmask.png").c_str()); 
 	physics::PhysicCollision* pCollision = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
 	pRet->addPhysicCollision(pCollision);
 
-	LightMap* pLM = LightMap::createFromXML("levels/test/PREC_lightmap.xml");
+	LightMap* pLM = LightMap::createFromXML(std::string("levels/"+levelName+"/PREC_lightmap.xml").c_str());
 	std::vector<core::SynthActor*> lights;
 	core::SynthActor* pLight1 = new core::SynthActor(core::ActorType::LIGHT);
 	core::SynthActor* pLight2 = new core::SynthActor(core::ActorType::LIGHT);

@@ -90,7 +90,7 @@ bool GameManager::init() {
 
 	//TEST ZONE - BEGIN
 
-	loadLevel("test");
+	loadLevel("01");
 
 	//TEST ZONE - END
 
@@ -116,6 +116,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 
 	Sprite* pBgSprite = Sprite::create("sprites/decor.jpg");
 	pBgSprite->setAnchorPoint(Point::ZERO);
+	pBgSprite->setScale(2.f);
 	_pBackgroundLayer->addChild(pBgSprite);
 
 	_levelActors = game::LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
@@ -123,10 +124,9 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 
 	hero = GameManager::getActorsByTag("HERO").at(0);
 
-	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(490.f, 260.f), Color4B::RED);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(590.f, 260.f), Color4B::BLUE);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(690.f, 260.f), Color4B::GREEN);
+	LevelSprite* pLevelSprite = LevelSprite::create(std::string("levels/"+level+"/bitmask.png").c_str(), hero);
+	pLevelSprite->addLight(Sprite::create(std::string("levels/"+level+"/PREC_light_0.png").c_str())->getTexture(), Point(490.f, 260.f), Color4B::RED);
+	pLevelSprite->addLight(Sprite::create(std::string("levels/"+level+"/PREC_light_1.png").c_str())->getTexture(), Point(590.f, 260.f), Color4B::BLUE);
 	_pLevelLayer->addChild(pLevelSprite, 0, 42);
 }
 

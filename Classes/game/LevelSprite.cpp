@@ -23,7 +23,7 @@ LevelSprite::~LevelSprite() {
 	_lightTextures.clear();
 }
 
-LevelSprite* LevelSprite::create(char* sBackgroundPath, core::SynthActor* pHero) {
+LevelSprite* LevelSprite::create(const char* sBackgroundPath, core::SynthActor* pHero) {
 	LevelSprite* pRet = new LevelSprite();
 	if (pRet != nullptr && pRet->initWithFile(sBackgroundPath)) {
 		CCLOG("LevelSprite created");
@@ -31,7 +31,6 @@ LevelSprite* LevelSprite::create(char* sBackgroundPath, core::SynthActor* pHero)
 		pRet->setAnchorPoint(Point::ZERO);
 
 		GLProgram* pProgram = new GLProgram();
-		//pProgram->initWithVertexShaderByteArray(ccPositionTexture_vert, ccPositionTexture_frag);
 		pProgram->initWithVertexShaderByteArray(levelSprite_vert, levelSprite_frag);
 		pProgram->addAttribute(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
 		pProgram->addAttribute(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
