@@ -225,12 +225,35 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 			} else {
 				pTarget = getNearActor(hero);
 				if(pTarget != nullptr) {
-					pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pTarget, hero);
-					CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
-					dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-					pChangeTargetEvent = new events::ChangeTargetEvent(pTarget, hero);
-					CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
-					dispatcher->dispatchEvent(pChangeTargetEvent);
+					// if the target is a light
+					if (pTarget->getActorType() == core::ActorType::LIGHT) {
+						pTargetNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(pTarget->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+						CCASSERT(pTargetNodeOwnerComponent != nullptr, "The target lamp need a nodeownercomponent");
+						pOwned = static_cast<core::SynthActor*>(pTargetNodeOwnerComponent->getOwnedNode());
+
+						// if the light owns a firefly
+						if(pOwned != nullptr && pOwned->isFirefly()) {
+							// the firefly owned by the light is now owned by the hero
+							pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pOwned, hero);
+							CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
+							dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+							// the firefly owned by the light goes to the hero
+							pChangeTargetEvent = new events::ChangeTargetEvent(pOwned, hero);
+							CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+							dispatcher->dispatchEvent(pChangeTargetEvent);
+						}
+					// if the target is not a light
+					} else {
+						// the target is owned by the hero
+						pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pTarget, hero);
+						CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
+						dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+						// the target goes to the hero
+						pChangeTargetEvent = new events::ChangeTargetEvent(pTarget, hero);
+						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+						dispatcher->dispatchEvent(pChangeTargetEvent);
+					}
+
 				}
 			}
 
