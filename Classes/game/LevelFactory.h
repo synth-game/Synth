@@ -36,7 +36,7 @@ public:
 
 	std::vector<core::SynthActor*> buildActors(std::string levelName, Layer* pLevelLayer);
 
-	std::vector<std::vector<int>> buildLightsMap(core::xml data);
+	std::vector<std::vector<int>> buildLightsMap(std::string levelName);
 
 	LevelSprite* buildLevelSprite(core::xml data);
 

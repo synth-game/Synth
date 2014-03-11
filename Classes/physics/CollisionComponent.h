@@ -46,6 +46,14 @@ protected:
 		NO_COLLISION
 	};
 
+	enum EDirection{
+		LEFT,
+		TOP,
+		RIGHT,
+		BOTTOM,
+		NO_DIRECTION
+	};
+
 	/*! \brief Constructor */
 	CollisionComponent();
 
@@ -54,6 +62,8 @@ protected:
 
 	ECollisionType boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
 	ECollisionType slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
+	
+	Point getNextPixel(Point position, EDirection dir, bool bVoid);
 
 	PhysicCollision* _pPhysicCollision;
 	LightCollision* _pLightCollision;

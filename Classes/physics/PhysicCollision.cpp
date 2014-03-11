@@ -22,14 +22,6 @@ bool PhysicCollision::collide(Point position) {
 	return bRet; 
 }
 
-Point PhysicCollision::getNextVoidPixel(Point position, EDirection dir) {
-	return convertToWorldSpace(getNextPixelInDirection(convertToImageSpace(position), 255, dir));
-}
-
-Point PhysicCollision::getNextWallPixel(Point position, EDirection dir) {
-	return convertToWorldSpace(getNextPixelInDirection(convertToImageSpace(position), 0, dir));
-}
-
 Point PhysicCollision::convertToImageSpace(Point absolutePos) {
 	Point imageSpacePosition;
 	imageSpacePosition.x = absolutePos.x;
@@ -42,45 +34,6 @@ Point PhysicCollision::convertToWorldSpace(Point imageSpacePos) {
 	worldSpacePosition.x = imageSpacePos.x;
 	worldSpacePosition.y = _absoluteOriginPosition.y - imageSpacePos.y;
 	return worldSpacePosition;
-}
-
-Point PhysicCollision::getNextPixelInDirection(Point currentPixel, unsigned char wantedValue, EDirection dir) {
-	Point direction;
-	Point wantedPixel = currentPixel;
-
-	switch(dir) {
-	case EDirection::LEFT:
-		direction = Point(-1, 0);
-		break;
-
-	case EDirection::TOP:
-		direction = Point(0, -1);
-		break;
-
-	case EDirection::RIGHT:
-		direction = Point(1, 0);
-		break;
-
-	case EDirection::BOTTOM:
-	default:
-		direction = Point(0, 1);
-		break;
-	}
-
-	unsigned char ucValue = getValue(wantedPixel);
-	while(ucValue != wantedValue) {
-		wantedPixel = wantedPixel + direction;
-
-		// out of image
-		if(wantedPixel.x < 0 || wantedPixel.x >= _pBitmask->getWidth() || wantedPixel.y < 0 || wantedPixel.y >= _pBitmask->getHeight()) {
-			wantedPixel = currentPixel;
-			break;
-		}
-
-		ucValue = getValue(wantedPixel);
-	}
-
-	return wantedPixel;
 }
 
 unsigned char PhysicCollision::getValue(Point pixel) {
