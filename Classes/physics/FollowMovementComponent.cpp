@@ -76,16 +76,18 @@ void FollowMovementComponent::update( float fDt ) {
 		CCASSERT(pOwnedGeometryComponent != nullptr, "FollowMovementComponent needs a GeometryComponent added to its actor");
 
 		graphics::SpriteComponent* pOwnerSpriteComponent = static_cast<graphics::SpriteComponent*>(_target->getComponent(graphics::SpriteComponent::COMPONENT_TYPE));
-		CCASSERT(pOwnerSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the owner of its actor");
 
 		graphics::SpriteComponent* pOwnedSpriteComponent = static_cast<graphics::SpriteComponent*>(_owner->getComponent(graphics::SpriteComponent::COMPONENT_TYPE));
-		CCASSERT(pOwnerSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the actor");
+		CCASSERT(pOwnedSpriteComponent != nullptr, "FollowMovementComponent needs a AnimatedSpriteComponent added to the actor");
 
 		Point relativeTarget = Point::ZERO;
-		if(pOwnerSpriteComponent->getSprite()->isFlippedX()) {
-			relativeTarget = Point(20.f, 0.f);
-		} else {
-			relativeTarget = Point(-20.f, 0.f);
+		// if the target is the hero
+		if(_target->getActorType() == core::ActorType::HERO) {
+			if(pOwnerSpriteComponent != nullptr && pOwnerSpriteComponent->getSprite()->isFlippedX()) {
+				relativeTarget = Point(40.f, 0.f);
+			} else {
+				relativeTarget = Point(-40.f, 0.f);
+			}
 		}
 
 		if(pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
@@ -95,7 +97,7 @@ void FollowMovementComponent::update( float fDt ) {
 		}
 
 		Point target = Point(pOwnerGeometryComponent->getPosition().x + relativeTarget.x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y + relativeTarget.y - pOwnedGeometryComponent->getPosition().y);
-		if (abs(target.x) < 20.f && abs(target.y) < 20.f) {
+		if (abs(target.x) < 5.f && abs(target.y) < 5.f) {
 			target = Point::ZERO;
 		} else if ( target.getLength() > 30 ) {
 			target = target.normalize() * 30;

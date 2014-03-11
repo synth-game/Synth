@@ -40,7 +40,7 @@ public:
 	/*! \brief Get the singleton instance _pInstance */
 	static GraphicManager* getInstance();
 
-	void init(/*core::xml data*/);
+	void init();
 
 	Sprite* createSprite(std::string sSpriteName);
 

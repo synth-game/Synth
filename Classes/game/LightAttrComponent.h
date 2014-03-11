@@ -38,11 +38,11 @@ public:
 	 * \param color The color of the light (r,g,b,a)
 	 * \return LightAttrComponent*
 	 */
-	static LightAttrComponent* create(Color4B* pColor);
+	static LightAttrComponent* create(Color4B color);
 
-	inline Color4B* getColor() { return _pColor; };
+	inline Color4B getColor() { return _color; };
 
-	inline void setColor(Color4B* pColor) { _pColor = pColor; };
+	inline void setColor(Color4B color) { _color = color; };
 
 	inline bool isOn() { return _intensity == 1.f; };
 
@@ -82,7 +82,7 @@ protected:
 	 */
 
 	/*! \brief The color of the light (r,g,b,a) */
-	Color4B* _pColor;
+	Color4B _color;
 
 	/*! \brief The intensity of the light. The alpha layer from _pColor member */
 	float _intensity;

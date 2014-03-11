@@ -5,6 +5,7 @@
  * \date 26/02/2014
  */
 #include "SoundManager.h"
+#include "system/IOManager.h"
 
 namespace sounds {
 
@@ -49,9 +50,9 @@ void SoundManager::init() {
 
 	// parsing musics
 	tinyxml2::XMLDocument* pMusicsFile = new tinyxml2::XMLDocument();
-	int xmlmusicserror = pMusicsFile->LoadFile("xml/musics.xml");
-	if(xmlmusicserror == 0) {
-		CCLOG("NO ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlmusicserror);
+	synthsystem::IOManager* ioManager = synthsystem::IOManager::getInstance();
+	pMusicsFile = ioManager->loadXML("xml/musics.xml");
+	if(pMusicsFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pMusicsFile);
 		tinyxml2::XMLElement *pMusicData;
 		Music music;
@@ -65,15 +66,12 @@ void SoundManager::init() {
 			_musics.insert(std::pair<SoundType, Music>(music.eTag, music));
 			pMusicData = pMusicData->NextSiblingElement("music");
 		}
-	} else {
-		CCLOG("ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmlmusicserror);
 	}
 
 	// parsing effects
 	tinyxml2::XMLDocument* pEffectsFile = new tinyxml2::XMLDocument();
-	int xmleffectserror = pEffectsFile->LoadFile("xml/effects.xml");
-	if(xmleffectserror == 0) {
-		CCLOG("NO ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmleffectserror);
+	pEffectsFile = ioManager->loadXML("xml/effects.xml");
+	if(pEffectsFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pEffectsFile);
 		tinyxml2::XMLElement *pEffectData;
 		Effect effect;
@@ -94,8 +92,6 @@ void SoundManager::init() {
 			_effects.insert(std::pair<SoundType, Effect>(effect.eTag, effect));
 			pEffectData = pEffectData->NextSiblingElement("effect");
 		}
-	} else {
-		CCLOG("ERROR WHILE LOADING XML FILE !!!!!!!!! : %d", xmleffectserror);
 	}
 }
 

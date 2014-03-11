@@ -182,6 +182,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\game\LevelFactory.cpp" />
     <ClCompile Include="..\Classes\game\LevelSprite.cpp" />
     <ClCompile Include="..\Classes\game\LightAttrComponent.cpp" />
+    <ClCompile Include="..\Classes\game\LightMap.cpp" />
     <ClCompile Include="..\Classes\game\NodeOwnerComponent.cpp" />
     <ClCompile Include="..\Classes\game\PeriodicLauncherComponent.cpp" />
     <ClCompile Include="..\Classes\graphics\AnimatedSpriteComponent.cpp" />
@@ -272,6 +273,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\game\GameManager.h" />
     <ClInclude Include="..\Classes\game\LevelFactory.h" />
     <ClInclude Include="..\Classes\game\LevelSprite.h" />
+    <ClInclude Include="..\Classes\game\LightMap.h" />
     <ClInclude Include="..\Classes\game\SHA_level_sprite.h" />
     <ClInclude Include="..\Classes\game\LightAttrComponent.h" />
     <ClInclude Include="..\Classes\game\LightColor.h" />

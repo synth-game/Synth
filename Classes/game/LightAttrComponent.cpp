@@ -23,11 +23,11 @@ bool LightAttrComponent::init() {
 	return true;
 }
 
-LightAttrComponent* LightAttrComponent::create(Color4B * pColor) {
+LightAttrComponent* LightAttrComponent::create(Color4B color) {
 	LightAttrComponent* pRet = new LightAttrComponent();
     if (pRet != NULL && pRet->init()) {
         pRet->autorelease();
-		pRet->_pColor =			pColor;
+		pRet->_color =	color;
     } else {
         CC_SAFE_DELETE(pRet);
     }

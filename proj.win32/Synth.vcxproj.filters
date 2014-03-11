@@ -291,6 +291,9 @@
     <ClCompile Include="..\Classes\core\SynthAnimation.cpp">
       <Filter>Classes\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\game\LightMap.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -574,6 +577,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\core\ActorState.h">
       <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\LightMap.h">
+      <Filter>Classes\game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

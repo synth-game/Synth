@@ -5,6 +5,7 @@
  * \date 12/02/2014
  */
 #include "GraphicManager.h"
+#include "system/IOManager.h"
 
 namespace graphics {
 
@@ -63,9 +64,9 @@ void GraphicManager::init() {
 
 	// parsing animations
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
-	int xmlerror = pXMLFile->LoadFile("xml/animations.xml");
-	if(xmlerror == 0) {
-		CCLOG("NO ERROR WHILE LOADING XML FILE : %d", xmlerror);
+	synthsystem::IOManager* ioManager = synthsystem::IOManager::getInstance();
+	pXMLFile = ioManager->loadXML("xml/animations.xml");
+	if(pXMLFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pAnimationData, *pFrameData;
 		std::string type, nextType, name, sIsLoop = "";
@@ -102,8 +103,6 @@ void GraphicManager::init() {
 			_animations.insert(std::pair<AnimationType, core::SynthAnimation*>(__getAnimationType(type), pAnimation));
 	 		pAnimationData = pAnimationData->NextSiblingElement("animation");
 		}
-	} else {
-		CCLOG("ERROR WHILE LOADING XML FILE : %d", xmlerror);
 	}
 }
 

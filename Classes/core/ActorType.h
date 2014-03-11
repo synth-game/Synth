@@ -9,6 +9,7 @@
 
 namespace core {
 typedef enum {
+	UNKNOWN_TYPE,
 	HERO,
 	BLUE_FIREFLY,
 	RED_FIREFLY,

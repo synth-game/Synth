@@ -7,6 +7,8 @@
 
 #include "GameManager.h"
 #include "game/LevelFactory.h"
+#include "game/LightMap.h"
+#include "game/LightAttrComponent.h"
 #include "core/ActorType.h"
 #include "LevelSprite.h"
 #include "physics/GeometryComponent.h"
@@ -122,10 +124,10 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	hero = GameManager::getActorsByTag("HERO").at(0);
 
 	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
-	_pLevelLayer->addChild(pLevelSprite, 0);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(490.f, 260.f), Color4B::RED);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(590.f, 260.f), Color4B::BLUE);
+	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(690.f, 260.f), Color4B::GREEN);
+	_pLevelLayer->addChild(pLevelSprite, 0, 42);
 }
 
 void GameManager::clearLevel() {
@@ -158,13 +160,11 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
 	events::ChangeTargetEvent* pChangeTargetEvent = nullptr;
 	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(hero->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-	//physics::FollowMovementComponent* pFollowMovementComponent = static_cast<physics::FollowMovementComponent*>(GameManager::getActorsByTag("BLUE_FIREFLY").at(0)->getComponent(physics::FollowMovementComponent::COMPONENT_TYPE));
+	game::NodeOwnerComponent* pTargetNodeOwnerComponent = nullptr;
+	physics::GeometryComponent* pTargetGeometryComponent = nullptr;
+	core::SynthActor* pOwned = nullptr;
 
-	std::vector<core::SynthActor*> fireflies = GameManager::getActorsByTag("RED_FIREFLY");
-	std::vector<core::SynthActor*> green_fireflies = GameManager::getActorsByTag("GREEN_FIREFLY");
-	std::vector<core::SynthActor*> blue_fireflies = GameManager::getActorsByTag("BLUE_FIREFLY");
-	fireflies.insert(fireflies.end(), green_fireflies.begin(), green_fireflies.end());
-	fireflies.insert(fireflies.end(), blue_fireflies.begin(), blue_fireflies.end());
+	core::SynthActor* pTarget = nullptr;
 
 	auto dispatcher = EventDispatcher::getInstance();
 	_keyPressedCode.push(keyCode);
@@ -195,25 +195,94 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             break;
 
 		case EventKeyboard::KeyCode::KEY_P:
-			for (auto firefly : fireflies) {
-				if (pNodeOwnerComponent->getOwnedNode() == firefly) {
-					pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, nullptr);
-					CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITHOUT OWNED");
-					dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-					pChangeTargetEvent = new events::ChangeTargetEvent(firefly, firefly);
-					CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
-					dispatcher->dispatchEvent(pChangeTargetEvent);
-				} else {
-					pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(firefly, hero);
-					CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
-					dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-					pChangeTargetEvent = new events::ChangeTargetEvent(firefly, hero);
-					CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
-					dispatcher->dispatchEvent(pChangeTargetEvent);
+			// if the hero owns an actor
+			if (pNodeOwnerComponent->getOwnedNode() != nullptr) {
+				pTarget = getNearActor(hero);
+				// the owned actor can go to a lamp or exchange with a firefly
+				if (pTarget != nullptr) {
+					if (pTarget->isFirefly()) {
+						pTargetGeometryComponent = static_cast<physics::GeometryComponent*>(pTarget->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+						pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), pTargetGeometryComponent->getPosition());
+						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (FIREFLY)");
+						dispatcher->dispatchEvent(pChangeTargetEvent); 
+
+						pChangeTargetEvent = new events::ChangeTargetEvent(pTarget, hero);
+						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (FIREFLY)");
+						dispatcher->dispatchEvent(pChangeTargetEvent); 
+
+						pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pNodeOwnerComponent->getOwnedNode(), nullptr);
+						CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : the owned node is free");
+						dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+
+						pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pTarget, hero);
+						CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITH NEW FIREFLY");
+						dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+
+					} else if (pTarget->getActorType() == core::ActorType::LIGHT) {
+						pTargetNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(pTarget->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+						CCASSERT(pTargetNodeOwnerComponent != nullptr, "The target lamp need a nodeownercomponent");
+						pOwned = static_cast<core::SynthActor*>(pTargetNodeOwnerComponent->getOwnedNode());
+						// if the light owns a firefly
+						if(pOwned != nullptr && pOwned->isFirefly()) {
+							// the lamp firefly goes to the hero
+							pChangeTargetEvent = new events::ChangeTargetEvent(pOwned, hero);
+							CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
+							dispatcher->dispatchEvent(pChangeTargetEvent);
+
+							// the lamp firefly is now owned by the hero
+							pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pOwned, hero);
+							CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : owned node belongs to lamp");
+							dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+						}
+						// the owned firefly goes to the lamp
+						pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), pTarget);
+						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
+						dispatcher->dispatchEvent(pChangeTargetEvent);
+
+						// the owned firefly is now owned by the lamp
+						pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pNodeOwnerComponent->getOwnedNode(), pTarget);
+						CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : owned node belongs to lamp");
+						dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+					}
+				}
+				
+			// if the hero has no actor
+			} else {
+				pTarget = getNearActor(hero);
+				if(pTarget != nullptr) {
+					// if the target is a light
+					if (pTarget->getActorType() == core::ActorType::LIGHT) {
+						pTargetNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(pTarget->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+						CCASSERT(pTargetNodeOwnerComponent != nullptr, "The target lamp need a nodeownercomponent");
+						pOwned = static_cast<core::SynthActor*>(pTargetNodeOwnerComponent->getOwnedNode());
+
+						// if the light owns a firefly
+						if(pOwned != nullptr && pOwned->isFirefly()) {
+							// the firefly owned by the light is now owned by the hero
+							pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pOwned, hero);
+							CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
+							dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+							// the firefly owned by the light goes to the hero
+							pChangeTargetEvent = new events::ChangeTargetEvent(pOwned, hero);
+							CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+							dispatcher->dispatchEvent(pChangeTargetEvent);
+						}
+					// if the target is not a light
+					} else {
+						// the target is owned by the hero
+						pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pTarget, hero);
+						CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE");
+						dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+						// the target goes to the hero
+						pChangeTargetEvent = new events::ChangeTargetEvent(pTarget, hero);
+						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET");
+						dispatcher->dispatchEvent(pChangeTargetEvent);
+					}
+
 				}
 			}
 
-			break;
+		break;
 
 		default:
 			break;
@@ -271,8 +340,43 @@ std::vector<core::SynthActor*> GameManager::getActorsByTag(std::string sTag) {
 	return emptyVec;
 }
 
-//void GameManager::onEditMove(EventCustom* pEvent) { 
-//	CCLOG("on edit move gm");
-//}
+core::SynthActor* GameManager::getNearActor(core::SynthActor* actor) {
+	core::SynthActor* pRes = nullptr;
+	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(actor->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(actor->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+	physics::GeometryComponent* pCandidateGeometryComponent = nullptr;
+	Point actorPosition = pGeometryComponent->getPosition();
+	Point candidatePosition = Point::ZERO;
+	float distance = 0;
+	for (auto candidate : _levelActors) {
+		if (actor != candidate && pNodeOwnerComponent->getOwnedNode() != candidate) {
+			// if the actor owns an other actor and if candidate is a light or a firefly
+			if ( (pNodeOwnerComponent->getOwnedNode() != nullptr && (candidate->getActorType() == core::ActorType::LIGHT || candidate->isFirefly() )) ) {
+				pCandidateGeometryComponent = static_cast<physics::GeometryComponent*>(candidate->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+				candidatePosition = pCandidateGeometryComponent->getPosition();
+				if ( pCandidateGeometryComponent != nullptr ) {
+					distance = sqrt( (candidatePosition.x - actorPosition.x)*(candidatePosition.x - actorPosition.x) + (candidatePosition.y - actorPosition.y)*(candidatePosition.y - actorPosition.y) );
+					if (distance < pGeometryComponent->getSize().height ) {
+						CCLOG("NEAR ACTOR FOUND");
+						pRes = candidate;
+					}
+				}
+			// or if the actor has no owned node and the candidate is a firefly
+			}
+			if ( pNodeOwnerComponent->getOwnedNode() == nullptr && (candidate->getTag() == core::ActorType::BLUE_FIREFLY || candidate->isFirefly() ) ) {
+				pCandidateGeometryComponent = static_cast<physics::GeometryComponent*>(candidate->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+				candidatePosition = pCandidateGeometryComponent->getPosition();
+				if ( pCandidateGeometryComponent != nullptr ) {
+					distance = sqrt( (candidatePosition.x - actorPosition.x)*(candidatePosition.x - actorPosition.x) + (candidatePosition.y - actorPosition.y)*(candidatePosition.y - actorPosition.y) );
+					if (distance < pGeometryComponent->getSize().height ) {
+						CCLOG("NEAR ACTOR FOUND");
+						pRes = candidate;
+					}
+				}
+			}
+		}
+	}
+	return pRes;
+}
 
 }  // namespace game

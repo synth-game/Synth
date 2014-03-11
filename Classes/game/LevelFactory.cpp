@@ -6,11 +6,13 @@
  */
 #include "LevelFactory.h"
 #include "game/NodeOwnerComponent.h"
+#include "game/LightAttrComponent.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
 #include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireFlyAnimatedSpriteComponent.h"
+#include "system/IOManager.h"
 
 namespace game {
 
@@ -55,9 +57,9 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 
 	// parsing actors
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
-	int xmlerror = pXMLFile->LoadFile(std::string("levels/"+levelName+"/actors.xml").c_str());
-	if(xmlerror == 0) {
-		CCLOG("XML FILE LOADED SUCCESSFULLY : %d", xmlerror);
+	synthsystem::IOManager* ioManager = synthsystem::IOManager::getInstance();
+	pXMLFile = ioManager->loadXML("levels/"+levelName+"/actors.xml");
+	if(pXMLFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData;
 		std::string actorType, componentType, name;
@@ -150,9 +152,6 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 			pActorData = pActorData->NextSiblingElement("actor");
 		}
 	}
-	else {
-		CCLOG("ERROR WHILE LOADING XML FILE : %d", xmlerror);
-	}
 
 	return aActors;
 }
@@ -163,10 +162,25 @@ physics::CollisionComponent* LevelFactory::__createCollisionComponent() {
 	pBitmask->initWithImageFile("levels/test/bitmask.png"); 
 	physics::PhysicCollision* pCollision = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
 	pRet->addPhysicCollision(pCollision);
+
+	LightMap* pLM = LightMap::createFromXML("levels/test/PREC_lightmap.xml");
+	std::vector<core::SynthActor*> lights;
+	core::SynthActor* pLight1 = new core::SynthActor(core::ActorType::LIGHT);
+	core::SynthActor* pLight2 = new core::SynthActor(core::ActorType::LIGHT);
+	core::SynthActor* pLight3 = new core::SynthActor(core::ActorType::LIGHT);
+	pLight1->addComponent(game::LightAttrComponent::create(Color4B::RED));
+	pLight2->addComponent(game::LightAttrComponent::create(Color4B::BLUE));
+	pLight3->addComponent(game::LightAttrComponent::create(Color4B::GREEN));
+	lights.push_back(pLight1);
+	lights.push_back(pLight2);
+	lights.push_back(pLight3);
+	physics::LightCollision* pLightCollision = new physics::LightCollision(lights, pLM);
+	pRet->addLightCollision(pLightCollision);
+
 	return pRet;
 }
 
-std::vector<std::vector<int>> LevelFactory::buildLightsMap(core::xml data) {
+std::vector<std::vector<int>> LevelFactory::buildLightsMap(std::string levelName) {
 	std::vector<std::vector<int>> voidVec;
 	return voidVec;
 }
