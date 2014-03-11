@@ -31,4 +31,14 @@ Color4B LightCollision::getCurrentColor(Point actorPos) {
 	return _currentColor;
 }
 
+bool LightCollision::isInWhiteLight(Point position) {
+	bool bRet = false;
+	Color4B sampleLightingColor = _pLightMap->getPixelLighting(position);
+	if(sampleLightingColor == Color4B::WHITE) {
+		bRet = true;
+	}
+
+	return bRet;
+}
+
 }  // namespace physics

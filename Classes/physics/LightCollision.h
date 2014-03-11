@@ -27,6 +27,7 @@ public:
 	~LightCollision();
 
 	Color4B getCurrentColor(Point actorPos);
+	bool isInWhiteLight(Point position);
 
 protected:
 	std::vector<core::SynthActor*> _lightCollection;

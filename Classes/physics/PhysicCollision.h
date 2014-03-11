@@ -18,14 +18,6 @@ namespace physics {
  */
 class PhysicCollision {
 public:
-	enum EDirection{
-		LEFT,
-		TOP,
-		RIGHT,
-		BOTTOM,
-		NO_DIRECTION
-	};
-
 	PhysicCollision(Image* pBitmask, Point absoluteOriginPosition);
 	~PhysicCollision();
 
@@ -33,13 +25,13 @@ public:
 	void setAbsoluteOriginPosition(Point pos) { _absoluteOriginPosition = pos; }
 	
 	bool collide(Point position);
-	Point getNextVoidPixel(Point position, EDirection dir);
-	Point getNextWallPixel(Point position, EDirection dir);
+
+	inline int getZoneWidth() { return _pBitmask->getWidth(); }
+	inline int getZoneHeight() { return _pBitmask->getHeight(); }
 
 protected:
 	Point convertToImageSpace(Point absolutePos);
 	Point convertToWorldSpace(Point imageSpacePos);
-	Point getNextPixelInDirection(Point currentPixel, unsigned char wantedValue, EDirection dir);
 	unsigned char getValue(Point pixel);
 	
 

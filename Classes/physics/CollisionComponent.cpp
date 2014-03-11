@@ -51,7 +51,7 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 		Point computingPos = pTestColEvent->getTargetPosition();
 
 		// check if the component have a PhysicCollision
-		if (_pPhysicCollision != nullptr) {
+		if (_pPhysicCollision != nullptr && _pLightCollision != nullptr) {
 			ECollisionType eCollision = NO_COLLISION;
 			if (_eMovingState == core::ActorState::ON_FLOOR_STATE) {
 				eCollision = slopeTest(pTestColEvent, computingPos);
@@ -143,14 +143,15 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 		Point tPos = Point(nextCenterPos.x, nextCenterPos.y+halfSize.height);
 
 		// case of hypothetical landing
-		if (_pPhysicCollision->collide(blPos) || _pPhysicCollision->collide(brPos)) { 
+		if ((_pPhysicCollision->collide(blPos) && !_pLightCollision->isInWhiteLight(blPos))
+		|| (_pPhysicCollision->collide(brPos) && !_pLightCollision->isInWhiteLight(brPos))) { 
 			Point savedCenterPos = centerPos;
 			//test if bottom-center point collide the ground
 			while((savedCenterPos-currentPosition).getLength() < movementLength) {
 				Point nextSavedCenterPos = savedCenterPos + movementStep;
 				Point bcPos = Point(nextSavedCenterPos.x, nextSavedCenterPos.y-halfSize.height);
 
-				if (_pPhysicCollision->collide(bcPos)) {
+				if ((_pPhysicCollision->collide(bcPos) && !_pLightCollision->isInWhiteLight(bcPos))) {
 					eRet = VERTICAL;
 					nextState = core::ActorState::ON_FLOOR_STATE;
 					break;
@@ -160,15 +161,15 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 
 			centerPos = savedCenterPos;
 			break;
-		} else if (_pPhysicCollision->collide(trPos)
-			   || _pPhysicCollision->collide(tlPos)
-			   || _pPhysicCollision->collide(l1Pos)
-			   || _pPhysicCollision->collide(l2Pos)
-			   || _pPhysicCollision->collide(r1Pos)
-			   || _pPhysicCollision->collide(r2Pos)) {
+		} else if ((_pPhysicCollision->collide(trPos) && !_pLightCollision->isInWhiteLight(trPos))
+			   || (_pPhysicCollision->collide(tlPos) && !_pLightCollision->isInWhiteLight(tlPos))
+			   || (_pPhysicCollision->collide(l1Pos) && !_pLightCollision->isInWhiteLight(l1Pos))
+			   || (_pPhysicCollision->collide(l2Pos) && !_pLightCollision->isInWhiteLight(l2Pos))
+			   || (_pPhysicCollision->collide(r1Pos) && !_pLightCollision->isInWhiteLight(r1Pos))
+			   || (_pPhysicCollision->collide(r2Pos) && !_pLightCollision->isInWhiteLight(r2Pos))) {
 			eRet = HORIZONTAL;
 			break;
-		} else if (_pPhysicCollision->collide(tPos)) {
+		} else if (_pPhysicCollision->collide(tPos) && !_pLightCollision->isInWhiteLight(tPos)) {
 			eRet = VERTICAL;
 			break;
 		}
@@ -202,10 +203,10 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 	// Slope movement - only if you have a lateral movement
 	if (currentPosition.x != targetPosition.x) {
 		//compute targetPosition on the floor
-		if (_pPhysicCollision->collide(targetBCPosition)) { // increasing slope
-			targetBCPosition = _pPhysicCollision->getNextVoidPixel(targetBCPosition, PhysicCollision::TOP);
+		if (_pPhysicCollision->collide(targetBCPosition) && !_pLightCollision->isInWhiteLight(targetBCPosition)) { // increasing slope
+			targetBCPosition = getNextPixel(targetBCPosition, TOP, true);
 		} else { //decreasing slope
-			targetBCPosition = _pPhysicCollision->getNextWallPixel(targetBCPosition, PhysicCollision::BOTTOM);
+			targetBCPosition = getNextPixel(targetBCPosition, BOTTOM, false);
 			targetBCPosition.y += 1.f;
 		}
 
@@ -225,7 +226,8 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 			//too big hole - test if the bottom-left and bottom-right point also fall - unefficient sleeping code
 			Point targetBLPosition = Point(targetPosition.x-halfSize.width, targetPosition.y-halfSize.height);
 			Point targetBRPosition = Point(targetPosition.x+halfSize.width, targetPosition.y-halfSize.height);
-			if (_pPhysicCollision->collide(targetBLPosition) || _pPhysicCollision->collide(targetBRPosition)) {
+			if ((_pPhysicCollision->collide(targetBLPosition) && !_pLightCollision->isInWhiteLight(targetBLPosition))
+			|| (_pPhysicCollision->collide(targetBRPosition) && !_pLightCollision->isInWhiteLight(targetBRPosition))) {
 				targetPosition.y = (targetPosition.y + currentPosition.y)/2.f;
 			} else {
 				_eMovingState = core::ActorState::JUMPING_STATE;
@@ -260,12 +262,12 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 		Point r1Pos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height+thirdSize.height);
 		Point r2Pos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height+2*thirdSize.height);
 
-		if(_pPhysicCollision->collide(trPos)
-		|| _pPhysicCollision->collide(tlPos)
-		|| _pPhysicCollision->collide(l1Pos)
-		|| _pPhysicCollision->collide(l2Pos)
-		|| _pPhysicCollision->collide(r1Pos)
-		|| _pPhysicCollision->collide(r2Pos)) {
+		if((_pPhysicCollision->collide(trPos) && !_pLightCollision->isInWhiteLight(trPos))
+		|| (_pPhysicCollision->collide(tlPos) && !_pLightCollision->isInWhiteLight(tlPos))
+		|| (_pPhysicCollision->collide(l1Pos) && !_pLightCollision->isInWhiteLight(l1Pos))
+		|| (_pPhysicCollision->collide(l2Pos) && !_pLightCollision->isInWhiteLight(l2Pos))
+		|| (_pPhysicCollision->collide(r1Pos) && !_pLightCollision->isInWhiteLight(r1Pos))
+		|| (_pPhysicCollision->collide(r2Pos) && !_pLightCollision->isInWhiteLight(r2Pos))) {
 			eRet = HORIZONTAL;
 			break;
 		}
@@ -274,6 +276,45 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 	
 	resPosition = centerPos;
 	return eRet;
+}
+
+Point CollisionComponent::getNextPixel(Point position, EDirection dir, bool bVoid) {
+	Point direction;
+	Point wantedPixel = position;
+
+	switch(dir) {
+	case EDirection::LEFT:
+		direction = Point(-1, 0);
+		break;
+
+	case EDirection::TOP:
+		direction = Point(0, 1);
+		break;
+
+	case EDirection::RIGHT:
+		direction = Point(1, 0);
+		break;
+
+	case EDirection::BOTTOM:
+	default:
+		direction = Point(0, -1);
+		break;
+	}
+
+	bool bSampleState = !_pPhysicCollision->collide(wantedPixel) || _pLightCollision->isInWhiteLight(wantedPixel);
+	while(bSampleState != bVoid) {
+		wantedPixel = wantedPixel + direction;
+
+		// out of image
+		if(wantedPixel.x < 0 || wantedPixel.x >= _pPhysicCollision->getZoneWidth() || wantedPixel.y < 0 || wantedPixel.y >= _pPhysicCollision->getZoneHeight()) {
+			wantedPixel = position;
+			break;
+		}
+
+		bSampleState = !_pPhysicCollision->collide(wantedPixel) || _pLightCollision->isInWhiteLight(wantedPixel);
+	}
+
+	return wantedPixel;
 }
 
 }  // namespace physics
