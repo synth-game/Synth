@@ -68,10 +68,7 @@ bool GameManager::init() {
 	//init Layer
 	bTest = Layer::init();
 
-	// activate key event handling
 	setKeyboardEnabled(true);
-
-	// activate update function
 	scheduleUpdate();
 
 	//init layers
@@ -90,12 +87,37 @@ bool GameManager::init() {
 	Layer::addChild(_pParallaxManager);
 
 	//TEST ZONE - BEGIN
+
+	loadLevel("test");
+
+	//TEST ZONE - END
+
+	return bTest;
+}
+
+void GameManager::update(float fDt) {
+	CCASSERT(hero != nullptr, "YOU WIN !");
+	physics::GeometryComponent* pGeometryComp = dynamic_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+	CCASSERT(pGeometryComp != nullptr, "Hero actor need a GeometryComponent");
+	if(_triggers["WIN"].containsPoint(pGeometryComp->getPosition())) {
+		CCLOG("YOU WIN");
+		events::WinEvent* pWinEvent = new events::WinEvent();
+		GameManager::resetLevel();
+	}
+
+	for (auto actor : _levelActors) {
+		actor->update(fDt);
+	}
+}
+
+void GameManager::loadLevel(/*int iLevelId*/std::string level) {
+
 	Sprite* pBgSprite = Sprite::create("sprites/decor.jpg");
 	pBgSprite->setAnchorPoint(Point::ZERO);
 	_pBackgroundLayer->addChild(pBgSprite);
 
-	_levelActors = game::LevelFactory::getInstance()->buildActors("test", _pLevelLayer);
-	_triggers = game::LevelFactory::getInstance()->buildTriggers("test");
+	_levelActors = game::LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
+	_triggers = game::LevelFactory::getInstance()->buildTriggers(level);
 
 	hero = GameManager::getActorsByTag("HERO").at(0);
 
@@ -104,28 +126,29 @@ bool GameManager::init() {
 	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
 	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
 	_pLevelLayer->addChild(pLevelSprite, 0);
-
-	//TEST ZONE - END
-
-	return bTest;
 }
 
-void GameManager::update(float fDt) {
-	for (auto actor : _levelActors) {
-		actor->update(fDt);
+void GameManager::clearLevel() {
+	for(auto obj : _levelActors) {
+		delete obj;
+		obj = nullptr;
 	}
-	Point heroPos = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE))->getPosition();
-	if(_triggers["WIN"].containsPoint(heroPos)) {
-		CCLOG("YOU WIN");
-		events::WinEvent* pWinEvent = new events::WinEvent();
-	}
-}
+	_levelActors.clear();
+	//tmp
+	hero = nullptr;
+	//tmp
+	_triggers.clear();
 
-void GameManager::loadLevel(int iLevelId) {
-
+	_pBackgroundLayer->removeAllChildren();
+	_pIntermediarLayer->removeAllChildren();
+	_pLevelLayer->removeAllChildren();
+	_pSkinningLayer->removeAllChildren();
+	_pSubtitlesLayer->removeAllChildren();
 }
 
 void GameManager::resetLevel() {
+	clearLevel();
+	//loadLevel("test");
 }
 
 

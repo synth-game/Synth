@@ -39,7 +39,8 @@ public:
 	virtual bool init();
 	virtual void update(float fDt);
 
-	void loadLevel(int iLevelId);
+	void loadLevel(/*int iLevelId*/std::string level);
+	void clearLevel();
 	void resetLevel();
 
 	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event);
