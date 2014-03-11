@@ -47,6 +47,8 @@ public:
 
 	static Color4B getLightColor(core::SynthActor* pLight);
 
+	inline Layer* getLevelLayer() { return _pLevelLayer; }
+
 	/*void GameManager::onEditMove(EventCustom* event);*/
 
 	core::SynthActor* hero;

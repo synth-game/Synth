@@ -45,8 +45,8 @@ bool GameScene::init() {
     Size size = Director::sharedDirector()->getVisibleSize();  //default screen size (or design resolution size, if you are using design resolution)
     Point center = Point(size.width/2 + origin.x, size.height/2 + origin.y);
 
-	float playfield_width = size.width * 2.0; // make the x-boundry 2 times the screen width
-    float playfield_height = size.height * 2.0; // make the y-boundry 2 times the screen height
+	float playfield_width = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().width;
+    float playfield_height = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().height;
 
 	graphics::AnimatedSpriteComponent* pAnimatedSpriteComponent = static_cast<graphics::AnimatedSpriteComponent*>(_pGameLayer->hero->getComponent(graphics::AnimatedSpriteComponent::COMPONENT_TYPE));
 	this->runAction(Follow::create(pAnimatedSpriteComponent->getSprite(), Rect( center.x - playfield_width/2, center.y - playfield_height/2 , playfield_width, playfield_height)));

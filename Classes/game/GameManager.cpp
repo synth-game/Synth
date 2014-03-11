@@ -100,10 +100,10 @@ bool GameManager::init() {
 	hero = GameManager::getActorsByTag("HERO").at(0);
 
 	LevelSprite* pLevelSprite = LevelSprite::create("levels/test/bitmask.png", hero);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
-	pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
-	_pLevelLayer->addChild(pLevelSprite, 0);
+	//pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_0.png")->getTexture(), Point(390.f, 260.f), Color4B::RED);
+	//pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_1.png")->getTexture(), Point(100.f, 580.f), Color4B::BLUE);
+	//pLevelSprite->addLight(Sprite::create("levels/test/PREC_light_2.png")->getTexture(), Point(590.f, 260.f), Color4B::GREEN);
+	_pLevelLayer->addChild(pLevelSprite, 0, 42);
 
 	//TEST ZONE - END
 
@@ -135,7 +135,9 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
 	events::ChangeTargetEvent* pChangeTargetEvent = nullptr;
 	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(hero->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+	game::NodeOwnerComponent* pTargetNodeOwnerComponent = nullptr;
 	physics::GeometryComponent* pTargetGeometryComponent = nullptr;
+	core::SynthActor* pOwned = nullptr;
 
 	core::SynthActor* pTarget = nullptr;
 
@@ -192,10 +194,27 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 						dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
 
 					} else if (pTarget->getActorType() == core::ActorType::LIGHT) {
+						pTargetNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(pTarget->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+						CCASSERT(pTargetNodeOwnerComponent != nullptr, "The target lamp need a nodeownercomponent");
+						pOwned = static_cast<core::SynthActor*>(pTargetNodeOwnerComponent->getOwnedNode());
+						// if the light owns a firefly
+						if(pOwned != nullptr && pOwned->isFirefly()) {
+							// the lamp firefly goes to the hero
+							pChangeTargetEvent = new events::ChangeTargetEvent(pOwned, hero);
+							CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
+							dispatcher->dispatchEvent(pChangeTargetEvent);
+
+							// the lamp firefly is now owned by the hero
+							pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pOwned, hero);
+							CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : owned node belongs to lamp");
+							dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+						}
+						// the owned firefly goes to the lamp
 						pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), pTarget);
 						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
 						dispatcher->dispatchEvent(pChangeTargetEvent);
 
+						// the owned firefly is now owned by the lamp
 						pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pNodeOwnerComponent->getOwnedNode(), pTarget);
 						CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : owned node belongs to lamp");
 						dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
