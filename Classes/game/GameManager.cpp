@@ -114,10 +114,14 @@ void GameManager::update(float fDt) {
 	for (auto actor : _levelActors) {
 		actor->update(fDt);
 	}
+
+	auto dispatcher = EventDispatcher::getInstance();
+
 	Point heroPos = static_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE))->getPosition();
 	if(_triggers["WIN"].containsPoint(heroPos)) {
 		CCLOG("YOU WIN");
 		events::WinEvent* pWinEvent = new events::WinEvent();
+		dispatcher->dispatchEvent(pWinEvent);
 	}
 }
 
