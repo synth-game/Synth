@@ -103,4 +103,17 @@ void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
 	}
 }
 
+Color4B LightMap::getPixelLighting(Point absPos) {
+	Color4B colorRet(0,0,0,0);
+	
+	int iX = static_cast<int>(absPos.x/_iResolutionCoef);
+	int iY = _iH - static_cast<int>(absPos.y/_iResolutionCoef);
+
+	if (iX < _iW && iY < _iH) {
+		colorRet = _pixelGrid[iX + iY*_iW].first;
+	}
+
+	return colorRet;
+}
+
 }	// namespace game

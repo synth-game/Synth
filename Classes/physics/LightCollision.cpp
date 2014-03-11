@@ -5,6 +5,7 @@
  * \date 11/03/2014
  */
 #include "LightCollision.h"
+#include "events/EnterLightEvent.h"
 
 namespace physics {
 
@@ -16,6 +17,18 @@ LightCollision::LightCollision(std::vector<core::SynthActor*> lightCollection, g
 
 LightCollision::~LightCollision() {
 
+}
+
+Color4B LightCollision::getCurrentColor(Point actorPos) {
+	Color4B newLightingColor = _pLightMap->getPixelLighting(actorPos);
+
+	if(newLightingColor != _currentColor) {
+		events::EnterLightEvent* pEnterLightEvent = new events::EnterLightEvent(nullptr, newLightingColor);
+		EventDispatcher::getInstance()->dispatchEvent(pEnterLightEvent);
+	}
+
+	_currentColor = newLightingColor;
+	return _currentColor;
 }
 
 }  // namespace physics

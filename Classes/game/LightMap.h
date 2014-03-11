@@ -26,6 +26,7 @@ public:
 	~LightMap();
 	static LightMap* createFromXML(std::string sFilePath);
 	void updateLighting(std::vector<core::SynthActor*>& lights);
+	Color4B getPixelLighting(Point absPos);
 
 protected:
 	/*! \brief Constructor */

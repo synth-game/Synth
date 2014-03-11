@@ -26,7 +26,7 @@ public:
 	/*! \brief Destructor */
 	~LightCollision();
 
-	Color4B getCurrentColor() { return _currentColor; }
+	Color4B getCurrentColor(Point actorPos);
 
 protected:
 	std::vector<core::SynthActor*> _lightCollection;
