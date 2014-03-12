@@ -308,11 +308,11 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 
 	switch(keyCode) {
 		case EventKeyboard::KeyCode::KEY_Q:
-			pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, false);
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
 			break;
 		case EventKeyboard::KeyCode::KEY_D:
-			pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, false);
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
 			break;
 		case EventKeyboard::KeyCode::KEY_SPACE:

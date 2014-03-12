@@ -80,6 +80,7 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 
 		// Change position 
 		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, computingPos);
+
 		EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
 	}
 }
