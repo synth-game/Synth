@@ -9,7 +9,6 @@
 
 #include <vector>
 #include <string>
-#include <stack>
 #include <map>
 #include "cocos2d.h"
 #include "Game/LevelSprite.h"
@@ -60,6 +59,8 @@ protected:
 	GameManager();
 	core::SynthActor* getNearActor(core::SynthActor* actor);
 
+	void onEnterLight(EventCustom* pEvent);
+
 	int _iCurrentLevelId;
 	float _fTimeSinceLevelStart;
 	std::vector<std::string> _levelsName;
@@ -74,6 +75,8 @@ protected:
 	Layer* _pSkinningLayer;
 	Layer* _pSubtitlesLayer;
 	ParallaxNode* _pParallaxManager;
+
+	EventListenerCustom* _pEnterLightListener;
 
 	std::vector<EventKeyboard::KeyCode> _keyPressedCode;
 
