@@ -1,10 +1,16 @@
+/*!
+ * \file DeathEvent.h
+ * \brief Event detecting when the players dies
+ * \author Xopi
+ * \date 12/03/2014
+ */
 #ifndef EVENTS_GAMEEVENTS_DEATH_EVENT_H
 #define EVENTS_GAMEEVENTS_DEATH_EVENT_H
 
 #include "Events/SynthEvent.h"
 
 namespace events {
-
+/*! \class WinEvent */
 class DeathEvent : public events::SynthEvent {
 public:
 	static const char* EVENT_NAME;
