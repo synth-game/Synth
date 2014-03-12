@@ -167,7 +167,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	core::SynthActor* pTarget = nullptr;
 
 
-	//auto dispatcher = EventDispatcher::getInstance();
+	auto dispatcher = EventDispatcher::getInstance();
 
 	_keyPressedCode.push_back(keyCode);
 
