@@ -19,6 +19,7 @@
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireflyAnimatedSpriteComponent.h"
 #include "game/NodeOwnerComponent.h"
+#include "system/IOManager.h"
 
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
@@ -88,9 +89,21 @@ bool GameManager::init() {
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
 	Layer::addChild(_pParallaxManager);
 
+	// init levels
+	_iCurrentLevelId = 0;
+	tinyxml2::XMLDocument* pLevelsDoc = synthsystem::IOManager::getInstance()->loadXML("xml/levels.xml");
+	tinyxml2::XMLElement* pGameElt = pLevelsDoc->FirstChildElement("game");
+	tinyxml2::XMLElement* pLevelElt = pGameElt->FirstChildElement("level");
+	while(pLevelElt != nullptr) {
+		_levelsName.push_back(pLevelElt->Attribute("name"));
+
+		pLevelElt = pLevelElt->NextSiblingElement("level");
+	}
+	delete pLevelsDoc;
+
 	//TEST ZONE - BEGIN
 
-	loadLevel("01");
+	loadLevel(_levelsName[_iCurrentLevelId]);
 
 	//TEST ZONE - END
 
