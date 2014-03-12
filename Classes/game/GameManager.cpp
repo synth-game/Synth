@@ -24,7 +24,8 @@
 #include "events/JumpEvent.h"
 #include "events/ChangeNodeOwnerEvent.h"
 #include "events/ChangeTargetEvent.h"
-#include "Events/WinEvent.h"
+#include "events/WinEvent.h"
+#include "events/DeathEvent.h"
 #include "events/EnterLightEvent.h"
 
 #include "FmodAudioPlayer.h"
@@ -111,12 +112,12 @@ void GameManager::update(float fDt) {
 
 	core::SynthActor* pHero = nullptr;
 	pHero = getActorsByType(core::ActorType::HERO)[0];
-	CCASSERT(pHero != nullptr, "GameManager:update() There is no actor hero");
+	CCASSERT(pHero != nullptr, "GameManager::update : There is no actor hero");
 	physics::GeometryComponent* pGeometryComp = dynamic_cast<physics::GeometryComponent*>(pHero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 
 	CCASSERT(pGeometryComp != nullptr, "Hero actor need a GeometryComponent");
 	if(_triggers["WIN"].containsPoint(pGeometryComp->getPosition())) {
-		CCLOG("GAME MANAGER : YOU WIN");
+		CCLOG("GameManager::update : YOU WIN");
 		events::WinEvent* pWinEvent = new events::WinEvent();
 		GameManager::resetLevel();
 	}
@@ -127,7 +128,7 @@ void GameManager::update(float fDt) {
 }
 
 void GameManager::loadLevel(/*int iLevelId*/std::string level) {
-	CCLOG("GAME MANAGER : LOAD LEVEL");
+	CCLOG("GameManager::loadLevel : LOAD LEVEL");
 	Sprite* pBgSprite = Sprite::create("sprites/decor.jpg");
 	pBgSprite->setAnchorPoint(Point::ZERO);
 	pBgSprite->setScale(2.f);
@@ -152,7 +153,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 }
 
 void GameManager::clearLevel() {
-	CCLOG("GAME MANAGER : CLEAR LEVEL");
+	CCLOG("GameManager::clearLevel : CLEAR LEVEL");
 	for(auto obj : _levelActors) {
 		delete obj;
 		obj = nullptr;
@@ -169,17 +170,24 @@ void GameManager::clearLevel() {
 
 void GameManager::resetLevel() {
 	clearLevel();
-	//loadLevel("01");
+	loadLevel("01");
 }
 
 void GameManager::onEnterLight(EventCustom* pEvent) {
-	CCLOG("GAME MANAGER : YOU JUST ENTERED A RED LIGHT");
+	CCLOG("GameManager::onEnterLight : You just entered a light");
 	events::EnterLightEvent* enterLightEvent = static_cast<events::EnterLightEvent*>(pEvent);
-	resetLevel();
+	Color4B lightColor = enterLightEvent->getLightingColor();
+
+	if (lightColor == Color4B::RED) {
+		CCLOG("GameManager::onEnterLight : You die !");
+		events::DeathEvent* pDeathEvent = new events::DeathEvent();
+	}
+	//resetLevel();
 }
 
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+	CCASSERT(pHero != nullptr, "GameManager::onKeyPressed : There is no actor hero");
 	events::EditMoveEvent* pEditMoveEvent = nullptr;
     events::JumpEvent* pJumpEvent = nullptr;
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
@@ -323,6 +331,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 
 void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+	CCASSERT(pHero != nullptr, "GameManager::onKeyReleased : There is no actor hero");
     events::EditMoveEvent* pEditMoveEvent;
     auto dispatcher = EventDispatcher::getInstance();
 
