@@ -92,8 +92,6 @@ bool GameManager::init() {
 	//TEST ZONE - BEGIN
 
 	loadLevel("01");
-
-	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
 	
 	FMOD::Channel* channel_green = FmodAudioPlayer::sharedPlayer()->playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
 	FmodAudioPlayer::sharedPlayer()->InitMusic();
