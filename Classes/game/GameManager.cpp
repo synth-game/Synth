@@ -19,6 +19,7 @@
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireflyAnimatedSpriteComponent.h"
 #include "game/NodeOwnerComponent.h"
+#include "system/IOManager.h"
 
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
@@ -94,10 +95,21 @@ bool GameManager::init() {
 	_pEnterLightListener = EventListenerCustom::create(events::EnterLightEvent::EVENT_NAME, CC_CALLBACK_1(GameManager::onEnterLight, this));
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEnterLightListener, 1);
 
-	//TEST ZONE - BEGIN
+	// init levels
+	_iCurrentLevelId = 0;
+	tinyxml2::XMLDocument* pLevelsDoc = synthsystem::IOManager::getInstance()->loadXML("xml/levels.xml");
+	tinyxml2::XMLElement* pGameElt = pLevelsDoc->FirstChildElement("game");
+	tinyxml2::XMLElement* pLevelElt = pGameElt->FirstChildElement("level");
+	while(pLevelElt != nullptr) {
+		_levelsName.push_back(pLevelElt->Attribute("name"));
 
-	loadLevel("01");
-	
+		pLevelElt = pLevelElt->NextSiblingElement("level");
+	}
+	delete pLevelsDoc;
+
+	//TEST ZONE - BEGIN
+	loadLevel(_levelsName[_iCurrentLevelId]);
+
 	FmodAudioPlayer::sharedPlayer()->InitMusic();
 	FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::BLUE);
 	//TEST ZONE - END
