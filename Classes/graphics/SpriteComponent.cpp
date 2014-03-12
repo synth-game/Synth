@@ -42,7 +42,6 @@ SpriteComponent::~SpriteComponent() {
 
 bool SpriteComponent::init() {
     SynthComponent::init(SpriteComponent::COMPONENT_TYPE);
-	initListeners();
 	return true;
 }
 

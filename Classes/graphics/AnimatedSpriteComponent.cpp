@@ -54,7 +54,7 @@ void AnimatedSpriteComponent::requestNextAnimation() {
 }
 
 void AnimatedSpriteComponent::runAnimation(core::SynthAnimation* pAnimation, Animate* pAnimate) {
-	//CCLOG("RUN ANIMATION WITH TAG : %d", pAnimation->getTag());
+	//CCLOG("AnimatedSpriteComponent::runAnimation RUN ANIMATION WITH TAG : %d", pAnimation->getTag());
 	_pSprite->stopAllActions();
 	if(pAnimation->isLoop()) {
 		_pSprite->runAction(cocos2d::RepeatForever::create(pAnimate));

@@ -223,7 +223,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent RIGHT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-			//FmodAudioPlayer::sharedPlayer()->StopMusicTrack(FmodAudioPlayer::tracks::blue);
+			FmodAudioPlayer::sharedPlayer()->StopMusicTrack(FmodAudioPlayer::tracks::BLUE);
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:

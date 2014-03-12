@@ -13,6 +13,7 @@
 #include "AudioPlayer.h"
 #include "string"
 #include <map>
+#include <vector>
 
 
 using namespace std;
@@ -185,6 +186,7 @@ private:
 
 	float fadeTime; //in seconds
 
+	map<FMOD::Channel*, int> trackStates;
 };
 
 #endif /* FMODAUDIOPLAYER_H_ */
