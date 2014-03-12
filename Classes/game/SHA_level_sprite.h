@@ -7,7 +7,7 @@
 #ifndef GAME_SHA_LEVEL_SPRITE_H
 #define GAME_SHA_LEVEL_SPRITE_H
 
-#include <GL\glew.h>
+#include <cocos2d.h>
 
 #ifndef GL_STRINGIFY
 #define GL_STRINGIFY(s) #s

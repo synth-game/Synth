@@ -53,6 +53,26 @@
 		50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF629517ECD46A001EB2F8 /* Icon-100.png */; };
 		50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A017ECD613001EB2F8 /* Icon-29.png */; };
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
+		8F62A70018D052A4003FFFB4 /* SynthAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A6FE18D052A4003FFFB4 /* SynthAnimation.cpp */; };
+		8F62A70118D052A4003FFFB4 /* SynthAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A6FE18D052A4003FFFB4 /* SynthAnimation.cpp */; };
+		8F62A70E18D052B4003FFFB4 /* ChangeIntensityEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A70818D052B4003FFFB4 /* ChangeIntensityEvent.cpp */; };
+		8F62A70F18D052B4003FFFB4 /* ChangeIntensityEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A70818D052B4003FFFB4 /* ChangeIntensityEvent.cpp */; };
+		8F62A71018D052B4003FFFB4 /* ChangeStateEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A70A18D052B4003FFFB4 /* ChangeStateEvent.cpp */; };
+		8F62A71118D052B4003FFFB4 /* ChangeStateEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A70A18D052B4003FFFB4 /* ChangeStateEvent.cpp */; };
+		8F62A71218D052B4003FFFB4 /* WinEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A70C18D052B4003FFFB4 /* WinEvent.cpp */; };
+		8F62A71318D052B4003FFFB4 /* WinEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A70C18D052B4003FFFB4 /* WinEvent.cpp */; };
+		8F62A71718D052BF003FFFB4 /* LightMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A71418D052BF003FFFB4 /* LightMap.cpp */; };
+		8F62A71818D052BF003FFFB4 /* LightMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A71418D052BF003FFFB4 /* LightMap.cpp */; };
+		8F62A71C18D052CF003FFFB4 /* FireFlyAnimatedSpriteComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A71A18D052CF003FFFB4 /* FireFlyAnimatedSpriteComponent.cpp */; };
+		8F62A71D18D052CF003FFFB4 /* FireFlyAnimatedSpriteComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A71A18D052CF003FFFB4 /* FireFlyAnimatedSpriteComponent.cpp */; };
+		8F62A72F18D05634003FFFB4 /* levels in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72B18D05634003FFFB4 /* levels */; };
+		8F62A73018D05634003FFFB4 /* levels in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72B18D05634003FFFB4 /* levels */; };
+		8F62A73118D05634003FFFB4 /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72C18D05634003FFFB4 /* sound */; };
+		8F62A73218D05634003FFFB4 /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72C18D05634003FFFB4 /* sound */; };
+		8F62A73318D05634003FFFB4 /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72D18D05634003FFFB4 /* sprites */; };
+		8F62A73418D05634003FFFB4 /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72D18D05634003FFFB4 /* sprites */; };
+		8F62A73518D05634003FFFB4 /* xml in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72E18D05634003FFFB4 /* xml */; };
+		8F62A73618D05634003FFFB4 /* xml in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72E18D05634003FFFB4 /* xml */; };
 		8F8FA2F218ABB8960050CFDD /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA24718ABB8960050CFDD /* AppDelegate.cpp */; };
 		8F8FA2F318ABB8960050CFDD /* SynthActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA24B18ABB8960050CFDD /* SynthActor.cpp */; };
 		8F8FA2F418ABB8960050CFDD /* SynthComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA24D18ABB8960050CFDD /* SynthComponent.cpp */; };
@@ -102,7 +122,6 @@
 		8F8FA32018ABB8960050CFDD /* NodeOwnerComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA2A818ABB8960050CFDD /* NodeOwnerComponent.cpp */; };
 		8F8FA32118ABB8960050CFDD /* PeriodicLauncherComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA2AA18ABB8960050CFDD /* PeriodicLauncherComponent.cpp */; };
 		8F8FA32218ABB8960050CFDD /* AnimatedSpriteComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA2AD18ABB8960050CFDD /* AnimatedSpriteComponent.cpp */; };
-		8F8FA32318ABB8960050CFDD /* FireFlyAnimatedSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA2AF18ABB8960050CFDD /* FireFlyAnimatedSprite.cpp */; };
 		8F8FA32418ABB8960050CFDD /* GraphicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA2B118ABB8960050CFDD /* GraphicManager.cpp */; };
 		8F8FA32518ABB8960050CFDD /* HeroAnimatedSpriteComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA2B318ABB8960050CFDD /* HeroAnimatedSpriteComponent.cpp */; };
 		8F8FA32618ABB8960050CFDD /* SpriteComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA2B518ABB8960050CFDD /* SpriteComponent.cpp */; };
@@ -133,7 +152,6 @@
 		8F8FA33F18ABB8960050CFDD /* VoiceSoundComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA2EA18ABB8960050CFDD /* VoiceSoundComponent.cpp */; };
 		8F8FA34018ABB8960050CFDD /* IOManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA2EE18ABB8960050CFDD /* IOManager.cpp */; };
 		8F8FA34118ABB8960050CFDD /* KeyBinderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA2F018ABB8960050CFDD /* KeyBinderManager.cpp */; };
-		8F9592A018A12D2D005CD5FA /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = 8F95929F18A12D2D005CD5FA /* sprites */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -352,6 +370,28 @@
 		50EF629517ECD46A001EB2F8 /* Icon-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-100.png"; sourceTree = "<group>"; };
 		50EF62A017ECD613001EB2F8 /* Icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29.png"; sourceTree = "<group>"; };
 		50EF62A117ECD613001EB2F8 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
+		8F62A6FB18D052A4003FFFB4 /* ActorState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActorState.h; path = ../core/ActorState.h; sourceTree = "<group>"; };
+		8F62A6FC18D052A4003FFFB4 /* ActorType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActorType.h; path = ../core/ActorType.h; sourceTree = "<group>"; };
+		8F62A6FD18D052A4003FFFB4 /* ComponentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentType.h; path = ../core/ComponentType.h; sourceTree = "<group>"; };
+		8F62A6FE18D052A4003FFFB4 /* SynthAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SynthAnimation.cpp; path = ../core/SynthAnimation.cpp; sourceTree = "<group>"; };
+		8F62A6FF18D052A4003FFFB4 /* SynthAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthAnimation.h; path = ../core/SynthAnimation.h; sourceTree = "<group>"; };
+		8F62A70818D052B4003FFFB4 /* ChangeIntensityEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChangeIntensityEvent.cpp; sourceTree = "<group>"; };
+		8F62A70918D052B4003FFFB4 /* ChangeIntensityEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeIntensityEvent.h; sourceTree = "<group>"; };
+		8F62A70A18D052B4003FFFB4 /* ChangeStateEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChangeStateEvent.cpp; sourceTree = "<group>"; };
+		8F62A70B18D052B4003FFFB4 /* ChangeStateEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeStateEvent.h; sourceTree = "<group>"; };
+		8F62A70C18D052B4003FFFB4 /* WinEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WinEvent.cpp; sourceTree = "<group>"; };
+		8F62A70D18D052B4003FFFB4 /* WinEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinEvent.h; sourceTree = "<group>"; };
+		8F62A71418D052BF003FFFB4 /* LightMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LightMap.cpp; path = ../game/LightMap.cpp; sourceTree = "<group>"; };
+		8F62A71518D052BF003FFFB4 /* LightMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LightMap.h; path = ../game/LightMap.h; sourceTree = "<group>"; };
+		8F62A71618D052BF003FFFB4 /* SHA_level_sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHA_level_sprite.h; path = ../game/SHA_level_sprite.h; sourceTree = "<group>"; };
+		8F62A71918D052CF003FFFB4 /* AnimationType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationType.h; path = ../graphics/AnimationType.h; sourceTree = "<group>"; };
+		8F62A71A18D052CF003FFFB4 /* FireFlyAnimatedSpriteComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FireFlyAnimatedSpriteComponent.cpp; path = ../graphics/FireFlyAnimatedSpriteComponent.cpp; sourceTree = "<group>"; };
+		8F62A71B18D052CF003FFFB4 /* FireFlyAnimatedSpriteComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FireFlyAnimatedSpriteComponent.h; path = ../graphics/FireFlyAnimatedSpriteComponent.h; sourceTree = "<group>"; };
+		8F62A71E18D052E9003FFFB4 /* SoundType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundType.h; sourceTree = "<group>"; };
+		8F62A72B18D05634003FFFB4 /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = levels; sourceTree = "<group>"; };
+		8F62A72C18D05634003FFFB4 /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
+		8F62A72D18D05634003FFFB4 /* sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sprites; sourceTree = "<group>"; };
+		8F62A72E18D05634003FFFB4 /* xml */ = {isa = PBXFileReference; lastKnownFileType = folder; path = xml; sourceTree = "<group>"; };
 		8F8FA24718ABB8960050CFDD /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = ../Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		8F8FA24818ABB8960050CFDD /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
 		8F8FA24A18ABB8960050CFDD /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
@@ -452,8 +492,6 @@
 		8F8FA2AB18ABB8960050CFDD /* PeriodicLauncherComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeriodicLauncherComponent.h; sourceTree = "<group>"; };
 		8F8FA2AD18ABB8960050CFDD /* AnimatedSpriteComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimatedSpriteComponent.cpp; sourceTree = "<group>"; };
 		8F8FA2AE18ABB8960050CFDD /* AnimatedSpriteComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedSpriteComponent.h; sourceTree = "<group>"; };
-		8F8FA2AF18ABB8960050CFDD /* FireFlyAnimatedSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FireFlyAnimatedSprite.cpp; sourceTree = "<group>"; };
-		8F8FA2B018ABB8960050CFDD /* FireFlyAnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FireFlyAnimatedSprite.h; sourceTree = "<group>"; };
 		8F8FA2B118ABB8960050CFDD /* GraphicManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicManager.cpp; sourceTree = "<group>"; };
 		8F8FA2B218ABB8960050CFDD /* GraphicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicManager.h; sourceTree = "<group>"; };
 		8F8FA2B318ABB8960050CFDD /* HeroAnimatedSpriteComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeroAnimatedSpriteComponent.cpp; sourceTree = "<group>"; };
@@ -515,7 +553,6 @@
 		8F8FA2EF18ABB8960050CFDD /* IOManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOManager.h; sourceTree = "<group>"; };
 		8F8FA2F018ABB8960050CFDD /* KeyBinderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KeyBinderManager.cpp; sourceTree = "<group>"; };
 		8F8FA2F118ABB8960050CFDD /* KeyBinderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyBinderManager.h; sourceTree = "<group>"; };
-		8F95929F18A12D2D005CD5FA /* sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sprites; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -719,7 +756,10 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8F95929F18A12D2D005CD5FA /* sprites */,
+				8F62A72B18D05634003FFFB4 /* levels */,
+				8F62A72C18D05634003FFFB4 /* sound */,
+				8F62A72D18D05634003FFFB4 /* sprites */,
+				8F62A72E18D05634003FFFB4 /* xml */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -728,6 +768,11 @@
 		8F8FA24918ABB8960050CFDD /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				8F62A6FB18D052A4003FFFB4 /* ActorState.h */,
+				8F62A6FC18D052A4003FFFB4 /* ActorType.h */,
+				8F62A6FD18D052A4003FFFB4 /* ComponentType.h */,
+				8F62A6FE18D052A4003FFFB4 /* SynthAnimation.cpp */,
+				8F62A6FF18D052A4003FFFB4 /* SynthAnimation.h */,
 				8F8FA24A18ABB8960050CFDD /* Language.h */,
 				8F8FA24B18ABB8960050CFDD /* SynthActor.cpp */,
 				8F8FA24C18ABB8960050CFDD /* SynthActor.h */,
@@ -747,6 +792,12 @@
 		8F8FA25518ABB8960050CFDD /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				8F62A70818D052B4003FFFB4 /* ChangeIntensityEvent.cpp */,
+				8F62A70918D052B4003FFFB4 /* ChangeIntensityEvent.h */,
+				8F62A70A18D052B4003FFFB4 /* ChangeStateEvent.cpp */,
+				8F62A70B18D052B4003FFFB4 /* ChangeStateEvent.h */,
+				8F62A70C18D052B4003FFFB4 /* WinEvent.cpp */,
+				8F62A70D18D052B4003FFFB4 /* WinEvent.h */,
 				8F8FA25618ABB8960050CFDD /* ChangeNodeOwnerEvent.cpp */,
 				8F8FA25718ABB8960050CFDD /* ChangeNodeOwnerEvent.h */,
 				8F8FA25818ABB8960050CFDD /* ChangePositionEvent.cpp */,
@@ -827,6 +878,9 @@
 		8F8FA29E18ABB8960050CFDD /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				8F62A71418D052BF003FFFB4 /* LightMap.cpp */,
+				8F62A71518D052BF003FFFB4 /* LightMap.h */,
+				8F62A71618D052BF003FFFB4 /* SHA_level_sprite.h */,
 				8F8FA29F18ABB8960050CFDD /* GameManager.cpp */,
 				8F8FA2A018ABB8960050CFDD /* GameManager.h */,
 				8F8FA2A118ABB8960050CFDD /* LevelFactory.cpp */,
@@ -848,10 +902,11 @@
 		8F8FA2AC18ABB8960050CFDD /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				8F62A71918D052CF003FFFB4 /* AnimationType.h */,
+				8F62A71A18D052CF003FFFB4 /* FireFlyAnimatedSpriteComponent.cpp */,
+				8F62A71B18D052CF003FFFB4 /* FireFlyAnimatedSpriteComponent.h */,
 				8F8FA2AD18ABB8960050CFDD /* AnimatedSpriteComponent.cpp */,
 				8F8FA2AE18ABB8960050CFDD /* AnimatedSpriteComponent.h */,
-				8F8FA2AF18ABB8960050CFDD /* FireFlyAnimatedSprite.cpp */,
-				8F8FA2B018ABB8960050CFDD /* FireFlyAnimatedSprite.h */,
 				8F8FA2B118ABB8960050CFDD /* GraphicManager.cpp */,
 				8F8FA2B218ABB8960050CFDD /* GraphicManager.h */,
 				8F8FA2B318ABB8960050CFDD /* HeroAnimatedSpriteComponent.cpp */,
@@ -920,6 +975,7 @@
 		8F8FA2DF18ABB8960050CFDD /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				8F62A71E18D052E9003FFFB4 /* SoundType.h */,
 				8F8FA2E018ABB8960050CFDD /* FireflySoundComponent.cpp */,
 				8F8FA2E118ABB8960050CFDD /* FireflySoundComponent.h */,
 				8F8FA2E218ABB8960050CFDD /* HeroSoundComponent.cpp */,
@@ -1142,8 +1198,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F62A73518D05634003FFFB4 /* xml in Resources */,
+				8F62A73118D05634003FFFB4 /* sound in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
+				8F62A72F18D05634003FFFB4 /* levels in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
@@ -1154,6 +1213,7 @@
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
+				8F62A73318D05634003FFFB4 /* sprites in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
@@ -1165,8 +1225,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F62A73618D05634003FFFB4 /* xml in Resources */,
+				8F62A73218D05634003FFFB4 /* sound in Resources */,
+				8F62A73418D05634003FFFB4 /* sprites in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
-				8F9592A018A12D2D005CD5FA /* sprites in Resources */,
+				8F62A73018D05634003FFFB4 /* levels in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1178,8 +1241,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				8F62A70E18D052B4003FFFB4 /* ChangeIntensityEvent.cpp in Sources */,
+				8F62A71218D052B4003FFFB4 /* WinEvent.cpp in Sources */,
+				8F62A71718D052BF003FFFB4 /* LightMap.cpp in Sources */,
+				8F62A71018D052B4003FFFB4 /* ChangeStateEvent.cpp in Sources */,
+				8F62A70018D052A4003FFFB4 /* SynthAnimation.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				8F62A71C18D052CF003FFFB4 /* FireFlyAnimatedSpriteComponent.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1189,6 +1258,7 @@
 			files = (
 				8F8FA32718ABB8960050CFDD /* TextSpriteComponent.cpp in Sources */,
 				8F8FA2F418ABB8960050CFDD /* SynthComponent.cpp in Sources */,
+				8F62A70F18D052B4003FFFB4 /* ChangeIntensityEvent.cpp in Sources */,
 				8F8FA2FA18ABB8960050CFDD /* ChangeTargetEvent.cpp in Sources */,
 				8F8FA2FF18ABB8960050CFDD /* EnterLightEvent.cpp in Sources */,
 				8F8FA31418ABB8960050CFDD /* SetSubtitleLanguageEvent.cpp in Sources */,
@@ -1212,6 +1282,7 @@
 				8F8FA32A18ABB8960050CFDD /* InGameMenuLayer.cpp in Sources */,
 				8F8FA32618ABB8960050CFDD /* SpriteComponent.cpp in Sources */,
 				8F8FA31E18ABB8960050CFDD /* LevelSprite.cpp in Sources */,
+				8F62A71118D052B4003FFFB4 /* ChangeStateEvent.cpp in Sources */,
 				8F8FA32F18ABB8960050CFDD /* BounceCollisionComponent.cpp in Sources */,
 				8F8FA31718ABB8960050CFDD /* SynthEvent.cpp in Sources */,
 				8F8FA34118ABB8960050CFDD /* KeyBinderManager.cpp in Sources */,
@@ -1222,15 +1293,17 @@
 				8F8FA30818ABB8960050CFDD /* OpenSettingsEvent.cpp in Sources */,
 				8F8FA32E18ABB8960050CFDD /* TitleScreenScene.cpp in Sources */,
 				8F8FA30D18ABB8960050CFDD /* ResumeGameEvent.cpp in Sources */,
+				8F62A70118D052A4003FFFB4 /* SynthAnimation.cpp in Sources */,
 				8F8FA33518ABB8960050CFDD /* LightCollision.cpp in Sources */,
 				8F8FA2FB18ABB8960050CFDD /* CollisionEvent.cpp in Sources */,
 				8F8FA32118ABB8960050CFDD /* PeriodicLauncherComponent.cpp in Sources */,
+				8F62A71D18D052CF003FFFB4 /* FireFlyAnimatedSpriteComponent.cpp in Sources */,
 				8F8FA32918ABB8960050CFDD /* GameScene.cpp in Sources */,
-				8F8FA32318ABB8960050CFDD /* FireFlyAnimatedSprite.cpp in Sources */,
 				8F8FA30C18ABB8960050CFDD /* ResetLevelEvent.cpp in Sources */,
 				8F8FA32218ABB8960050CFDD /* AnimatedSpriteComponent.cpp in Sources */,
 				8F8FA30018ABB8960050CFDD /* ExitGameEvent.cpp in Sources */,
 				8F8FA33F18ABB8960050CFDD /* VoiceSoundComponent.cpp in Sources */,
+				8F62A71818D052BF003FFFB4 /* LightMap.cpp in Sources */,
 				8F8FA31B18ABB8960050CFDD /* VoiceEvent.cpp in Sources */,
 				8F8FA2FC18ABB8960050CFDD /* ContinueGameEvent.cpp in Sources */,
 				8F8FA31A18ABB8960050CFDD /* ToggleTextEvent.cpp in Sources */,
@@ -1261,6 +1334,7 @@
 				8F8FA32C18ABB8960050CFDD /* SelectLevelScene.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				8F8FA32018ABB8960050CFDD /* NodeOwnerComponent.cpp in Sources */,
+				8F62A71318D052B4003FFFB4 /* WinEvent.cpp in Sources */,
 				8F8FA31818ABB8960050CFDD /* TestCollisionEvent.cpp in Sources */,
 				8F8FA32418ABB8960050CFDD /* GraphicManager.cpp in Sources */,
 				8F8FA30918ABB8960050CFDD /* OpenTitleScreenEvent.cpp in Sources */,

@@ -65,7 +65,7 @@ private:
 	/*! \brief Constructor */
 	SoundManager();
 
-	SoundType SoundManager::__getSoundType(std::string sTag);
+	SoundType __getSoundType(std::string sTag);
 
 	/*
 	 * Classes
