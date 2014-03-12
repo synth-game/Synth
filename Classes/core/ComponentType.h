@@ -16,7 +16,8 @@ typedef enum {
 	SPRITE,
 	HEROANIMATEDSPRITE,
 	FIREFLYANIMATEDSPRITE,
-	NODEOWNER
+	NODEOWNER,
+	LIGHTATTR
 } ComponentType;
 
 }  // namespace core
