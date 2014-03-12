@@ -48,7 +48,7 @@ bool GameScene::init() {
 	float playfield_width = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().width;
     float playfield_height = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().height;
 
-	graphics::AnimatedSpriteComponent* pAnimatedSpriteComponent = static_cast<graphics::AnimatedSpriteComponent*>(_pGameLayer->hero->getComponent(graphics::AnimatedSpriteComponent::COMPONENT_TYPE));
+	graphics::AnimatedSpriteComponent* pAnimatedSpriteComponent = static_cast<graphics::AnimatedSpriteComponent*>(_pGameLayer->getActorsByType(core::ActorType::HERO)[0]->getComponent(graphics::AnimatedSpriteComponent::COMPONENT_TYPE));
 	this->runAction(Follow::create(pAnimatedSpriteComponent->getSprite(), Rect( center.x - playfield_width/2, center.y - playfield_height/2 , playfield_width, playfield_height)));
 
 	//init listeners
