@@ -26,7 +26,8 @@
 #include "events/ChangeTargetEvent.h"
 #include "Events/WinEvent.h"
 
-#include <SimpleAudioEngine.h>
+#include "FmodAudioPlayer.h"
+
 
 namespace game {
 
@@ -92,12 +93,19 @@ bool GameManager::init() {
 
 	loadLevel("01");
 
+	hero->addComponent(graphics::HeroAnimatedSpriteComponent::create(_pLevelLayer));
+	
+	FMOD::Channel* channel_green = FmodAudioPlayer::sharedPlayer()->playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
+	FmodAudioPlayer::sharedPlayer()->InitMusic();
+	//FmodAudioPlayer::sharedPlayer()->playEffect("sound/music/bleu_xylo.wav", true, 1, 0, 1);
+
 	//TEST ZONE - END
 
 	return bTest;
 }
 
 void GameManager::update(float fDt) {
+
 	CCASSERT(hero != nullptr, "YOU WIN !");
 	physics::GeometryComponent* pGeometryComp = dynamic_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pGeometryComp != nullptr, "Hero actor need a GeometryComponent");
@@ -177,15 +185,22 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");
             dispatcher->dispatchEvent(pEditMoveEvent);
+			
             break;
             
         case EventKeyboard::KeyCode::KEY_D:
             pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent RIGHT");
             dispatcher->dispatchEvent(pEditMoveEvent);
+			FmodAudioPlayer::sharedPlayer()->StopMusicTrack(FmodAudioPlayer::tracks::green);
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:
+            //CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sound/music/blanc_orchestre.wav");
+            //CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sound/effects/jump8bit.wav");
+            //FmodAudioPlayer::sharedPlayer()->playEffect("sound/effects/jump.wav", false, 1.f, 0.f, 1.f);
+			
+			
             pJumpEvent = new events::JumpEvent(hero, true);
             CCLOG("Dispatching ActorStartMoveEvent JUMP");
             dispatcher->dispatchEvent(pJumpEvent);
@@ -322,6 +337,7 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 				pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, true);
 				CCLOG("Dispatching ActorStartMoveEvent LEFT");
 				dispatcher->dispatchEvent(pEditMoveEvent);
+				FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::green);
 				break;
             
 			case EventKeyboard::KeyCode::KEY_D:
@@ -330,6 +346,7 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
 		}
+
 	}
 
 }
