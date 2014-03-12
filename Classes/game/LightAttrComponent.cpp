@@ -28,6 +28,7 @@ LightAttrComponent* LightAttrComponent::create(Color4B color) {
     if (pRet != NULL && pRet->init()) {
         pRet->autorelease();
 		pRet->_color =	color;
+		pRet->_intensity = color.a;
     } else {
         CC_SAFE_DELETE(pRet);
     }

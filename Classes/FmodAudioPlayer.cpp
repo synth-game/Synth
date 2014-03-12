@@ -11,6 +11,7 @@
 #include "assert.h"
 #include "string.h"
 #include <ctime>
+#include "cocos2d.h"
 
 
 #define szMusicSuffix "|"
@@ -510,40 +511,48 @@ FMOD::Channel* FmodAudioPlayer::playSound(const char* pszFilePath, bool bLoop,
 void FmodAudioPlayer::InitMusic(){
 
 	pSystem->update();
-	FmodAudioPlayer::fadeTime = 0.5;
+	FmodAudioPlayer::fadeTime = 3;
+
 	FMOD::Channel* pChannel6 = FmodAudioPlayer::playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
 	pChannel6->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel6, 0));
+
 	FMOD::Channel* pChannel5 = FmodAudioPlayer::playSound("sound/music/bleu_xylo.wav", true, 1, 0, 0);
 	pChannel5->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel5, 0));
+
 	FMOD::Channel* pChannel4 = FmodAudioPlayer::playSound("sound/music/rouge_basse.wav", true, 1, 0, 0);
 	pChannel4->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel4, 0));
+
 	FMOD::Channel* pChannel3 = FmodAudioPlayer::playSound("sound/music/jaune_guitare.wav", true, 1, 0, 0);
 	pChannel3->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel3, 0));
+
 	FMOD::Channel* pChannel2 = FmodAudioPlayer::playSound("sound/music/magenta_accordeon.wav", true, 1, 0, 0);
 	pChannel2->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel2, 0));
+
 	FMOD::Channel* pChannel1 = FmodAudioPlayer::playSound("sound/music/cyan_violon.wav", true, 1, 0, 0);
 	pChannel1->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel1, 0));
+
 	FMOD::Channel* pChannel0 = FmodAudioPlayer::playSound("sound/music/blanc_orchestre.wav", true, 1, 0, 0);
 	pChannel0->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel0, 0));
 }
 
 void FmodAudioPlayer::PlayMusicTrack(int index){
 
 	int numChannels;
 	FmodAudioPlayer::pMusicGroup->getNumChannels(&numChannels);
-
+	
 	if (index<numChannels){
-		clock_t start, current;
-		start = clock();
-		current = clock();
-		while( ((current-start)/CLOCKS_PER_SEC) < FmodAudioPlayer::fadeTime ){
-			/*FMOD::Channel* pChannel;
-			FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
-			pChannel->setVolume( 1-((current-start)/ (FmodAudioPlayer::fadeTime*CLOCKS_PER_SEC)) );*/
-			current = clock();
-		}
-		//breakpoint
+		FMOD::Channel* pChannel;
+		pMusicGroup->getChannel(index, &pChannel);
+		trackStates[pChannel] = 1;
 	}
+
 }
 
 void FmodAudioPlayer::StopMusicTrack(int index){
@@ -552,7 +561,27 @@ void FmodAudioPlayer::StopMusicTrack(int index){
 
 	if (index<numChannels){
 		FMOD::Channel* pChannel;
-		FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
-		pChannel->setVolume(0.0);
+		pMusicGroup->getChannel(index, &pChannel);
+		trackStates[pChannel] = -1;
 	}
 }
+
+void FmodAudioPlayer::Update(float fDt){
+	int numChannels;
+	float volume;
+	FMOD::Channel* pChannel;
+	pMusicGroup->getNumChannels(&numChannels);
+
+	for (int i=0; i<numChannels; i++){
+		pMusicGroup->getChannel(i, &pChannel);
+		pChannel->getVolume(&volume);
+		if (trackStates[pChannel]==1 && volume < 1){
+			pChannel->setVolume(volume+fDt/fadeTime);
+		} else if (trackStates[pChannel]==-1 && volume > 0){
+			pChannel->setVolume(volume-fDt/fadeTime);
+		}
+
+	}
+	
+}
+

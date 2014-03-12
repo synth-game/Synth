@@ -13,6 +13,7 @@
 #include "AudioPlayer.h"
 #include "string"
 #include <map>
+#include <vector>
 
 
 using namespace std;
@@ -162,7 +163,9 @@ public:
 
 	void StopMusicTrack(int index);
 
-	enum tracks{white, cyan, magenta, yellow, red, blue, green};
+	void Update(float fDt);
+
+	enum tracks{WHITE, CYAN, MAGENTA, YELLOW, RED, BLUE, GREEN};
 
 private:
 
@@ -183,6 +186,7 @@ private:
 
 	float fadeTime; //in seconds
 
+	map<FMOD::Channel*, int> trackStates;
 };
 
 #endif /* FMODAUDIOPLAYER_H_ */

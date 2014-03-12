@@ -24,7 +24,6 @@ FireFlyAnimatedSpriteComponent::~FireFlyAnimatedSpriteComponent() {
 
 bool FireFlyAnimatedSpriteComponent::init() {
     SynthComponent::init(FireFlyAnimatedSpriteComponent::COMPONENT_TYPE);
-	initListeners();
 	return true;
 }
 
@@ -86,7 +85,7 @@ void FireFlyAnimatedSpriteComponent::onEnter() {
 }
 
 void FireFlyAnimatedSpriteComponent::initListeners() {
-	AnimatedSpriteComponent::initListeners();
+    AnimatedSpriteComponent::initListeners();
 	_pChangeNodeOwnerEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(FireFlyAnimatedSpriteComponent::onChangeNodeOwner, this));
 	
 	// Add listeners to dispacher
