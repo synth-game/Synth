@@ -62,10 +62,11 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	pXMLFile = ioManager->loadXML("levels/"+levelName+"/actors.xml");
 	if(pXMLFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
-		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData;
-		std::string actorType, componentType, name;
+		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData ,*pOwnerData;
+		std::string actorType, componentType, name, ownedIdText;
 		float positionX, positionY, anchorPointX, anchorPointY, rotate, accelerationX, accelerationY, gravityX, gravityY, width, height = 0;
-
+		int ownerId;
+		std::vector<int> aOwnerIds;
 		pActorData = pXMLFile->FirstChildElement("actor");
 		while (pActorData) {
 
@@ -77,6 +78,8 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 			// Create components
 			std::vector<core::SynthComponent*> aComponents;
 			pComponentData = pActorData->FirstChildElement("component");
+
+			ownerId = -1;
 
 			while(pComponentData) {
 				componentType = pComponentData->Attribute("type");
@@ -137,12 +140,17 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					aComponents.push_back(graphics::FireFlyAnimatedSpriteComponent::create(pLevelLayer));
 					break;
 				case core::ComponentType::NODEOWNER:
+					pOwnerData = pComponentData->FirstChildElement("owned");
+					if(pOwnerData != nullptr) {
+						ownerId = atoi(pOwnerData->GetText());
+					}
 					aComponents.push_back(game::NodeOwnerComponent::create(nullptr));
 				default:
 					break;
 				}
 				pComponentData = pComponentData->NextSiblingElement("component");
 			}
+			aOwnerIds.push_back(ownerId);
 
 			// Add components to the actor
 			for(auto component : aComponents) {
@@ -173,6 +181,16 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 			}
 
 			pActorData = pActorData->NextSiblingElement("actor");
+		}
+
+		for(int i = 0; i < aOwnerIds.size(); i++) {
+			int ownerId = aOwnerIds[i];
+			if(ownerId >= 0) {
+				game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(aActors[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+				if(pNodeOwnerComp != nullptr) {
+					pNodeOwnerComp->setOwnedNode(aActors[ownerId]);
+				}
+			}
 		}
 	}
 
