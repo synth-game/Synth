@@ -75,7 +75,7 @@ protected:
 	Layer* _pSubtitlesLayer;
 	ParallaxNode* _pParallaxManager;
 
-	std::stack<EventKeyboard::KeyCode> _keyPressedCode;
+	std::vector<EventKeyboard::KeyCode> _keyPressedCode;
 
 };
 
