@@ -291,6 +291,9 @@
     <ClCompile Include="..\Classes\core\SynthAnimation.cpp">
       <Filter>Classes\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\FmodAudioPlayer.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\game\LightMap.cpp">
       <Filter>Classes\game</Filter>
     </ClCompile>
@@ -557,6 +560,9 @@
     <ClInclude Include="..\Classes\graphics\AnimationType.h">
       <Filter>Classes\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\graphics\ActorState.h">
+      <Filter>Classes\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\Events\WinEvent.h">
       <Filter>Classes\events</Filter>
     </ClInclude>
@@ -569,13 +575,40 @@
     <ClInclude Include="..\Classes\game\SHA_level_sprite.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\core\ComponentType.h">
-      <Filter>Classes\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Sounds\SoundType.h">
       <Filter>Classes\sounds</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\AudioPlayer.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\fmod.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\fmod.hpp">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\fmod_codec.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\fmod_dsp.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\fmod_errors.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\fmod_memoryinfo.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\fmod_output.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FmodAudioPlayer.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\core\ActorState.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\core\ComponentType.h">
       <Filter>Classes\core</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\game\LightMap.h">
