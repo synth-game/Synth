@@ -13,6 +13,7 @@
 #include "core/SynthConfig.h"
 #include "SoundType.h"
 #include "FmodAudioPlayer.h"
+#include "game/LightMap.h"
 
 USING_NS_CC;
 
@@ -26,6 +27,26 @@ namespace sounds {
 class SoundManager {
 
 public:
+
+	/*
+	 * Classes
+	 */
+
+	class Music {
+	public:
+		SoundType eTag;
+		std::string filePath;
+		int iChannel;
+	};
+
+	class Effect {
+	public:
+		SoundType eTag;
+		std::string filePath;
+		bool bLoop;
+		SoundType nextTag;
+	};
+
 	/*
 	 * Methods
 	 */
@@ -38,13 +59,19 @@ public:
 
 	void init();
 
+	inline Music getMusicFromTag(SoundType type) { return _musics.find(type)->second; }
+
 	bool playSound(std::string soundName, int iTrackId);
 
 	bool stopSound(int iTrackId);
 
+	void updateMusics(Color4B color);
+
 	bool unmuteMusic(std::string musicName);
 
 	bool muteMusic(std::string musicName);
+
+	bool isPlayingMusic(SoundType type);
 
 	/**
 	 * = true :
@@ -68,24 +95,7 @@ private:
 
 	SoundType __getSoundType(std::string sTag);
 
-	/*
-	 * Classes
-	 */
-
-	class Music {
-	public:
-		SoundType eTag;
-		std::string filePath;
-		int iChannel;
-	};
-
-	class Effect {
-	public:
-		SoundType eTag;
-		std::string filePath;
-		bool bLoop;
-		SoundType nextTag;
-	};
+	
 
 	/*
 	 * Members
@@ -97,6 +107,8 @@ private:
 	std::map<SoundType,Effect> _effects;
 
 	std::map<SoundType,Music> _musics;
+
+	std::vector<SoundType> _playingMusics;
 
 	/*! \brief Associate the string tag to the SoundType tag */
 	std::map<std::string,SoundType> _tagsMap;

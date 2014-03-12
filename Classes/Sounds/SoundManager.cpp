@@ -8,6 +8,7 @@
 #include "FmodAudioPlayer.h"
 
 #include "system/IOManager.h"
+#include "game/LightMap.h"
 
 #define MUSIC_NUMBER 7
 
@@ -115,12 +116,56 @@ bool SoundManager::stopSound(int iTrackId) {
 	return 0;
 }
 
+void SoundManager::updateMusics(Color4B color) {
+	Music music = Music();
+	if(color != Color4B(0,0,0,0)) {
+		if (color == Color4B::BLUE && !isPlayingMusic(SoundType::BLUE) ) {
+			music = getMusicFromTag(SoundType::BLUE);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::BLUE);
+		} else if (color == Color4B::RED && !isPlayingMusic(SoundType::RED)) {
+			music = getMusicFromTag(SoundType::RED);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::RED);
+		} else if (color == Color4B::GREEN && !isPlayingMusic(SoundType::GREEN)) {
+			music = getMusicFromTag(SoundType::GREEN);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::GREEN);
+		} else if (color == Color4B::CYAN && !isPlayingMusic(SoundType::CYAN)) {
+			music = getMusicFromTag(SoundType::CYAN);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::CYAN);
+		} else if (color == Color4B::MAGENTA && !isPlayingMusic(SoundType::MAGENTA)) {
+			music = getMusicFromTag(SoundType::MAGENTA);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::MAGENTA);
+		} else if (color == Color4B::YELLOW && !isPlayingMusic(SoundType::YELLOW)) {
+			music = getMusicFromTag(SoundType::YELLOW);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::YELLOW);
+		} else if (color == Color4B::WHITE && !isPlayingMusic(SoundType::WHITE)) {
+			music = getMusicFromTag(SoundType::WHITE);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::WHITE);
+		}
+	}
+}
+
 bool SoundManager::unmuteMusic(std::string musicName) {
 	return 0;
 }
 
 bool SoundManager::muteMusic(std::string musicName) {
 	return 0;
+}
+
+bool SoundManager::isPlayingMusic(SoundType type) {
+	for (auto playingType : _playingMusics) {
+		if (playingType == type) {
+			return true;
+		}
+	}
+	return false;
 }
 
 bool SoundManager::isFinished(int iTrackId) {
