@@ -147,9 +147,9 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 
     auto dispatcher = EventDispatcher::getInstance();
 
-	_keyPressedCode.push(keyCode);
+	_keyPressedCode.push_back(keyCode);
 
-    switch(_keyPressedCode.top()) {
+	switch(keyCode) {
         case EventKeyboard::KeyCode::KEY_Q:
             pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");
@@ -202,27 +202,42 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
     events::EditMoveEvent* pEditMoveEvent;
     auto dispatcher = EventDispatcher::getInstance();
 
-	if(keyCode == _keyPressedCode.top()) {
-		switch(keyCode) {
-			case EventKeyboard::KeyCode::KEY_Q:
-				pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, false);
-				dispatcher->dispatchEvent(pEditMoveEvent);
-				break;
-			case EventKeyboard::KeyCode::KEY_D:
-				pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, false);
-				dispatcher->dispatchEvent(pEditMoveEvent);
-				break;
-			case EventKeyboard::KeyCode::KEY_SPACE:
-				/*jumpEvent = new ActorJumpEvent(_hero);
-				jumpEvent->_bStart = false;
-				dispatcher->dispatchEvent(jumpEvent);*/
+	switch(keyCode) {
+		case EventKeyboard::KeyCode::KEY_Q:
+			pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, false);
+			dispatcher->dispatchEvent(pEditMoveEvent);
+			break;
+		case EventKeyboard::KeyCode::KEY_D:
+			pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, false);
+			dispatcher->dispatchEvent(pEditMoveEvent);
+			break;
+		case EventKeyboard::KeyCode::KEY_SPACE:
+			/*jumpEvent = new ActorJumpEvent(_hero);
+			jumpEvent->_bStart = false;
+			dispatcher->dispatchEvent(jumpEvent);*/
 
+			break;
+		default:
+			break;
+	}
+	_keyPressedCode.erase(std::remove(_keyPressedCode.begin(), _keyPressedCode.end(), keyCode), _keyPressedCode.end());
+
+	for(std::vector<EventKeyboard::KeyCode>::iterator it = _keyPressedCode.begin(); it != _keyPressedCode.end(); ++it) {
+		switch(*it) {
+			case EventKeyboard::KeyCode::KEY_Q:
+				pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, true);
+				CCLOG("Dispatching ActorStartMoveEvent LEFT");
+				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
-			default:
+            
+			case EventKeyboard::KeyCode::KEY_D:
+				pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, true);
+				CCLOG("Dispatching ActorStartMoveEvent RIGHT");
+				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
 		}
-		_keyPressedCode.pop();
 	}
+
 }
 
 Color4B GameManager::getLightColor(core::SynthActor* pLight) {
