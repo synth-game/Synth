@@ -79,7 +79,7 @@ void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
 			Color4B notOccultedColor(0, 0, 0, 0);
 
 			for (std::vector<std::pair<int, bool>>::iterator itSample=currentPixel.begin(); itSample!=currentPixel.end(); ++itSample) {
-				if(itSample->first < 3) {
+				if (itSample->first <3){ // test
 					core::SynthActor* currentLight = lights[itSample->first];
 					LightAttrComponent* pLightAttrComp =  dynamic_cast<LightAttrComponent*>(currentLight->getComponent(LightAttrComponent::COMPONENT_TYPE));
 					CCASSERT(pLightAttrComp != nullptr, "A SynthActor sent to update LightMap hasn't got a LightAttrComponent. It's not a light !");
