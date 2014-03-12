@@ -25,6 +25,7 @@
 #include "events/ChangeNodeOwnerEvent.h"
 #include "events/ChangeTargetEvent.h"
 #include "Events/WinEvent.h"
+#include "events/EnterLightEvent.h"
 
 #include <SimpleAudioEngine.h>
 
@@ -88,6 +89,10 @@ bool GameManager::init() {
 	_pParallaxManager->addChild(_pSubtitlesLayer, 5, Point(1.f, 1.f), Point(0.f, 0.f));
 	Layer::addChild(_pParallaxManager);
 
+	// init listeners
+	_pEnterLightListener = EventListenerCustom::create(events::EnterLightEvent::EVENT_NAME, CC_CALLBACK_1(GameManager::onEnterLight, this));
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEnterLightListener, 1);
+
 	//TEST ZONE - BEGIN
 
 	loadLevel("test");
@@ -102,7 +107,7 @@ void GameManager::update(float fDt) {
 	physics::GeometryComponent* pGeometryComp = dynamic_cast<physics::GeometryComponent*>(hero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pGeometryComp != nullptr, "Hero actor need a GeometryComponent");
 	if(_triggers["WIN"].containsPoint(pGeometryComp->getPosition())) {
-		CCLOG("YOU WIN");
+		CCLOG("GAME MANAGER : YOU WIN");
 		events::WinEvent* pWinEvent = new events::WinEvent();
 		GameManager::resetLevel();
 	}
@@ -113,13 +118,13 @@ void GameManager::update(float fDt) {
 }
 
 void GameManager::loadLevel(/*int iLevelId*/std::string level) {
-
+	CCLOG("GAME MANAGER : LOAD LEVEL");
 	Sprite* pBgSprite = Sprite::create("sprites/decor.jpg");
 	pBgSprite->setAnchorPoint(Point::ZERO);
 	_pBackgroundLayer->addChild(pBgSprite);
 
 	_levelActors = game::LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
-	_triggers = game::LevelFactory::getInstance()->buildTriggers(level);
+	_triggers = game::LevelFactory::getInstance()->buildTriggers(level);	
 
 	hero = GameManager::getActorsByTag("HERO").at(0);
 
@@ -131,6 +136,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 }
 
 void GameManager::clearLevel() {
+	CCLOG("GAME MANAGER : CLEAR LEVEL");
 	for(auto obj : _levelActors) {
 		delete obj;
 		obj = nullptr;
@@ -153,6 +159,11 @@ void GameManager::resetLevel() {
 	//loadLevel("test");
 }
 
+void GameManager::onEnterLight(EventCustom* pEvent) {
+	CCLOG("GAME MANAGER : YOU JUST ENTERED A RED LIGHT");
+	events::EnterLightEvent* enterLightEvent = static_cast<events::EnterLightEvent*>(pEvent);
+	resetLevel();
+}
 
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::EditMoveEvent* pEditMoveEvent = nullptr;

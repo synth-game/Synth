@@ -65,7 +65,6 @@ protected:
 	int _iCurrentLevelId;
 	float _fTimeSinceLevelStart;
 	
-	
 	LevelSprite* _pLevelSprite;
 
 	Layer* _pBackgroundLayer;
@@ -74,6 +73,10 @@ protected:
 	Layer* _pSkinningLayer;
 	Layer* _pSubtitlesLayer;
 	ParallaxNode* _pParallaxManager;
+
+	EventListenerCustom* _pEnterLightListener;
+
+	void onEnterLight(EventCustom* pEvent);
 
 	std::stack<EventKeyboard::KeyCode> _keyPressedCode;
 
