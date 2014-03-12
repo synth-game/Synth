@@ -11,7 +11,9 @@ namespace graphics {
 
 GraphicManager* GraphicManager::_pInstance = nullptr;
 
-GraphicManager::GraphicManager() {
+GraphicManager::GraphicManager() :
+	_pFrameCache(nullptr),
+	_pBatchNode(nullptr) {
 }
 
 GraphicManager::~GraphicManager() {
@@ -31,9 +33,6 @@ void GraphicManager::init() {
 	_pFrameCache = cocos2d::SpriteFrameCache::sharedSpriteFrameCache();
 	_pFrameCache->addSpriteFramesWithFile("sprites/actors.plist");
 	_pFrameCache->retain();
-
-	// batchnode
-	_pBatchNode = getBatchNode();
 
 	// invert enum animation type
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_IDLE",			AnimationType::HERO_IDLE	));
@@ -120,11 +119,10 @@ core::SynthAnimation* GraphicManager::getAnimation(AnimationType eAnimationType)
 }
 
 SpriteBatchNode* GraphicManager::getBatchNode() {
-	if(_pBatchNode != nullptr) {
-		return SpriteBatchNode::create("sprites/actors.pvr");
-	} else {
-		return _pBatchNode;
+	if(_pBatchNode == nullptr) {
+		_pBatchNode = SpriteBatchNode::create("sprites/actors.pvr");
 	}
+	return _pBatchNode;
 }
 
 Animation* GraphicManager::__createAnimation(std::vector<std::string> aFrames) {

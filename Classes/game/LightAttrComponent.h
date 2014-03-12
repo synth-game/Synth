@@ -44,7 +44,7 @@ public:
 
 	inline void setColor(Color4B color) { _color = color; };
 
-	inline bool isOn() { return _intensity == 1.f; };
+	inline bool isOn() { return _intensity == 255; };
 
 	inline float getIntensity() { return _intensity; };
 
@@ -85,7 +85,7 @@ protected:
 	Color4B _color;
 
 	/*! \brief The intensity of the light. The alpha layer from _pColor member */
-	float _intensity;
+	unsigned char _intensity;
 
 
 private:
