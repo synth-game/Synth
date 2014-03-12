@@ -162,7 +162,9 @@ public:
 
 	void StopMusicTrack(int index);
 
-	enum tracks{white, cyan, magenta, yellow, red, blue, green};
+	void Update(float fDt);
+
+	enum tracks{WHITE, CYAN, MAGENTA, YELLOW, RED, BLUE, GREEN};
 
 private:
 

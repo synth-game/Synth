@@ -93,10 +93,8 @@ bool GameManager::init() {
 
 	loadLevel("01");
 	
-	//FMOD::Channel* channel_green = FmodAudioPlayer::sharedPlayer()->playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
 	FmodAudioPlayer::sharedPlayer()->InitMusic();
-	//FmodAudioPlayer::sharedPlayer()->playEffect("sound/music/bleu_xylo.wav", true, 1, 0, 1);
-
+	FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::BLUE);
 	//TEST ZONE - END
 
 	return bTest;
@@ -119,6 +117,8 @@ void GameManager::update(float fDt) {
 	for (auto actor : _levelActors) {
 		actor->update(fDt);
 	}
+
+	FmodAudioPlayer::sharedPlayer()->Update(fDt);
 }
 
 void GameManager::loadLevel(/*int iLevelId*/std::string level) {
