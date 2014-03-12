@@ -8,7 +8,7 @@
 #define GAME_GAME_MANAGER_H
 
 #include <vector>
-#include <stack>
+#include <string>
 #include <map>
 #include "cocos2d.h"
 #include "Game/LevelSprite.h"
@@ -49,22 +49,24 @@ public:
 	static Color4B getLightColor(core::SynthActor* pLight);
 
 	inline Layer* getLevelLayer() { return _pLevelLayer; }
+	
+	std::vector<core::SynthActor*> getActorsByType(core::ActorType type);
 
 	/*void GameManager::onEditMove(EventCustom* event);*/
-
-	core::SynthActor* hero;
-	std::vector<core::SynthActor*> _levelActors;
-	std::map<std::string, Rect> _triggers;
 
 protected:
 	/*! \brief Constructor */
 	GameManager();
-	std::vector<core::SynthActor*> getActorsByTag(std::string sTag);
 	core::SynthActor* getNearActor(core::SynthActor* actor);
+
+	void onEnterLight(EventCustom* pEvent);
 
 	int _iCurrentLevelId;
 	float _fTimeSinceLevelStart;
-	
+	std::vector<std::string> _levelsName;
+	std::vector<core::SynthActor*> _levelActors;
+	std::map<std::string,Rect> _triggers;
+
 	LevelSprite* _pLevelSprite;
 
 	Layer* _pBackgroundLayer;
@@ -76,9 +78,7 @@ protected:
 
 	EventListenerCustom* _pEnterLightListener;
 
-	void onEnterLight(EventCustom* pEvent);
-
-	std::stack<EventKeyboard::KeyCode> _keyPressedCode;
+	std::vector<EventKeyboard::KeyCode> _keyPressedCode;
 
 };
 

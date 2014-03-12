@@ -46,7 +46,7 @@ public:
 
 	core::SynthAnimation* getAnimation(AnimationType eAnimationType);
 
-	inline SpriteBatchNode* getBatchNode() { return _pBatchNode; }
+	SpriteBatchNode* getBatchNode();
 
 	inline SpriteFrameCache* getFrameCache() { return _pFrameCache; }
 

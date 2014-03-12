@@ -21,7 +21,7 @@ public:
 	/*! \brief Destructor */
 	~LevelSprite();
 
-	static LevelSprite* create(char* sBackgroundPath, core::SynthActor* pHero);
+	static LevelSprite* create(const char* sBackgroundPath, core::SynthActor* pHero);
 	void addLight(Texture2D* pTexture, Point position, Color4B color);
 	void draw();
 

@@ -181,11 +181,11 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
     core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	_eCurrentAnimType = AnimationType::HERO_START_JUMP;
+	_eCurrentAnimType = AnimationType::HERO_JUMP;
 	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
 	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
 
-    if (pSource->getActorID() == pOwner->getActorID()) {
+	if (_eState == core::ActorState::ON_FLOOR_STATE && pSource->getActorID() == pOwner->getActorID()) {
 		CCLOG("RUN JUMP ANIMATION");
 		runAnimation(pAnimation, animate);
     }

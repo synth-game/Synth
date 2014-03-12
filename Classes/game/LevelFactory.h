@@ -46,7 +46,7 @@ private:
 	/*
 	 * Methods
 	 */
-	physics::CollisionComponent* __createCollisionComponent();
+	physics::CollisionComponent* __createCollisionComponent(std::string levelName);
 
 	/*! \brief Constructor */
 	LevelFactory();
