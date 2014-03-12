@@ -115,6 +115,9 @@ bool GameManager::init() {
 	//TEST ZONE - END
 
 	return bTest;
+
+	// Init sounds ids
+	stepsSoundId = -1; //-1 >> not playing
 }
 
 void GameManager::update(float fDt) {
@@ -161,6 +164,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	pLevelSprite->addLight(Sprite::create(std::string("levels/"+level+"/PREC_light_0.png").c_str())->getTexture(), Point(490.f, 260.f), Color4B::RED);
 	pLevelSprite->addLight(Sprite::create(std::string("levels/"+level+"/PREC_light_1.png").c_str())->getTexture(), Point(590.f, 260.f), Color4B::BLUE);
 	_pLevelLayer->addChild(pLevelSprite, 0, 42);
+
 }
 
 void GameManager::clearLevel() {
@@ -215,14 +219,23 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-			//FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::blue);
-            break;
+			
+			if (stepsSoundId == -1){ 
+				stepsSoundId = FmodAudioPlayer::sharedPlayer()->playEffect("sound/effects/bounce.wav", true, 1, 0, 1);
+			}
+
+			break;
             
         case EventKeyboard::KeyCode::KEY_D:
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent RIGHT");
             dispatcher->dispatchEvent(pEditMoveEvent);
 			FmodAudioPlayer::sharedPlayer()->StopMusicTrack(FmodAudioPlayer::tracks::BLUE);
+
+			if (stepsSoundId == -1){ 
+				stepsSoundId = FmodAudioPlayer::sharedPlayer()->playEffect("sound/effects/bounce.wav", true, 1, 0, 1);
+			}
+
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:
@@ -359,10 +372,18 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 		case EventKeyboard::KeyCode::KEY_Q:
 			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
+
+			FmodAudioPlayer::sharedPlayer()->stopEffect(stepsSoundId);
+			stepsSoundId = -1;
+
 			break;
 		case EventKeyboard::KeyCode::KEY_D:
 			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
+
+			FmodAudioPlayer::sharedPlayer()->stopEffect(stepsSoundId);
+			stepsSoundId = -1;
+
 			break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
 			/*jumpEvent = new ActorJumpEvent(_hero);

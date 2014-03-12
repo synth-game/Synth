@@ -75,22 +75,24 @@ void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
 			Color4B notOccultedColor(0, 0, 0, 0);
 
 			for (std::vector<std::pair<int, bool>>::iterator itSample=currentPixel.begin(); itSample!=currentPixel.end(); ++itSample) {
-				core::SynthActor* currentLight = lights[itSample->first];
-				LightAttrComponent* pLightAttrComp =  dynamic_cast<LightAttrComponent*>(currentLight->getComponent(LightAttrComponent::COMPONENT_TYPE));
-				CCASSERT(pLightAttrComp != nullptr, "A SynthActor sent to update LightMap hasn't got a LightAttrComponent. It's not a light !");
+				if (itSample->first <3){ // test
+					core::SynthActor* currentLight = lights[itSample->first];
+					LightAttrComponent* pLightAttrComp =  dynamic_cast<LightAttrComponent*>(currentLight->getComponent(LightAttrComponent::COMPONENT_TYPE));
+					CCASSERT(pLightAttrComp != nullptr, "A SynthActor sent to update LightMap hasn't got a LightAttrComponent. It's not a light !");
 
-				Color4B lightColor = pLightAttrComp->getColor();
-				if (notOccultedColor.r == 255 || lightColor.r == 255) { notOccultedColor.r = 255; }
-				if (notOccultedColor.g == 255 || lightColor.g == 255) { notOccultedColor.g = 255; }
-				if (notOccultedColor.b == 255 || lightColor.b == 255) { notOccultedColor.b = 255; }
-				notOccultedColor.a = 255;
+					Color4B lightColor = pLightAttrComp->getColor();
+					if (notOccultedColor.r == 255 || lightColor.r == 255) { notOccultedColor.r = 255; }
+					if (notOccultedColor.g == 255 || lightColor.g == 255) { notOccultedColor.g = 255; }
+					if (notOccultedColor.b == 255 || lightColor.b == 255) { notOccultedColor.b = 255; }
+					notOccultedColor.a = 255;
 
-				// check if the pixel is occulted from the light
-				if (itSample->second == false) {
-					if (occultedColor.r == 255 || lightColor.r == 255) { occultedColor.r = 255; }
-					if (occultedColor.g == 255 || lightColor.g == 255) { occultedColor.g = 255; }
-					if (occultedColor.b == 255 || lightColor.b == 255) { occultedColor.b = 255; }
-					occultedColor.a = 255;
+					// check if the pixel is occulted from the light
+					if (itSample->second == false) {
+						if (occultedColor.r == 255 || lightColor.r == 255) { occultedColor.r = 255; }
+						if (occultedColor.g == 255 || lightColor.g == 255) { occultedColor.g = 255; }
+						if (occultedColor.b == 255 || lightColor.b == 255) { occultedColor.b = 255; }
+						occultedColor.a = 255;
+					}
 				}
 			}
 
