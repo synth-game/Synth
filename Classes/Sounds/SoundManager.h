@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 #include "core/SynthConfig.h"
 #include "SoundType.h"
+#include "FmodAudioPlayer.h"
 
 USING_NS_CC;
 
@@ -75,6 +76,7 @@ private:
 	public:
 		SoundType eTag;
 		std::string filePath;
+		int iChannel;
 	};
 
 	class Effect {

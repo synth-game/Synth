@@ -20,6 +20,7 @@
 #include "graphics/FireflyAnimatedSpriteComponent.h"
 #include "game/NodeOwnerComponent.h"
 #include "system/IOManager.h"
+#include "sounds/SoundType.h"
 
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
@@ -110,8 +111,8 @@ bool GameManager::init() {
 	//TEST ZONE - BEGIN
 	loadLevel(_levelsName[_iCurrentLevelId]);
 
-	FmodAudioPlayer::sharedPlayer()->InitMusic();
-	FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::BLUE);
+	// NE PAS DECOMMENTER SVP , INIT MUSIC FAIT DANS LE SOUND MANAGER FmodAudioPlayer::sharedPlayer()->InitMusic(); NE PAS DECOMMENTER SVP
+	//FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::BLUE);
 	//TEST ZONE - END
 
 	return bTest;
@@ -223,7 +224,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent RIGHT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-			FmodAudioPlayer::sharedPlayer()->StopMusicTrack(FmodAudioPlayer::tracks::BLUE);
+			FmodAudioPlayer::sharedPlayer()->StopMusicTrack(sounds::SoundType::BLUE);
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:

@@ -157,15 +157,13 @@ public:
 	FMOD::Channel* playSound(const char* pszFilePath, bool bLoop,
                                     float pitch, float pan, float gain);
 
-	void InitMusic();
+	void InitMusic(std::string music);
 
 	void PlayMusicTrack(int index);
 
 	void StopMusicTrack(int index);
 
 	void Update(float fDt);
-
-	enum tracks{WHITE, CYAN, MAGENTA, YELLOW, RED, BLUE, GREEN};
 
 private:
 

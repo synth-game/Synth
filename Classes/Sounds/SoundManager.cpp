@@ -5,7 +5,11 @@
  * \date 26/02/2014
  */
 #include "SoundManager.h"
+#include "FmodAudioPlayer.h"
+
 #include "system/IOManager.h"
+
+#define MUSIC_NUMBER 7
 
 namespace sounds {
 
@@ -52,34 +56,42 @@ void SoundManager::init() {
 	tinyxml2::XMLDocument* pMusicsFile = new tinyxml2::XMLDocument();
 	synthsystem::IOManager* ioManager = synthsystem::IOManager::getInstance();
 	pMusicsFile = ioManager->loadXML("xml/musics.xml");
-	if(pMusicsFile != nullptr) {
+	if (pMusicsFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pMusicsFile);
 		tinyxml2::XMLElement *pMusicData;
 		Music music;
+		int i = MUSIC_NUMBER - 1;
 
 		pMusicData = pMusicsFile->FirstChildElement("music");
-		while(pMusicData)
-		{	
+		while (pMusicData) {	
 			music = Music();
 			music.eTag = __getSoundType(pMusicData->Attribute("tag"));
 			music.filePath = pMusicData->Attribute("name");
+			music.iChannel = i;
 			_musics.insert(std::pair<SoundType, Music>(music.eTag, music));
+			FmodAudioPlayer::sharedPlayer()->InitMusic("sound/music/"+music.filePath);
+			--i;
 			pMusicData = pMusicData->NextSiblingElement("music");
 		}
+
+		for (auto musicData : _musics) {
+			Music playMusic = musicData.second;
+			//FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(playMusic.iChannel);
+		}
+
 	}
 
 	// parsing effects
 	tinyxml2::XMLDocument* pEffectsFile = new tinyxml2::XMLDocument();
 	pEffectsFile = ioManager->loadXML("xml/effects.xml");
-	if(pEffectsFile != nullptr) {
+	if (pEffectsFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pEffectsFile);
 		tinyxml2::XMLElement *pEffectData;
 		Effect effect;
 		std::string next;
 
 		pEffectData = pEffectsFile->FirstChildElement("effect");
-		while(pEffectData)
-		{	
+		while (pEffectData) {	
 			effect = Effect();
 			effect.eTag = __getSoundType(pEffectData->Attribute("tag"));
 			effect.filePath = pEffectData->Attribute("name");
