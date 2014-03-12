@@ -82,12 +82,14 @@ void FollowMovementComponent::update( float fDt ) {
 
 		Point relativeTarget = Point::ZERO;
 		// if the target is the hero
-		if(_target->getActorType() == core::ActorType::HERO) {
+		if (_target->getActorType() == core::ActorType::HERO) {
 			if(pOwnerSpriteComponent != nullptr && pOwnerSpriteComponent->getSprite()->isFlippedX()) {
 				relativeTarget = Point(40.f, 0.f);
 			} else {
 				relativeTarget = Point(-40.f, 0.f);
 			}
+		} else if (_target->getActorType() == core::ActorType::LIGHT) {
+			relativeTarget = Point(-2.f, -11.f);
 		}
 
 		if(pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
