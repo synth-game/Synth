@@ -93,7 +93,7 @@ bool GameManager::init() {
 
 	loadLevel("01");
 	
-	FMOD::Channel* channel_green = FmodAudioPlayer::sharedPlayer()->playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
+	//FMOD::Channel* channel_green = FmodAudioPlayer::sharedPlayer()->playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
 	FmodAudioPlayer::sharedPlayer()->InitMusic();
 	//FmodAudioPlayer::sharedPlayer()->playEffect("sound/music/bleu_xylo.wav", true, 1, 0, 1);
 
@@ -182,14 +182,14 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-			
+			//FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::blue);
             break;
             
         case EventKeyboard::KeyCode::KEY_D:
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent RIGHT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-			FmodAudioPlayer::sharedPlayer()->StopMusicTrack(FmodAudioPlayer::tracks::green);
+			//FmodAudioPlayer::sharedPlayer()->StopMusicTrack(FmodAudioPlayer::tracks::blue);
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:
@@ -308,11 +308,11 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 
 	switch(keyCode) {
 		case EventKeyboard::KeyCode::KEY_Q:
-			pEditMoveEvent = new events::EditMoveEvent(hero, Point(1., 0.), true, false, false);
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
 			break;
 		case EventKeyboard::KeyCode::KEY_D:
-			pEditMoveEvent = new events::EditMoveEvent(hero, Point(-1., 0.), true, false, false);
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
 			break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
@@ -329,17 +329,12 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 	for(std::vector<EventKeyboard::KeyCode>::iterator it = _keyPressedCode.begin(); it != _keyPressedCode.end(); ++it) {
 		switch(*it) {
 			case EventKeyboard::KeyCode::KEY_Q:
-
 				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, false);
-
 				dispatcher->dispatchEvent(pEditMoveEvent);
-				FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::green);
 				break;
             
 			case EventKeyboard::KeyCode::KEY_D:
-
 				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
-
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
 		}
