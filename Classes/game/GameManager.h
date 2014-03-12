@@ -54,7 +54,7 @@ public:
 
 	core::SynthActor* hero;
 	std::vector<core::SynthActor*> _levelActors;
-	std::map<std::string,Rect> _triggers;
+	std::map<std::string, Rect> _triggers;
 
 protected:
 	/*! \brief Constructor */

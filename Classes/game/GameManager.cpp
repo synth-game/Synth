@@ -124,7 +124,16 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	_pBackgroundLayer->addChild(pBgSprite);
 
 	_levelActors = game::LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
-	_triggers = game::LevelFactory::getInstance()->buildTriggers(level);	
+	_triggers = game::LevelFactory::getInstance()->buildTriggers(level);
+
+	for (std::map<std::string, Rect>::iterator it = _triggers.begin(); it != _triggers.end(); ++it) {
+		Sprite* rect = Sprite::create("levels/test/rect.png");
+		rect->setPosition(it->second.origin);
+		rect->setAnchorPoint(Point(0,0));
+		rect->setScaleX(it->second.size.width/rect->getContentSize().width);
+		rect->setScaleY(it->second.size.height/rect->getContentSize().height);
+		_pLevelLayer->addChild(rect, 50);
+	}
 
 	hero = GameManager::getActorsByTag("HERO").at(0);
 
