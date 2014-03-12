@@ -1,3 +1,4 @@
+#include "cocos2d.h"
 #include "GameScene.h"
 #include "graphics/AnimatedSpriteComponent.h"
 
@@ -41,15 +42,12 @@ bool GameScene::init() {
 	Scene::addChild(_pGameLayer);
 
 	// Camera
-	Point origin = Director::sharedDirector()->getVisibleOrigin();
-    Size size = Director::sharedDirector()->getVisibleSize();  //default screen size (or design resolution size, if you are using design resolution)
-    Point center = Point(size.width/2 + origin.x, size.height/2 + origin.y);
-
 	float playfield_width = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().width;
     float playfield_height = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().height;
+	Rect boundaries =  Rect( 0.f, 0.f , playfield_width, playfield_height);
 
 	graphics::AnimatedSpriteComponent* pAnimatedSpriteComponent = static_cast<graphics::AnimatedSpriteComponent*>(_pGameLayer->hero->getComponent(graphics::AnimatedSpriteComponent::COMPONENT_TYPE));
-	this->runAction(Follow::create(pAnimatedSpriteComponent->getSprite(), Rect( center.x - playfield_width/2, center.y - playfield_height/2 , playfield_width, playfield_height)));
+	this->runAction(Follow::create(pAnimatedSpriteComponent->getSprite(), boundaries));
 
 	//init listeners
 	//TO DO
