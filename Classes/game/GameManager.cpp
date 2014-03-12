@@ -147,7 +147,7 @@ void GameManager::clearLevel() {
 
 void GameManager::resetLevel() {
 	clearLevel();
-	//loadLevel("test");
+	//loadLevel("01");
 }
 
 
