@@ -19,6 +19,7 @@
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireflyAnimatedSpriteComponent.h"
 #include "game/NodeOwnerComponent.h"
+#include "system/IOManager.h"
 
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
@@ -94,14 +95,23 @@ bool GameManager::init() {
 	_pEnterLightListener = EventListenerCustom::create(events::EnterLightEvent::EVENT_NAME, CC_CALLBACK_1(GameManager::onEnterLight, this));
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEnterLightListener, 1);
 
+	// init levels
+	_iCurrentLevelId = 0;
+	tinyxml2::XMLDocument* pLevelsDoc = synthsystem::IOManager::getInstance()->loadXML("xml/levels.xml");
+	tinyxml2::XMLElement* pGameElt = pLevelsDoc->FirstChildElement("game");
+	tinyxml2::XMLElement* pLevelElt = pGameElt->FirstChildElement("level");
+	while(pLevelElt != nullptr) {
+		_levelsName.push_back(pLevelElt->Attribute("name"));
+
+		pLevelElt = pLevelElt->NextSiblingElement("level");
+	}
+	delete pLevelsDoc;
+
 	//TEST ZONE - BEGIN
+	loadLevel(_levelsName[_iCurrentLevelId]);
 
-	loadLevel("01");
-	
-	//FMOD::Channel* channel_green = FmodAudioPlayer::sharedPlayer()->playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
 	FmodAudioPlayer::sharedPlayer()->InitMusic();
-	//FmodAudioPlayer::sharedPlayer()->playEffect("sound/music/bleu_xylo.wav", true, 1, 0, 1);
-
+	FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::BLUE);
 	//TEST ZONE - END
 
 	return bTest;
@@ -124,6 +134,8 @@ void GameManager::update(float fDt) {
 	for (auto actor : _levelActors) {
 		actor->update(fDt);
 	}
+
+	FmodAudioPlayer::sharedPlayer()->Update(fDt);
 }
 
 void GameManager::loadLevel(/*int iLevelId*/std::string level) {
@@ -203,14 +215,14 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-			
+			//FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::blue);
             break;
             
         case EventKeyboard::KeyCode::KEY_D:
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent RIGHT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-			FmodAudioPlayer::sharedPlayer()->StopMusicTrack(FmodAudioPlayer::tracks::green);
+			//FmodAudioPlayer::sharedPlayer()->StopMusicTrack(FmodAudioPlayer::tracks::blue);
             break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:
@@ -366,17 +378,12 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 	for(std::vector<EventKeyboard::KeyCode>::iterator it = _keyPressedCode.begin(); it != _keyPressedCode.end(); ++it) {
 		switch(*it) {
 			case EventKeyboard::KeyCode::KEY_Q:
-
 				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, false);
-
 				dispatcher->dispatchEvent(pEditMoveEvent);
-				FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::green);
 				break;
             
 			case EventKeyboard::KeyCode::KEY_D:
-
 				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
-
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
 		}

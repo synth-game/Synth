@@ -11,6 +11,7 @@
 #include "assert.h"
 #include "string.h"
 #include <ctime>
+#include "cocos2d.h"
 
 
 #define szMusicSuffix "|"
@@ -510,7 +511,7 @@ FMOD::Channel* FmodAudioPlayer::playSound(const char* pszFilePath, bool bLoop,
 void FmodAudioPlayer::InitMusic(){
 
 	pSystem->update();
-	FmodAudioPlayer::fadeTime = 0.5;
+	FmodAudioPlayer::fadeTime = 10;
 	FMOD::Channel* pChannel6 = FmodAudioPlayer::playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
 	pChannel6->setChannelGroup(FmodAudioPlayer::pMusicGroup);
 	FMOD::Channel* pChannel5 = FmodAudioPlayer::playSound("sound/music/bleu_xylo.wav", true, 1, 0, 0);
@@ -533,17 +534,11 @@ void FmodAudioPlayer::PlayMusicTrack(int index){
 	FmodAudioPlayer::pMusicGroup->getNumChannels(&numChannels);
 
 	if (index<numChannels){
-		clock_t start, current;
-		start = clock();
-		current = clock();
-		while( ((current-start)/CLOCKS_PER_SEC) < FmodAudioPlayer::fadeTime ){
-			/*FMOD::Channel* pChannel;
-			FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
-			pChannel->setVolume( 1-((current-start)/ (FmodAudioPlayer::fadeTime*CLOCKS_PER_SEC)) );*/
-			current = clock();
-		}
-		//breakpoint
+		FMOD::Channel* pChannel;
+		FmodAudioPlayer::pMusicGroup->getChannel(index, &pChannel);
+		pChannel->setVolume(0.01);
 	}
+
 }
 
 void FmodAudioPlayer::StopMusicTrack(int index){
@@ -556,3 +551,21 @@ void FmodAudioPlayer::StopMusicTrack(int index){
 		pChannel->setVolume(0.0);
 	}
 }
+
+void FmodAudioPlayer::Update(float fDt){
+	int numChannels;
+	float volume;
+	FMOD::Channel* pChannel;
+	pMusicGroup->getNumChannels(&numChannels);
+
+	for (int i=0; i<numChannels; i++){
+		pMusicGroup->getChannel(i, &pChannel);
+		pChannel->getVolume(&volume);
+		if (volume > 0.001 && volume < 1){
+			pChannel->setVolume(volume+fDt/fadeTime);
+			CCLOG("volume %.3f", volume);
+		}
+	}
+	
+}
+
