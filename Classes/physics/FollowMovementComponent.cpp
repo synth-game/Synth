@@ -82,12 +82,14 @@ void FollowMovementComponent::update( float fDt ) {
 
 		Point relativeTarget = Point::ZERO;
 		// if the target is the hero
-		if(_target->getActorType() == core::ActorType::HERO) {
+		if (_target->getActorType() == core::ActorType::HERO) {
 			if(pOwnerSpriteComponent != nullptr && pOwnerSpriteComponent->getSprite()->isFlippedX()) {
 				relativeTarget = Point(40.f, 0.f);
 			} else {
 				relativeTarget = Point(-40.f, 0.f);
 			}
+		} else if (_target->getActorType() == core::ActorType::LIGHT) {
+			relativeTarget = Point(-2.f, -11.f);
 		}
 
 		if(pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
@@ -97,13 +99,13 @@ void FollowMovementComponent::update( float fDt ) {
 		}
 
 		Point target = Point(pOwnerGeometryComponent->getPosition().x + relativeTarget.x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y + relativeTarget.y - pOwnedGeometryComponent->getPosition().y);
+		Point nextPosition = Point::ZERO;
 		if (abs(target.x) < 5.f && abs(target.y) < 5.f) {
-			target = Point::ZERO;
-		} else if ( target.getLength() > 30 ) {
+			nextPosition = pOwnerGeometryComponent->getPosition() + relativeTarget;
+		} else {
 			target = target.normalize() * 30;
+			nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y) * fDt;
 		}
-		Point nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y) * fDt;
-	
 		physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
 		if (pCollisionComponent == nullptr) {
 			//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);

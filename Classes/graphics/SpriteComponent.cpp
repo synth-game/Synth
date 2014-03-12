@@ -34,7 +34,8 @@ SpriteComponent::SpriteComponent(std::string sSpriteName, Layer* pParent) :
 	// Create sprite
 	graphics::GraphicManager* graphicManager = graphics::GraphicManager::getInstance();
 	_pSprite = graphicManager->createSprite(_sSpriteName);
-	_pParent->addChild(_pSprite, 0, 2);
+	
+	_pParent->addChild(_pSprite, 1000, 2);
 }
 
 SpriteComponent::~SpriteComponent() {
@@ -42,7 +43,6 @@ SpriteComponent::~SpriteComponent() {
 
 bool SpriteComponent::init() {
     SynthComponent::init(SpriteComponent::COMPONENT_TYPE);
-	initListeners();
 	return true;
 }
 
@@ -78,6 +78,7 @@ void SpriteComponent::onEnter() {
 	CCASSERT(geometryComponent != NULL, "SpriteComponent need a GeometryComponent added to its owner");
 	if(_pSprite != nullptr) {
 		_pSprite->setPosition(geometryComponent->getPosition());
+		_pSprite->setAnchorPoint(geometryComponent->getAnchorPoint());
 	}
 }
 
