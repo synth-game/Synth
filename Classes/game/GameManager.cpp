@@ -166,6 +166,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	events::ChangeTargetEvent* pChangeTargetEvent = nullptr;
 	game::NodeOwnerComponent* pNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(pHero->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
 	game::NodeOwnerComponent* pTargetNodeOwnerComponent = nullptr;
+	game::NodeOwnerComponent* pLampNodeOwnerComponent = nullptr;
 	physics::GeometryComponent* pTargetGeometryComponent = nullptr;
 	core::SynthActor* pOwned = nullptr;
 
@@ -213,6 +214,17 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 				// the owned actor can go to a lamp or exchange with a firefly
 				if (pTarget != nullptr) {
 					if (pTarget->isFirefly()) {
+						// if the firefly is owned by a lamp
+						for (auto maybeALamp : _levelActors) {
+							// if the actor is a lamp
+							if(maybeALamp->getActorType() == core::ActorType::LIGHT) {
+								pLampNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(maybeALamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+								// if the lamp owns the firefly
+								if(pLampNodeOwnerComponent != nullptr && static_cast<core::SynthActor*>(pLampNodeOwnerComponent->getOwnedNode())->getActorID() == pTarget->getActorID()) {
+									pTarget = maybeALamp;
+								}
+							}
+						}
 						pTargetGeometryComponent = static_cast<physics::GeometryComponent*>(pTarget->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 						pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), pTargetGeometryComponent->getPosition());
 						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (FIREFLY)");
