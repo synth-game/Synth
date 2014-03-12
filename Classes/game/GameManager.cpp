@@ -204,6 +204,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 
 	core::SynthActor* pTarget = nullptr;
 
+	bool bToLamp = false;
 
 	auto dispatcher = EventDispatcher::getInstance();
 
@@ -249,31 +250,43 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 						pTargetGeometryComponent = static_cast<physics::GeometryComponent*>(pTarget->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 						// if the firefly is owned by a lamp
 						for (auto maybeALamp : _levelActors) {
-							// if the actor is a lamp
-							if (maybeALamp->getActorType() == core::ActorType::LIGHT) {
-								pLampNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(maybeALamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-								// if the lamp owns the firefly
-								if (pLampNodeOwnerComponent != nullptr && pLampNodeOwnerComponent->getOwnedNode() != nullptr && static_cast<core::SynthActor*>(pLampNodeOwnerComponent->getOwnedNode())->getActorID() == pTarget->getActorID()) {
+							if(!bToLamp) {
+								// if the actor is a lamp
+								if (maybeALamp->getActorType() == core::ActorType::LIGHT) {
+									pLampNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(maybeALamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+									// if the lamp owns the firefly
+									if (pLampNodeOwnerComponent != nullptr && pLampNodeOwnerComponent->getOwnedNode() != nullptr && static_cast<core::SynthActor*>(pLampNodeOwnerComponent->getOwnedNode())->getActorID() == pTarget->getActorID()) {
 									
-									// the owned firefly goes to the lamp
-									pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), maybeALamp);
-									CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
-									dispatcher->dispatchEvent(pChangeTargetEvent);
+										// the owned firefly goes to the lamp
+										pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), maybeALamp);
+										CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
+										dispatcher->dispatchEvent(pChangeTargetEvent);
+										// the owned firefly is now owned by the lamp
+										pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pNodeOwnerComponent->getOwnedNode(), maybeALamp);
+										CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : owned node belongs to lamp");
+										dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
 
-									// the owned firefly is now owned by the lamp
-									pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pNodeOwnerComponent->getOwnedNode(), maybeALamp);
-									CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : owned node belongs to lamp");
-									dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
-
+										bToLamp = true;
+									}
 								}
 							}
 						}
-						
+
+						if(!bToLamp) {
+							// the firefly goes to the targetted firefly position
+							pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), pTargetGeometryComponent->getPosition());
+							CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (FIREFLY)");
+							dispatcher->dispatchEvent(pChangeTargetEvent); 
+							// the firefly previously owned is now free
+							pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pNodeOwnerComponent->getOwnedNode(), nullptr);
+							CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : the owned node is free");
+							dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+						}
+
 						// the firefly goes to the hero
 						pChangeTargetEvent = new events::ChangeTargetEvent(pTarget, pHero);
 						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (FIREFLY)");
 						dispatcher->dispatchEvent(pChangeTargetEvent); 
-						
 						// the firefly is now owned by the hero
 						pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(pTarget, pHero);
 						CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE WITH NEW FIREFLY");
