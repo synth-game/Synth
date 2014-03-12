@@ -53,6 +53,7 @@
 		50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF629517ECD46A001EB2F8 /* Icon-100.png */; };
 		50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A017ECD613001EB2F8 /* Icon-29.png */; };
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
+		8F3F730018D0A7E60019B055 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F62A73B18D0A742003FFFB4 /* libfmodex.dylib */; };
 		8F62A70018D052A4003FFFB4 /* SynthAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A6FE18D052A4003FFFB4 /* SynthAnimation.cpp */; };
 		8F62A70118D052A4003FFFB4 /* SynthAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A6FE18D052A4003FFFB4 /* SynthAnimation.cpp */; };
 		8F62A70E18D052B4003FFFB4 /* ChangeIntensityEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A70818D052B4003FFFB4 /* ChangeIntensityEvent.cpp */; };
@@ -73,6 +74,9 @@
 		8F62A73418D05634003FFFB4 /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72D18D05634003FFFB4 /* sprites */; };
 		8F62A73518D05634003FFFB4 /* xml in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72E18D05634003FFFB4 /* xml */; };
 		8F62A73618D05634003FFFB4 /* xml in Resources */ = {isa = PBXBuildFile; fileRef = 8F62A72E18D05634003FFFB4 /* xml */; };
+		8F62A73918D0A627003FFFB4 /* FmodAudioPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A73718D0A627003FFFB4 /* FmodAudioPlayer.cpp */; };
+		8F62A73A18D0A627003FFFB4 /* FmodAudioPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F62A73718D0A627003FFFB4 /* FmodAudioPlayer.cpp */; };
+		8F62A73C18D0A742003FFFB4 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F62A73B18D0A742003FFFB4 /* libfmodex.dylib */; };
 		8F8FA2F218ABB8960050CFDD /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA24718ABB8960050CFDD /* AppDelegate.cpp */; };
 		8F8FA2F318ABB8960050CFDD /* SynthActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA24B18ABB8960050CFDD /* SynthActor.cpp */; };
 		8F8FA2F418ABB8960050CFDD /* SynthComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA24D18ABB8960050CFDD /* SynthComponent.cpp */; };
@@ -322,13 +326,6 @@
 			remoteGlobalIDString = A03F2D5D1780BDF7006731B9;
 			remoteInfo = "box2d Mac";
 		};
-		503AE10F17EB99BC00D1A890 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1AF4C2BB17865D9500122817 /* cocos2d_libs.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A03F2E9817814268006731B9;
-			remoteInfo = "CocosDenshion Mac";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -392,6 +389,9 @@
 		8F62A72C18D05634003FFFB4 /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
 		8F62A72D18D05634003FFFB4 /* sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sprites; sourceTree = "<group>"; };
 		8F62A72E18D05634003FFFB4 /* xml */ = {isa = PBXFileReference; lastKnownFileType = folder; path = xml; sourceTree = "<group>"; };
+		8F62A73718D0A627003FFFB4 /* FmodAudioPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FmodAudioPlayer.cpp; path = ../Classes/FmodAudioPlayer.cpp; sourceTree = "<group>"; };
+		8F62A73818D0A627003FFFB4 /* FmodAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FmodAudioPlayer.h; path = ../Classes/FmodAudioPlayer.h; sourceTree = "<group>"; };
+		8F62A73B18D0A742003FFFB4 /* libfmodex.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodex.dylib; path = ../../../../../../../Logiciels/fmod/api/lib/libfmodex.dylib; sourceTree = "<group>"; };
 		8F8FA24718ABB8960050CFDD /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = ../Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		8F8FA24818ABB8960050CFDD /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
 		8F8FA24A18ABB8960050CFDD /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
@@ -566,6 +566,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F3F730018D0A7E60019B055 /* libfmodex.dylib in Frameworks */,
 				1AF4C2F417865DCB00122817 /* libbox2d iOS.a in Frameworks */,
 				1AF4C2F517865DCB00122817 /* libchipmunk iOS.a in Frameworks */,
 				1AF4C2F617865DCB00122817 /* libcocos2dx iOS.a in Frameworks */,
@@ -588,6 +589,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F62A73C18D0A742003FFFB4 /* libfmodex.dylib in Frameworks */,
 				503AE11317EB9C0700D1A890 /* libbox2d Mac.a in Frameworks */,
 				503AE11417EB9C0700D1A890 /* libchipmunk Mac.a in Frameworks */,
 				503AE11517EB9C0700D1A890 /* libcocos2dx Mac.a in Frameworks */,
@@ -628,6 +630,8 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				8F62A73718D0A627003FFFB4 /* FmodAudioPlayer.cpp */,
+				8F62A73818D0A627003FFFB4 /* FmodAudioPlayer.h */,
 				8F8FA24718ABB8960050CFDD /* AppDelegate.cpp */,
 				8F8FA24818ABB8960050CFDD /* AppDelegate.h */,
 				8F8FA24918ABB8960050CFDD /* Core */,
@@ -690,6 +694,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8F62A73B18D0A742003FFFB4 /* libfmodex.dylib */,
 				503AE11A17EB9C5A00D1A890 /* IOKit.framework */,
 				503AE11117EB99EE00D1A890 /* libcurl.dylib */,
 				5087E78A17EB975400C73F5D /* OpenGL.framework */,
@@ -1046,7 +1051,6 @@
 				503AE10A17EB99BC00D1A890 /* PBXTargetDependency */,
 				503AE10C17EB99BC00D1A890 /* PBXTargetDependency */,
 				503AE10E17EB99BC00D1A890 /* PBXTargetDependency */,
-				503AE11017EB99BC00D1A890 /* PBXTargetDependency */,
 			);
 			name = "HelloCpp Mac";
 			productName = iphone;
@@ -1245,6 +1249,7 @@
 				8F62A71218D052B4003FFFB4 /* WinEvent.cpp in Sources */,
 				8F62A71718D052BF003FFFB4 /* LightMap.cpp in Sources */,
 				8F62A71018D052B4003FFFB4 /* ChangeStateEvent.cpp in Sources */,
+				8F62A73918D0A627003FFFB4 /* FmodAudioPlayer.cpp in Sources */,
 				8F62A70018D052A4003FFFB4 /* SynthAnimation.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -1336,6 +1341,7 @@
 				8F8FA32018ABB8960050CFDD /* NodeOwnerComponent.cpp in Sources */,
 				8F62A71318D052B4003FFFB4 /* WinEvent.cpp in Sources */,
 				8F8FA31818ABB8960050CFDD /* TestCollisionEvent.cpp in Sources */,
+				8F62A73A18D0A627003FFFB4 /* FmodAudioPlayer.cpp in Sources */,
 				8F8FA32418ABB8960050CFDD /* GraphicManager.cpp in Sources */,
 				8F8FA30918ABB8960050CFDD /* OpenTitleScreenEvent.cpp in Sources */,
 				8F8FA32818ABB8960050CFDD /* CreditsScene.cpp in Sources */,
@@ -1393,11 +1399,6 @@
 			name = "box2d Mac";
 			targetProxy = 503AE10D17EB99BC00D1A890 /* PBXContainerItemProxy */;
 		};
-		503AE11017EB99BC00D1A890 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "CocosDenshion Mac";
-			targetProxy = 503AE10F17EB99BC00D1A890 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1434,8 +1435,9 @@
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\"",
-					"\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\"",
+					"\\\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\\\"",
+					"\\\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\\\"",
+					/Users/Pierre/Logiciels/fmod/api/lib,
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1474,8 +1476,9 @@
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\"",
-					"\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\"",
+					"\\\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\\\"",
+					"\\\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\\\"",
+					/Users/Pierre/Logiciels/fmod/api/lib,
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1516,8 +1519,9 @@
 				);
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/mac/libraries\"",
-					"\"$(SRCROOT)/../../../external/libwebsockets/mac/lib\"",
+					"\\\"$(SRCROOT)/../../../cocos2dx/platform/third_party/mac/libraries\\\"",
+					"\\\"$(SRCROOT)/../../../external/libwebsockets/mac/lib\\\"",
+					/Users/Pierre/Logiciels/fmod/api/lib,
 				);
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -1554,8 +1558,9 @@
 				);
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/mac/libraries\"",
-					"\"$(SRCROOT)/../../../external/libwebsockets/mac/lib\"",
+					"\\\"$(SRCROOT)/../../../cocos2dx/platform/third_party/mac/libraries\\\"",
+					"\\\"$(SRCROOT)/../../../external/libwebsockets/mac/lib\\\"",
+					/Users/Pierre/Logiciels/fmod/api/lib,
 				);
 				USER_HEADER_SEARCH_PATHS = "";
 			};
