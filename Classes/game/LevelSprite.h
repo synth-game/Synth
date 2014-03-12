@@ -21,22 +21,20 @@ public:
 	/*! \brief Destructor */
 	~LevelSprite();
 
-	static LevelSprite* create(const char* sBackgroundPath, core::SynthActor* pHero);
-	void addLight(Texture2D* pTexture, Point position, Color4B color);
+	static LevelSprite* create(const char* sBackgroundPath);
+	void addLight(Texture2D* pTexture, Color4B color);
 	void draw();
 
 
 protected:
 	struct LightTexture {
 		Texture2D* pTex;
-		std::vector<float> pos;
 		std::vector<float> col;
 	};
 
 	/*! \brief Constructor */
 	LevelSprite();
 
-	Sprite* _pHeroSprite;
 	std::vector<LightTexture*> _lightTextures;
 };
 

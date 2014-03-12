@@ -54,6 +54,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FIREFLYANIMATEDSPRITE",	core::ComponentType::FIREFLYANIMATEDSPRITE));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FOLLOWMOVEMENT",			core::ComponentType::FOLLOWMOVEMENT));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("NODEOWNER",				core::ComponentType::NODEOWNER));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("LIGHTATTR",				core::ComponentType::LIGHTATTR));
 
 	// parsing actors
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
@@ -147,6 +148,28 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 			for(auto component : aComponents) {
 				CCLOG("ADD COMPONENT %s TO ACTOR %s", component->getName(), actorType.c_str());
 				actor->addComponent(component);
+			}
+
+			// Add LightAttrComponent only for fireflies actor
+			if(actor->isFirefly()) {
+				game::LightAttrComponent* pLightAttrComp = game::LightAttrComponent::create(Color4B::BLACK);
+				switch (actor->getActorType()) {
+				case core::ActorType::RED_FIREFLY:
+					pLightAttrComp->setColor(Color4B::RED);
+					break;
+
+				case core::ActorType::GREEN_FIREFLY:
+					pLightAttrComp->setColor(Color4B::GREEN);
+					break;
+
+				case core::ActorType::BLUE_FIREFLY:
+					pLightAttrComp->setColor(Color4B::BLUE);
+					break;
+
+				default:
+					break;
+				}
+				actor->addComponent(pLightAttrComp);
 			}
 
 			pActorData = pActorData->NextSiblingElement("actor");
