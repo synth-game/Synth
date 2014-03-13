@@ -30,6 +30,8 @@ public:
 
 	tinyxml2::XMLDocument* getConfig();
 
+	void saveConfig(tinyxml2::XMLDocument* save);
+
 	float getMusicVolume();
 
 	float getSoundVolume();
@@ -40,7 +42,7 @@ public:
 
 	float getLuminosity();
 
-	int getSavedLevel();
+	int getCurrentLevelIndex();
 
 	void setMusicVolume(float musicVolume);
 

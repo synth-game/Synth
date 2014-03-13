@@ -5,6 +5,8 @@
  * \date 13/03/2014
  */
 #include "SynthConfig.h"
+#include "system/IOManager.h"
+#include "game/GameManager.h"
 
 namespace core {
 
@@ -28,8 +30,13 @@ void SynthConfig::init() {
 }
 
 tinyxml2::XMLDocument* SynthConfig::getConfig() {
-	tinyxml2::XMLDocument* fakeXml;
-	return fakeXml;
+	return synthsystem::IOManager::getInstance()->loadXML("xml/save.xml");
+}
+
+void SynthConfig::saveConfig(tinyxml2::XMLDocument* save) {
+	if(save != nullptr) {
+		synthsystem::IOManager::getInstance()->saveXML("xml/save.xml", save);
+	}
 }
 
 float SynthConfig::getMusicVolume() {
@@ -52,7 +59,25 @@ float SynthConfig::getLuminosity() {
 	return 0;
 }
 
-int SynthConfig::getSavedLevel() {
+int SynthConfig::getCurrentLevelIndex() {
+	tinyxml2::XMLDocument* save = getConfig();
+	tinyxml2::XMLDocument* levels = synthsystem::IOManager::getInstance()->loadXML("xml/levels.xml");
+
+	tinyxml2::XMLElement* pLevelData = save->FirstChildElement("level");
+	tinyxml2::XMLElement* level = levels->FirstChildElement("level"); 
+	int count = 0;
+	while (level) {
+		level = level->NextSiblingElement();  
+		++count;
+	}
+	
+	tinyxml2::XMLElement *pLevelData = save->FirstChildElement("level");
+	
+	int levelIndex = -1;
+	levelIndex = pLevelData->IntAttribute("index");
+	if(levelIndex > 0 && levelIndex <= count ) {
+		return levelIndex;
+	}
 	return 0;
 }
 
