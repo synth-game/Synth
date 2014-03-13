@@ -105,6 +105,10 @@ void GraphicManager::init() {
 	}
 }
 
+void GraphicManager::reset() {
+	_pBatchNode = nullptr;
+}
+
 Sprite* GraphicManager::createSprite(std::string sSpriteName) {
 	Sprite* pSprite = Sprite::create(sSpriteName.c_str());
 	pSprite->setAnchorPoint(Point(0.f, 1.f));
