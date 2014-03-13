@@ -24,7 +24,7 @@ FollowMovementComponent::FollowMovementComponent()
 }
 
 FollowMovementComponent::~FollowMovementComponent() {
-
+	EventDispatcher::getInstance()->removeEventListener(_pChangeTargetEventListener);
 }
 
 bool FollowMovementComponent::init() {

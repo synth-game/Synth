@@ -10,7 +10,8 @@ namespace events {
 
 const char* WinEvent::EVENT_NAME = "WinEvent";
 
-WinEvent::WinEvent() {
+WinEvent::WinEvent()
+	: SynthEvent(nullptr, EVENT_NAME) {
 }
 
 WinEvent::~WinEvent() {

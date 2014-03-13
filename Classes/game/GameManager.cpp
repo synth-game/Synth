@@ -18,6 +18,7 @@
 #include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireflyAnimatedSpriteComponent.h"
+#include "graphics/GraphicManager.h"
 #include "game/NodeOwnerComponent.h"
 #include "system/IOManager.h"
 #include "sounds/SoundType.h"
@@ -28,6 +29,7 @@
 #include "events/ChangeTargetEvent.h"
 #include "events/WinEvent.h"
 #include "events/DeathEvent.h"
+#include "events/ResetLevelEvent.h"
 #include "events/EnterLightEvent.h"
 
 #include "FmodAudioPlayer.h"
@@ -71,7 +73,7 @@ GameManager* GameManager::create() {
 
 bool GameManager::init() {
     bool bTest = true;
-
+	win = false;
 	//init Layer
 	bTest = Layer::init();
 
@@ -123,17 +125,16 @@ bool GameManager::init() {
 }
 
 void GameManager::update(float fDt) {
-
 	core::SynthActor* pHero = nullptr;
 	pHero = getActorsByType(core::ActorType::HERO)[0];
 	CCASSERT(pHero != nullptr, "GameManager::update : There is no actor hero");
 	physics::GeometryComponent* pGeometryComp = dynamic_cast<physics::GeometryComponent*>(pHero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 
 	CCASSERT(pGeometryComp != nullptr, "Hero actor need a GeometryComponent");
-	if(_triggers["WIN"].containsPoint(pGeometryComp->getPosition())) {
+	if(_triggers["WIN"].containsPoint(pGeometryComp->getPosition()) && !win) {
 		CCLOG("GameManager::update : YOU WIN");
 		events::WinEvent* pWinEvent = new events::WinEvent();
-		GameManager::resetLevel();
+		EventDispatcher::getInstance()->dispatchEvent(pWinEvent);
 	}
 
 	for (auto actor : _levelActors) {
@@ -144,7 +145,7 @@ void GameManager::update(float fDt) {
 }
 
 void GameManager::loadLevel(/*int iLevelId*/std::string level) {
-	CCLOG("GameManager::loadLevel : LOAD LEVEL");
+    CCLOG("GameManager::loadLevel : LOAD LEVEL");
 	Sprite* pBgSprite = Sprite::create("sprites/decor.jpg");
 	pBgSprite->setAnchorPoint(Point::ZERO);
 	pBgSprite->setScale(2.f);
@@ -162,19 +163,19 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 		_pLevelLayer->addChild(rect, 50);
 	}
 
-	LevelSprite* pLevelSprite = LevelSprite::create(std::string("levels/"+level+"/bitmask.png").c_str());
-	pLevelSprite->addLight(Sprite::create(std::string("levels/"+level+"/PREC_light_3.png").c_str())->getTexture(), Color4B::RED);
-	pLevelSprite->addLight(Sprite::create(std::string("levels/"+level+"/PREC_light_4.png").c_str())->getTexture(), Color4B::BLUE);
-	_pLevelLayer->addChild(pLevelSprite, 0, 42);
+	_pLevelSprite = game::LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
+
+	win = false;
 
 }
 
 void GameManager::clearLevel() {
 	CCLOG("GameManager::clearLevel : CLEAR LEVEL");
 	for(auto obj : _levelActors) {
-		delete obj;
-		obj = nullptr;
+		obj->removeAllComponents();
+		obj->removeFromParent();
 	}
+
 	_levelActors.clear();
 	_triggers.clear();
 
@@ -183,11 +184,28 @@ void GameManager::clearLevel() {
 	_pLevelLayer->removeAllChildren();
 	_pSkinningLayer->removeAllChildren();
 	_pSubtitlesLayer->removeAllChildren();
+
+	graphics::GraphicManager::getInstance()->reset();
+
 }
 
 void GameManager::resetLevel() {
-	clearLevel();
-	loadLevel("01");
+	if(!win) {
+		CCLOG("GameManager::resetLevel : Clear and reload level");
+		win = true;
+		clearLevel();
+		loadLevel(_levelsName[_iCurrentLevelId]);
+	}
+}
+
+void GameManager::nextLevel() {
+	if(!win) {
+		CCLOG("GameManager::nextLevel : Clear and load next level");
+		win = true;
+		clearLevel();
+		//loadLevel(_levelsName[++_iCurrentLevelId]);
+		loadLevel(_levelsName[_iCurrentLevelId]);
+	}
 }
 
 void GameManager::onEnterLight(EventCustom* pEvent) {
@@ -199,8 +217,8 @@ void GameManager::onEnterLight(EventCustom* pEvent) {
 	if (lightColor == Color4B::RED) {
 		CCLOG("GameManager::onEnterLight : You die !");
 		events::DeathEvent* pDeathEvent = new events::DeathEvent();
+		EventDispatcher::getInstance()->dispatchEvent(pDeathEvent);
 	}
-	//resetLevel();
 }
 
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {

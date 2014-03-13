@@ -41,6 +41,7 @@ public:
 	static GraphicManager* getInstance();
 
 	void init();
+	void reset();
 
 	Sprite* createSprite(std::string sSpriteName);
 

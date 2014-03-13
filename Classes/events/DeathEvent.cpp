@@ -10,7 +10,8 @@ namespace events {
 
 const char* DeathEvent::EVENT_NAME = "DeathEvent";
 
-DeathEvent::DeathEvent() {
+DeathEvent::DeathEvent()
+	: SynthEvent(nullptr, EVENT_NAME) {
 }
 
 DeathEvent::~DeathEvent() {

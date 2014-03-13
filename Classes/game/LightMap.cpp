@@ -69,11 +69,8 @@ LightMap* LightMap::createFromXML(std::string sFilePath) {
 }
 
 void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
-
 	for (int i=0; i<_iW*_iH; ++i) {
-		
 		std::vector<std::pair<int, bool>> currentPixel = _pixelGrid[i].second;
-
 		if (currentPixel.size() > 0) {
 			Color4B occultedColor(0, 0, 0, 0);
 			Color4B notOccultedColor(0, 0, 0, 0);

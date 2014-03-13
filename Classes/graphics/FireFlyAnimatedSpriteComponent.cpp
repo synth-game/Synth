@@ -20,6 +20,7 @@ FireFlyAnimatedSpriteComponent::FireFlyAnimatedSpriteComponent(Layer* pParent) :
 }
 
 FireFlyAnimatedSpriteComponent::~FireFlyAnimatedSpriteComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pChangeNodeOwnerEventListener);
 }
 
 bool FireFlyAnimatedSpriteComponent::init() {

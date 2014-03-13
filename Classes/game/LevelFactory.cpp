@@ -237,8 +237,32 @@ std::vector<std::vector<int>> LevelFactory::buildLightsMap(std::string levelName
 	return voidVec;
 }
 
-LevelSprite* LevelFactory::buildLevelSprite(core::xml data) {
-	return nullptr;
+LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights) {
+	LevelSprite* pRet = LevelSprite::create(std::string("levels/"+levelName+"/bitmask.png").c_str());
+	for(int i = 0; i < aLights.size(); i++) {
+		game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(aLights[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+		core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+		Color4B color = Color4B(0, 0, 0, 0);
+		if(firefly != nullptr) {
+			switch (firefly->getActorType()) {
+			case core::ActorType::RED_FIREFLY:
+				color = Color4B::RED;
+				break;
+			case core::ActorType::GREEN_FIREFLY:
+				color = Color4B::GREEN;
+				break;
+			case core::ActorType::BLUE_FIREFLY:
+				color = Color4B::BLUE;
+				break;
+			default:
+				break;
+			}
+			pRet->addLight(Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color);
+		}
+	}
+	pLevelLayer->addChild(pRet, 0, 42);
+
+	return pRet;
 }
 
 std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
@@ -246,7 +270,7 @@ std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 
 	// Parse triggers
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
-	int xmlerror = pXMLFile->LoadFile(std::string("levels/"+levelName+"/actors.xml").c_str());
+	int xmlerror = pXMLFile->LoadFile(std::string("levels/"+levelName+"/triggers.xml").c_str());
 	if(xmlerror == 0) {
 		CCLOG("XML FILE LOADED SUCCESSFULLY : %d", xmlerror);
 		tinyxml2::XMLHandle hDoc(pXMLFile);

@@ -25,7 +25,7 @@ LevelSprite::~LevelSprite() {
 LevelSprite* LevelSprite::create(const char* sBackgroundPath) {
 	LevelSprite* pRet = new LevelSprite();
 	if (pRet != nullptr && pRet->initWithFile(sBackgroundPath)) {
-		CCLOG("LevelSprite created");
+		CCLOG("LevelSprite::create : LevelSprite created");
 		pRet->autorelease();
 		pRet->setAnchorPoint(Point::ZERO);
 
