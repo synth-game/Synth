@@ -5,6 +5,8 @@
  * \date 20/02/2014
  */
 #include <cmath>
+#include <string>
+#include <vector>
 #include "CollisionComponent.h"
 #include "core/SynthActor.h"
 #include "events/ChangePositionEvent.h"
@@ -113,72 +115,77 @@ void CollisionComponent::initListeners() {
 
 CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
 	ECollisionType eRet = NO_COLLISION;
-
-	// build position-target vector
-	Point currentPosition = Point(floor(pInitiatorEvent->getCurrentPosition().x), floor(pInitiatorEvent->getCurrentPosition().y));
-	Point targetPosition = Point(floor(pInitiatorEvent->getTargetPosition().x), floor(pInitiatorEvent->getTargetPosition().y));
-	Point movementDir = targetPosition - currentPosition;
-	float movementLength = movementDir.getLength();
-	Point movementStep = movementDir.normalize();
-	Size halfSize = pInitiatorEvent->getSize()/2;
-	Size thirdSize = pInitiatorEvent->getSize()/3;
-			
-	Point centerPos = currentPosition;
 	core::ActorState nextState = core::ActorState::JUMPING_STATE;
 
-	// test pixel by pixel the center point movement - stop if collide
-	while((centerPos-currentPosition).getLength() < movementLength) {
-		Point nextCenterPos = centerPos + movementStep;
-		//corner points
-		Point blPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height);
-		Point brPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height);
-		Point trPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y+halfSize.height);
-		Point tlPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y+halfSize.height);
+	// build position-target vector
+	Point currentPosition = Point(pInitiatorEvent->getCurrentPosition().x, pInitiatorEvent->getCurrentPosition().y);
+	Point targetPosition = Point(pInitiatorEvent->getTargetPosition().x, pInitiatorEvent->getTargetPosition().y);
+	Point movementDir = targetPosition - currentPosition;
+	float fMovementLength = movementDir.getLength();
+	Point movementStep = movementDir.normalize();
+	Size halfSize = pInitiatorEvent->getSize()/2.f;
+	Size quarterSize = pInitiatorEvent->getSize()/4.f;
+	float fStepCountToExecute = 100000.f; // default big value to initialize
+	
+	Point centerPos = currentPosition;
+	// corner points
+	Point blPos = Point(centerPos.x-halfSize.width, centerPos.y-halfSize.height);
+	Point brPos = Point(centerPos.x+halfSize.width, centerPos.y-halfSize.height);
+	Point trPos = Point(centerPos.x+halfSize.width, centerPos.y+halfSize.height);
+	Point tlPos = Point(centerPos.x-halfSize.width, centerPos.y+halfSize.height);
 
-		//intermediar lateral point
-		Point l1Pos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height+thirdSize.height);
-		Point l2Pos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height+2*thirdSize.height);
-		Point r1Pos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height+thirdSize.height);
-		Point r2Pos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height+2*thirdSize.height);
-		Point tPos = Point(nextCenterPos.x, nextCenterPos.y+halfSize.height);
+	// middle points
+	Point bcPos = Point(centerPos.x, centerPos.y-halfSize.height);
+	Point lcPos = Point(centerPos.x-halfSize.width, centerPos.y);
+	Point tcPos = Point(centerPos.x, centerPos.y+halfSize.height);
+	Point rcPos = Point(centerPos.x+halfSize.width, centerPos.y);
 
-		// case of hypothetical landing
-		if ((_pPhysicCollision->collide(blPos) && !_pLightCollision->isInWhiteLight(blPos))
-		|| (_pPhysicCollision->collide(brPos) && !_pLightCollision->isInWhiteLight(brPos))) { 
-			Point savedCenterPos = centerPos;
-			//test if bottom-center point collide the ground
-			while((savedCenterPos-currentPosition).getLength() < movementLength) {
-				Point nextSavedCenterPos = savedCenterPos + movementStep;
-				Point bcPos = Point(nextSavedCenterPos.x, nextSavedCenterPos.y-halfSize.height);
+	// quarter laeral points
+	Point l1Pos = Point(centerPos.x-halfSize.width, centerPos.y-quarterSize.height);
+	Point l2Pos = Point(centerPos.x-halfSize.width, centerPos.y+quarterSize.height);
+	Point r1Pos = Point(centerPos.x+halfSize.width, centerPos.y-quarterSize.height);
+	Point r2Pos = Point(centerPos.x+halfSize.width, centerPos.y+quarterSize.height);
 
-				if ((_pPhysicCollision->collide(bcPos) && !_pLightCollision->isInWhiteLight(bcPos))) {
-					eRet = VERTICAL;
-					nextState = core::ActorState::ON_FLOOR_STATE;
-					break;
-				}
-				savedCenterPos = nextSavedCenterPos;
-			}
+	// first, test if the actor land on the ground
+	float fBCSampleCount = countStepToNextPixel(bcPos, movementStep, false, fMovementLength);
+	if ((!_pPhysicCollision->collide(bcPos) || _pLightCollision->isInWhiteLight(bcPos)) && fBCSampleCount != -1.f) {
+		// bottom center point collide a wall
+		fStepCountToExecute = fBCSampleCount;
+		eRet = VERTICAL;
+		nextState = core::ActorState::ON_FLOOR_STATE;
+	} else {
+		// test other point
+		std::vector<Point> pointToTest;
+		if (!_pPhysicCollision->collide(blPos) || _pLightCollision->isInWhiteLight(blPos)) { pointToTest.push_back(blPos); }
+		if (!_pPhysicCollision->collide(brPos) || _pLightCollision->isInWhiteLight(brPos)) { pointToTest.push_back(brPos); }
+		if (!_pPhysicCollision->collide(trPos) || _pLightCollision->isInWhiteLight(trPos)) { pointToTest.push_back(trPos); }
+		if (!_pPhysicCollision->collide(tlPos) || _pLightCollision->isInWhiteLight(tlPos)) { pointToTest.push_back(tlPos); }
+		if (!_pPhysicCollision->collide(lcPos) || _pLightCollision->isInWhiteLight(lcPos)) { pointToTest.push_back(lcPos); }
+		if (!_pPhysicCollision->collide(tcPos) || _pLightCollision->isInWhiteLight(tcPos)) { pointToTest.push_back(tcPos); }
+		if (!_pPhysicCollision->collide(rcPos) || _pLightCollision->isInWhiteLight(rcPos)) { pointToTest.push_back(rcPos); }
+		if (!_pPhysicCollision->collide(l1Pos) || _pLightCollision->isInWhiteLight(l1Pos)) { pointToTest.push_back(l1Pos); }
+		if (!_pPhysicCollision->collide(l2Pos) || _pLightCollision->isInWhiteLight(l2Pos)) { pointToTest.push_back(l2Pos); }
+		if (!_pPhysicCollision->collide(r1Pos) || _pLightCollision->isInWhiteLight(r1Pos)) { pointToTest.push_back(r1Pos); }
+		if (!_pPhysicCollision->collide(r2Pos) || _pLightCollision->isInWhiteLight(r2Pos)) { pointToTest.push_back(r2Pos); }
 
-			centerPos = savedCenterPos;
-			break;
-		} else if ((_pPhysicCollision->collide(trPos) && !_pLightCollision->isInWhiteLight(trPos))
-			   || (_pPhysicCollision->collide(tlPos) && !_pLightCollision->isInWhiteLight(tlPos))
-			   || (_pPhysicCollision->collide(l1Pos) && !_pLightCollision->isInWhiteLight(l1Pos))
-			   || (_pPhysicCollision->collide(l2Pos) && !_pLightCollision->isInWhiteLight(l2Pos))
-			   || (_pPhysicCollision->collide(r1Pos) && !_pLightCollision->isInWhiteLight(r1Pos))
-			   || (_pPhysicCollision->collide(r2Pos) && !_pLightCollision->isInWhiteLight(r2Pos))) {
-			eRet = HORIZONTAL;
-			break;
-		} else if (_pPhysicCollision->collide(tPos) && !_pLightCollision->isInWhiteLight(tPos)) {
-			eRet = VERTICAL;
-			break;
+		std::vector<float> stepsVector;
+		for (std::vector<Point>::iterator itPoint=pointToTest.begin(); itPoint!=pointToTest.end(); ++itPoint) {
+			float fPossibleStepCount = countStepToNextPixel(*itPoint, movementStep, false, fMovementLength);
+			stepsVector.push_back(fPossibleStepCount);
 		}
-		
-		centerPos = nextCenterPos;
+
+		for (std::vector<float>::iterator itStep=stepsVector.begin(); itStep!=stepsVector.end(); ++itStep) {
+			if (*itStep < fStepCountToExecute && *itStep >= 0) {
+				fStepCountToExecute = *itStep;
+			}
+		}
+
+		// if step count is again the default value, there is no collision => set the max movement length
+		if (fStepCountToExecute == 100000.f) { fStepCountToExecute = fMovementLength; }
 	}
 
 	//update position
-	resPosition = centerPos;
+	resPosition = centerPos + (movementStep*fStepCountToExecute);
 
 	//update state of Collision and Movement components
 	if(nextState != _eMovingState) {
@@ -186,7 +193,7 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 		events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, nextState);
 		EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
 	}
-
+	
 	return eRet;
 }
 
@@ -204,9 +211,9 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 	if (currentPosition.x != targetPosition.x) {
 		//compute targetPosition on the floor
 		if (_pPhysicCollision->collide(targetBCPosition) && !_pLightCollision->isInWhiteLight(targetBCPosition)) { // increasing slope
-			targetBCPosition = getNextPixel(targetBCPosition, TOP, true);
+			targetBCPosition = getNextPixel(targetBCPosition, Point(0.f, 1.f), true);
 		} else { //decreasing slope
-			targetBCPosition = getNextPixel(targetBCPosition, BOTTOM, false);
+			targetBCPosition = getNextPixel(targetBCPosition, Point(0.f, -1.f), false);
 			targetBCPosition.y += 1.f;
 		}
 
@@ -278,28 +285,8 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 	return eRet;
 }
 
-Point CollisionComponent::getNextPixel(Point position, EDirection dir, bool bVoid) {
-	Point direction;
+Point CollisionComponent::getNextPixel(Point position, Point direction, bool bVoid) {
 	Point wantedPixel = position;
-
-	switch(dir) {
-	case EDirection::LEFT:
-		direction = Point(-1, 0);
-		break;
-
-	case EDirection::TOP:
-		direction = Point(0, 1);
-		break;
-
-	case EDirection::RIGHT:
-		direction = Point(1, 0);
-		break;
-
-	case EDirection::BOTTOM:
-	default:
-		direction = Point(0, -1);
-		break;
-	}
 
 	bool bSampleState = !_pPhysicCollision->collide(wantedPixel) || _pLightCollision->isInWhiteLight(wantedPixel);
 	while(bSampleState != bVoid) {
@@ -315,6 +302,31 @@ Point CollisionComponent::getNextPixel(Point position, EDirection dir, bool bVoi
 	}
 
 	return wantedPixel;
+}
+
+float CollisionComponent::countStepToNextPixel(Point position, Point direction, bool bVoid, float fMaxLength) {
+	float fRet = 0.f;
+	Point wantedPixel = position + direction;
+
+	bool bSampleState = !_pPhysicCollision->collide(wantedPixel) || _pLightCollision->isInWhiteLight(wantedPixel);
+	while(bSampleState != bVoid && fRet < fMaxLength) {
+		wantedPixel = wantedPixel + direction;
+
+		// out of image
+		if(wantedPixel.x < 0 || wantedPixel.x >= _pPhysicCollision->getZoneWidth() || wantedPixel.y < 0 || wantedPixel.y >= _pPhysicCollision->getZoneHeight()) {
+			fRet = 0.f;
+			break;
+		}
+
+		bSampleState = !_pPhysicCollision->collide(wantedPixel) || _pLightCollision->isInWhiteLight(wantedPixel);
+		++fRet;
+	}
+
+	if (fRet >= fMaxLength) {
+		fRet = -1.f;
+	}
+
+	return fRet;
 }
 
 }  // namespace physics
