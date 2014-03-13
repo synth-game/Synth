@@ -51,6 +51,8 @@ protected:
 
 	void playSound( SoundType type );
 
+	void stopSound( SoundType type );
+
 	SoundType _eCurrentTag;
 
 	core::ActorState _eState;
