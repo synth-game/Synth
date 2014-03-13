@@ -30,11 +30,14 @@ public:
 
 	void onJump(EventCustom* pEvent);
 
+	void onEditMove(EventCustom* pEvent);
+
 	void onInterruptMove(EventCustom* pEvent);
 
 	void onHeroDeath(EventCustom* pEvent);
 
 	void onPeriodicEvent(EventCustom* pEvent);
+
 
 protected:
 	HeroSoundComponent();
@@ -51,6 +54,8 @@ private:
 	EventListenerCustom* _pHeroDeathEventListener;
 
 	EventListenerCustom* _pPeriodicEventListener;
+
+	EventListenerCustom* _pEditMoveEventListener;
 
 
 
