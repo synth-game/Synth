@@ -59,8 +59,10 @@ void HeroSoundComponent::onEditMove(EventCustom* pEvent) {
 			// the movement starts
 			switch (_eState) {
 			case core::ActorState::ON_FLOOR_STATE :
-				_eCurrentTag = SoundType::HERO_WALK;
-				playSound(_eCurrentTag);
+				if(!SoundManager::getInstance()->isPlayingEffect(_eCurrentTag, this)) {
+					_eCurrentTag = SoundType::HERO_WALK;
+					playSound(_eCurrentTag);
+				}
 				break;
 			case core::ActorState::STUCK_STATE :
 				
