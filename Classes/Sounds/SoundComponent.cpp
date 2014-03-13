@@ -5,13 +5,18 @@
  * \date 27/02/2014
  */
 #include "SoundComponent.h"
+#include "SoundManager.h"
+#include "core/ActorState.h"
 
 namespace sounds {
 
 const char* SoundComponent::COMPONENT_TYPE = "SoundComponent";
 
 SoundComponent::SoundComponent()
-	: SynthComponent() {
+	: SynthComponent(),
+	_eCurrentTag(SoundType::NO_SOUND),
+	_eState(core::ActorState::NO_STATE) {
+
 }
 
 SoundComponent::~SoundComponent() {
@@ -37,7 +42,8 @@ void SoundComponent::initListeners() {
 
 }
 
-void SoundComponent::onSetStateEvent(EventCustom* pEvent) {
+void SoundComponent::playSound(SoundType type) {
+	SoundManager::getInstance()->playEffect(this, type);
 }
 
 

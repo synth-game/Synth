@@ -9,6 +9,7 @@
 
 namespace core {
 typedef enum {
+	NO_STATE,
 	IDLE_STATE,
 	ON_FLOOR_STATE,
 	ON_AIR_STATE,

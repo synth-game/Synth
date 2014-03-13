@@ -8,6 +8,7 @@
 #define SOUNDS_SOUND_COMPONENT_H
 
 #include "Core/SynthComponent.h"
+#include "core/ActorState.h"
 #include "sounds/SoundType.h"
 
 namespace sounds {
@@ -29,10 +30,10 @@ public:
 	/*! \brief Create the component */
 	static SoundComponent* create();
 
-	inline SoundType getTag() { return _eTag; }
+	inline SoundType getCurrentTag() { return _eCurrentTag; }
 	inline char* getState() { return _sState; }
 
-	inline void setTag(SoundType eTag) { _eTag = eTag; }
+	inline void setCurrentTag(SoundType eTag) { _eCurrentTag = eTag; }
 	inline void setState(char* sState) { _sState = sState; }
 
 	/*! \brief  Identifies the component */
@@ -46,16 +47,11 @@ protected:
 	/*! \brief  Init listeners */
 	void initListeners();
 
-	/**
-	 * - Regarde si l'état du owner correspond à un des agglomérat d'état de sa map
-	 * - Si c'est le cas, un son doit être joué ! On ajoute le tag du son dans la variable _nextSound si elle est vide.
-	 * Quand le son courant (tag dans _currentSound) est fini, on met le son de _nextSound dans _current sound et on le joue. ==> whaaat
-	 */
-	void onSetStateEvent(EventCustom* pEvent);
+	void playSound( SoundType type );
 
-	SoundType _eTag;
+	SoundType _eCurrentTag;
 
-	char* _sState;
+	core::ActorState _eState;
 
 };
 

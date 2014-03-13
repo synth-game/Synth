@@ -6,6 +6,8 @@
  */
 
 #include "HeroSoundComponent.h"
+#include "core/SynthActor.h"
+#include "sounds/SoundManager.h"
 
 #include "events/JumpEvent.h"
 
@@ -40,6 +42,21 @@ void HeroSoundComponent::onChangePosition(EventCustom* pEvent) {
 }
 
 void HeroSoundComponent::onJump(EventCustom* pEvent) {
+
+	events::JumpEvent* pJumpEvent						= static_cast<events::JumpEvent*>(pEvent);
+    core::SynthActor* pSource							= static_cast<core::SynthActor*>(pJumpEvent->getSource());
+    core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
+
+	_eCurrentTag = SoundType::HERO_START_JUMP;
+
+    if (_eState == core::ActorState::ON_FLOOR_STATE && pSource->getActorID() == pOwner->getActorID()) {
+		CCLOG("RUN JUMP SOUND EFFECT");
+		playSound(_eCurrentTag);
+    }
+    else {
+        CCLOG("JUMP EVENT RECEIVED BUT ID NOT THE SAME");
+    }
+
 }
 
 void HeroSoundComponent::onInterruptMove(EventCustom* pEvent) {

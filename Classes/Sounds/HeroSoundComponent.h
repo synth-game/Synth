@@ -1,5 +1,5 @@
 /*!
- * \file HeroSoundComponent.cpp
+ * \file HeroSoundComponent.h
  * \brief The hero can make sounds !
  * \author Chupee
  * \date 13/03/2014
