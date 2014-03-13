@@ -30,6 +30,8 @@ CollisionComponent::CollisionComponent()
 CollisionComponent::~CollisionComponent() {
 	if (_pPhysicCollision != nullptr) { delete _pPhysicCollision; }
 	if (_pLightCollision != nullptr) { delete _pLightCollision; }
+	EventDispatcher::getInstance()->removeEventListener(_pTestCollisionEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pChangeStateCollision);
 }
 
 CollisionComponent* CollisionComponent::create() {

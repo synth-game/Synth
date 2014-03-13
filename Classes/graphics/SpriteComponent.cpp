@@ -39,6 +39,7 @@ SpriteComponent::SpriteComponent(std::string sSpriteName, Layer* pParent) :
 }
 
 SpriteComponent::~SpriteComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pChangePositionEventListener);
 }
 
 bool SpriteComponent::init() {

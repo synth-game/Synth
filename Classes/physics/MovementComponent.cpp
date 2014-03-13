@@ -35,7 +35,10 @@ MovementComponent::MovementComponent()
 }
 
 MovementComponent::~MovementComponent() {
-
+	EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
+    EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pInterruptMoveEventListener);
+    EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
 }
 
 MovementComponent* MovementComponent::create(Point acceleration, Point gravity) {

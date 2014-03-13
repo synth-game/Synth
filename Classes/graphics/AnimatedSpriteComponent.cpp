@@ -23,6 +23,7 @@ AnimatedSpriteComponent::AnimatedSpriteComponent(Layer* pParent)
 }
 
 AnimatedSpriteComponent::~AnimatedSpriteComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pChangePositionEventListener);
 }
 
 void AnimatedSpriteComponent::initListeners() {
