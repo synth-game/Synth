@@ -92,11 +92,15 @@ void SoundManager::init() {
 		std::string next;
 
 		pEffectData = pEffectsFile->FirstChildElement("effect");
-		while (pEffectData) {	
+		while (pEffectData) {
 			effect = Effect();
 			//effect.eTag = __getSoundType(pEffectData->Attribute("tag"));
 			effect.filePath = pEffectData->Attribute("name");
-			effect.bLoop = pEffectData->Attribute("isLoop");
+			if(pEffectData->Attribute("isLoop") == "true") {
+				effect.bLoop = true;
+			} else {
+				effect.bLoop = false;
+			}
 
 			_effects.insert(std::pair<SoundType, Effect>(__getSoundType(pEffectData->Attribute("tag")), effect));
 			pEffectData = pEffectData->NextSiblingElement("effect");
@@ -134,7 +138,7 @@ bool SoundManager::playEffect(SoundComponent* component, SoundType type) {
 		_effects.insert(std::make_pair(type, effectFactory(type)));
 	}
 	Effect effect = _effects[type];
-	int index = FmodAudioPlayer::sharedPlayer()->playEffect(effect.filePath.c_str(), effect.bLoop, 1, 0, 1);
+	int index = FmodAudioPlayer::sharedPlayer()->playEffect(("sound/effects/"+effect.filePath).c_str(), effect.bLoop, 1, 0, 1);
 	
 	if (_playingEffects.count(component) == 0){
 		_playingEffects.insert(std::make_pair(component, index));
