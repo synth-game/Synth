@@ -163,10 +163,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 		_pLevelLayer->addChild(rect, 50);
 	}
 
-	LevelSprite* pLevelSprite = LevelSprite::create(std::string("levels/"+level+"/bitmask.png").c_str());
-	pLevelSprite->addLight(Sprite::create(std::string("levels/"+level+"/PREC_light_3.png").c_str())->getTexture(), Color4B::RED);
-	pLevelSprite->addLight(Sprite::create(std::string("levels/"+level+"/PREC_light_4.png").c_str())->getTexture(), Color4B::BLUE);
-	_pLevelLayer->addChild(pLevelSprite, 0, 42);
+	_pLevelSprite = game::LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
 
 	win = false;
 

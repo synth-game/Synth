@@ -38,7 +38,7 @@ public:
 
 	std::vector<std::vector<int>> buildLightsMap(std::string levelName);
 
-	LevelSprite* buildLevelSprite(core::xml data);
+	LevelSprite* buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights);
 
 	std::map<std::string,Rect> buildTriggers(std::string levelName);
 
