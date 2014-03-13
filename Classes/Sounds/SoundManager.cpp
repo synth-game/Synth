@@ -125,6 +125,7 @@ SoundManager::Effect SoundManager::effectFactory(SoundType type){
 bool SoundManager::playMusic(Music music) {
 	FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
 	_playingMusics.push_back(music.eTag);
+	return true;
 }
 
 bool SoundManager::playEffect(SoundComponent* component, SoundType type) {
@@ -145,12 +146,14 @@ bool SoundManager::playEffect(SoundComponent* component, SoundType type) {
 bool SoundManager::stopMusic(Music music) {
 	FmodAudioPlayer::sharedPlayer()->StopMusicTrack(music.iChannel);
 	_playingMusics.erase(std::remove(_playingMusics.begin(), _playingMusics.end(), music.eTag), _playingMusics.end()); 
+	return true;
 }
 
 bool SoundManager::stopEffect(Effect effect) {
 	/*int index = _playingEffects.find(effect)->second;
 	FmodAudioPlayer::sharedPlayer()->stopEffect(index);
 	_playingEffects.erase(std::remove(_playingEffects.begin(), _playingEffects.end(), _playingEffects.find(effect)), _playingEffects.end()); */
+	return true;
 }
 
 void SoundManager::updateMusics(Color4B color) {

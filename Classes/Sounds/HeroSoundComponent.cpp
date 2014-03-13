@@ -31,6 +31,9 @@ HeroSoundComponent* HeroSoundComponent::create() {
 }
 
 void HeroSoundComponent::initListeners() {
+
+	SoundComponent::initListeners();
+
 	// Listeners initialization
 	_pJumpEventListener = cocos2d::EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(HeroSoundComponent::onJump, this));
 

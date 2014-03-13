@@ -31,13 +31,15 @@ public:
 	static SoundComponent* create();
 
 	inline SoundType getCurrentTag() { return _eCurrentTag; }
-	inline char* getState() { return _sState; }
+	inline core::ActorState getState() { return _eState; }
 
 	inline void setCurrentTag(SoundType eTag) { _eCurrentTag = eTag; }
-	inline void setState(char* sState) { _sState = sState; }
+	inline core::ActorState setState(core::ActorState eState) { _eState = eState; }
 
 	/*! \brief  Identifies the component */
 	static const char* COMPONENT_TYPE;
+
+	void onChangeState(EventCustom* pEvent);
 
 protected:
 
@@ -52,6 +54,8 @@ protected:
 	SoundType _eCurrentTag;
 
 	core::ActorState _eState;
+
+	EventListenerCustom* _pChangeStateEventListener;
 
 };
 

@@ -8,6 +8,8 @@
 #include "SoundManager.h"
 #include "core/ActorState.h"
 
+#include "events/ChangeStateEvent.h"
+
 namespace sounds {
 
 const char* SoundComponent::COMPONENT_TYPE = "SoundComponent";
@@ -39,11 +41,30 @@ SoundComponent* SoundComponent::create() {
 }
 
 void SoundComponent::initListeners() {
+	// Listeners initialization
+	_pChangeStateEventListener = cocos2d::EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(SoundComponent::onChangeState, this));
 
+	// Add listeners to dispacher
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateEventListener, 1);
 }
 
 void SoundComponent::playSound(SoundType type) {
 	SoundManager::getInstance()->playEffect(this, type);
+}
+
+void SoundComponent::onChangeState(EventCustom* pEvent) {
+
+	events::ChangeStateEvent*	pChangeStateEvent	= static_cast<events::ChangeStateEvent*>(pEvent);
+    core::SynthActor*			pSource				= static_cast<core::SynthActor*>(pChangeStateEvent->getSource());
+    core::SynthActor*			pOwner				= static_cast<core::SynthActor*>(_owner);
+
+	 if (pSource->getActorID() == pOwner->getActorID()) {
+		 _eState = pChangeStateEvent->getNewState();
+    }
+    else {
+        CCLOG("CHANGE STATE EVENT RECEIVED BUT ID NOT THE SAME");
+    }
+
 }
 
 
