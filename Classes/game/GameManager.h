@@ -38,10 +38,12 @@ public:
 	/*! \brief Initialisation function called in create() method */
 	virtual bool init();
 	virtual void update(float fDt);
+	bool win;
 
 	void loadLevel(/*int iLevelId*/std::string level);
 	void clearLevel();
 	void resetLevel();
+	void nextLevel();
 
 	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event);
 	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event);
