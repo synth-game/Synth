@@ -75,6 +75,8 @@ public:
 
 	bool isPlayingMusic(SoundType type);
 
+	bool isPlayingEffect(SoundType type);
+
 	
 
 
@@ -87,8 +89,6 @@ private:
 	SoundManager();
 
 	SoundType __getSoundType(std::string sTag);
-
-	
 
 	/*
 	 * Members
@@ -103,7 +103,7 @@ private:
 
 	std::vector<SoundType> _playingMusics;
 
-	std::map<SoundComponent*, int> _playingEffects;
+	std::map<SoundComponent*, std::tuple<SoundType, int>> _playingEffects;
 
 	/*! \brief Associate the string tag to the SoundType tag */
 	std::map<std::string,SoundType> _tagsMap;

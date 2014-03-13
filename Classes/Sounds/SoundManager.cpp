@@ -89,17 +89,18 @@ void SoundManager::init() {
 		tinyxml2::XMLHandle hDoc(pEffectsFile);
 		tinyxml2::XMLElement *pEffectData;
 		Effect effect;
-		std::string next;
+		std::string sLoop = "";
 
 		pEffectData = pEffectsFile->FirstChildElement("effect");
 		while (pEffectData) {
 			effect = Effect();
 			//effect.eTag = __getSoundType(pEffectData->Attribute("tag"));
 			effect.filePath = pEffectData->Attribute("name");
-			if(pEffectData->Attribute("isLoop") == "true") {
-				effect.bLoop = true;
-			} else {
+			sLoop = pEffectData->Attribute("isLoop");
+			if(sLoop != "true") {
 				effect.bLoop = false;
+			} else {
+				effect.bLoop = true;
 			}
 
 			_effects.insert(std::pair<SoundType, Effect>(__getSoundType(pEffectData->Attribute("tag")), effect));
@@ -141,7 +142,7 @@ bool SoundManager::playEffect(SoundComponent* component, SoundType type) {
 	int index = FmodAudioPlayer::sharedPlayer()->playEffect(("sound/effects/"+effect.filePath).c_str(), effect.bLoop, 1, 0, 1);
 	
 	if (_playingEffects.count(component) == 0){
-		_playingEffects.insert(std::make_pair(component, index));
+		_playingEffects.insert(std::make_pair(component, std::make_tuple(type, index)));
 	}
 
 	return true;
@@ -212,13 +213,14 @@ bool SoundManager::isPlayingMusic(SoundType type) {
 	return false;
 }
 
-/*bool SoundManager::Effect::operator<(const Effect & other) const {
-	return eTag < other.eTag;
+bool SoundManager::isPlayingEffect(SoundType type) {
+	for (auto playingEffect : _playingEffects) {
+		if (std::get<0>(playingEffect.second) == type) {
+			return true;
+		}
+	}
+	return false;
 }
-
-bool SoundManager::Effect::operator==(const Effect & other) const {
-	return eTag == other.eTag;
-}*/
 
 
 SoundType SoundManager::__getSoundType(std::string sTag) {
