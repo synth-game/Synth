@@ -6,7 +6,10 @@
  */
 #include "FireflySoundComponent.h"
 
+#include "sounds/SoundManager.h"
+
 #include "events/ChangeNodeOwnerEvent.h"
+#include "events/ChangePositionEvent.h"
 
 namespace sounds {
 
@@ -30,13 +33,29 @@ FireflySoundComponent* FireflySoundComponent::create() {
 void FireflySoundComponent::initListeners() {
 	// Listeners initialization
 	_pChangeNodeOwnerEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(FireflySoundComponent::onChangeNodeOwner, this));
+	_pChangePositionEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(FireflySoundComponent::onChangePosition, this));
 
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeNodeOwnerEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangePositionEventListener, 1);
 }
 
 void FireflySoundComponent::onChangePosition(EventCustom* pEvent) {
+	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent	= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
+    core::SynthActor* pSource							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+    core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
+	_eCurrentTag = SoundType::FIREFLY_MOVE;
+
+    if (pSource->getActorID() == pOwner->getActorID()) {
+		if(!SoundManager::getInstance()->isPlayingEffect(_eCurrentTag)) {
+			CCLOG("RUN MOVE FIREFLY SOUND EFFECT");
+			playSound(_eCurrentTag);
+		}
+    }
+    else {
+        CCLOG("CHANGE POSITION EVENT RECEIVED BUT ID NOT THE SAME");
+    }
 }
 
 void FireflySoundComponent::onToggleLight(EventCustom* pEvent) {
