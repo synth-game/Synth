@@ -9,6 +9,7 @@
 
 namespace sounds {
 typedef enum {
+	NO_SOUND,
 	BACKGROUND,
 	RED,
 	BLUE,

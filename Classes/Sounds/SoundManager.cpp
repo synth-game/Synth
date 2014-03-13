@@ -92,28 +92,78 @@ void SoundManager::init() {
 		std::string next;
 
 		pEffectData = pEffectsFile->FirstChildElement("effect");
-		while (pEffectData) {	
+		while (pEffectData) {
 			effect = Effect();
-			effect.eTag = __getSoundType(pEffectData->Attribute("tag"));
+			//effect.eTag = __getSoundType(pEffectData->Attribute("tag"));
 			effect.filePath = pEffectData->Attribute("name");
-			effect.bLoop = pEffectData->Attribute("isLoop");
-			effect.nextTag = SoundType();
-			next = pEffectData->Attribute("next");
-			if (!next.empty()) {
-				effect.nextTag = __getSoundType(next);
+			if(pEffectData->Attribute("isLoop") == "true") {
+				effect.bLoop = true;
+			} else {
+				effect.bLoop = false;
 			}
-			_effects.insert(std::pair<SoundType, Effect>(effect.eTag, effect));
+
+			_effects.insert(std::pair<SoundType, Effect>(__getSoundType(pEffectData->Attribute("tag")), effect));
 			pEffectData = pEffectData->NextSiblingElement("effect");
 		}
 	}
 }
 
-bool SoundManager::playSound(std::string soundName, int iTrackId) {
-	return 0;
+SoundManager::Effect SoundManager::effectFactory(SoundType type){
+	Effect effect = {
+		"",
+		0
+	};
+	switch(type) {
+		case HERO_START_JUMP:
+			effect.filePath = "sound/effects/jump.wav";
+			effect.bLoop = 0;
+			break;
+
+		default :
+			break;
+	}
+
+	return effect;
 }
 
-bool SoundManager::stopSound(int iTrackId) {
-	return 0;
+bool SoundManager::playMusic(Music music) {
+	FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+	_playingMusics.push_back(music.eTag);
+	return true;
+}
+
+bool SoundManager::playEffect(SoundComponent* component, SoundType type) {
+
+	if (_effects.count(type) == 0){
+		_effects.insert(std::make_pair(type, effectFactory(type)));
+	}
+	Effect effect = _effects[type];
+	int index = FmodAudioPlayer::sharedPlayer()->playEffect(("sound/effects/"+effect.filePath).c_str(), effect.bLoop, 1, 0, 1);
+	
+	if (_playingEffects.count(component) == 0){
+		_playingEffects.insert(std::make_pair(component, index));
+	}
+
+	return true;
+}
+
+bool SoundManager::stopMusic(Music music) {
+	FmodAudioPlayer::sharedPlayer()->StopMusicTrack(music.iChannel);
+	_playingMusics.erase(std::remove(_playingMusics.begin(), _playingMusics.end(), music.eTag), _playingMusics.end()); 
+	return true;
+}
+
+bool SoundManager::stopEffect(SoundComponent* component) {
+
+	int index = _playingEffects[component];
+		
+	FmodAudioPlayer::sharedPlayer()->stopEffect(index);
+
+	if (_playingEffects.count(component) != 0){
+		CCLOG("Remove Effect component");
+		_playingEffects.erase(_playingEffects.find(component), _playingEffects.end());
+	}
+	return true;
 }
 
 void SoundManager::updateMusics(Color4B color) {
@@ -151,11 +201,11 @@ void SoundManager::updateMusics(Color4B color) {
 	}
 }
 
-bool SoundManager::unmuteMusic(std::string musicName) {
+bool SoundManager::unmuteMusics() {
 	return 0;
 }
 
-bool SoundManager::muteMusic(std::string musicName) {
+bool SoundManager::muteMusics() {
 	return 0;
 }
 
@@ -168,12 +218,14 @@ bool SoundManager::isPlayingMusic(SoundType type) {
 	return false;
 }
 
-bool SoundManager::isFinished(int iTrackId) {
-	return 0;
+/*bool SoundManager::Effect::operator<(const Effect & other) const {
+	return eTag < other.eTag;
 }
 
-void SoundManager::refresh() {
-}
+bool SoundManager::Effect::operator==(const Effect & other) const {
+	return eTag == other.eTag;
+}*/
+
 
 SoundType SoundManager::__getSoundType(std::string sTag) {
 	return _tagsMap.find(sTag)->second;
