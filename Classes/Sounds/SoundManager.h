@@ -65,7 +65,7 @@ public:
 	bool playEffect(SoundComponent* component, SoundType type);
 
 	bool stopMusic(Music music);
-	bool stopEffect(Effect effect);
+	bool stopEffect(SoundComponent* component);
 
 	void updateMusics(Color4B color);
 
