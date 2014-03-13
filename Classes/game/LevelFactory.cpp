@@ -235,7 +235,7 @@ std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 
 	// Parse triggers
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
-	int xmlerror = pXMLFile->LoadFile(std::string("levels/"+levelName+"/actors.xml").c_str());
+	int xmlerror = pXMLFile->LoadFile(std::string("levels/"+levelName+"/triggers.xml").c_str());
 	if(xmlerror == 0) {
 		CCLOG("XML FILE LOADED SUCCESSFULLY : %d", xmlerror);
 		tinyxml2::XMLHandle hDoc(pXMLFile);
