@@ -29,6 +29,7 @@ public:
 
 	static GameScene* create();
 	bool init();
+	void initCamera();
 	void launchLevel(int iLevelID);
 
 protected:

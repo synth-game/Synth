@@ -52,12 +52,7 @@ bool GameScene::init() {
 	Scene::addChild(_pGameLayer);
 
 	// Camera
-	float playfield_width = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().width;
-    float playfield_height = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().height;
-	Rect boundaries =  Rect( 0.f, 0.f , playfield_width, playfield_height);
-
-	graphics::AnimatedSpriteComponent* pAnimatedSpriteComponent = static_cast<graphics::AnimatedSpriteComponent*>(_pGameLayer->getActorsByType(core::ActorType::HERO)[0]->getComponent(graphics::AnimatedSpriteComponent::COMPONENT_TYPE));
-	this->runAction(Follow::create(pAnimatedSpriteComponent->getSprite(), boundaries));
+	initCamera();
 
 	//init listeners
 	_pDeathEventListener = cocos2d::EventListenerCustom::create(events::DeathEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onDeathEvent, this));
@@ -75,6 +70,16 @@ bool GameScene::init() {
 	return bTest;
 }
 
+void GameScene::initCamera() {
+	float playfield_width = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().width;
+    float playfield_height = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().height;
+	Rect boundaries =  Rect( 0.f, 0.f , playfield_width, playfield_height);
+
+	graphics::AnimatedSpriteComponent* pAnimatedSpriteComponent = static_cast<graphics::AnimatedSpriteComponent*>(_pGameLayer->getActorsByType(core::ActorType::HERO)[0]->getComponent(graphics::AnimatedSpriteComponent::COMPONENT_TYPE));
+	this->stopAllActions();
+	this->runAction(Follow::create(pAnimatedSpriteComponent->getSprite(), boundaries));
+}
+
 void GameScene::launchLevel(int iLevelID) {
 
 }
@@ -82,6 +87,7 @@ void GameScene::launchLevel(int iLevelID) {
 void GameScene::onDeathEvent(Event* pEvent) {
 	events::DeathEvent* deathEvent = static_cast<events::DeathEvent*>(pEvent);
 	_pGameLayer->resetLevel();
+	initCamera();
 }
 
 void GameScene::onWinEvent(Event* pEvent) {
