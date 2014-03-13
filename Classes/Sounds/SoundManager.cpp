@@ -161,7 +161,7 @@ bool SoundManager::stopEffect(SoundComponent* component) {
 
 	if (_playingEffects.count(component) != 0){
 		CCLOG("Remove Effect component");
-		//_playingEffects.erase(std::remove(_playingEffects.begin(), _playingEffects.end(), component), _playingEffects.end());
+		_playingEffects.erase(_playingEffects.find(component), _playingEffects.end());
 	}
 	return true;
 }
