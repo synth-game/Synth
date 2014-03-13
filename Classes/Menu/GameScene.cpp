@@ -93,6 +93,7 @@ void GameScene::onDeathEvent(Event* pEvent) {
 void GameScene::onWinEvent(Event* pEvent) {
 	events::WinEvent* winEvent = static_cast<events::WinEvent*>(pEvent);
 	_pGameLayer->nextLevel();
+	initCamera();
 }
 
 void GameScene::onResetLevelEvent(Event* pEvent) {
