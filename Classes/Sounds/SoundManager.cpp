@@ -147,10 +147,18 @@ bool SoundManager::stopMusic(Music music) {
 	_playingMusics.erase(std::remove(_playingMusics.begin(), _playingMusics.end(), music.eTag), _playingMusics.end()); 
 }
 
-bool SoundManager::stopEffect(Effect effect) {
-	/*int index = _playingEffects.find(effect)->second;
+bool SoundManager::stopEffect(SoundComponent* component) {
+
+	int index = _playingEffects[component];
+		
 	FmodAudioPlayer::sharedPlayer()->stopEffect(index);
-	_playingEffects.erase(std::remove(_playingEffects.begin(), _playingEffects.end(), _playingEffects.find(effect)), _playingEffects.end()); */
+	
+	if (_playingEffects.count(component) != 0){
+		CCLOG("Remove Effect component");
+		//_playingEffects.erase(std::remove(_playingEffects.begin(), _playingEffects.end(), component), _playingEffects.end());
+	}
+
+	return true;
 }
 
 void SoundManager::updateMusics(Color4B color) {
