@@ -18,7 +18,7 @@ KeyBinderManager* KeyBinderManager::getInstance()
 	return 0;
 }
 
-void KeyBinderManager::init(core::xml maps)
+void KeyBinderManager::init()
 {
 }
 
@@ -31,9 +31,10 @@ BindedAction KeyBinderManager::getBindedAction(int keyCode)
 	return BindedAction::NO_ACTION;
 }
 
-core::xml KeyBinderManager::getKeyMapConfig()
+tinyxml2::XMLDocument* KeyBinderManager::getKeyMapConfig()
 {
-	core::xml fakeXml;
+	tinyxml2::XMLDocument* fakeXml;
 	return fakeXml;
 }
+
 }  // namespace synthsystem

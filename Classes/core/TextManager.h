@@ -30,7 +30,7 @@ public:
 
 	static TextManager* getInstance();
 
-	void init(xml data);
+	void init();
 
 	std::string getText(std::string TextTag);
 

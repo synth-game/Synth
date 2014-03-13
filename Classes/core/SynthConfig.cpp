@@ -10,7 +10,7 @@
 
 namespace core {
 
-static SynthConfig* _pInstance = nullptr;
+SynthConfig* SynthConfig::_pInstance = nullptr;
 
 SynthConfig::SynthConfig() {
 }
@@ -62,9 +62,10 @@ float SynthConfig::getLuminosity() {
 int SynthConfig::getCurrentLevelIndex() {
 	tinyxml2::XMLDocument* save = getConfig();
 	tinyxml2::XMLDocument* levels = synthsystem::IOManager::getInstance()->loadXML("xml/levels.xml");
+	tinyxml2::XMLHandle hSave(save);
+	tinyxml2::XMLHandle hLevels(levels);
 
-	tinyxml2::XMLElement* pLevelData = save->FirstChildElement("level");
-	tinyxml2::XMLElement* level = levels->FirstChildElement("level"); 
+	tinyxml2::XMLElement* level = levels->FirstChildElement("game")->FirstChildElement("level"); 
 	int count = 0;
 	while (level) {
 		level = level->NextSiblingElement();  
@@ -72,13 +73,19 @@ int SynthConfig::getCurrentLevelIndex() {
 	}
 	
 	tinyxml2::XMLElement *pLevelData = save->FirstChildElement("level");
-	
 	int levelIndex = -1;
 	levelIndex = pLevelData->IntAttribute("index");
-	if(levelIndex > 0 && levelIndex <= count ) {
+	if(levelIndex >= 0 && levelIndex < count ) {
 		return levelIndex;
 	}
-	return 0;
+	return -1;
+}
+
+void SynthConfig::saveCurrentLevelIndex(int levelIndex) {
+	tinyxml2::XMLDocument* save = getConfig();
+	tinyxml2::XMLElement* pLevelData = save->FirstChildElement("level");
+	pLevelData->SetAttribute("index", levelIndex);
+	saveConfig(save);
 }
 
 void SynthConfig::setMusicVolume(float musicVolume) {

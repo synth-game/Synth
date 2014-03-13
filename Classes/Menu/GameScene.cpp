@@ -6,6 +6,7 @@
 #include "events/ResetLevelEvent.h"
 #include "events/PauseGameEvent.h"
 #include "events/ResumeGameEvent.h"
+#include "core/SynthConfig.h"
 
 namespace menu {
 
@@ -92,6 +93,7 @@ void GameScene::onDeathEvent(Event* pEvent) {
 
 void GameScene::onWinEvent(Event* pEvent) {
 	events::WinEvent* winEvent = static_cast<events::WinEvent*>(pEvent);
+	core::SynthConfig::getInstance()->saveCurrentLevelIndex(_pGameLayer->getCurrentLevelIndex() + 1);
 	_pGameLayer->nextLevel();
 	initCamera();
 }

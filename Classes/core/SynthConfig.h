@@ -44,6 +44,8 @@ public:
 
 	int getCurrentLevelIndex();
 
+	void saveCurrentLevelIndex(int levelIndex);
+
 	void setMusicVolume(float musicVolume);
 
 	void setSoundVolume(float soundVolume);
