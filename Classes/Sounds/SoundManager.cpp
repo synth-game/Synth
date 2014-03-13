@@ -92,11 +92,15 @@ void SoundManager::init() {
 		std::string next;
 
 		pEffectData = pEffectsFile->FirstChildElement("effect");
-		while (pEffectData) {	
+		while (pEffectData) {
 			effect = Effect();
 			//effect.eTag = __getSoundType(pEffectData->Attribute("tag"));
 			effect.filePath = pEffectData->Attribute("name");
-			effect.bLoop = pEffectData->Attribute("isLoop");
+			if(pEffectData->Attribute("isLoop") == "true") {
+				effect.bLoop = true;
+			} else {
+				effect.bLoop = false;
+			}
 
 			_effects.insert(std::pair<SoundType, Effect>(__getSoundType(pEffectData->Attribute("tag")), effect));
 			pEffectData = pEffectData->NextSiblingElement("effect");
@@ -125,6 +129,7 @@ SoundManager::Effect SoundManager::effectFactory(SoundType type){
 bool SoundManager::playMusic(Music music) {
 	FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
 	_playingMusics.push_back(music.eTag);
+	return true;
 }
 
 bool SoundManager::playEffect(SoundComponent* component, SoundType type) {
@@ -133,7 +138,7 @@ bool SoundManager::playEffect(SoundComponent* component, SoundType type) {
 		_effects.insert(std::make_pair(type, effectFactory(type)));
 	}
 	Effect effect = _effects[type];
-	int index = FmodAudioPlayer::sharedPlayer()->playEffect(effect.filePath.c_str(), effect.bLoop, 1, 0, 1);
+	int index = FmodAudioPlayer::sharedPlayer()->playEffect(("sound/effects/"+effect.filePath).c_str(), effect.bLoop, 1, 0, 1);
 	
 	if (_playingEffects.count(component) == 0){
 		_playingEffects.insert(std::make_pair(component, index));
@@ -145,6 +150,7 @@ bool SoundManager::playEffect(SoundComponent* component, SoundType type) {
 bool SoundManager::stopMusic(Music music) {
 	FmodAudioPlayer::sharedPlayer()->StopMusicTrack(music.iChannel);
 	_playingMusics.erase(std::remove(_playingMusics.begin(), _playingMusics.end(), music.eTag), _playingMusics.end()); 
+	return true;
 }
 
 bool SoundManager::stopEffect(SoundComponent* component) {
@@ -152,12 +158,11 @@ bool SoundManager::stopEffect(SoundComponent* component) {
 	int index = _playingEffects[component];
 		
 	FmodAudioPlayer::sharedPlayer()->stopEffect(index);
-	
+
 	if (_playingEffects.count(component) != 0){
 		CCLOG("Remove Effect component");
 		//_playingEffects.erase(std::remove(_playingEffects.begin(), _playingEffects.end(), component), _playingEffects.end());
 	}
-
 	return true;
 }
 
