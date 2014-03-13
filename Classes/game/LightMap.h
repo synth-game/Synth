@@ -25,6 +25,11 @@ public:
 	/*! \brief Destructor */
 	~LightMap();
 	static LightMap* createFromXML(std::string sFilePath);
+
+	inline int getWidth() { return _iW; };
+	inline int getHeight() { return _iH; };
+	inline std::vector<std::pair<Color4B, std::vector<std::pair<int, bool>>>> getPixelGrid() { return _pixelGrid; };
+
 	void updateLighting(std::vector<core::SynthActor*>& lights);
 	Color4B getPixelLighting(Point absPos);
 

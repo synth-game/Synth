@@ -82,6 +82,8 @@ protected:
 
 	std::vector<EventKeyboard::KeyCode> _keyPressedCode;
 
+	int stepsSoundId;
+
 };
 
 }  // namespace game

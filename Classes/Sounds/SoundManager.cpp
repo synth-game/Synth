@@ -5,7 +5,12 @@
  * \date 26/02/2014
  */
 #include "SoundManager.h"
+#include "FmodAudioPlayer.h"
+
 #include "system/IOManager.h"
+#include "game/LightMap.h"
+
+#define MUSIC_NUMBER 7
 
 namespace sounds {
 
@@ -52,34 +57,42 @@ void SoundManager::init() {
 	tinyxml2::XMLDocument* pMusicsFile = new tinyxml2::XMLDocument();
 	synthsystem::IOManager* ioManager = synthsystem::IOManager::getInstance();
 	pMusicsFile = ioManager->loadXML("xml/musics.xml");
-	if(pMusicsFile != nullptr) {
+	if (pMusicsFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pMusicsFile);
 		tinyxml2::XMLElement *pMusicData;
 		Music music;
+		int i = MUSIC_NUMBER - 1;
 
 		pMusicData = pMusicsFile->FirstChildElement("music");
-		while(pMusicData)
-		{	
+		while (pMusicData) {	
 			music = Music();
 			music.eTag = __getSoundType(pMusicData->Attribute("tag"));
 			music.filePath = pMusicData->Attribute("name");
+			music.iChannel = i;
 			_musics.insert(std::pair<SoundType, Music>(music.eTag, music));
+			FmodAudioPlayer::sharedPlayer()->InitMusic("sound/music/"+music.filePath);
+			--i;
 			pMusicData = pMusicData->NextSiblingElement("music");
 		}
+
+		for (auto musicData : _musics) {
+			Music playMusic = musicData.second;
+			//FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(playMusic.iChannel);
+		}
+
 	}
 
 	// parsing effects
 	tinyxml2::XMLDocument* pEffectsFile = new tinyxml2::XMLDocument();
 	pEffectsFile = ioManager->loadXML("xml/effects.xml");
-	if(pEffectsFile != nullptr) {
+	if (pEffectsFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pEffectsFile);
 		tinyxml2::XMLElement *pEffectData;
 		Effect effect;
 		std::string next;
 
 		pEffectData = pEffectsFile->FirstChildElement("effect");
-		while(pEffectData)
-		{	
+		while (pEffectData) {	
 			effect = Effect();
 			effect.eTag = __getSoundType(pEffectData->Attribute("tag"));
 			effect.filePath = pEffectData->Attribute("name");
@@ -103,12 +116,56 @@ bool SoundManager::stopSound(int iTrackId) {
 	return 0;
 }
 
+void SoundManager::updateMusics(Color4B color) {
+	Music music = Music();
+	if(color != Color4B(0,0,0,0)) {
+		if (color == Color4B::BLUE && !isPlayingMusic(SoundType::BLUE) ) {
+			music = getMusicFromTag(SoundType::BLUE);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::BLUE);
+		} else if (color == Color4B::RED && !isPlayingMusic(SoundType::RED)) {
+			music = getMusicFromTag(SoundType::RED);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::RED);
+		} else if (color == Color4B::GREEN && !isPlayingMusic(SoundType::GREEN)) {
+			music = getMusicFromTag(SoundType::GREEN);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::GREEN);
+		} else if (color == Color4B::CYAN && !isPlayingMusic(SoundType::CYAN)) {
+			music = getMusicFromTag(SoundType::CYAN);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::CYAN);
+		} else if (color == Color4B::MAGENTA && !isPlayingMusic(SoundType::MAGENTA)) {
+			music = getMusicFromTag(SoundType::MAGENTA);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::MAGENTA);
+		} else if (color == Color4B::YELLOW && !isPlayingMusic(SoundType::YELLOW)) {
+			music = getMusicFromTag(SoundType::YELLOW);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::YELLOW);
+		} else if (color == Color4B::WHITE && !isPlayingMusic(SoundType::WHITE)) {
+			music = getMusicFromTag(SoundType::WHITE);
+			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
+			_playingMusics.push_back(SoundType::WHITE);
+		}
+	}
+}
+
 bool SoundManager::unmuteMusic(std::string musicName) {
 	return 0;
 }
 
 bool SoundManager::muteMusic(std::string musicName) {
 	return 0;
+}
+
+bool SoundManager::isPlayingMusic(SoundType type) {
+	for (auto playingType : _playingMusics) {
+		if (playingType == type) {
+			return true;
+		}
+	}
+	return false;
 }
 
 bool SoundManager::isFinished(int iTrackId) {
