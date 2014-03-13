@@ -13,6 +13,8 @@
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireFlyAnimatedSpriteComponent.h"
 #include "system/IOManager.h"
+#include "sounds/HeroSoundComponent.h"
+#include "sounds/FireflySoundComponent.h"
 
 namespace game {
 
@@ -55,6 +57,8 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FOLLOWMOVEMENT",			core::ComponentType::FOLLOWMOVEMENT));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("NODEOWNER",				core::ComponentType::NODEOWNER));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("LIGHTATTR",				core::ComponentType::LIGHTATTR));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("HEROSOUND",				core::ComponentType::HEROSOUND));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FIREFLYSOUND",				core::ComponentType::FIREFLYSOUND));
 
 	// parsing actors
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
@@ -145,6 +149,13 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 						ownerId = atoi(pOwnerData->GetText());
 					}
 					aComponents.push_back(game::NodeOwnerComponent::create(nullptr));
+					break;
+				case core::ComponentType::HEROSOUND:
+					aComponents.push_back(sounds::HeroSoundComponent::create());
+					break;
+				case core::ComponentType::FIREFLYSOUND:
+					aComponents.push_back(sounds::FireflySoundComponent::create());
+					break;
 				default:
 					break;
 				}

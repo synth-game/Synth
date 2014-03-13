@@ -14,6 +14,7 @@
 #include "SoundType.h"
 #include "FmodAudioPlayer.h"
 #include "game/LightMap.h"
+#include "sounds/SoundComponent.h"
 
 USING_NS_CC;
 
@@ -32,19 +33,18 @@ public:
 	 * Classes
 	 */
 
-	class Music {
-	public:
+	struct Music {
 		SoundType eTag;
 		std::string filePath;
 		int iChannel;
 	};
 
-	class Effect {
-	public:
-		SoundType eTag;
+	struct Effect {
 		std::string filePath;
 		bool bLoop;
-		SoundType nextTag;
+
+		//bool operator<(const Effect&) const;
+		//bool operator==(const Effect&) const;
 	};
 
 	/*
@@ -61,29 +61,24 @@ public:
 
 	inline Music getMusicFromTag(SoundType type) { return _musics.find(type)->second; }
 
-	bool playSound(std::string soundName, int iTrackId);
+	bool playMusic(Music music);
+	bool playEffect(SoundComponent* component, SoundType type);
 
-	bool stopSound(int iTrackId);
+	bool stopMusic(Music music);
+	bool stopEffect(SoundComponent* component);
 
 	void updateMusics(Color4B color);
 
-	bool unmuteMusic(std::string musicName);
+	bool unmuteMusics();
 
-	bool muteMusic(std::string musicName);
+	bool muteMusics();
 
 	bool isPlayingMusic(SoundType type);
 
-	/**
-	 * = true :
-	 *  if iTrackId isn't in _playingSounds map
-	 */
-	bool isFinished(int iTrackId);
+	bool isPlayingEffect(SoundType type);
 
-	/**
-	 * This function is useful to manage chained sound.
-	 * Browse every playing sound. Check if they are finished. If yes, launch the chained sound
-	 */
-	void refresh();
+	
+
 
 private:
 	/*
@@ -94,8 +89,6 @@ private:
 	SoundManager();
 
 	SoundType __getSoundType(std::string sTag);
-
-	
 
 	/*
 	 * Members
@@ -110,9 +103,12 @@ private:
 
 	std::vector<SoundType> _playingMusics;
 
+	std::map<SoundComponent*, std::tuple<SoundType, int>> _playingEffects;
+
 	/*! \brief Associate the string tag to the SoundType tag */
 	std::map<std::string,SoundType> _tagsMap;
-
+	
+	Effect effectFactory(SoundType type);
 
 };
 

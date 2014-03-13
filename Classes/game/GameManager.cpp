@@ -256,23 +256,13 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-			
-			if (stepsSoundId == -1){ 
-				stepsSoundId = FmodAudioPlayer::sharedPlayer()->playEffect("sound/effects/bounce.wav", true, 1, 0, 1);
-			}
-
 			break;
             
         case EventKeyboard::KeyCode::KEY_D:
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent RIGHT");
             dispatcher->dispatchEvent(pEditMoveEvent);
-
-			FmodAudioPlayer::sharedPlayer()->StopMusicTrack(sounds::SoundType::BLUE);
-
-			if (stepsSoundId == -1){ 
-				stepsSoundId = FmodAudioPlayer::sharedPlayer()->playEffect("sound/effects/bounce.wav", true, 1, 0, 1);
-			}
+			break;
             
         case EventKeyboard::KeyCode::KEY_SPACE:
 
