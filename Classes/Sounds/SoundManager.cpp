@@ -156,7 +156,7 @@ bool SoundManager::stopMusic(Music music) {
 
 bool SoundManager::stopEffect(SoundComponent* component) {
 
-	int index = _playingEffects[component];
+	int index = std::get<1>(_playingEffects[component]);
 		
 	FmodAudioPlayer::sharedPlayer()->stopEffect(index);
 
