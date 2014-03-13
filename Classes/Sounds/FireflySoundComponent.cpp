@@ -48,7 +48,7 @@ void FireflySoundComponent::onChangePosition(EventCustom* pEvent) {
 	_eCurrentTag = SoundType::FIREFLY_MOVE;
 
     if (pSource->getActorID() == pOwner->getActorID()) {
-		if(!SoundManager::getInstance()->isPlayingEffect(_eCurrentTag)) {
+		if(!SoundManager::getInstance()->isPlayingEffect(_eCurrentTag, this)) {
 			CCLOG("RUN MOVE FIREFLY SOUND EFFECT");
 			playSound(_eCurrentTag);
 		}

@@ -10,6 +10,7 @@
 #include "sounds/SoundManager.h"
 
 #include "events/JumpEvent.h"
+#include "Events/EditMoveEvent.h"
 
 namespace sounds {
 
@@ -36,12 +37,72 @@ void HeroSoundComponent::initListeners() {
 
 	// Listeners initialization
 	_pJumpEventListener = cocos2d::EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(HeroSoundComponent::onJump, this));
+	_pEditMoveEventListener = cocos2d::EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(HeroSoundComponent::onEditMove, this));
 
 	// Add listeners to dispacher
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pJumpEventListener, 1);
 }
 
 void HeroSoundComponent::onChangePosition(EventCustom* pEvent) {
+
+}
+
+void HeroSoundComponent::onEditMove(EventCustom* pEvent) {
+	events::EditMoveEvent*	pEditMoveEvent	= static_cast<events::EditMoveEvent*>(pEvent);
+    core::SynthActor*		pSource			= static_cast<core::SynthActor*>(pEditMoveEvent->getSource());
+    core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
+
+    if (pSource->getActorID() == pOwner->getActorID()) {
+		
+		if (pEditMoveEvent->isStartMoving()) {
+			// the movement starts
+			switch (_eState) {
+			case core::ActorState::ON_FLOOR_STATE :
+				if(!SoundManager::getInstance()->isPlayingEffect(_eCurrentTag, this)) {
+					_eCurrentTag = SoundType::HERO_WALK;
+					playSound(_eCurrentTag);
+				}
+				break;
+			case core::ActorState::STUCK_STATE :
+				
+				break;
+			case core::ActorState::ON_AIR_STATE :
+				
+				break;
+			case core::ActorState::BOUNCE_STATE :
+				
+				break;
+			default:
+				
+				break;
+			}
+			
+		} else {
+			// the movement stops
+			switch (_eState) {
+			case core::ActorState::ON_FLOOR_STATE :
+				_eCurrentTag = SoundType::HERO_WALK;
+				stopSound(_eCurrentTag);
+				break;
+			case core::ActorState::STUCK_STATE :
+
+				break;
+			case core::ActorState::ON_AIR_STATE :
+				
+				break;
+			case core::ActorState::BOUNCE_STATE :
+				
+				break;
+			default:
+				
+				break;
+			}
+		}
+    }
+    else {
+        CCLOG("HeroSoundComponent::onEditMove MOVE EVENT RECEIVED BUT ID NOT THE SAME");
+    }
 }
 
 void HeroSoundComponent::onJump(EventCustom* pEvent) {

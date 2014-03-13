@@ -219,9 +219,9 @@ bool SoundManager::isPlayingMusic(SoundType type) {
 	return false;
 }
 
-bool SoundManager::isPlayingEffect(SoundType type) {
+bool SoundManager::isPlayingEffect(SoundType type, SoundComponent* component) {
 	for (auto playingEffect : _playingEffects) {
-		if (std::get<0>(playingEffect.second) == type) {
+		if (std::get<0>(playingEffect.second) == type && playingEffect.first == component) {
 			return true;
 		}
 	}

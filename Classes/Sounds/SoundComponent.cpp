@@ -52,6 +52,10 @@ void SoundComponent::playSound(SoundType type) {
 	SoundManager::getInstance()->playEffect(this, type);
 }
 
+void SoundComponent::stopSound(SoundType type) {
+	SoundManager::getInstance()->stopEffect(this);
+}
+
 void SoundComponent::onChangeState(EventCustom* pEvent) {
 
 	events::ChangeStateEvent*	pChangeStateEvent	= static_cast<events::ChangeStateEvent*>(pEvent);

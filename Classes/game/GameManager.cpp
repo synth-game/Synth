@@ -154,9 +154,16 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	pBgSprite->setScale(2.f);
 	_pBackgroundLayer->addChild(pBgSprite);
 
+	// Build actors and light collisions
 	_levelActors = game::LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
+	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+	pCollisionComp->addLightCollision(game::LevelFactory::getInstance()->buildLightsCollision(level, getActorsByType(core::ActorType::LIGHT)));
+	
+	// Build triggers
 	_triggers = game::LevelFactory::getInstance()->buildTriggers(level);
 
+	// Display debug rectangle for triggers
 	for (std::map<std::string, Rect>::iterator it = _triggers.begin(); it != _triggers.end(); ++it) {
 		Sprite* rect = Sprite::create("levels/test/rect.png");
 		rect->setPosition(it->second.origin);
@@ -166,6 +173,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 		_pLevelLayer->addChild(rect, 50);
 	}
 
+	// Build level Sprite
 	_pLevelSprite = game::LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
 
 	win = false;
@@ -206,8 +214,8 @@ void GameManager::nextLevel() {
 		CCLOG("GameManager::nextLevel : Clear and load next level");
 		win = true;
 		clearLevel();
-		//loadLevel(_levelsName[++_iCurrentLevelId]);
-		loadLevel(_levelsName[_iCurrentLevelId]);
+		loadLevel(_levelsName[++_iCurrentLevelId]);
+		//loadLevel(_levelsName[_iCurrentLevelId]);
 	}
 }
 
@@ -438,12 +446,12 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 	for(std::vector<EventKeyboard::KeyCode>::iterator it = _keyPressedCode.begin(); it != _keyPressedCode.end(); ++it) {
 		switch(*it) {
 			case EventKeyboard::KeyCode::KEY_Q:
-				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, false);
+				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, true);
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
             
 			case EventKeyboard::KeyCode::KEY_D:
-				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
+				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, true);
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
 		}

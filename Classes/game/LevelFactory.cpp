@@ -215,26 +215,13 @@ physics::CollisionComponent* LevelFactory::__createCollisionComponent(std::strin
 	physics::PhysicCollision* pCollision = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
 	pRet->addPhysicCollision(pCollision);
 
-	LightMap* pLM = LightMap::createFromXML(std::string("levels/"+levelName+"/PREC_lightmap.xml").c_str());
-	std::vector<core::SynthActor*> lights;
-	core::SynthActor* pLight1 = new core::SynthActor(core::ActorType::LIGHT);
-	core::SynthActor* pLight2 = new core::SynthActor(core::ActorType::LIGHT);
-	core::SynthActor* pLight3 = new core::SynthActor(core::ActorType::LIGHT);
-	pLight1->addComponent(game::LightAttrComponent::create(Color4B::RED));
-	pLight2->addComponent(game::LightAttrComponent::create(Color4B::BLUE));
-	pLight3->addComponent(game::LightAttrComponent::create(Color4B::GREEN));
-	lights.push_back(pLight1);
-	lights.push_back(pLight2);
-	lights.push_back(pLight3);
-	physics::LightCollision* pLightCollision = new physics::LightCollision(lights, pLM);
-	pRet->addLightCollision(pLightCollision);
-
 	return pRet;
 }
 
-std::vector<std::vector<int>> LevelFactory::buildLightsMap(std::string levelName) {
-	std::vector<std::vector<int>> voidVec;
-	return voidVec;
+physics::LightCollision* LevelFactory::buildLightsCollision(std::string levelName, std::vector<core::SynthActor*> aLights) {
+	LightMap* pLM = LightMap::createFromXML(std::string("levels/"+levelName+"/PREC_lightmap.xml").c_str());
+	physics::LightCollision* pLightCollision = new physics::LightCollision(aLights, pLM);
+	return pLightCollision;
 }
 
 LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights) {

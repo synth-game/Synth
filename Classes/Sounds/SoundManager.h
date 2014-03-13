@@ -75,7 +75,7 @@ public:
 
 	bool isPlayingMusic(SoundType type);
 
-	bool isPlayingEffect(SoundType type);
+	bool isPlayingEffect(SoundType type, SoundComponent* component);
 
 	
 
