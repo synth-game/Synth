@@ -33,8 +33,13 @@ tinyxml2::XMLDocument* IOManager::loadXML(std::string filepath) {
 	}
 }
 
-void IOManager::saveXML(char* filepath, core::xml data) {
-
+bool IOManager::saveXML(std::string filepath, tinyxml2::XMLDocument* file) {
+	int xmlerror = file->SaveFile(filepath.c_str());
+	if(xmlerror == 0) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 }  // namespace synthsystem
