@@ -36,6 +36,7 @@ protected:
 	GameScene();
 
 	void onDeathEvent(Event* pEvent);
+	void onWinEvent(Event* pEvent);
 	void onResetLevelEvent(Event* pEvent);
 	void onPauseGameEvent(Event* pEvent);
 	void onResumeGameEvent(Event* pEvent);
@@ -44,6 +45,7 @@ protected:
 	InGameMenuLayer* _pMenu;
 
 	EventListenerCustom* _pDeathEventListener;
+	EventListenerCustom* _pWinEventListener;
 	EventListenerCustom* _pResetLevelEventListener;
 	EventListenerCustom* _pPauseGameEventListener;
 	EventListenerCustom* _pResumeGameEventListener;

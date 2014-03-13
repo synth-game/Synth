@@ -1,6 +1,11 @@
 #include "cocos2d.h"
 #include "GameScene.h"
 #include "graphics/AnimatedSpriteComponent.h"
+#include "events/DeathEvent.h"
+#include "Events/WinEvent.h"
+#include "events/ResetLevelEvent.h"
+#include "events/PauseGameEvent.h"
+#include "events/ResumeGameEvent.h"
 
 namespace menu {
 
@@ -9,6 +14,7 @@ GameScene::GameScene()
 	, _pGameLayer(nullptr) 
 	, _pMenu(nullptr) 
 	, _pDeathEventListener(nullptr) 
+	, _pWinEventListener(nullptr) 
 	, _pResetLevelEventListener(nullptr)
 	, _pPauseGameEventListener(nullptr)
 	, _pResumeGameEventListener(nullptr) {
@@ -16,7 +22,11 @@ GameScene::GameScene()
 }
 
 GameScene::~GameScene() {
-
+	EventDispatcher::getInstance()->removeEventListener(_pDeathEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pWinEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pResetLevelEventListener);
+	//EventDispatcher::getInstance()->removeEventListener(_pPauseGameEventListener);
+	//EventDispatcher::getInstance()->removeEventListener(_pResumeGameEventListener);
 }
 
 GameScene* GameScene::create() {
@@ -50,7 +60,17 @@ bool GameScene::init() {
 	this->runAction(Follow::create(pAnimatedSpriteComponent->getSprite(), boundaries));
 
 	//init listeners
-	//TO DO
+	_pDeathEventListener = cocos2d::EventListenerCustom::create(events::DeathEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onDeathEvent, this));
+	_pWinEventListener = cocos2d::EventListenerCustom::create(events::WinEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onWinEvent, this));
+	_pResetLevelEventListener = cocos2d::EventListenerCustom::create(events::ResetLevelEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onResetLevelEvent, this));
+	//_pPauseGameEventListener = cocos2d::EventListenerCustom::create(events::PauseGameEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onPauseGameEvent, this));
+	//_pResumeGameEventListener = cocos2d::EventListenerCustom::create(events::ResumeGameEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onResumeGameEvent, this));
+
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pDeathEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pWinEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pResetLevelEventListener, 1);
+	//EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pPauseGameEventListener, 1);
+	//EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pResumeGameEventListener, 1);
 
 	return bTest;
 }
@@ -60,11 +80,19 @@ void GameScene::launchLevel(int iLevelID) {
 }
 
 void GameScene::onDeathEvent(Event* pEvent) {
+	events::DeathEvent* deathEvent = static_cast<events::DeathEvent*>(pEvent);
+	_pGameLayer->resetLevel();
+}
 
+void GameScene::onWinEvent(Event* pEvent) {
+	events::WinEvent* winEvent = static_cast<events::WinEvent*>(pEvent);
+	_pGameLayer->nextLevel();
 }
 
 void GameScene::onResetLevelEvent(Event* pEvent) {
-
+	CCLOG("GameScene::onResetLevelEvent : Remove game layer from scene");
+	events::ResetLevelEvent* resetLevelEvent = static_cast<events::ResetLevelEvent*>(pEvent);
+	_pGameLayer->resetLevel();
 }
 
 void GameScene::onPauseGameEvent(Event* pEvent) {
