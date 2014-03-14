@@ -122,7 +122,7 @@ void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
 			}
 		}
 		sounds::SoundManager* soundManager = sounds::SoundManager::getInstance();
-		//soundManager->updateMusics(_pixelGrid[i].first);
+		soundManager->updateMusics(_pixelGrid[i].first);
 	}
 }
 
