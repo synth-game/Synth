@@ -60,15 +60,15 @@ void FireFlyAnimatedSpriteComponent::onEnter() {
 		switch(eActorType) {
 
 		case(core::ActorType::BLUE_FIREFLY) :
-			_eCurrentAnimType = AnimationType::BLUE_FIREFLY;
+			runAnimation(AnimationType::BLUE_FIREFLY);
 			break;
 
 		case(core::ActorType::RED_FIREFLY) :
-			_eCurrentAnimType = AnimationType::RED_FIREFLY;
+			runAnimation(AnimationType::RED_FIREFLY);
 			break;
 
 		case(core::ActorType::GREEN_FIREFLY) :
-			_eCurrentAnimType = AnimationType::GREEN_FIREFLY;
+			runAnimation(AnimationType::GREEN_FIREFLY);
 			break;
 
 		default :
@@ -76,11 +76,6 @@ void FireFlyAnimatedSpriteComponent::onEnter() {
 			break;
 
 		} 
-		
-		GraphicManager* graphicManager = GraphicManager::getInstance();
-		core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
-		Animate* animate = Animate::create(pAnimation->getAnimation());	
-		runAnimation(pAnimation, animate);
 		
 	}
 }

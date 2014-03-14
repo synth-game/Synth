@@ -12,6 +12,7 @@
 #include <map>
 #include "cocos2d.h"
 #include "Game/LevelSprite.h"
+#include "game/LightMap.h"
 #include "Core/SynthActor.h"
 
 USING_NS_CC;
@@ -55,9 +56,6 @@ public:
 	
 	std::vector<core::SynthActor*> getActorsByType(core::ActorType type);
 
-	bool bResetRequested;
-	bool bNextRequested;
-
 	/*void GameManager::onEditMove(EventCustom* event);*/
 
 protected:
@@ -74,7 +72,11 @@ protected:
 	std::vector<core::SynthActor*> _levelActors;
 	std::map<std::string,Rect> _triggers;
 
+	bool _bResetRequested;
+	bool _bNextRequested;
+
 	LevelSprite* _pLevelSprite;
+	LightMap* _pLightMap;
 
 	Layer* _pBackgroundLayer;
 	Layer* _pIntermediarLayer;

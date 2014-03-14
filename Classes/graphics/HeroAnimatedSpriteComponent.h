@@ -35,8 +35,6 @@ public:
 
 	void onEnter();
 
-	void onChangePosition(EventCustom* pEvent);
-
 	void onEditMove(EventCustom* pEvent);
 
 	void onJump(EventCustom* pEvent);
@@ -69,7 +67,6 @@ protected:
 	HeroAnimatedSpriteComponent(Layer* pParent);
 
 	void initListeners();
-
 
 private:
 	/*

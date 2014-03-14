@@ -20,11 +20,11 @@ namespace physics {
 
 const char* CollisionComponent::COMPONENT_TYPE = "CollisionComponent";
 
-CollisionComponent::CollisionComponent() 
+CollisionComponent::CollisionComponent()
 	: SynthComponent()
 	, _pPhysicCollision(nullptr)
 	, _pLightCollision(nullptr)
-	, _eMovingState(core::ActorState::JUMPING_STATE)
+	, _eMovingState(core::ActorState::NOT_ON_FLOOR_STATE)
 	, _pTestCollisionEventListener(nullptr)
 	, _pChangeStateCollision(nullptr) {
 }
@@ -44,6 +44,21 @@ CollisionComponent* CollisionComponent::create() {
 		CC_SAFE_DELETE(pCollisionComponent);
 	}
 	return pCollisionComponent;
+}
+
+bool CollisionComponent::init() {
+	SynthComponent::init(CollisionComponent::COMPONENT_TYPE);
+	return true;
+}
+
+void CollisionComponent::initListeners() {
+	// Listeners initialization
+	_pTestCollisionEventListener = EventListenerCustom::create(events::TestCollisionEvent::EVENT_NAME, CC_CALLBACK_1(CollisionComponent::onTestCollision, this));
+	_pChangeStateCollision = EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(CollisionComponent::onChangeState, this));
+
+	// Add listeners to dispacher
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pTestCollisionEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateCollision, 1);
 }
 
 void CollisionComponent::onTestCollision(EventCustom* pEvent) {
@@ -82,11 +97,14 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 			Color4B aL = _pLightCollision->getCurrentColor(computingPos);
 		}
 
-		// Change position 
-		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, computingPos);
+		// Change position
+		if (!pTestColEvent->getCurrentPosition().equals(computingPos)) {
+            //CCLOG("CollisionComponent::onTestCollision SEND CHANGE POSITION EVENT current pos %.2f, %.2f | computing pos %.2f %.2f", pTestColEvent->getCurrentPosition().x,pTestColEvent->getCurrentPosition().y, computingPos.x, computingPos.y);
+            events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, computingPos);
+            EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+        }
 
-		EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
-	}
+    }
 }
 
 void CollisionComponent::onChangeState(EventCustom* pEvent) {
@@ -94,30 +112,15 @@ void CollisionComponent::onChangeState(EventCustom* pEvent) {
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(pChangeStateEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
 	if (componentOwner == eventSource) {
-		if(pChangeStateEvent->getNewState() == core::ActorState::JUMPING_STATE) {
-			_eMovingState = core::ActorState::JUMPING_STATE;
+		if(pChangeStateEvent->getNewState() == core::ActorState::NOT_ON_FLOOR_STATE) {
+			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
 		}
 	}
 }
 
-bool CollisionComponent::init() {
-	SynthComponent::init(CollisionComponent::COMPONENT_TYPE);
-	return true;
-}
-
-void CollisionComponent::initListeners() {
-	// Listeners initialization
-	_pTestCollisionEventListener = EventListenerCustom::create(events::TestCollisionEvent::EVENT_NAME, CC_CALLBACK_1(CollisionComponent::onTestCollision, this));
-	_pChangeStateCollision = EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(CollisionComponent::onChangeState, this));
-
-	// Add listeners to dispacher
-	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pTestCollisionEventListener, 1);
-	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateCollision, 1);
-}
-
 CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
 	ECollisionType eRet = NO_COLLISION;
-	core::ActorState nextState = core::ActorState::JUMPING_STATE;
+	core::ActorState nextState = core::ActorState::NOT_ON_FLOOR_STATE;
 
 	// build position-target vector
 	Point currentPosition = Point(pInitiatorEvent->getCurrentPosition().x, pInitiatorEvent->getCurrentPosition().y);
@@ -196,8 +199,8 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 	//update state of Collision and Movement components
 	if(nextState != _eMovingState) {
 		_eMovingState = nextState;
-		events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, nextState);
-		EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+        events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
+        EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
 	}
 	
 	return eRet;
@@ -243,9 +246,9 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 			|| (_pPhysicCollision->collide(targetBRPosition) && !_pLightCollision->isInWhiteLight(targetBRPosition))) {
 				targetPosition.y = (targetPosition.y + currentPosition.y)/2.f;
 			} else {
-				_eMovingState = core::ActorState::JUMPING_STATE;
-				events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
-				EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+				_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
+                events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
+                EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
 			}
 		} else {
 			targetPosition = targetBCPosition + Point(0.f, halfSize.height);
@@ -286,7 +289,7 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 		}
 		centerPos = nextCenterPos;
 	}
-	
+
 	resPosition = centerPos;
 	return eRet;
 }

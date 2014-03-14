@@ -10,6 +10,7 @@
 #include "cocos2d.h"
 #include "core/SynthComponent.h"
 #include "core/ActorState.h"
+#include "physics/GeometryComponent.h"
 
 USING_NS_CC;
 
@@ -35,8 +36,9 @@ public:
 	inline void setSpeed(Point speed) { _speed = speed; }
 	inline void setDirection(Point direction) { _direction = direction; }
 	inline void setAcceleration(Point acceleration) { _acceleration = acceleration; }
-	inline void setGravity(Point gravity) { _gravity = gravity;}
+	inline void setGravity(Point gravity) { _gravity = gravity; }
 	inline void setBasicGravity(Point gravity) { _basicGravity = gravity;}
+    inline bool isLateralMoving() { return _bIsLateralMoving; };
 
 	static const char* COMPONENT_TYPE;
 
@@ -52,10 +54,13 @@ protected:
 	void onInterruptMove(EventCustom* pEvent);
 	void onChangeState(EventCustom* pEvent);
 	void update(float fDt);
+    Point computeNextPosition();
 
 	Point _speed;
 	Point _direction;
 	Point _acceleration;
+    Point _previousNextPositionComputed;
+    bool _bIsLateralMoving;
 	Point _basicGravity;
 	Point _gravity; //current value of the gravity
 	float _lowGravityFactor;

@@ -1,3 +1,10 @@
+/*!
+ * \file MovementComponent.h
+ * \brief Fly collision component
+ * \author Tom Duchene
+ * \date 14/03/2014
+ */
+
 #ifndef PHYSICS_FLY_COLLISION_COMPONENT_H
 #define PHYSICS_FLY_COLLISION_COMPONENT_H
 

@@ -8,6 +8,7 @@
 #define GRAPHICS_ANIMATED_SPRITE_COMPONENT_H
 
 #include "cocos2d.h"
+#include "physics/MovementComponent.h"
 #include "graphics/SpriteComponent.h"
 #include "graphics/AnimationType.h"
 #include "core/ActorState.h"
@@ -40,6 +41,12 @@ public:
 
 	/*! \brief Callback function of chained animation */
 	void requestNextAnimation();
+    
+private:
+    /*! \brief The current state of the animated actor (eg on_air, on_floor) */
+	core::ActorState _eState;
+    
+    core::ActorState _ePreviousState;
 
 protected:
 	/*
@@ -49,22 +56,31 @@ protected:
 	/*! \brief Constructor */
 	AnimatedSpriteComponent();
 	AnimatedSpriteComponent(Layer* pParent);
-
+    
 	virtual void initListeners();
 
-	void runAnimation(core::SynthAnimation* pAnimation, Animate* pAnimate);
+	void runAnimation(AnimationType animationType);
 
 	void onChangePosition(EventCustom* pEvent);
+    
+    inline core::ActorState getState() { return _eState; }
+    
+    inline core::ActorState getPreviousState() { return _ePreviousState; }
+    
+    inline void setState(core::ActorState state) { _ePreviousState = _eState; _eState = state; }
+    
+    void onInterruptMove(EventCustom* pEvent);
+    
+    bool actorIsLateralMoving();
 
+    String debugAnimationType(AnimationType type);
 	/*
 	 * Members
 	 */
 
-	/*! \brief The current state of the animated actor (eg on_air, on_floor) */
-	core::ActorState _eState;
-
 	/*! \brief The current animation */
 	graphics::AnimationType _eCurrentAnimType;
+    
 };
 
 }  // namespace graphics
