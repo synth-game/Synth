@@ -263,7 +263,7 @@ std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pTriggerData, *pOriginData, *pDimensionData;
 		std::string triggerType;
-		float x, y, width, height = 0;
+		float x, y, width, height = 0.f;
 
 		pTriggerData = pXMLFile->FirstChildElement("trigger");
 		while (pTriggerData) {
@@ -275,9 +275,8 @@ std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 			pOriginData = pTriggerData->FirstChildElement("origin");
 			x = pOriginData->FloatAttribute("x");
 			y = pOriginData->FloatAttribute("y");
-			pDimensionData = pTriggerData->FirstChildElement("dimension");
-			width = pDimensionData->FloatAttribute("width");
-			height = pDimensionData->FloatAttribute("height");
+			width = 100.f;
+			height = 200.f;
 
 			// Add new trigger
 			voidMap.insert(std::pair<std::string, Rect>(triggerType, Rect(x, y, width, height)));
