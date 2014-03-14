@@ -42,15 +42,21 @@ public:
 	void loadLevel(/*int iLevelId*/std::string level);
 	void clearLevel();
 	void resetLevel();
+	void nextLevel();
 
 	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event);
 	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event);
 
 	static Color4B getLightColor(core::SynthActor* pLight);
 
+	inline LevelSprite* getLevelSprite() { return _pLevelSprite; }
 	inline Layer* getLevelLayer() { return _pLevelLayer; }
+	inline int getCurrentLevelIndex() { return _iCurrentLevelId; }
 	
 	std::vector<core::SynthActor*> getActorsByType(core::ActorType type);
+
+	bool bResetRequested;
+	bool bNextRequested;
 
 	/*void GameManager::onEditMove(EventCustom* event);*/
 
@@ -58,6 +64,7 @@ protected:
 	/*! \brief Constructor */
 	GameManager();
 	core::SynthActor* getNearActor(core::SynthActor* actor);
+	core::SynthActor* getNearLightSwitch(core::SynthActor* actor);
 
 	void onEnterLight(EventCustom* pEvent);
 
@@ -79,6 +86,8 @@ protected:
 	EventListenerCustom* _pEnterLightListener;
 
 	std::vector<EventKeyboard::KeyCode> _keyPressedCode;
+
+	int stepsSoundId;
 
 };
 

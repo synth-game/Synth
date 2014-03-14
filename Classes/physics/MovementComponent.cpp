@@ -16,8 +16,8 @@
 #include "physics/CollisionComponent.h"
 
 #define MAX_X_SPEED 200.f
-#define MAX_Y_SPEED 300.f
-#define MAX_JUMP_SPEED 180.f
+#define MAX_Y_SPEED 400.f
+#define MAX_JUMP_SPEED 400.f
 #define MIN_JUMP_SPEED 100.f
 #define ENGINE_SPEED 0.015
 
@@ -36,15 +36,23 @@ MovementComponent::MovementComponent()
 }
 
 MovementComponent::~MovementComponent() {
-
+	EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
+    EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pInterruptMoveEventListener);
+    EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
 }
 
-MovementComponent* MovementComponent::create(Point acceleration, Point gravity) {
+MovementComponent* MovementComponent::create(Point acceleration, Point gravity, float lowGravityFactor, float highGravityFactor) {
     MovementComponent* pMovementComponent = new MovementComponent();
 	if (pMovementComponent != nullptr && pMovementComponent->init()) {
 		pMovementComponent->autorelease();
 		pMovementComponent->setAcceleration(acceleration);
 		pMovementComponent->setGravity(gravity);
+		pMovementComponent->setBasicGravity(gravity);
+		pMovementComponent->_highGravityFactor = highGravityFactor;
+		pMovementComponent->_lowGravityFactor = lowGravityFactor;
+
+
 	} else {
 		CC_SAFE_DELETE(pMovementComponent);
 	}

@@ -10,7 +10,10 @@ namespace events {
 
 const char* ToggleLightEvent::EVENT_NAME = "ToggleLightEvent";
 
-ToggleLightEvent::ToggleLightEvent() {
+ToggleLightEvent::ToggleLightEvent(Node* pSource, core::SynthActor* pTarget, bool bOn) :
+	 SynthEvent(pSource, EVENT_NAME),
+	_bOn(bOn),
+	_pTarget(pTarget) {
 }
 
 ToggleLightEvent::~ ToggleLightEvent() {

@@ -14,6 +14,7 @@
 #include "cocos2d.h"
 
 
+
 #define szMusicSuffix "|"
 
 FmodAudioPlayer* FmodAudioPlayer::sharedPlayer() {
@@ -470,8 +471,7 @@ FMOD::Channel* FmodAudioPlayer::playSound(const char* pszFilePath, bool bLoop,
 	do {
 		pSystem->update();
 
-		map<string, FMOD::Sound*>::iterator l_it = mapEffectSound.find(
-				string(pszFilePath));
+		map<string, FMOD::Sound*>::iterator l_it = mapEffectSound.find(string(pszFilePath));
 		if (l_it == mapEffectSound.end()) {
 			//no load it yet
 			preloadEffect(pszFilePath);
@@ -508,38 +508,13 @@ FMOD::Channel* FmodAudioPlayer::playSound(const char* pszFilePath, bool bLoop,
 	return pChannel;
 }
 
-void FmodAudioPlayer::InitMusic(){
-
+void FmodAudioPlayer::InitMusic(std::string music){
 	pSystem->update();
 	FmodAudioPlayer::fadeTime = 3;
 
-	FMOD::Channel* pChannel6 = FmodAudioPlayer::playSound("sound/music/vert_piano.wav", true, 1, 0, 0);
-	pChannel6->setChannelGroup(FmodAudioPlayer::pMusicGroup);
-	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel6, 0));
-
-	FMOD::Channel* pChannel5 = FmodAudioPlayer::playSound("sound/music/bleu_xylo.wav", true, 1, 0, 0);
-	pChannel5->setChannelGroup(FmodAudioPlayer::pMusicGroup);
-	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel5, 0));
-
-	FMOD::Channel* pChannel4 = FmodAudioPlayer::playSound("sound/music/rouge_basse.wav", true, 1, 0, 0);
-	pChannel4->setChannelGroup(FmodAudioPlayer::pMusicGroup);
-	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel4, 0));
-
-	FMOD::Channel* pChannel3 = FmodAudioPlayer::playSound("sound/music/jaune_guitare.wav", true, 1, 0, 0);
-	pChannel3->setChannelGroup(FmodAudioPlayer::pMusicGroup);
-	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel3, 0));
-
-	FMOD::Channel* pChannel2 = FmodAudioPlayer::playSound("sound/music/magenta_accordeon.wav", true, 1, 0, 0);
-	pChannel2->setChannelGroup(FmodAudioPlayer::pMusicGroup);
-	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel2, 0));
-
-	FMOD::Channel* pChannel1 = FmodAudioPlayer::playSound("sound/music/cyan_violon.wav", true, 1, 0, 0);
-	pChannel1->setChannelGroup(FmodAudioPlayer::pMusicGroup);
-	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel1, 0));
-
-	FMOD::Channel* pChannel0 = FmodAudioPlayer::playSound("sound/music/blanc_orchestre.wav", true, 1, 0, 0);
-	pChannel0->setChannelGroup(FmodAudioPlayer::pMusicGroup);
-	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel0, 0));
+	FMOD::Channel* pChannel = FmodAudioPlayer::playSound(music.c_str(), true, 1, 0, 0);
+	pChannel->setChannelGroup(FmodAudioPlayer::pMusicGroup);
+	trackStates.insert(std::pair<FMOD::Channel*, int>(pChannel, 0));
 }
 
 void FmodAudioPlayer::PlayMusicTrack(int index){
@@ -547,7 +522,7 @@ void FmodAudioPlayer::PlayMusicTrack(int index){
 	int numChannels;
 	FmodAudioPlayer::pMusicGroup->getNumChannels(&numChannels);
 	
-	if (index<numChannels){
+	if (index < numChannels) {
 		FMOD::Channel* pChannel;
 		pMusicGroup->getChannel(index, &pChannel);
 		trackStates[pChannel] = 1;

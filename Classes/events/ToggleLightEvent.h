@@ -7,6 +7,7 @@
 #ifndef EVENTS_GAMEEVENTS_TOGGLE_LIGHT_EVENT_H
 #define EVENTS_GAMEEVENTS_TOGGLE_LIGHT_EVENT_H
 
+#include "core/SynthActor.h"
 #include "Events/SynthEvent.h"
 
 namespace events {
@@ -15,7 +16,7 @@ class ToggleLightEvent : public events::SynthEvent {
 
 public:
 	/*! \brief Constructor */
-	ToggleLightEvent();
+	ToggleLightEvent(Node* pSource, core::SynthActor* pTarget, bool bOn);
 
 	/*! \brief Destructor */
 	~ToggleLightEvent();
@@ -26,10 +27,16 @@ public:
 	/*! \brief Choose to turn the light on or off */
 	inline void setOn(bool bOn) { _bOn = bOn; };
 
+	inline core::SynthActor* getTarget() { return _pTarget; };
+
+	inline void setTarget(core::SynthActor* pTarget) { _pTarget = pTarget; };
+
 private:
 
 	/*! \brief Boolean that says if we turn the light on or off */
 	bool _bOn;
+
+	core::SynthActor* _pTarget;
 
 public:
 

@@ -12,6 +12,9 @@
 #include "cocos2d.h"
 #include "core/SynthConfig.h"
 #include "SoundType.h"
+#include "FmodAudioPlayer.h"
+#include "game/LightMap.h"
+#include "sounds/SoundComponent.h"
 
 USING_NS_CC;
 
@@ -25,6 +28,25 @@ namespace sounds {
 class SoundManager {
 
 public:
+
+	/*
+	 * Classes
+	 */
+
+	struct Music {
+		SoundType eTag;
+		std::string filePath;
+		int iChannel;
+	};
+
+	struct Effect {
+		std::string filePath;
+		bool bLoop;
+
+		//bool operator<(const Effect&) const;
+		//bool operator==(const Effect&) const;
+	};
+
 	/*
 	 * Methods
 	 */
@@ -37,25 +59,26 @@ public:
 
 	void init();
 
-	bool playSound(std::string soundName, int iTrackId);
+	inline Music getMusicFromTag(SoundType type) { return _musics.find(type)->second; }
 
-	bool stopSound(int iTrackId);
+	bool playMusic(Music music);
+	bool playEffect(SoundComponent* component, SoundType type);
 
-	bool unmuteMusic(std::string musicName);
+	bool stopMusic(Music music);
+	bool stopEffect(SoundComponent* component);
 
-	bool muteMusic(std::string musicName);
+	void updateMusics(Color4B color);
 
-	/**
-	 * = true :
-	 *  if iTrackId isn't in _playingSounds map
-	 */
-	bool isFinished(int iTrackId);
+	bool unmuteMusics();
 
-	/**
-	 * This function is useful to manage chained sound.
-	 * Browse every playing sound. Check if they are finished. If yes, launch the chained sound
-	 */
-	void refresh();
+	bool muteMusics();
+
+	bool isPlayingMusic(SoundType type);
+
+	bool isPlayingEffect(SoundType type, SoundComponent* component);
+
+	
+
 
 private:
 	/*
@@ -68,24 +91,6 @@ private:
 	SoundType __getSoundType(std::string sTag);
 
 	/*
-	 * Classes
-	 */
-
-	class Music {
-	public:
-		SoundType eTag;
-		std::string filePath;
-	};
-
-	class Effect {
-	public:
-		SoundType eTag;
-		std::string filePath;
-		bool bLoop;
-		SoundType nextTag;
-	};
-
-	/*
 	 * Members
 	 */
 
@@ -96,9 +101,14 @@ private:
 
 	std::map<SoundType,Music> _musics;
 
+	std::vector<SoundType> _playingMusics;
+
+	std::map<SoundComponent*, std::tuple<SoundType, int>> _playingEffects;
+
 	/*! \brief Associate the string tag to the SoundType tag */
 	std::map<std::string,SoundType> _tagsMap;
-
+	
+	Effect effectFactory(SoundType type);
 
 };
 

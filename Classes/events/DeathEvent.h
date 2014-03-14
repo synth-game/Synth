@@ -10,7 +10,7 @@
 #include "Events/SynthEvent.h"
 
 namespace events {
-/*! \class WinEvent */
+/*! \class DeathEvent */
 class DeathEvent : public events::SynthEvent {
 public:
 	static const char* EVENT_NAME;

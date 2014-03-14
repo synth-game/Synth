@@ -7,12 +7,16 @@
 #include "LevelFactory.h"
 #include "game/NodeOwnerComponent.h"
 #include "game/LightAttrComponent.h"
+#include "game/SwitchableComponent.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
 #include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireFlyAnimatedSpriteComponent.h"
 #include "system/IOManager.h"
+#include "sounds/HeroSoundComponent.h"
+#include "sounds/FireflySoundComponent.h"
+#include "sounds/LightSwitchSoundComponent.h"
 
 namespace game {
 
@@ -54,6 +58,11 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FIREFLYANIMATEDSPRITE",	core::ComponentType::FIREFLYANIMATEDSPRITE));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FOLLOWMOVEMENT",			core::ComponentType::FOLLOWMOVEMENT));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("NODEOWNER",				core::ComponentType::NODEOWNER));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("LIGHTATTR",				core::ComponentType::LIGHTATTR));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("HEROSOUND",				core::ComponentType::HEROSOUND));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FIREFLYSOUND",				core::ComponentType::FIREFLYSOUND));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("LIGHTSWITCHSOUND",			core::ComponentType::LIGHTSWITCHSOUND));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("SWITCHABLE",				core::ComponentType::SWITCHABLE));
 
 	// parsing actors
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
@@ -61,9 +70,12 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	pXMLFile = ioManager->loadXML("levels/"+levelName+"/actors.xml");
 	if(pXMLFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
-		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData;
-		std::string actorType, componentType, name;
+		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData ,*pOwnerData, *pSwitchData;
+		std::string actorType, componentType, name, ownedIdText;
 		float positionX, positionY, anchorPointX, anchorPointY, rotate, accelerationX, accelerationY, gravityX, gravityY, width, height = 0;
+		int ownerId;
+		std::string sOn = "";
+		std::vector<int> aOwnerIds;
 
 		pActorData = pXMLFile->FirstChildElement("actor");
 		while (pActorData) {
@@ -76,6 +88,8 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 			// Create components
 			std::vector<core::SynthComponent*> aComponents;
 			pComponentData = pActorData->FirstChildElement("component");
+
+			ownerId = -1;
 
 			while(pComponentData) {
 				componentType = pComponentData->Attribute("type");
@@ -109,7 +123,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					gravityX = pGravityData->FloatAttribute("x");
 					gravityY = pGravityData->FloatAttribute("y");
 					// Create MovementComponent
-					aComponents.push_back(physics::MovementComponent::create(Point(accelerationX, accelerationY), Point(gravityX, gravityY)));
+					aComponents.push_back(physics::MovementComponent::create(Point(accelerationX, accelerationY), Point(gravityX, gravityY), 0.3f, 5.0f));
 					break;
 				case core::ComponentType::FOLLOWMOVEMENT:
 					// Acceleration
@@ -136,12 +150,36 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					aComponents.push_back(graphics::FireFlyAnimatedSpriteComponent::create(pLevelLayer));
 					break;
 				case core::ComponentType::NODEOWNER:
+					pOwnerData = pComponentData->FirstChildElement("owned");
+					if(pOwnerData != nullptr) {
+						ownerId = atoi(pOwnerData->GetText());
+					}
 					aComponents.push_back(game::NodeOwnerComponent::create(nullptr));
+					break;
+				case core::ComponentType::HEROSOUND:
+					aComponents.push_back(sounds::HeroSoundComponent::create());
+					break;
+				case core::ComponentType::FIREFLYSOUND:
+					aComponents.push_back(sounds::FireflySoundComponent::create());
+					break;
+				case core::ComponentType::LIGHTSWITCHSOUND:
+					aComponents.push_back(sounds::LightSwitchSoundComponent::create());
+					break;
+				case core::ComponentType::SWITCHABLE:
+					pSwitchData = pComponentData->FirstChildElement("on");
+					sOn = pSwitchData->GetText();
+					if (sOn == "1") {
+						aComponents.push_back(game::SwitchableComponent::create(true));
+					} else {
+						aComponents.push_back(game::SwitchableComponent::create(false));
+					}
+					break;
 				default:
 					break;
 				}
 				pComponentData = pComponentData->NextSiblingElement("component");
 			}
+			aOwnerIds.push_back(ownerId);
 
 			// Add components to the actor
 			for(auto component : aComponents) {
@@ -149,7 +187,39 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 				actor->addComponent(component);
 			}
 
+			// Add LightAttrComponent only for fireflies actor
+			if(actor->isFirefly()) {
+				game::LightAttrComponent* pLightAttrComp = game::LightAttrComponent::create(Color4B::BLACK);
+				switch (actor->getActorType()) {
+				case core::ActorType::RED_FIREFLY:
+					pLightAttrComp->setColor(Color4B::RED);
+					break;
+
+				case core::ActorType::GREEN_FIREFLY:
+					pLightAttrComp->setColor(Color4B::GREEN);
+					break;
+
+				case core::ActorType::BLUE_FIREFLY:
+					pLightAttrComp->setColor(Color4B::BLUE);
+					break;
+
+				default:
+					break;
+				}
+				actor->addComponent(pLightAttrComp);
+			}
+
 			pActorData = pActorData->NextSiblingElement("actor");
+		}
+
+		for(int i = 0; i < aOwnerIds.size(); i++) {
+			int ownerId = aOwnerIds[i];
+			if(ownerId >= 0) {
+				game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(aActors[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+				if(pNodeOwnerComp != nullptr) {
+					pNodeOwnerComp->setOwnedNode(aActors[ownerId]);
+				}
+			}
 		}
 	}
 
@@ -163,44 +233,58 @@ physics::CollisionComponent* LevelFactory::__createCollisionComponent(std::strin
 	physics::PhysicCollision* pCollision = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
 	pRet->addPhysicCollision(pCollision);
 
+	return pRet;
+}
+
+physics::LightCollision* LevelFactory::buildLightsCollision(std::string levelName, std::vector<core::SynthActor*> aLights) {
 	LightMap* pLM = LightMap::createFromXML(std::string("levels/"+levelName+"/PREC_lightmap.xml").c_str());
-	std::vector<core::SynthActor*> lights;
-	core::SynthActor* pLight1 = new core::SynthActor(core::ActorType::LIGHT);
-	core::SynthActor* pLight2 = new core::SynthActor(core::ActorType::LIGHT);
-	core::SynthActor* pLight3 = new core::SynthActor(core::ActorType::LIGHT);
-	pLight1->addComponent(game::LightAttrComponent::create(Color4B::RED));
-	pLight2->addComponent(game::LightAttrComponent::create(Color4B::BLUE));
-	pLight3->addComponent(game::LightAttrComponent::create(Color4B::GREEN));
-	lights.push_back(pLight1);
-	lights.push_back(pLight2);
-	lights.push_back(pLight3);
-	physics::LightCollision* pLightCollision = new physics::LightCollision(lights, pLM);
-	pRet->addLightCollision(pLightCollision);
+	physics::LightCollision* pLightCollision = new physics::LightCollision(aLights, pLM);
+	return pLightCollision;
+}
+
+LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights) {
+	LevelSprite* pRet = LevelSprite::create(std::string("levels/"+levelName+"/bitmask.png").c_str());
+	for(int i = 0; i < aLights.size(); i++) {
+		game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(aLights[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+		core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+		Color4B color = Color4B(0, 0, 0, 0);
+		if(firefly != nullptr) {
+			switch (firefly->getActorType()) {
+			case core::ActorType::RED_FIREFLY:
+				color = Color4B::RED;
+				break;
+			case core::ActorType::GREEN_FIREFLY:
+				color = Color4B::GREEN;
+				break;
+			case core::ActorType::BLUE_FIREFLY:
+				color = Color4B::BLUE;
+				break;
+			default:
+				break;
+			}
+
+			pRet->addLight(aLights[i]->getActorID(), Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color);
+		}
+	}
+	pLevelLayer->addChild(pRet, 0, 42);
 
 	return pRet;
 }
 
-std::vector<std::vector<int>> LevelFactory::buildLightsMap(std::string levelName) {
-	std::vector<std::vector<int>> voidVec;
-	return voidVec;
-}
 
-LevelSprite* LevelFactory::buildLevelSprite(core::xml data) {
-	return nullptr;
-}
 
 std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 	std::map<std::string,Rect> voidMap;
 
 	// Parse triggers
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
-	int xmlerror = pXMLFile->LoadFile(std::string("levels/"+levelName+"/actors.xml").c_str());
+	int xmlerror = pXMLFile->LoadFile(std::string("levels/"+levelName+"/triggers.xml").c_str());
 	if(xmlerror == 0) {
 		CCLOG("XML FILE LOADED SUCCESSFULLY : %d", xmlerror);
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pTriggerData, *pOriginData, *pDimensionData;
 		std::string triggerType;
-		float x, y, width, height = 0;
+		float x, y, width, height = 0.f;
 
 		pTriggerData = pXMLFile->FirstChildElement("trigger");
 		while (pTriggerData) {
@@ -212,9 +296,8 @@ std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 			pOriginData = pTriggerData->FirstChildElement("origin");
 			x = pOriginData->FloatAttribute("x");
 			y = pOriginData->FloatAttribute("y");
-			pDimensionData = pTriggerData->FirstChildElement("dimension");
-			width = pDimensionData->FloatAttribute("width");
-			height = pDimensionData->FloatAttribute("height");
+			width = 100.f;
+			height = 200.f;
 
 			// Add new trigger
 			voidMap.insert(std::pair<std::string, Rect>(triggerType, Rect(x, y, width, height)));

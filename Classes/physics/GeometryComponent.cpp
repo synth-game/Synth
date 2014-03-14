@@ -17,6 +17,7 @@ GeometryComponent::GeometryComponent()
 }
 
 GeometryComponent::~GeometryComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pChangePositionListener);
 }
 
 bool GeometryComponent::init() {

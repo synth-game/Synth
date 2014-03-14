@@ -30,6 +30,10 @@ HeroAnimatedSpriteComponent::HeroAnimatedSpriteComponent(Layer* pParent) :
 }
 
 HeroAnimatedSpriteComponent::~HeroAnimatedSpriteComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pChangeNodeOwnerEventListener);
 }
 
 bool HeroAnimatedSpriteComponent::init() {

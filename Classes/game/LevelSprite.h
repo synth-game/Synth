@@ -21,23 +21,32 @@ public:
 	/*! \brief Destructor */
 	~LevelSprite();
 
-	static LevelSprite* create(const char* sBackgroundPath, core::SynthActor* pHero);
-	void addLight(Texture2D* pTexture, Point position, Color4B color);
+	static LevelSprite* create(const char* sBackgroundPath);
+	void addLight(int actorID, Texture2D* pTexture, Color4B color);
+	void updateLight(core::SynthActor* pLamp);
 	void draw();
 
 
 protected:
 	struct LightTexture {
+		int actorID;
 		Texture2D* pTex;
-		std::vector<float> pos;
 		std::vector<float> col;
 	};
 
 	/*! \brief Constructor */
 	LevelSprite();
 
-	Sprite* _pHeroSprite;
+	/*! \brief  */
+	void initListeners();
+
+	/*! \brief  */
+	void onChangeNodeOwner(EventCustom* pEvent);
+
 	std::vector<LightTexture*> _lightTextures;
+
+	/*! \brief  */
+	EventListenerCustom* _pChangeNodeOwnerEventListener;
 };
 
 }  // namespace game

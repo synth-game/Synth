@@ -6,6 +6,8 @@
  */
 #include "game/LightMap.h"
 #include "game/LightAttrComponent.h"
+#include "game/NodeOwnerComponent.h"
+#include "sounds/SoundManager.h"
 
 namespace game {
 
@@ -75,22 +77,41 @@ void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
 			Color4B notOccultedColor(0, 0, 0, 0);
 
 			for (std::vector<std::pair<int, bool>>::iterator itSample=currentPixel.begin(); itSample!=currentPixel.end(); ++itSample) {
-				core::SynthActor* currentLight = lights[itSample->first];
-				LightAttrComponent* pLightAttrComp =  dynamic_cast<LightAttrComponent*>(currentLight->getComponent(LightAttrComponent::COMPONENT_TYPE));
-				CCASSERT(pLightAttrComp != nullptr, "A SynthActor sent to update LightMap hasn't got a LightAttrComponent. It's not a light !");
+				
+				if (itSample->first < lights.size()) {
 
-				Color4B lightColor = pLightAttrComp->getColor();
-				if (notOccultedColor.r == 255 || lightColor.r == 255) { notOccultedColor.r = 255; }
-				if (notOccultedColor.g == 255 || lightColor.g == 255) { notOccultedColor.g = 255; }
-				if (notOccultedColor.b == 255 || lightColor.b == 255) { notOccultedColor.b = 255; }
-				notOccultedColor.a = 255;
+					Color4B lightColor = Color4B(0, 0, 0, 0);
+					core::SynthActor* currentLight = lights[itSample->first];
+					game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(currentLight->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+					core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+					if(firefly != nullptr) {
+						switch (firefly->getActorType()) {
+						case core::ActorType::RED_FIREFLY:
+							lightColor = Color4B::RED;
+							break;
+						case core::ActorType::GREEN_FIREFLY:
+							lightColor = Color4B::GREEN;
+							break;
+						case core::ActorType::BLUE_FIREFLY:
+							lightColor = Color4B::BLUE;
+							break;
+						default:
+							break;
+						}
+					}
 
-				// check if the pixel is occulted from the light
-				if (itSample->second == false) {
-					if (occultedColor.r == 255 || lightColor.r == 255) { occultedColor.r = 255; }
-					if (occultedColor.g == 255 || lightColor.g == 255) { occultedColor.g = 255; }
-					if (occultedColor.b == 255 || lightColor.b == 255) { occultedColor.b = 255; }
-					occultedColor.a = 255;
+					if (notOccultedColor.r == 255 || lightColor.r == 255) { notOccultedColor.r = 255; }
+					if (notOccultedColor.g == 255 || lightColor.g == 255) { notOccultedColor.g = 255; }
+					if (notOccultedColor.b == 255 || lightColor.b == 255) { notOccultedColor.b = 255; }
+					notOccultedColor.a = 255;
+
+					// check if the pixel is occulted from the light
+					if (itSample->second == false) {
+						if (occultedColor.r == 255 || lightColor.r == 255) { occultedColor.r = 255; }
+						if (occultedColor.g == 255 || lightColor.g == 255) { occultedColor.g = 255; }
+						if (occultedColor.b == 255 || lightColor.b == 255) { occultedColor.b = 255; }
+						occultedColor.a = 255;
+					}
 				}
 			}
 
@@ -100,6 +121,8 @@ void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
 				_pixelGrid[i].first = occultedColor;
 			}
 		}
+		sounds::SoundManager* soundManager = sounds::SoundManager::getInstance();
+		soundManager->updateMusics(_pixelGrid[i].first);
 	}
 }
 

@@ -16,6 +16,7 @@ LightAttrComponent::LightAttrComponent()
 }
 
 LightAttrComponent::~LightAttrComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pChangeIntensityListener);
 }
 
 bool LightAttrComponent::init() {
@@ -28,6 +29,7 @@ LightAttrComponent* LightAttrComponent::create(Color4B color) {
     if (pRet != NULL && pRet->init()) {
         pRet->autorelease();
 		pRet->_color =	color;
+		pRet->_intensity = color.a;
     } else {
         CC_SAFE_DELETE(pRet);
     }
@@ -36,6 +38,7 @@ LightAttrComponent* LightAttrComponent::create(Color4B color) {
 
 void LightAttrComponent::initListeners() {
 	_pChangeIntensityListener = cocos2d::EventListenerCustom::create(events::ChangeIntensityEvent::EVENT_NAME, CC_CALLBACK_1(LightAttrComponent::onChangeIntensity, this));
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeIntensityListener, 1);
 }
 
 void LightAttrComponent::onChangeIntensity(EventCustom* pEvent) {

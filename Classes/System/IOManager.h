@@ -25,7 +25,7 @@ public:
 
 	tinyxml2::XMLDocument* loadXML(std::string filepath);
 
-	void saveXML(char* filepath, core::xml data);
+	bool saveXML(std::string filepath, tinyxml2::XMLDocument* file);
 
 private:
 	IOManager();
