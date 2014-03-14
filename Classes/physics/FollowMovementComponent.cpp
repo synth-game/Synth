@@ -91,7 +91,7 @@ void FollowMovementComponent::update( float fDt ) {
 			}
 		} else if (_target->getActorType() == core::ActorType::LIGHT) {
 			physics::GeometryComponent* pGeometryComp = dynamic_cast<physics::GeometryComponent*>(_target->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
-			relativeTarget = Point::forAngle(pGeometryComp->getRotationAngle())*(-pGeometryComp->getSize().height/2.f);
+			relativeTarget = Point::forAngle(-pGeometryComp->getRotationAngle()+90.f)*(-pGeometryComp->getSize().height/2.f);
 		}
 
 		if (pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
