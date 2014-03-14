@@ -80,6 +80,7 @@ void SpriteComponent::onEnter() {
 	if(_pSprite != nullptr) {
 		_pSprite->setPosition(geometryComponent->getPosition());
 		_pSprite->setAnchorPoint(geometryComponent->getAnchorPoint());
+		_pSprite->setRotation(-geometryComponent->getRotationAngle());
 	}
 }
 
