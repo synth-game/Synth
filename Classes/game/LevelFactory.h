@@ -42,6 +42,8 @@ public:
 
 	std::map<std::string,Rect> buildTriggers(std::string levelName);
 
+	
+
 private:
 	/*
 	 * Methods

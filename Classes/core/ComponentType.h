@@ -20,6 +20,7 @@ typedef enum {
 	LIGHTATTR,
 	HEROSOUND,
 	FIREFLYSOUND,
+	LIGHTSWITCHSOUND,
 	SWITCHABLE
 } ComponentType;
 

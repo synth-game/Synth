@@ -7,6 +7,7 @@
 #include "LevelFactory.h"
 #include "game/NodeOwnerComponent.h"
 #include "game/LightAttrComponent.h"
+#include "game/SwitchableComponent.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
 #include "physics/FollowMovementComponent.h"
@@ -15,6 +16,7 @@
 #include "system/IOManager.h"
 #include "sounds/HeroSoundComponent.h"
 #include "sounds/FireflySoundComponent.h"
+#include "sounds/LightSwitchSoundComponent.h"
 
 namespace game {
 
@@ -59,6 +61,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("LIGHTATTR",				core::ComponentType::LIGHTATTR));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("HEROSOUND",				core::ComponentType::HEROSOUND));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FIREFLYSOUND",				core::ComponentType::FIREFLYSOUND));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("LIGHTSWITCHSOUND",			core::ComponentType::LIGHTSWITCHSOUND));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("SWITCHABLE",				core::ComponentType::SWITCHABLE));
 
 	// parsing actors
@@ -67,11 +70,13 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	pXMLFile = ioManager->loadXML("levels/"+levelName+"/actors.xml");
 	if(pXMLFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
-		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData ,*pOwnerData;
+		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData ,*pOwnerData, *pSwitchData;
 		std::string actorType, componentType, name, ownedIdText;
 		float positionX, positionY, anchorPointX, anchorPointY, rotate, accelerationX, accelerationY, gravityX, gravityY, width, height = 0;
 		int ownerId;
+		std::string sOn = "";
 		std::vector<int> aOwnerIds;
+
 		pActorData = pXMLFile->FirstChildElement("actor");
 		while (pActorData) {
 
@@ -157,8 +162,17 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 				case core::ComponentType::FIREFLYSOUND:
 					aComponents.push_back(sounds::FireflySoundComponent::create());
 					break;
+				case core::ComponentType::LIGHTSWITCHSOUND:
+					aComponents.push_back(sounds::LightSwitchSoundComponent::create());
+					break;
 				case core::ComponentType::SWITCHABLE:
-					//aComponents.push_back(sounds::::create());
+					pSwitchData = pComponentData->FirstChildElement("on");
+					sOn = pSwitchData->GetText();
+					if (sOn == "1") {
+						aComponents.push_back(game::SwitchableComponent::create(true));
+					} else {
+						aComponents.push_back(game::SwitchableComponent::create(false));
+					}
 					break;
 				default:
 					break;
@@ -248,13 +262,16 @@ LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevel
 			default:
 				break;
 			}
-			pRet->addLight(Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color);
+
+			pRet->addLight(aLights[i]->getActorID(), Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color);
 		}
 	}
 	pLevelLayer->addChild(pRet, 0, 42);
 
 	return pRet;
 }
+
+
 
 std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 	std::map<std::string,Rect> voidMap;

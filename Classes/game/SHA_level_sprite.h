@@ -87,10 +87,12 @@ GL_STRINGIFY(
 			vec3 lightTexel = ligthTexels[i];
 
 			vec4 lightColor = SY_Colors[i];
-			lightColor.a = lightColor.a/3. + lightTexel.b;
-
-			NoOccultedcolor +=  lightTexel.r * lightColor;
-			OccultedColor += lightTexel.g * lightColor;
+			if (lightColor.a > 0.) {
+				lightColor.a = lightColor.a/3. + lightTexel.b;
+				NoOccultedcolor +=  lightTexel.r * lightColor;
+				OccultedColor += lightTexel.g * lightColor;
+			}
+			
 		}
 
 		if(NoOccultedcolor.r > threshold && NoOccultedcolor.g > threshold && NoOccultedcolor.b > threshold) {

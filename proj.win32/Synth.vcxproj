@@ -187,6 +187,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\game\LightMap.cpp" />
     <ClCompile Include="..\Classes\game\NodeOwnerComponent.cpp" />
     <ClCompile Include="..\Classes\game\PeriodicLauncherComponent.cpp" />
+    <ClCompile Include="..\Classes\game\SwitchableComponent.cpp" />
     <ClCompile Include="..\Classes\graphics\AnimatedSpriteComponent.cpp" />
     <ClCompile Include="..\Classes\graphics\FireFlyAnimatedSpriteComponent.cpp" />
     <ClCompile Include="..\Classes\graphics\GraphicManager.cpp" />
@@ -290,6 +291,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\game\LightColor.h" />
     <ClInclude Include="..\Classes\game\NodeOwnerComponent.h" />
     <ClInclude Include="..\Classes\game\PeriodicLauncherComponent.h" />
+    <ClInclude Include="..\Classes\game\SwitchableComponent.h" />
     <ClInclude Include="..\Classes\graphics\ActorState.h" />
     <ClInclude Include="..\Classes\graphics\AnimatedSpriteComponent.h" />
     <ClInclude Include="..\Classes\graphics\AnimationType.h" />
