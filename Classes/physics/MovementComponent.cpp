@@ -17,7 +17,7 @@
 
 #define MAX_X_SPEED 200.f
 #define MAX_Y_SPEED 300.f
-#define MAX_JUMP_SPEED 180.f
+#define MAX_JUMP_SPEED 300.f
 #define MIN_JUMP_SPEED 100.f
 
 namespace physics {
@@ -41,12 +41,14 @@ MovementComponent::~MovementComponent() {
     EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
 }
 
-MovementComponent* MovementComponent::create(Point acceleration, Point gravity) {
+MovementComponent* MovementComponent::create(Point acceleration, Point gravity, float lowGravityFactor, float highGravityFactor) {
     MovementComponent* pMovementComponent = new MovementComponent();
 	if (pMovementComponent != nullptr && pMovementComponent->init()) {
 		pMovementComponent->autorelease();
 		pMovementComponent->setAcceleration(acceleration);
 		pMovementComponent->setGravity(gravity);
+		pMovementComponent->_highGravityFactor = highGravityFactor;
+		pMovementComponent->_lowGravityFactor = lowGravityFactor;
 	} else {
 		CC_SAFE_DELETE(pMovementComponent);
 	}

@@ -117,7 +117,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					gravityX = pGravityData->FloatAttribute("x");
 					gravityY = pGravityData->FloatAttribute("y");
 					// Create MovementComponent
-					aComponents.push_back(physics::MovementComponent::create(Point(accelerationX, accelerationY), Point(gravityX, gravityY)));
+					aComponents.push_back(physics::MovementComponent::create(Point(accelerationX, accelerationY), Point(gravityX, gravityY), 0.5f, 3.0f));
 					break;
 				case core::ComponentType::FOLLOWMOVEMENT:
 					// Acceleration

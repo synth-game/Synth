@@ -22,12 +22,14 @@ public:
 	/*! \brief Destructor */
 	~MovementComponent();
 
-	static MovementComponent* create(Point acceleration, Point gravity);
+	static MovementComponent* create(Point acceleration, Point gravity, float lowGravityFactor, float highGravityFactor);
 
 	inline Point getSpeed() { return _speed; }
 	inline Point getDirection() { return _direction; }
 	inline Point getAcceleration() { return _acceleration; }
 	inline Point getGravity() { return _gravity; }
+	inline float getLowGravityFactor() { return _lowGravityFactor; }
+	inline float getHighGravityFactor() { return _highGravityFactor; }
 	inline bool isStarting() { return _bStartMoving; }
 	inline void setSpeed(Point speed) { _speed = speed; }
 	inline void setDirection(Point direction) { _direction = direction; }
@@ -53,6 +55,8 @@ protected:
 	Point _direction;
 	Point _acceleration;
 	Point _gravity;
+	float _lowGravityFactor;
+	float _highGravityFactor;
 	bool _bStartMoving;
 	core::ActorState _eMovingState;
 
