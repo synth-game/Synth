@@ -56,9 +56,6 @@ public:
 	
 	std::vector<core::SynthActor*> getActorsByType(core::ActorType type);
 
-	bool bResetRequested;
-	bool bNextRequested;
-
 	/*void GameManager::onEditMove(EventCustom* event);*/
 
 protected:
@@ -74,6 +71,9 @@ protected:
 	std::vector<std::string> _levelsName;
 	std::vector<core::SynthActor*> _levelActors;
 	std::map<std::string,Rect> _triggers;
+
+	bool _bResetRequested;
+	bool _bNextRequested;
 
 	LevelSprite* _pLevelSprite;
 	LightMap* _pLightMap;
