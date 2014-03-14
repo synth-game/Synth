@@ -238,7 +238,7 @@ void GameManager::onEnterLight(EventCustom* pEvent) {
 		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
 		movementComponent->setGravity(movementComponent->getGravity()*movementComponent->getLowGravityFactor());
 	} else if (lightColor == Color4B::MAGENTA) {
-		CCLOG("GameManager::onEnterLight : You can jump higher !");
+		CCLOG("GameManager::onEnterLight : You can't jump as high as usually :( ");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
 		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
 		movementComponent->setGravity(movementComponent->getGravity()*movementComponent->getHighGravityFactor());
@@ -294,10 +294,22 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             break;
 
 		case EventKeyboard::KeyCode::KEY_Z:
-            pJumpEvent = new events::JumpEvent(pHero, true);
+
+            //pJumpEvent = new events::JumpEvent(pHero, true);
             CCLOG("Dispatching ActorStartMoveEvent JUMP");
-            dispatcher->dispatchEvent(pJumpEvent);
+            //dispatcher->dispatchEvent(pJumpEvent);
+
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 1.), false, true, true);
+            CCLOG("Dispatching ActorStartMoveEvent DOWN");
+            dispatcher->dispatchEvent(pEditMoveEvent);
+
             break;
+
+		case EventKeyboard::KeyCode::KEY_S:
+            pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., -1.), false, true, true);
+            CCLOG("Dispatching ActorStartMoveEvent DOWN");
+            dispatcher->dispatchEvent(pEditMoveEvent);
+			break;
 
 		case EventKeyboard::KeyCode::KEY_P:
 			// if the hero owns an actor
@@ -454,8 +466,20 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 			/*jumpEvent = new ActorJumpEvent(_hero);
 			jumpEvent->_bStart = false;
 			dispatcher->dispatchEvent(jumpEvent);*/
-
 			break;
+
+		case EventKeyboard::KeyCode::KEY_Z:
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., -1.), false, true, false);
+			CCLOG("Stop going up !"); 
+            dispatcher->dispatchEvent(pEditMoveEvent);
+
+            break;
+
+		case EventKeyboard::KeyCode::KEY_S:
+            pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 1.), false, true, false);
+            dispatcher->dispatchEvent(pEditMoveEvent);
+			break;
+
 		default:
 			break;
 	}
