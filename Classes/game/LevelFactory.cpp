@@ -59,6 +59,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("LIGHTATTR",				core::ComponentType::LIGHTATTR));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("HEROSOUND",				core::ComponentType::HEROSOUND));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FIREFLYSOUND",				core::ComponentType::FIREFLYSOUND));
+	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("SWITCHABLE",				core::ComponentType::SWITCHABLE));
 
 	// parsing actors
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
@@ -155,6 +156,9 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					break;
 				case core::ComponentType::FIREFLYSOUND:
 					aComponents.push_back(sounds::FireflySoundComponent::create());
+					break;
+				case core::ComponentType::SWITCHABLE:
+					//aComponents.push_back(sounds::::create());
 					break;
 				default:
 					break;
