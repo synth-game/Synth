@@ -447,37 +447,30 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 
 	switch(keyCode) {
 		case EventKeyboard::KeyCode::KEY_Q:
-			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, false);
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
-
-			FmodAudioPlayer::sharedPlayer()->stopEffect(stepsSoundId);
-			stepsSoundId = -1;
-
 			break;
+
 		case EventKeyboard::KeyCode::KEY_D:
-			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
-
-			FmodAudioPlayer::sharedPlayer()->stopEffect(stepsSoundId);
-			stepsSoundId = -1;
-
-			break;
-		case EventKeyboard::KeyCode::KEY_SPACE:
-			/*jumpEvent = new ActorJumpEvent(_hero);
-			jumpEvent->_bStart = false;
-			dispatcher->dispatchEvent(jumpEvent);*/
 			break;
 
 		case EventKeyboard::KeyCode::KEY_Z:
-			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., -1.), false, true, false);
-			CCLOG("Stop going up !"); 
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 0.), false, true, false);
             dispatcher->dispatchEvent(pEditMoveEvent);
 
             break;
 
 		case EventKeyboard::KeyCode::KEY_S:
-            pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 1.), false, true, false);
+            pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 0.), false, true, false);
             dispatcher->dispatchEvent(pEditMoveEvent);
+			break;
+
+		case EventKeyboard::KeyCode::KEY_SPACE:
+			/*jumpEvent = new ActorJumpEvent(_hero);
+			jumpEvent->_bStart = false;
+			dispatcher->dispatchEvent(jumpEvent);*/
 			break;
 
 		default:
@@ -494,6 +487,16 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
             
 			case EventKeyboard::KeyCode::KEY_D:
 				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, true);
+				dispatcher->dispatchEvent(pEditMoveEvent);
+				break;
+
+			case EventKeyboard::KeyCode::KEY_Z:
+				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 1.), false, true, true);
+				dispatcher->dispatchEvent(pEditMoveEvent);
+				break;
+            
+			case EventKeyboard::KeyCode::KEY_S:
+				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., -1.), false, true, true);
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
 		}
