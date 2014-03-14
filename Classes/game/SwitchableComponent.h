@@ -36,6 +36,8 @@ public:
 	/*! \brief  */
 	inline bool isOn() { return _bOn; };
 
+	inline void setOn(bool bOn) { _bOn = bOn; };
+
 	/*! \brief Set the owned node */
 	inline void setOwnedNode(bool bOn) { _bOn = bOn; };
 
@@ -60,9 +62,6 @@ protected:
 	/*! \brief  */
 	void onToggleLight(EventCustom* pEvent);
 
-	/*! \brief  */
-	void onChangeNodeOwner(EventCustom* pEvent);
-
 	/*
 	 * Members
 	 */
@@ -79,8 +78,7 @@ private:
 	/*! \brief  */
 	EventListenerCustom* _pToggleLightEventListener;
 
-	/*! \brief  */
-	EventListenerCustom* _pChangeNodeOwnerEventListener;
+
 };
 
 }  // namespace game

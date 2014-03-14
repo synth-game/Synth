@@ -7,6 +7,7 @@
 #include "NodeOwnerComponent.h"
 #include "core/SynthActor.h"
 #include "game/LightAttrComponent.h"
+#include "game/GameManager.h"
 
 #include "events/ToggleLightEvent.h"
 #include "events/ChangeNodeOwnerEvent.h"
@@ -44,7 +45,7 @@ void NodeOwnerComponent::initListeners() {
 
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pToggleLightEventListener, 1);
-	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeNodeOwnerEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeNodeOwnerEventListener, 10);
 }
 
 void NodeOwnerComponent::onToggleLight(EventCustom* pEvent) {
@@ -70,11 +71,11 @@ void NodeOwnerComponent::onToggleLight(EventCustom* pEvent) {
 
 void NodeOwnerComponent::onChangeNodeOwner(EventCustom* pEvent) {
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent			= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
+	game::GameManager* pGameManager								= static_cast<game::GameManager*>(pChangeNodeOwnerEvent->getSource());
 	core::SynthActor* pOwnedNode								= static_cast<core::SynthActor*>(_pOwnedNode);
 	core::SynthActor* pNewOwner									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getNewOwner());
-	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getOwned());
 	core::SynthActor* pOwner									= static_cast<core::SynthActor*>(_owner);
-
 
 	if (pNewOwner != nullptr && pNewOwner->getActorID() == pOwner->getActorID()) {
 		if(pOwnedNode != nullptr) {
@@ -91,6 +92,8 @@ void NodeOwnerComponent::onChangeNodeOwner(EventCustom* pEvent) {
 	} else {
 		CCLOG("CHANGE NODE OWNER EVENT : THE OWNER IS NOT THE SAME");
 	}
+
+	pGameManager->getLevelSprite()->onChangeNodeOwner(pEvent);
 
 }
 

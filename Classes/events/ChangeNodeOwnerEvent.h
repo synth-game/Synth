@@ -24,7 +24,7 @@ class ChangeNodeOwnerEvent : public events::SynthEvent {
 
 public:
 	/*! \brief Constructor */
-	ChangeNodeOwnerEvent(Node* owned, Node* newOwner);
+	ChangeNodeOwnerEvent(Node* manager, Node* owned, Node* newOwner, Node* previousOwner);
 
 	/*! \brief Destructor */
 	~ChangeNodeOwnerEvent();
@@ -32,6 +32,7 @@ public:
 	/*! \brief Get the new owner */
 	inline Node* getNewOwner() { return _newOwner; };
 	inline Node* getOwned() { return _owned; };
+	inline Node* getPreviousOwner() { return _previousOwner; };
 
 public:
 	/*! \brief Identifies the event */
@@ -40,6 +41,9 @@ public:
 private:
 	/*! \brief The new owner of the actor */
 	Node* _newOwner;
+
+	/*! \brief The previous owner of the actor */
+	Node* _previousOwner;
 
 	/*! \brief The new owner of the actor */
 	Node* _owned;
