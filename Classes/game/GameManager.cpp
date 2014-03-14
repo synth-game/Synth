@@ -10,6 +10,7 @@
 #include "game/LightMap.h"
 #include "game/LightAttrComponent.h"
 #include "core/ActorType.h"
+#include "core/SynthConfig.h"
 #include "LevelSprite.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
@@ -100,7 +101,9 @@ bool GameManager::init() {
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEnterLightListener, 1);
 
 	// init levels
-	_iCurrentLevelId = 0;
+	_iCurrentLevelId = core::SynthConfig::getInstance()->getCurrentLevelIndex();
+	CCASSERT(_iCurrentLevelId >= 0, "ERROR WITH THE CONFIG FILE WHILE LOADING LEVEL");
+
 	tinyxml2::XMLDocument* pLevelsDoc = synthsystem::IOManager::getInstance()->loadXML("xml/levels.xml");
 	tinyxml2::XMLElement* pGameElt = pLevelsDoc->FirstChildElement("game");
 	tinyxml2::XMLElement* pLevelElt = pGameElt->FirstChildElement("level");
@@ -151,9 +154,16 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	pBgSprite->setScale(2.f);
 	_pBackgroundLayer->addChild(pBgSprite);
 
+	// Build actors and light collisions
 	_levelActors = game::LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
+	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+	pCollisionComp->addLightCollision(game::LevelFactory::getInstance()->buildLightsCollision(level, getActorsByType(core::ActorType::LIGHT)));
+	
+	// Build triggers
 	_triggers = game::LevelFactory::getInstance()->buildTriggers(level);
 
+	// Display debug rectangle for triggers
 	for (std::map<std::string, Rect>::iterator it = _triggers.begin(); it != _triggers.end(); ++it) {
 		Sprite* rect = Sprite::create("levels/test/rect.png");
 		rect->setPosition(it->second.origin);
@@ -163,6 +173,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 		_pLevelLayer->addChild(rect, 50);
 	}
 
+	// Build level Sprite
 	_pLevelSprite = game::LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
 
 	win = false;
@@ -203,8 +214,8 @@ void GameManager::nextLevel() {
 		CCLOG("GameManager::nextLevel : Clear and load next level");
 		win = true;
 		clearLevel();
-		//loadLevel(_levelsName[++_iCurrentLevelId]);
-		loadLevel(_levelsName[_iCurrentLevelId]);
+		loadLevel(_levelsName[++_iCurrentLevelId]);
+		//loadLevel(_levelsName[_iCurrentLevelId]);
 	}
 }
 

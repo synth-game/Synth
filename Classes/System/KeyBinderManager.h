@@ -36,7 +36,7 @@ public:
 	/**
 	 *
 	 */
-	void init(core::xml maps);
+	void init();
 
 	/**
 	 * Change la touche associé à l'action spécifiée. Tester si touche clavier ou manette.
@@ -48,7 +48,7 @@ public:
 	 */
 	BindedAction getBindedAction(int keyCode);
 
-	core::xml getKeyMapConfig();
+	tinyxml2::XMLDocument* getKeyMapConfig();
 
 };
 

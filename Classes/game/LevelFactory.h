@@ -36,7 +36,7 @@ public:
 
 	std::vector<core::SynthActor*> buildActors(std::string levelName, Layer* pLevelLayer);
 
-	std::vector<std::vector<int>> buildLightsMap(std::string levelName);
+	physics::LightCollision* buildLightsCollision(std::string levelName, std::vector<core::SynthActor*> aLights);
 
 	LevelSprite* buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights);
 
