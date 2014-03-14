@@ -43,16 +43,21 @@ namespace game {
 GameManager::GameManager() 
 	: Layer() 
 	, _iCurrentLevelId(-1)
-	, _fTimeSinceLevelStart(0.f) 
+	, _fTimeSinceLevelStart(0.f)
+	, _levelsName()
 	, _levelActors() 
 	, _triggers()
+	, _bResetRequested(false)
+	, _bNextRequested(false)
 	, _pLevelSprite(nullptr) 
+	, _pLightMap(nullptr)
 	, _pBackgroundLayer(nullptr) 
 	, _pIntermediarLayer(nullptr)
 	, _pLevelLayer(nullptr) 
 	, _pSkinningLayer(nullptr) 
 	, _pSubtitlesLayer(nullptr) 
 	, _pParallaxManager(nullptr)
+	, _pEnterLightListener(nullptr)
 	, _keyPressedCode() {
 
 }
@@ -76,8 +81,6 @@ GameManager* GameManager::create() {
 
 bool GameManager::init() {
     bool bTest = true;
-	bResetRequested = false;
-	bNextRequested = false;
 
 	//init Layer
 	bTest = Layer::init();
@@ -139,7 +142,7 @@ void GameManager::update(float fDt) {
 
 	CCASSERT(pGeometryComp != nullptr, "HERO actor needs a GeometryComponent");
 	if(_triggers["WIN"].containsPoint(pGeometryComp->getPosition())) {
-		bNextRequested = true;
+		_bNextRequested = true;
 	}
 
 	for (auto actor : _levelActors) {
@@ -148,17 +151,17 @@ void GameManager::update(float fDt) {
 
 	FmodAudioPlayer::sharedPlayer()->Update(fDt);
 
-	if(bNextRequested) {
+	if(_bNextRequested) {
 		CCLOG("GameManager::update : YOU WIN");
 		events::WinEvent* pWinEvent = new events::WinEvent();
 		EventDispatcher::getInstance()->dispatchEvent(pWinEvent);
-		bNextRequested = false;
+		_bNextRequested = false;
 	}
-	else if(bResetRequested) {
+	else if(_bResetRequested) {
 		CCLOG("GameManager::update : YOU DIE !");
 		events::DeathEvent* pDeathEvent = new events::DeathEvent();
 		EventDispatcher::getInstance()->dispatchEvent(pDeathEvent);
-		bResetRequested = false;
+		_bResetRequested = false;
 	}
 }
 
@@ -169,14 +172,11 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	pBgSprite->setScale(2.f);
 	_pBackgroundLayer->addChild(pBgSprite);
 
-	// Build actors and light collisions
-	_levelActors = game::LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
-	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
-	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
-	pCollisionComp->addLightCollision(game::LevelFactory::getInstance()->buildLightsCollision(level, getActorsByType(core::ActorType::LIGHT)));
+	// Build actors
+	_levelActors = LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
 	
 	// Build triggers
-	_triggers = game::LevelFactory::getInstance()->buildTriggers(level);
+	_triggers = LevelFactory::getInstance()->buildTriggers(level);
 
 	// Display debug rectangle for triggers
 	for (std::map<std::string, Rect>::iterator it = _triggers.begin(); it != _triggers.end(); ++it) {
@@ -188,9 +188,16 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 		_pLevelLayer->addChild(rect, 50);
 	}
 
-	// Build level Sprite
-	_pLevelSprite = game::LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
+	// Build LevelSprite and LightMap
+	_pLevelSprite = LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
+	if (_pLightMap == nullptr) {
+		_pLightMap = LevelFactory::getInstance()->buildLightMap(level);
+	}
 
+	// Initialize the LightCollision of the HERO actor
+	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+	pCollisionComp->addLightCollision(game::LevelFactory::getInstance()->buildLightsCollision(_pLightMap, getActorsByType(core::ActorType::LIGHT)));
 }
 
 void GameManager::clearLevel() {
@@ -208,6 +215,10 @@ void GameManager::clearLevel() {
 	_pLevelLayer->removeAllChildren();
 
 	_pLevelSprite = nullptr;
+	if (_bNextRequested) {
+		delete _pLightMap;
+		_pLightMap = nullptr;
+	}
 
 	_pSkinningLayer->removeAllChildren();
 	_pSubtitlesLayer->removeAllChildren();
@@ -218,14 +229,14 @@ void GameManager::clearLevel() {
 
 void GameManager::resetLevel() {
 	CCLOG("GameManager::resetLevel : Clear and reload level");
-	bResetRequested = true;
+	_bResetRequested = true;
 	clearLevel();
 	loadLevel(_levelsName[_iCurrentLevelId]);
 }
 
 void GameManager::nextLevel() {
 	CCLOG("GameManager::nextLevel : Clear and load next level");
-	bNextRequested = true;
+	_bNextRequested = true;
 	clearLevel();
 	loadLevel(_levelsName[++_iCurrentLevelId]);
 }
@@ -236,7 +247,7 @@ void GameManager::onEnterLight(EventCustom* pEvent) {
 	Color4B lightColor = enterLightEvent->getLightingColor();
 
 	if (lightColor == Color4B::RED) {
-		bResetRequested = true;
+		_bResetRequested = true;
 	} else if (lightColor == Color4B::BLUE) {
 		CCLOG("GameManager::onEnterLight : You can jump higher !");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
