@@ -229,11 +229,19 @@ void GameManager::onEnterLight(EventCustom* pEvent) {
 		CCLOG("GameManager::onEnterLight : You die !");
 		events::DeathEvent* pDeathEvent = new events::DeathEvent();
 		EventDispatcher::getInstance()->dispatchEvent(pDeathEvent);
-	} else if (lightColor == Color4B::BLUE) {
+	} else if (lightColor == Color4B::GREEN) {
 		CCLOG("GameManager::onEnterLight : You can jump higher !");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
 		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
 		movementComponent->setGravity(movementComponent->getGravity()*movementComponent->getLowGravityFactor());
+	} else {
+		CCLOG("GameManager::onEnterLight : Out of any light");
+		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
+		movementComponent->setGravity(movementComponent->getBasicGravity());
+		if (movementComponent->getBasicGravity().equals(movementComponent->getGravity())){
+			CCLOG("GameManager::onEnterLight : WTF GRAVITY WHAT YA DOING");
+		}
 	}
 }
 

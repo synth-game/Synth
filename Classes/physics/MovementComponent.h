@@ -28,13 +28,15 @@ public:
 	inline Point getDirection() { return _direction; }
 	inline Point getAcceleration() { return _acceleration; }
 	inline Point getGravity() { return _gravity; }
+	inline Point getBasicGravity() { return _basicGravity; }
 	inline float getLowGravityFactor() { return _lowGravityFactor; }
 	inline float getHighGravityFactor() { return _highGravityFactor; }
 	inline bool isStarting() { return _bStartMoving; }
 	inline void setSpeed(Point speed) { _speed = speed; }
 	inline void setDirection(Point direction) { _direction = direction; }
 	inline void setAcceleration(Point acceleration) { _acceleration = acceleration; }
-	inline void setGravity(Point gravity) { _gravity = gravity; }
+	inline void setGravity(Point gravity) { _gravity = gravity;}
+	inline void setBasicGravity(Point gravity) { _basicGravity = gravity;}
 
 	static const char* COMPONENT_TYPE;
 
@@ -54,7 +56,8 @@ protected:
 	Point _speed;
 	Point _direction;
 	Point _acceleration;
-	Point _gravity;
+	Point _basicGravity;
+	Point _gravity; //current value of the gravity
 	float _lowGravityFactor;
 	float _highGravityFactor;
 	bool _bStartMoving;

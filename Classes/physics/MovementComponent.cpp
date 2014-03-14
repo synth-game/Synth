@@ -47,8 +47,11 @@ MovementComponent* MovementComponent::create(Point acceleration, Point gravity, 
 		pMovementComponent->autorelease();
 		pMovementComponent->setAcceleration(acceleration);
 		pMovementComponent->setGravity(gravity);
+		pMovementComponent->setBasicGravity(gravity);
 		pMovementComponent->_highGravityFactor = highGravityFactor;
 		pMovementComponent->_lowGravityFactor = lowGravityFactor;
+
+
 	} else {
 		CC_SAFE_DELETE(pMovementComponent);
 	}
