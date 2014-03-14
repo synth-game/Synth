@@ -217,7 +217,8 @@ void GameManager::nextLevel() {
 		CCLOG("GameManager::nextLevel : Clear and load next level");
 		win = true;
 		clearLevel();
-		loadLevel(_levelsName[++_iCurrentLevelId]);
+		//loadLevel(_levelsName[++_iCurrentLevelId]);
+		loadLevel("01");
 	}
 }
 
