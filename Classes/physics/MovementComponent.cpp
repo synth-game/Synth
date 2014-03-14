@@ -27,7 +27,7 @@ const char* MovementComponent::COMPONENT_TYPE = "MovementComponent";
 MovementComponent::MovementComponent()
 	: SynthComponent()
 	, _bStartMoving(false)
-	, _eMovingState(core::ActorState::JUMPING_STATE)
+	, _eMovingState(core::ActorState::NOT_ON_FLOOR_STATE)
 	, _pEditMoveEventListener(nullptr)
 	, _pJumpEventListener(nullptr)
 	, _pInterruptMoveEventListener(nullptr)
@@ -91,7 +91,7 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 	if (componentOwner == eventSource) {
 		if (jumpEvent->isStartJumping() && _eMovingState == core::ActorState::ON_FLOOR_STATE) {
             _speed.y = MAX_JUMP_SPEED;
-			_eMovingState = core::ActorState::JUMPING_STATE;
+			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
 			events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
 			EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
         } else {
@@ -121,8 +121,8 @@ void MovementComponent::onChangeState(EventCustom* pEvent) {
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(pChangeStateEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
 	if (componentOwner == eventSource) {
-		if(pChangeStateEvent->getNewState() == core::ActorState::JUMPING_STATE) {
-			_eMovingState = core::ActorState::JUMPING_STATE;
+		if(pChangeStateEvent->getNewState() == core::ActorState::NOT_ON_FLOOR_STATE) {
+			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
 		} else {
 			_eMovingState = core::ActorState::ON_FLOOR_STATE;
 		}

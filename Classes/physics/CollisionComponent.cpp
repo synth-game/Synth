@@ -22,7 +22,7 @@ CollisionComponent::CollisionComponent()
 	: SynthComponent()
 	, _pPhysicCollision(nullptr)
 	, _pLightCollision(nullptr)
-	, _eMovingState(core::ActorState::JUMPING_STATE)
+	, _eMovingState(core::ActorState::NOT_ON_FLOOR_STATE)
 	, _pTestCollisionEventListener(nullptr)
 	, _pChangeStateCollision(nullptr) {
 }
@@ -90,8 +90,8 @@ void CollisionComponent::onChangeState(EventCustom* pEvent) {
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(pChangeStateEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
 	if (componentOwner == eventSource) {
-		if(pChangeStateEvent->getNewState() == core::ActorState::JUMPING_STATE) {
-			_eMovingState = core::ActorState::JUMPING_STATE;
+		if(pChangeStateEvent->getNewState() == core::ActorState::NOT_ON_FLOOR_STATE) {
+			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
 		}
 	}
 }
@@ -124,7 +124,7 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 	Size thirdSize = pInitiatorEvent->getSize()/3;
 			
 	Point centerPos = currentPosition;
-	core::ActorState nextState = core::ActorState::JUMPING_STATE;
+	core::ActorState nextState = core::ActorState::NOT_ON_FLOOR_STATE;
 
 	// test pixel by pixel the center point movement - stop if collide
 	while((centerPos-currentPosition).getLength() < movementLength) {
@@ -230,9 +230,9 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 			|| (_pPhysicCollision->collide(targetBRPosition) && !_pLightCollision->isInWhiteLight(targetBRPosition))) {
 				targetPosition.y = (targetPosition.y + currentPosition.y)/2.f;
 			} else {
-				_eMovingState = core::ActorState::JUMPING_STATE;
-				events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
-				EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+				_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
+                events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
+                EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
 			}
 		} else {
 			targetPosition = targetBCPosition + Point(0.f, halfSize.height);

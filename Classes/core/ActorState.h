@@ -14,7 +14,7 @@ typedef enum {
 	ON_AIR_STATE,
 	BOUNCE_STATE,
 	STUCK_STATE,
-	JUMPING_STATE
+	NOT_ON_FLOOR_STATE
 } ActorState;
 
 }  // namespace core
