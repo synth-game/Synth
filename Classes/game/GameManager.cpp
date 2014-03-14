@@ -279,7 +279,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	game::NodeOwnerComponent* pLampNodeOwnerComponent = nullptr;
 	physics::GeometryComponent* pTargetGeometryComponent = nullptr;
 	SwitchableComponent* pLampSwitchableComponent = nullptr;
-	core::SynthActor* pOwned, *pSwitch, *pTarget, *pLamp = nullptr;
+	core::SynthActor* pOwned, *pSwitch, *pTarget, *pLamp, *pOwnedByHero = nullptr;
 	bool bToLamp = false;
 	auto dispatcher = EventDispatcher::getInstance();
 
@@ -357,6 +357,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 		case EventKeyboard::KeyCode::KEY_P:
 			// if the hero owns an actor
 			if (pNodeOwnerComponent->getOwnedNode() != nullptr) {
+				pOwnedByHero = static_cast<core::SynthActor*>(pNodeOwnerComponent->getOwnedNode());
 				pTarget = getNearActor(pHero);
 				// the owned actor can go to a lamp or exchange with a firefly
 				if (pTarget != nullptr) {
@@ -382,11 +383,11 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 										dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
 
 										// the owned firefly goes to the lamp
-										pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), maybeALamp);
+										pChangeTargetEvent = new events::ChangeTargetEvent(pOwnedByHero, maybeALamp);
 										CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
 										dispatcher->dispatchEvent(pChangeTargetEvent);
 										// the owned firefly is now owned by the lamp
-										pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(this, pNodeOwnerComponent->getOwnedNode(), maybeALamp, pHero);
+										pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(this, pOwnedByHero, maybeALamp, pHero);
 										CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : owned node belongs to lamp");
 										dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
 
@@ -407,11 +408,11 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 							dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
 
 							// the firefly goes to the targetted firefly position
-							pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), pTargetGeometryComponent->getPosition());
+							pChangeTargetEvent = new events::ChangeTargetEvent(pOwnedByHero, pTargetGeometryComponent->getPosition());
 							CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (FIREFLY)");
 							dispatcher->dispatchEvent(pChangeTargetEvent); 
 							// the firefly previously owned is now free
-							pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(this, pNodeOwnerComponent->getOwnedNode(), nullptr, pHero);
+							pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(this, pOwnedByHero, nullptr, pHero);
 							CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : the owned node is free");
 							dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
 						}
@@ -430,7 +431,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 						}
 
 						// the owned firefly goes to the lamp
-						pChangeTargetEvent = new events::ChangeTargetEvent(pNodeOwnerComponent->getOwnedNode(), pTarget);
+						pChangeTargetEvent = new events::ChangeTargetEvent(pOwnedByHero, pTarget);
 						CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
 						dispatcher->dispatchEvent(pChangeTargetEvent);
 
@@ -443,7 +444,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 						}
 
 						// the owned firefly is now owned by the lamp
-						pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(this, pNodeOwnerComponent->getOwnedNode(), pTarget, pHero);
+						pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(this, pOwnedByHero, pTarget, pHero);
 						CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : owned node belongs to lamp");
 						dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
 						

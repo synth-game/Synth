@@ -93,7 +93,7 @@ void NodeOwnerComponent::onChangeNodeOwner(EventCustom* pEvent) {
 		CCLOG("CHANGE NODE OWNER EVENT : THE OWNER IS NOT THE SAME");
 	}
 
-	pGameManager->getLevelSprite()->onChangeNodeOwner(pEvent);
+	pGameManager->getLevelSprite()->onChangeNodeOwner(pEvent, pOwner);
 
 }
 

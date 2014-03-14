@@ -125,26 +125,28 @@ void LevelSprite::draw() {
 }
 
 // this method doesnt listen the event, it is called by the node owner component
-void LevelSprite::onChangeNodeOwner(EventCustom* pEvent) {
+void LevelSprite::onChangeNodeOwner(EventCustom* pEvent, core::SynthActor* pOwner) {
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent			= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
 	core::SynthActor* pNewOwner									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getNewOwner());
 	core::SynthActor* pPreviousOwner							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getPreviousOwner());
 	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getOwned());
 
-	// if a firefly goes to a light
-	if ( pSource->isFirefly() && pNewOwner != nullptr && pNewOwner->getActorType() == core::ActorType::LIGHT ) {
-		game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pNewOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
-		if (pSwitchableComp != nullptr) {
-			pSwitchableComp->setOn(true);
-			updateLight(pNewOwner);
+	if(pNewOwner != nullptr && pNewOwner->getActorID() == pOwner->getActorID()) {
+		// if a firefly goes to a light
+		if ( pSource->isFirefly() && pNewOwner != nullptr && pNewOwner->getActorType() == core::ActorType::LIGHT ) {
+			game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pNewOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+			if (pSwitchableComp != nullptr) {
+				pSwitchableComp->setOn(true);
+				updateLight(pNewOwner);
+			}
 		}
-	}
-	// if a firefly leaves a light
-	if (pSource->isFirefly() && pPreviousOwner != nullptr && pPreviousOwner->getActorType() == core::ActorType::LIGHT ) {
-		game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pPreviousOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
-		if (pSwitchableComp != nullptr) {
-			pSwitchableComp->setOn(false);
-			updateLight(pPreviousOwner);
+		// if a firefly leaves a light
+		if (pSource->isFirefly() && pPreviousOwner != nullptr && pPreviousOwner->getActorType() == core::ActorType::LIGHT ) {
+			game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pPreviousOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+			if (pSwitchableComp != nullptr) {
+				pSwitchableComp->setOn(false);
+				updateLight(pPreviousOwner);
+			}
 		}
 	}
 

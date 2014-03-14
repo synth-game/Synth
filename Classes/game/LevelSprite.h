@@ -27,7 +27,7 @@ public:
 	void draw();
 
 	/*! \brief  */
-	void onChangeNodeOwner(EventCustom* pEvent);
+	void onChangeNodeOwner(EventCustom* pEvent, core::SynthActor* pOwner);
 
 
 protected:
