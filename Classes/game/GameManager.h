@@ -51,6 +51,7 @@ public:
 	static Color4B getLightColor(core::SynthActor* pLight);
 
 	inline Layer* getLevelLayer() { return _pLevelLayer; }
+	inline int getCurrentLevelIndex() { return _iCurrentLevelId; }
 	
 	std::vector<core::SynthActor*> getActorsByType(core::ActorType type);
 

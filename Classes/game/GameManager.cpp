@@ -10,6 +10,7 @@
 #include "game/LightMap.h"
 #include "game/LightAttrComponent.h"
 #include "core/ActorType.h"
+#include "core/SynthConfig.h"
 #include "LevelSprite.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
@@ -100,7 +101,9 @@ bool GameManager::init() {
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEnterLightListener, 1);
 
 	// init levels
-	_iCurrentLevelId = 0;
+	_iCurrentLevelId = core::SynthConfig::getInstance()->getCurrentLevelIndex();
+	CCASSERT(_iCurrentLevelId >= 0, "ERROR WITH THE CONFIG FILE WHILE LOADING LEVEL");
+
 	tinyxml2::XMLDocument* pLevelsDoc = synthsystem::IOManager::getInstance()->loadXML("xml/levels.xml");
 	tinyxml2::XMLElement* pGameElt = pLevelsDoc->FirstChildElement("game");
 	tinyxml2::XMLElement* pLevelElt = pGameElt->FirstChildElement("level");

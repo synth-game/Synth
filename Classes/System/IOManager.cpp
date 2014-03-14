@@ -26,15 +26,14 @@ IOManager* IOManager::getInstance() {
 tinyxml2::XMLDocument* IOManager::loadXML(std::string filepath) {
 	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
 	int xmlerror = pXMLFile->LoadFile(filepath.c_str());
-	if(xmlerror == 0) {
-		return pXMLFile;
-	} else {
-		return nullptr;
-	}
+	CCASSERT(xmlerror==0, "ERROR WHILE LOADING XML FILE");
+	return pXMLFile;
 }
 
-void IOManager::saveXML(char* filepath, core::xml data) {
-
+bool IOManager::saveXML(std::string filepath, tinyxml2::XMLDocument* file) {
+	int xmlerror = file->SaveFile(filepath.c_str());
+	CCASSERT(xmlerror==0, "ERROR WHILE SAVING XML FILE");
+	return true;
 }
 
 }  // namespace synthsystem
