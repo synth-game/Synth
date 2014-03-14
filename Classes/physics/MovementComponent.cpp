@@ -19,6 +19,7 @@
 #define MAX_Y_SPEED 300.f
 #define MAX_JUMP_SPEED 180.f
 #define MIN_JUMP_SPEED 100.f
+#define ENGINE_SPEED 0.015
 
 namespace physics {
 
@@ -58,7 +59,7 @@ bool MovementComponent::init() {
 void MovementComponent::initListeners() {
 	// Listeners initialization
 	_pEditMoveEventListener = EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onEditMove, this));
-	_pJumpEventListener = EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onJump, this)); 
+	_pJumpEventListener = EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onJump, this));
 	_pInterruptMoveEventListener = EventListenerCustom::create(events::InterruptMoveEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onInterruptMove, this));
 	_pChangeStateEventListener = EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onChangeState, this));
 
@@ -132,7 +133,7 @@ void MovementComponent::onChangeState(EventCustom* pEvent) {
 void MovementComponent::update(float fDt) {
 	// compute next speed
 	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
-    
+
 
 	// cap the next lateral speed
 	if (_bStartMoving) {
@@ -157,20 +158,20 @@ void MovementComponent::update(float fDt) {
 	// compute next position
 	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pGeometryComponent != nullptr, "MovementComponent needs a GeometryComponent added to its owner");
-	Point nextPosition = pGeometryComponent->getPosition() + (_speed * fDt);
+	Point nextPosition = pGeometryComponent->getPosition() + _speed * ENGINE_SPEED;
 
-	nextPosition.x = floor(nextPosition.x);
-	nextPosition.y = floor(nextPosition.y);
+    _bIsLateralMoving = !(abs(nextPosition.x - _previousNextPositionComputed.x) < 1.f);
 
-	physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
-	if (pCollisionComponent == nullptr) {
-		//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);
-		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
-		EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
-	} else {
-		events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
-		EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
-	}
+    _previousNextPositionComputed = nextPosition;
+
+    physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+    if (pCollisionComponent == nullptr) {
+        events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
+        EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+    } else {
+        events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
+        EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+    }
 }
 
 

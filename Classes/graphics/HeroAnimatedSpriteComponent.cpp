@@ -27,7 +27,6 @@ namespace graphics {
 
 HeroAnimatedSpriteComponent::HeroAnimatedSpriteComponent(Layer* pParent) : 
 	AnimatedSpriteComponent(pParent) {
-	
 }
 
 HeroAnimatedSpriteComponent::~HeroAnimatedSpriteComponent() {
@@ -53,7 +52,6 @@ void HeroAnimatedSpriteComponent::onEnter() {
 	CCASSERT(geometryComponent != NULL, "HeroAnimatedSpriteComponent need a GeometryComponent added to its owner");
 
 	GraphicManager* graphicManager = GraphicManager::getInstance();
-	core::ActorType eActorType = static_cast<core::SynthActor*>(_owner)->getActorType();
 	SpriteBatchNode* pBatchNode = graphicManager->getBatchNode();
 	SpriteFrameCache* pFrameCache = graphicManager->getFrameCache();
 
@@ -65,12 +63,7 @@ void HeroAnimatedSpriteComponent::onEnter() {
 		_pParent->addChild(pBatchNode, 1, 3);
 
 		// Add idle animation
-		_eCurrentAnimType = AnimationType::HERO_IDLE;
-		GraphicManager* graphicManager = GraphicManager::getInstance();
-		core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
-		Animate* animate = Animate::create(pAnimation->getAnimation());
-		runAnimation(pAnimation, animate);
-
+        runAnimation(HERO_IDLE);
 	}
 }
 
@@ -78,89 +71,88 @@ void HeroAnimatedSpriteComponent::initListeners() {
     AnimatedSpriteComponent::initListeners();
 	_pEditMoveEventListener = cocos2d::EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onEditMove, this));
 	_pJumpEventListener = cocos2d::EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onJump, this));
-	_pInterruptMoveEventListener = cocos2d::EventListenerCustom::create(events::InterruptMoveEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onInterruptMove, this));
 	_pChangeNodeOwnerEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onChangeNodeOwner, this));
 	_pToggleLightEventListener = cocos2d::EventListenerCustom::create(events::ToggleLightEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onToggleLight, this));
 	_pDeathEventListener = cocos2d::EventListenerCustom::create(events::DeathEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onDeath, this));
 	_pWinEventListener = cocos2d::EventListenerCustom::create(events::WinEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onWin, this));
 	_pResetLevelEventListener = cocos2d::EventListenerCustom::create(events::ResetLevelEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onResetLevel, this));
 	_pChangeStateEventListener = cocos2d::EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onChangeState, this));
+    _pInterruptMoveEventListener = cocos2d::EventListenerCustom::create(events::InterruptMoveEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onInterruptMove, this));
+
 
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pJumpEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeNodeOwnerEventListener, 1);
+    EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pInterruptMoveEventListener, 1);
 }
-
+    
+void HeroAnimatedSpriteComponent::onInterruptMove(EventCustom* event) {
+    //CCLOG("HeroAnimatedSpriteComponent::onInterruptMove INTERRUPT MOVE, is moving = %d, state = %d", actorIsLateralMoving(), getState());
+}
+    
 void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 	events::EditMoveEvent*	pEditMoveEvent	= static_cast<events::EditMoveEvent*>(pEvent);
     core::SynthActor*		pSource			= static_cast<core::SynthActor*>(pEditMoveEvent->getSource());
     core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
-
+    
+    CCLOG("HeroAnimatedSpriteComponent::onEditMove %s !", pEditMoveEvent->isStartMoving() ? "MOVING" : "STOP MOVING");
+    
     if (pSource->getActorID() == pOwner->getActorID()) {
 		
 		if (pEditMoveEvent->isStartMoving()) {
+            //CCLOG("HeroAnimatedSpriteComponent::onEditMove isStartMoving state = %d", getState());
 			// the movement starts
-			switch (_eState) {
-			case core::ActorState::ON_FLOOR_STATE :
-				_eCurrentAnimType = AnimationType::HERO_WALK;
-				break;
-			case core::ActorState::STUCK_STATE :
-				_eCurrentAnimType = AnimationType::HERO_CRAWL;
-				break;
-			case core::ActorState::ON_AIR_STATE :
-				_eCurrentAnimType = AnimationType::HERO_FLY;
-				break;
-			case core::ActorState::BOUNCE_STATE :
-				_eCurrentAnimType = AnimationType::HERO_BOUNCE;
-				break;
-			default:
-				_eCurrentAnimType = AnimationType::HERO_WALK;
-				break;
-			}
-			GraphicManager* graphicManager = GraphicManager::getInstance();
-			core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
-			Animate* animate = Animate::create(pAnimation->getAnimation());
-			if (pEditMoveEvent->getDirection().x < 0) {
+            if (pEditMoveEvent->getDirection().x < 0) {
 				_pSprite->setFlippedX(true);
 			}
 			else if(pEditMoveEvent->getDirection().x > 0) {
 				_pSprite->setFlippedX(false);
 			}
-			//CCLOG("HeroAnimatedSpriteComponent::onEditMove : RUN EDIT MOVE ANIMATION");
-			runAnimation(pAnimation, animate);
+			switch (getState()) {
+			case core::ActorState::ON_FLOOR_STATE :
+				runAnimation(AnimationType::HERO_WALK);
+				break;
+			case core::ActorState::STUCK_STATE :
+                runAnimation(AnimationType::HERO_CRAWL);
+				break;
+			case core::ActorState::ON_AIR_STATE :
+                runAnimation(AnimationType::HERO_FLY);
+				break;
+			case core::ActorState::BOUNCE_STATE :
+                runAnimation(AnimationType::HERO_BOUNCE);
+				break;
+			default:
+				break;
+			}
+			
 		} else {
-			// the movement stops
-			switch (_eState) {
-			case core::ActorState::ON_FLOOR_STATE :
-				_eCurrentAnimType = AnimationType::HERO_STOP_WALK;
-				break;
-			case core::ActorState::STUCK_STATE :
-				_eCurrentAnimType = AnimationType::HERO_STOP_CRAWL;
-				break;
-			case core::ActorState::ON_AIR_STATE :
-				_eCurrentAnimType = AnimationType::HERO_FLY;
-				break;
-			case core::ActorState::BOUNCE_STATE :
-				_eCurrentAnimType = AnimationType::HERO_BOUNCE;
-				break;
-			default:
-				_eCurrentAnimType = AnimationType::HERO_STOP_WALK;
-				break;
-			}
-			GraphicManager* graphicManager = GraphicManager::getInstance();
-			core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
-			Animate* animate = Animate::create(pAnimation->getAnimation());
-			// inverted in this case
+            //CCLOG("HeroAnimatedSpriteComponent::onEditMove  NOT isStartMoving state = %d", getState());
+            // inverted in this case
 			if (pEditMoveEvent->getDirection().x < 0) {
 				_pSprite->setFlippedX(false);
 			}
 			else if(pEditMoveEvent->getDirection().x > 0) {
 				_pSprite->setFlippedX(true);
 			}
-			//CCLOG("RUN STOP MOVE ANIMATION");
-			runAnimation(pAnimation, animate);
+			// the movement stops
+			switch (getState()) {
+			case core::ActorState::ON_FLOOR_STATE :
+                runAnimation(AnimationType::HERO_STOP_WALK);
+				break;
+			case core::ActorState::STUCK_STATE :
+				runAnimation(AnimationType::HERO_STOP_CRAWL);
+				break;
+			case core::ActorState::ON_AIR_STATE :
+               runAnimation(AnimationType::HERO_FLY);
+				break;
+			case core::ActorState::BOUNCE_STATE :
+                runAnimation(AnimationType::HERO_BOUNCE);
+				break;
+			default:
+				break;
+			}
 		}
     }
     else {
@@ -174,37 +166,13 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
     core::SynthActor* pSource							= static_cast<core::SynthActor*>(pJumpEvent->getSource());
     core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
-	GraphicManager* graphicManager = GraphicManager::getInstance();
-	_eCurrentAnimType = AnimationType::HERO_JUMP;
-	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
-	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
-
-    if (_eState == core::ActorState::ON_FLOOR_STATE && pSource->getActorID() == pOwner->getActorID()) {
+    if (getState() == core::ActorState::ON_FLOOR_STATE && pSource->getActorID() == pOwner->getActorID()) {
 		CCLOG("RUN JUMP ANIMATION");
-		runAnimation(pAnimation, animate);
+		runAnimation(AnimationType::HERO_JUMP);
     }
     else {
         CCLOG("JUMP EVENT RECEIVED BUT ID NOT THE SAME");
     }
-}
-
-void HeroAnimatedSpriteComponent::onInterruptMove(EventCustom* pEvent) {
-
-	events::InterruptMoveEvent* pInterruptMoveEvent		= static_cast<events::InterruptMoveEvent*>(pEvent);
-    core::SynthActor* pSource							= static_cast<core::SynthActor*>(pInterruptMoveEvent->getSource());
-    core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
-
-	_eCurrentAnimType = AnimationType::HERO_IDLE;
-	_eState = core::ActorState::IDLE_STATE;
-	//CCLOG("RUN INTERRUPT MOVE ANIMATION");
-
-    if (pSource->getActorID() == pOwner->getActorID()) {
-		_pSprite->stopAllActions();
-    }
-    else {
-        CCLOG("INTERRUPT MOVE EVENT RECEIVED BUT ID NOT THE SAME");
-    }
-
 }
 
 void HeroAnimatedSpriteComponent::onChangeNodeOwner(EventCustom* pEvent) {
@@ -214,14 +182,9 @@ void HeroAnimatedSpriteComponent::onChangeNodeOwner(EventCustom* pEvent) {
     core::SynthActor* pSource							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
 	core::SynthActor* pOwned							= static_cast<core::SynthActor*>(pNodeOwnerComponent->getOwnedNode());
 
-	if(_eState == core::ActorState::ON_FLOOR_STATE) {
+	if(getState() == core::ActorState::ON_FLOOR_STATE) {
 		if (pOwned != nullptr && pSource->getActorID() == pOwned->getActorID()) {
-			_eCurrentAnimType = AnimationType::HERO_INTERACT;
-			GraphicManager* graphicManager = GraphicManager::getInstance();
-			core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
-			cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
-			//CCLOG("RUN CHANGE NODE OWNER ANIMATION");
-			runAnimation(pAnimation, animate);
+			runAnimation(AnimationType::HERO_INTERACT);
 		}
 		else {
 			CCLOG("CHANGE NODE OWNER EVENT RECEIVED BUT ID NOT THE SAME");
@@ -236,15 +199,10 @@ void HeroAnimatedSpriteComponent::onToggleLight(EventCustom* pEvent) {
     core::SynthActor*		pSource			= static_cast<core::SynthActor*>(pToggleLightEvent->getSource());
     core::SynthActor*		pOwner			= static_cast<core::SynthActor*>(_owner);
 
-	GraphicManager* graphicManager = GraphicManager::getInstance();
-	_eCurrentAnimType = AnimationType::HERO_PULL_SWITCH;
-	_eState = core::ActorState::ON_FLOOR_STATE;
-	core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
-	cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
-
+	setState(core::ActorState::ON_FLOOR_STATE);
+    
     if (pSource->getActorID() == pOwner->getActorID()) {
-		_pSprite->stopAllActions();
-		_pSprite->runAction(cocos2d::RepeatForever::create(animate));
+		runAnimation(AnimationType::HERO_PULL_SWITCH);
     }
     else {
         CCLOG("TOGGLE LIGHT EVENT RECEIVED BUT ID NOT THE SAME");
@@ -266,15 +224,21 @@ void HeroAnimatedSpriteComponent::onChangeState(EventCustom* pEvent) {
     core::SynthActor*			pSource				= static_cast<core::SynthActor*>(pChangeStateEvent->getSource());
     core::SynthActor*			pOwner				= static_cast<core::SynthActor*>(_owner);
 
-	 if (pSource->getActorID() == pOwner->getActorID()) {
-		 _eState = pChangeStateEvent->getNewState();
+    if (pSource->getActorID() == pOwner->getActorID()) {
+        setState(pChangeStateEvent->getNewState());
+        if (getState() == core::ActorState::ON_FLOOR_STATE) {
+            if (actorIsLateralMoving()) {
+                runAnimation(AnimationType::HERO_WALK);
+            }
+            else {
+                runAnimation(AnimationType::HERO_IDLE);
+            }
+        }
     }
     else {
         CCLOG("CHANGE STATE EVENT RECEIVED BUT ID NOT THE SAME");
     }
 
 }
-
-
 
 }  // namespace graphics
