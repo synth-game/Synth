@@ -254,7 +254,7 @@ void GameManager::onEnterLight(EventCustom* pEvent) {
 		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
 		movementComponent->setGravity(movementComponent->getGravity()*movementComponent->getLowGravityFactor());
 	} else if (lightColor == Color4B::MAGENTA) {
-		CCLOG("GameManager::onEnterLight : You can jump higher !");
+		CCLOG("GameManager::onEnterLight : You can't jump as high as usually :( ");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
 		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
 		movementComponent->setGravity(movementComponent->getGravity()*movementComponent->getHighGravityFactor());
@@ -308,10 +308,22 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
             break;
 
 		case EventKeyboard::KeyCode::KEY_Z:
-            pJumpEvent = new events::JumpEvent(pHero, true);
+
+            //pJumpEvent = new events::JumpEvent(pHero, true);
             CCLOG("Dispatching ActorStartMoveEvent JUMP");
-            dispatcher->dispatchEvent(pJumpEvent);
+            //dispatcher->dispatchEvent(pJumpEvent);
+
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 1.), false, true, true);
+            CCLOG("Dispatching ActorStartMoveEvent DOWN");
+            dispatcher->dispatchEvent(pEditMoveEvent);
+
             break;
+
+
+		case EventKeyboard::KeyCode::KEY_S:
+            pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., -1.), false, true, true);
+            CCLOG("Dispatching ActorStartMoveEvent DOWN");
+            dispatcher->dispatchEvent(pEditMoveEvent);
 
 		case EventKeyboard::KeyCode::KEY_O:
 			pSwitch = getNearLightSwitch(pHero);
@@ -339,6 +351,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 				}
 
 			}
+
 			break;
 
 		case EventKeyboard::KeyCode::KEY_P:
@@ -479,25 +492,32 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 
 	switch(keyCode) {
 		case EventKeyboard::KeyCode::KEY_Q:
-			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, false);
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
 
-			//FmodAudioPlayer::sharedPlayer()->stopEffect(stepsSoundId);
-			stepsSoundId = -1;
-
 			break;
+
 		case EventKeyboard::KeyCode::KEY_D:
-			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
-
-			//FmodAudioPlayer::sharedPlayer()->stopEffect(stepsSoundId);
-			stepsSoundId = -1;
-
 			break;
+
+		case EventKeyboard::KeyCode::KEY_Z:
+			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 0.), false, true, false);
+            dispatcher->dispatchEvent(pEditMoveEvent);
+
+            break;
+
+		case EventKeyboard::KeyCode::KEY_S:
+            pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 0.), false, true, false);
+            dispatcher->dispatchEvent(pEditMoveEvent);
+			break;
+
         case EventKeyboard::KeyCode::KEY_SPACE:
             pJumpEvent = new events::JumpEvent(pHero, false);
             dispatcher->dispatchEvent(pJumpEvent);
             break;
+
 		default:
 			break;
 	}
@@ -514,7 +534,17 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, true);
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
+
+			case EventKeyboard::KeyCode::KEY_Z:
+				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 1.), false, true, true);
+				dispatcher->dispatchEvent(pEditMoveEvent);
+				break;
             
+			case EventKeyboard::KeyCode::KEY_S:
+				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., -1.), false, true, true);
+				dispatcher->dispatchEvent(pEditMoveEvent);
+				break;
+
 		}
 
 	}

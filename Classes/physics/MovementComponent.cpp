@@ -87,9 +87,10 @@ void MovementComponent::onEditMove(EventCustom* pEvent) {
 			_direction.x = editMoveEvent->getDirection().x;
 		}
 		if (editMoveEvent->getChangeY()) {
-			_direction.y = editMoveEvent->getDirection().y;
+			//_direction.y = editMoveEvent->getDirection().y;
 		}
 		_bStartMoving = editMoveEvent->isStartMoving();
+
 	}
 }
 
@@ -142,6 +143,28 @@ void MovementComponent::update(float fDt) {
 	// compute next speed
 	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
 
+	/*if ( !(_direction.x < 0.1f && _direction.x > -0.1f) && (_direction.y < 0.1f && _direction.y > -0.1f)){
+		CCLOG("HABBA");
+		_speed.y = 0;
+	}
+	if ( !(_direction.y < 0.1f && _direction.y > -0.1f) && (_direction.x < 0.1f && _direction.x > -0.1f)){
+		CCLOG("BLA BLA");
+		_speed.x = 0;
+	}*/
+
+	if (!_bStartMoving){
+		if(_speed.x > 0){
+			_speed.x -= _acceleration.x;
+		} else if (_speed.x < 0){
+			_speed.x += _acceleration.x;
+		}
+
+		/*if(_speed.y > 0){
+			_speed.y -= _acceleration.y;
+		} else if (_speed.y < 0){
+			_speed.y += _acceleration.y;
+		}*/
+	}
 
 	// cap the next lateral speed
 	if (_bStartMoving) {
@@ -149,19 +172,18 @@ void MovementComponent::update(float fDt) {
 		if (abs(_speed.x) > MAX_X_SPEED) {
 			_speed.x = _direction.x * MAX_X_SPEED;
 		}
-	} else {
+		if (abs(_speed.y) > MAX_Y_SPEED) {
+			_speed.y = _direction.y * MAX_Y_SPEED;
+		}
+	} /* else {
 
 		if (_speed.x * _direction.x > 0.f) {
 			_speed.x = 0.f;
 		}
-	}
-
-	if (_speed.y < - MAX_Y_SPEED) {
-		_speed.y = -MAX_Y_SPEED;
-	}
-	if (_speed.y > MAX_Y_SPEED) {
-		_speed.y = MAX_Y_SPEED;
-	}
+		if (_speed.y * _direction.y > 0.f) {
+			_speed.y = 0.f;
+		}
+	}*/
 
 	// compute next position
 	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
