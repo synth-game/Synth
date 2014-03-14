@@ -193,6 +193,9 @@ void GameManager::clearLevel() {
 	_pBackgroundLayer->removeAllChildren();
 	_pIntermediarLayer->removeAllChildren();
 	_pLevelLayer->removeAllChildren();
+
+	_pLevelSprite = nullptr;
+
 	_pSkinningLayer->removeAllChildren();
 	_pSubtitlesLayer->removeAllChildren();
 
@@ -214,8 +217,8 @@ void GameManager::nextLevel() {
 		CCLOG("GameManager::nextLevel : Clear and load next level");
 		win = true;
 		clearLevel();
-		loadLevel(_levelsName[++_iCurrentLevelId]);
-		//loadLevel(_levelsName[_iCurrentLevelId]);
+		//loadLevel(_levelsName[++_iCurrentLevelId]);
+		loadLevel("01");
 	}
 }
 

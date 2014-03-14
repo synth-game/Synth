@@ -22,6 +22,7 @@ SoundComponent::SoundComponent()
 }
 
 SoundComponent::~SoundComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
 }
 
 

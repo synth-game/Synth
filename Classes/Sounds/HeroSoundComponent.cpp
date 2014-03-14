@@ -20,6 +20,8 @@ HeroSoundComponent::HeroSoundComponent() :
 }
 
 HeroSoundComponent::~HeroSoundComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
 }
 
 HeroSoundComponent* HeroSoundComponent::create() {
