@@ -22,12 +22,14 @@ public:
 	~LevelSprite();
 
 	static LevelSprite* create(const char* sBackgroundPath);
-	void addLight(Texture2D* pTexture, Color4B color);
+	void addLight(int actorID, Texture2D* pTexture, Color4B color);
+	void updateLight(core::SynthActor* pLamp);
 	void draw();
 
 
 protected:
 	struct LightTexture {
+		int actorID;
 		Texture2D* pTex;
 		std::vector<float> col;
 	};

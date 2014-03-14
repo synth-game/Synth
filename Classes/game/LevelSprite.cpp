@@ -7,6 +7,8 @@
 #include <sstream>
 #include "LevelSprite.h"
 #include "game/SHA_level_sprite.h"
+#include "game/NodeOwnerComponent.h"
+#include "game/SwitchableComponent.h"
 #include "graphics/SpriteComponent.h"
 
 namespace game {
@@ -44,9 +46,10 @@ LevelSprite* LevelSprite::create(const char* sBackgroundPath) {
 	return pRet;
 }
 
-void LevelSprite::addLight(Texture2D* pTexture, Color4B color) {
+void LevelSprite::addLight(int actorID, Texture2D* pTexture, Color4B color) {
 	if (_lightTextures.size() < SHA_LIGHT_MAX_COUNT) {
 		LightTexture* pLT = new LightTexture();
+		pLT->actorID = actorID;
 		pLT->pTex = pTexture;
 		pLT->col.push_back(static_cast<float>(color.r)/255.f);
 		pLT->col.push_back(static_cast<float>(color.g)/255.f);
@@ -55,6 +58,42 @@ void LevelSprite::addLight(Texture2D* pTexture, Color4B color) {
 		_lightTextures.push_back(pLT);
 	} else {
 		CCLOG("There already are maximum of lights in LevelSprite. Can't add another one.");
+	}
+}
+
+void LevelSprite::updateLight(core::SynthActor* pLamp) {
+	CCASSERT(pLamp->getActorType() == core::ActorType::LIGHT, "LevelFactory::updateLight. The lamp is not what we thought it is ! KILL IT NOW !");
+	game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(pLamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+	game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pLamp->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+	core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+
+	for (auto texture : _lightTextures) {
+		if (texture->actorID == pLamp->getActorID()) {
+			if(firefly != nullptr) {
+				Color4B color = Color4B(0, 0, 0, 0);
+				switch (firefly->getActorType()) {
+				case core::ActorType::RED_FIREFLY:
+					color = Color4B::RED;
+					break;
+				case core::ActorType::GREEN_FIREFLY:
+					color = Color4B::GREEN;
+					break;
+				case core::ActorType::BLUE_FIREFLY:
+					color = Color4B::BLUE;
+					break;
+				default:
+					break;
+				}
+				texture->col[0] = color.r;
+				texture->col[1] = color.g;
+				texture->col[2] = color.b;
+			}
+			if(pSwitchableComp->isOn()) {
+				texture->col[3] = 1.f;
+			} else {
+				texture->col[3] = 0.f;
+			}
+		}
 	}
 }
 

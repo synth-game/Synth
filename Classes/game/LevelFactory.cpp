@@ -262,13 +262,16 @@ LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevel
 			default:
 				break;
 			}
-			pRet->addLight(Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color);
+
+			pRet->addLight(aLights[i]->getActorID(), Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color);
 		}
 	}
 	pLevelLayer->addChild(pRet, 0, 42);
 
 	return pRet;
 }
+
+
 
 std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 	std::map<std::string,Rect> voidMap;

@@ -6,7 +6,9 @@
  */
 #include "SwitchableComponent.h"
 #include "core/SynthActor.h"
+#include "game/GameManager.h"
 #include "game/LightAttrComponent.h"
+#include "game/NodeOwnerComponent.h"
 
 #include "events/ToggleLightEvent.h"
 #include "events/ChangeNodeOwnerEvent.h"
@@ -48,11 +50,20 @@ void SwitchableComponent::initListeners() {
 
 void SwitchableComponent::onToggleLight(EventCustom* pEvent) {
 	events::ToggleLightEvent* pToggleLightEvent					= static_cast<events::ToggleLightEvent*>(pEvent);
-    core::SynthActor* pSource									= static_cast<core::SynthActor*>(pToggleLightEvent->getSource());
+    game::GameManager* pGameManager								= static_cast<game::GameManager*>(pToggleLightEvent->getSource());
     core::SynthActor* pOwner									= static_cast<core::SynthActor*>(_owner);
+	core::SynthActor* pTarget									= static_cast<core::SynthActor*>(pToggleLightEvent->getTarget());
+	game::NodeOwnerComponent * pTargetNodeOwnerComponent		= static_cast<game::NodeOwnerComponent*>(pTarget->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+	CCASSERT(pTargetNodeOwnerComponent != nullptr && static_cast<core::SynthActor*>(pTargetNodeOwnerComponent->getOwnedNode())->getActorType() == core::ActorType::LIGHT, "The target of the toggle light event has to own a light");
+	core::SynthActor* pLamp = static_cast<core::SynthActor*>(pTargetNodeOwnerComponent->getOwnedNode());
 
-	if (pSource->getActorID() == pOwner->getActorID() && pOwner->getActorType() == core::ActorType::LIGHTSWITCH) {
+	if (pLamp->getActorID() == pOwner->getActorID()) {
 		CCLOG("TOGGLE LIGHT EVENT RECEIVED");
+		game::NodeOwnerComponent * pLampNodeOwnerComponent		= static_cast<game::NodeOwnerComponent*>(pLamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+		CCASSERT(pLampNodeOwnerComponent != nullptr , "The lamp owned by the target of toggle light event has to have a node owner component");
+		_bOn = pToggleLightEvent->isOn();
+		pGameManager->getLevelSprite()->updateLight(pLamp);
+
     } else {
         CCLOG("TOGGLE LIGHT EVENT RECEIVED BUT ID NOT THE SAME");
     }

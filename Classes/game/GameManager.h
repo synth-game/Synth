@@ -50,6 +50,7 @@ public:
 
 	static Color4B getLightColor(core::SynthActor* pLight);
 
+	inline LevelSprite* getLevelSprite() { return _pLevelSprite; }
 	inline Layer* getLevelLayer() { return _pLevelLayer; }
 	inline int getCurrentLevelIndex() { return _iCurrentLevelId; }
 	

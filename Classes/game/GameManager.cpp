@@ -314,12 +314,12 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 				
 				if (pLampSwitchableComponent->isOn()) {
 					// turn off the light
-					pToggleLightEvent = new events::ToggleLightEvent(pHero, pSwitch, false);
+					pToggleLightEvent = new events::ToggleLightEvent(this, pSwitch, false);
 					CCLOG("Dispatching pToggleLightEvent LIGHT OFF");
 					dispatcher->dispatchEvent(pToggleLightEvent);
 				} else {
 					// turn on the light
-					pToggleLightEvent = new events::ToggleLightEvent(pHero, pSwitch, true);
+					pToggleLightEvent = new events::ToggleLightEvent(this, pSwitch, true);
 					CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
 					dispatcher->dispatchEvent(pToggleLightEvent);
 				}
