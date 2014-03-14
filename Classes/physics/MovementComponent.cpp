@@ -86,7 +86,7 @@ void MovementComponent::onEditMove(EventCustom* pEvent) {
 			_direction.x = editMoveEvent->getDirection().x;
 		}
 		if (editMoveEvent->getChangeY()) {
-			_direction.y = editMoveEvent->getDirection().y;
+			//_direction.y = editMoveEvent->getDirection().y;
 		}
 		_bStartMoving = editMoveEvent->isStartMoving();
 
@@ -141,18 +141,15 @@ void MovementComponent::onChangeState(EventCustom* pEvent) {
 void MovementComponent::update(float fDt) {
 	// compute next speed
 	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
-    
-	CCLOG("\n Direction X %.2f", _direction.x);
-	CCLOG(" Direction Y %.2f", _direction.y);
 
-	if ( !(_direction.x < 0.1f && _direction.x > -0.1f) && (_direction.y < 0.1f && _direction.y > -0.1f)){
+	/*if ( !(_direction.x < 0.1f && _direction.x > -0.1f) && (_direction.y < 0.1f && _direction.y > -0.1f)){
 		CCLOG("HABBA");
 		_speed.y = 0;
 	}
 	if ( !(_direction.y < 0.1f && _direction.y > -0.1f) && (_direction.x < 0.1f && _direction.x > -0.1f)){
 		CCLOG("BLA BLA");
 		_speed.x = 0;
-	}
+	}*/
 
 	if (!_bStartMoving){
 		if(_speed.x > 0){
@@ -161,11 +158,11 @@ void MovementComponent::update(float fDt) {
 			_speed.x += _acceleration.x;
 		}
 
-		if(_speed.y > 0){
+		/*if(_speed.y > 0){
 			_speed.y -= _acceleration.y;
 		} else if (_speed.y < 0){
 			_speed.y += _acceleration.y;
-		}
+		}*/
 	}
 
 	// cap the next lateral speed
