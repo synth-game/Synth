@@ -11,6 +11,8 @@
 #include "game/SwitchableComponent.h"
 #include "graphics/SpriteComponent.h"
 
+#include "events/ChangeNodeOwnerEvent.h"
+
 namespace game {
 
 LevelSprite::LevelSprite() {
@@ -39,6 +41,8 @@ LevelSprite* LevelSprite::create(const char* sBackgroundPath) {
 		pProgram->updateUniforms();
 		pProgram->use();
 		pRet->setShaderProgram(pProgram);
+
+		pRet->initListeners();
 	} else {
 		CCLOG("LevelSprite created but deleted");
 		CC_SAFE_DELETE(pRet);
@@ -119,6 +123,29 @@ void LevelSprite::draw() {
 	for(unsigned int i=0; i<_lightTextures.size(); ++i) {
 		GL::bindTexture2DN(i+1, 0);
 	}
+}
+
+void LevelSprite::initListeners() {
+	_pChangeNodeOwnerEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(LevelSprite::onChangeNodeOwner, this));
+
+	// Add listeners to dispacher
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeNodeOwnerEventListener, 1);
+}
+
+void LevelSprite::onChangeNodeOwner(EventCustom* pEvent) {
+	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent			= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
+	core::SynthActor* pNewOwner									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getNewOwner());
+	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+
+	if ( pSource->isFirefly() && pNewOwner->getActorType() == core::ActorType::LIGHT ) {
+		game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pNewOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+		if (pSwitchableComp != nullptr) {
+			updateLight(pNewOwner);
+		}
+	} else {
+		CCLOG("CHANGE NODE OWNER EVENT : THE OWNER IS NOT THE SAME");
+	}
+
 }
 
 }  // namespace game

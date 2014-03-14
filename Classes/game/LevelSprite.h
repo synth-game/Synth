@@ -37,7 +37,16 @@ protected:
 	/*! \brief Constructor */
 	LevelSprite();
 
+	/*! \brief  */
+	void initListeners();
+
+	/*! \brief  */
+	void onChangeNodeOwner(EventCustom* pEvent);
+
 	std::vector<LightTexture*> _lightTextures;
+
+	/*! \brief  */
+	EventListenerCustom* _pChangeNodeOwnerEventListener;
 };
 
 }  // namespace game
