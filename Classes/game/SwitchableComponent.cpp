@@ -40,7 +40,7 @@ SwitchableComponent* SwitchableComponent::create(bool bOn) {
 }
 
 void SwitchableComponent::initListeners() {
-	_pToggleLightEventListener = cocos2d::EventListenerCustom::create(events::ToggleLightEvent::EVENT_NAME, CC_CALLBACK_1(NodeOwnerComponent::onToggleLight, this));
+	_pToggleLightEventListener = cocos2d::EventListenerCustom::create(events::ToggleLightEvent::EVENT_NAME, CC_CALLBACK_1(SwitchableComponent::onToggleLight, this));
 
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pToggleLightEventListener, 1);
@@ -52,7 +52,7 @@ void SwitchableComponent::onToggleLight(EventCustom* pEvent) {
     core::SynthActor* pOwner									= static_cast<core::SynthActor*>(_owner);
 
 	if (pSource->getActorID() == pOwner->getActorID() && pOwner->getActorType() == core::ActorType::LIGHTSWITCH) {
-		
+		CCLOG("TOGGLE LIGHT EVENT RECEIVED");
     } else {
         CCLOG("TOGGLE LIGHT EVENT RECEIVED BUT ID NOT THE SAME");
     }

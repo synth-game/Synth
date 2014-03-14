@@ -16,6 +16,7 @@
 #include "system/IOManager.h"
 #include "sounds/HeroSoundComponent.h"
 #include "sounds/FireflySoundComponent.h"
+#include "sounds/LightSwitchSoundComponent.h"
 
 namespace game {
 
@@ -162,7 +163,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					aComponents.push_back(sounds::FireflySoundComponent::create());
 					break;
 				case core::ComponentType::LIGHTSWITCHSOUND:
-					//aComponents.push_back(sounds::::create());
+					aComponents.push_back(sounds::LightSwitchSoundComponent::create());
 					break;
 				case core::ComponentType::SWITCHABLE:
 					pSwitchData = pComponentData->FirstChildElement("on");

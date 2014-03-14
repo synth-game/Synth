@@ -16,8 +16,8 @@
 #include "physics/CollisionComponent.h"
 
 #define MAX_X_SPEED 200.f
-#define MAX_Y_SPEED 300.f
-#define MAX_JUMP_SPEED 300.f
+#define MAX_Y_SPEED 400.f
+#define MAX_JUMP_SPEED 400.f
 #define MIN_JUMP_SPEED 100.f
 
 namespace physics {
@@ -27,7 +27,7 @@ const char* MovementComponent::COMPONENT_TYPE = "MovementComponent";
 MovementComponent::MovementComponent()
 	: SynthComponent()
 	, _bStartMoving(false)
-	, _eMovingState(core::ActorState::JUMPING_STATE)
+	, _eMovingState(core::ActorState::NO_STATE)
 	, _pEditMoveEventListener(nullptr)
 	, _pJumpEventListener(nullptr)
 	, _pInterruptMoveEventListener(nullptr)

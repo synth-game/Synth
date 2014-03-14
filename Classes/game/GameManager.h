@@ -61,6 +61,7 @@ protected:
 	/*! \brief Constructor */
 	GameManager();
 	core::SynthActor* getNearActor(core::SynthActor* actor);
+	core::SynthActor* getNearLightSwitch(core::SynthActor* actor);
 
 	void onEnterLight(EventCustom* pEvent);
 
