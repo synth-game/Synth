@@ -42,7 +42,6 @@ LevelSprite* LevelSprite::create(const char* sBackgroundPath) {
 		pProgram->use();
 		pRet->setShaderProgram(pProgram);
 
-		pRet->initListeners();
 	} else {
 		CCLOG("LevelSprite created but deleted");
 		CC_SAFE_DELETE(pRet);
@@ -125,25 +124,28 @@ void LevelSprite::draw() {
 	}
 }
 
-void LevelSprite::initListeners() {
-	_pChangeNodeOwnerEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(LevelSprite::onChangeNodeOwner, this));
-
-	// Add listeners to dispacher
-	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeNodeOwnerEventListener, 1);
-}
-
+// this method doesnt listen the event, it is called by the node owner component
 void LevelSprite::onChangeNodeOwner(EventCustom* pEvent) {
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent			= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
 	core::SynthActor* pNewOwner									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getNewOwner());
-	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+	core::SynthActor* pPreviousOwner							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getPreviousOwner());
+	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getOwned());
 
-	if ( pSource->isFirefly() && pNewOwner->getActorType() == core::ActorType::LIGHT ) {
+	// if a firefly goes to a light
+	if ( pSource->isFirefly() && pNewOwner != nullptr && pNewOwner->getActorType() == core::ActorType::LIGHT ) {
 		game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pNewOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
 		if (pSwitchableComp != nullptr) {
+			pSwitchableComp->setOn(true);
 			updateLight(pNewOwner);
 		}
-	} else {
-		CCLOG("CHANGE NODE OWNER EVENT : THE OWNER IS NOT THE SAME");
+	}
+	// if a firefly leaves a light
+	if (pSource->isFirefly() && pPreviousOwner != nullptr && pPreviousOwner->getActorType() == core::ActorType::LIGHT ) {
+		game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pPreviousOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+		if (pSwitchableComp != nullptr) {
+			pSwitchableComp->setOn(false);
+			updateLight(pPreviousOwner);
+		}
 	}
 
 }

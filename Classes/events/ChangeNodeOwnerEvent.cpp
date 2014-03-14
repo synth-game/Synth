@@ -10,10 +10,11 @@ namespace events {
 
 const char* ChangeNodeOwnerEvent::EVENT_NAME = "ChangeNodeOwnerEvent";
 
-ChangeNodeOwnerEvent::ChangeNodeOwnerEvent(Node* owned, Node* newOwner) :
-    SynthEvent(owned, EVENT_NAME),
+ChangeNodeOwnerEvent::ChangeNodeOwnerEvent(Node* manager, Node* owned, Node* newOwner, Node* previousOwner) :
+    SynthEvent(manager, EVENT_NAME),
 	_owned(owned),
-	_newOwner(newOwner) {
+	_newOwner(newOwner),
+	_previousOwner(previousOwner) {
 }
 
 ChangeNodeOwnerEvent::~ChangeNodeOwnerEvent() {
