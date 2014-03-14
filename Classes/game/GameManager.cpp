@@ -76,7 +76,9 @@ GameManager* GameManager::create() {
 
 bool GameManager::init() {
     bool bTest = true;
-	win = false;
+	bResetRequested = false;
+	bNextRequested = false;
+
 	//init Layer
 	bTest = Layer::init();
 
@@ -132,14 +134,12 @@ bool GameManager::init() {
 void GameManager::update(float fDt) {
 	core::SynthActor* pHero = nullptr;
 	pHero = getActorsByType(core::ActorType::HERO)[0];
-	CCASSERT(pHero != nullptr, "GameManager::update : There is no actor hero");
+	CCASSERT(pHero != nullptr, "GameManager::update : There is no HERO actor");
 	physics::GeometryComponent* pGeometryComp = dynamic_cast<physics::GeometryComponent*>(pHero->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 
-	CCASSERT(pGeometryComp != nullptr, "Hero actor need a GeometryComponent");
-	if(_triggers["WIN"].containsPoint(pGeometryComp->getPosition()) && !win) {
-		CCLOG("GameManager::update : YOU WIN");
-		events::WinEvent* pWinEvent = new events::WinEvent();
-		EventDispatcher::getInstance()->dispatchEvent(pWinEvent);
+	CCASSERT(pGeometryComp != nullptr, "HERO actor needs a GeometryComponent");
+	if(_triggers["WIN"].containsPoint(pGeometryComp->getPosition())) {
+		bNextRequested = true;
 	}
 
 	for (auto actor : _levelActors) {
@@ -147,6 +147,19 @@ void GameManager::update(float fDt) {
 	}
 
 	FmodAudioPlayer::sharedPlayer()->Update(fDt);
+
+	if(bNextRequested) {
+		CCLOG("GameManager::update : YOU WIN");
+		events::WinEvent* pWinEvent = new events::WinEvent();
+		EventDispatcher::getInstance()->dispatchEvent(pWinEvent);
+		bNextRequested = false;
+	}
+	else if(bResetRequested) {
+		CCLOG("GameManager::update : YOU DIE !");
+		events::DeathEvent* pDeathEvent = new events::DeathEvent();
+		EventDispatcher::getInstance()->dispatchEvent(pDeathEvent);
+		bResetRequested = false;
+	}
 }
 
 void GameManager::loadLevel(/*int iLevelId*/std::string level) {
@@ -178,8 +191,6 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	// Build level Sprite
 	_pLevelSprite = game::LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
 
-	win = false;
-
 }
 
 void GameManager::clearLevel() {
@@ -206,34 +217,26 @@ void GameManager::clearLevel() {
 }
 
 void GameManager::resetLevel() {
-	if(!win) {
-		CCLOG("GameManager::resetLevel : Clear and reload level");
-		win = true;
-		clearLevel();
-		loadLevel(_levelsName[_iCurrentLevelId]);
-	}
+	CCLOG("GameManager::resetLevel : Clear and reload level");
+	bResetRequested = true;
+	clearLevel();
+	loadLevel(_levelsName[_iCurrentLevelId]);
 }
 
 void GameManager::nextLevel() {
-	if(!win) {
-		CCLOG("GameManager::nextLevel : Clear and load next level");
-		win = true;
-		clearLevel();
-		//loadLevel(_levelsName[++_iCurrentLevelId]);
-		loadLevel("01");
-	}
+	CCLOG("GameManager::nextLevel : Clear and load next level");
+	bNextRequested = true;
+	clearLevel();
+	loadLevel(_levelsName[++_iCurrentLevelId]);
 }
 
 void GameManager::onEnterLight(EventCustom* pEvent) {
 	CCLOG("GameManager::onEnterLight : You just entered a light");
 	events::EnterLightEvent* enterLightEvent = static_cast<events::EnterLightEvent*>(pEvent);
-
 	Color4B lightColor = enterLightEvent->getLightingColor();
 
 	if (lightColor == Color4B::RED) {
-		CCLOG("GameManager::onEnterLight : You die !");
-		events::DeathEvent* pDeathEvent = new events::DeathEvent();
-		EventDispatcher::getInstance()->dispatchEvent(pDeathEvent);
+		bResetRequested = true;
 	} else if (lightColor == Color4B::BLUE) {
 		CCLOG("GameManager::onEnterLight : You can jump higher !");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];

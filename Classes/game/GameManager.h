@@ -38,7 +38,6 @@ public:
 	/*! \brief Initialisation function called in create() method */
 	virtual bool init();
 	virtual void update(float fDt);
-	bool win;
 
 	void loadLevel(/*int iLevelId*/std::string level);
 	void clearLevel();
@@ -55,6 +54,9 @@ public:
 	inline int getCurrentLevelIndex() { return _iCurrentLevelId; }
 	
 	std::vector<core::SynthActor*> getActorsByType(core::ActorType type);
+
+	bool bResetRequested;
+	bool bNextRequested;
 
 	/*void GameManager::onEditMove(EventCustom* event);*/
 
