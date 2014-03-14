@@ -7,6 +7,7 @@
 #include "LevelFactory.h"
 #include "game/NodeOwnerComponent.h"
 #include "game/LightAttrComponent.h"
+#include "game/SwitchableComponent.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
 #include "physics/FollowMovementComponent.h"
@@ -68,11 +69,13 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	pXMLFile = ioManager->loadXML("levels/"+levelName+"/actors.xml");
 	if(pXMLFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
-		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData ,*pOwnerData;
+		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData ,*pOwnerData, *pSwitchData;
 		std::string actorType, componentType, name, ownedIdText;
 		float positionX, positionY, anchorPointX, anchorPointY, rotate, accelerationX, accelerationY, gravityX, gravityY, width, height = 0;
 		int ownerId;
+		std::string sOn = "";
 		std::vector<int> aOwnerIds;
+
 		pActorData = pXMLFile->FirstChildElement("actor");
 		while (pActorData) {
 
@@ -162,7 +165,13 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					//aComponents.push_back(sounds::::create());
 					break;
 				case core::ComponentType::SWITCHABLE:
-					//aComponents.push_back(sounds::::create());
+					pSwitchData = pComponentData->FirstChildElement("on");
+					sOn = pSwitchData->GetText();
+					if (sOn == "1") {
+						aComponents.push_back(game::SwitchableComponent::create(true));
+					} else {
+						aComponents.push_back(game::SwitchableComponent::create(false));
+					}
 					break;
 				default:
 					break;
