@@ -169,14 +169,11 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	pBgSprite->setScale(2.f);
 	_pBackgroundLayer->addChild(pBgSprite);
 
-	// Build actors and light collisions
-	_levelActors = game::LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
-	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
-	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
-	pCollisionComp->addLightCollision(game::LevelFactory::getInstance()->buildLightsCollision(level, getActorsByType(core::ActorType::LIGHT)));
+	// Build actors
+	_levelActors = LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
 	
 	// Build triggers
-	_triggers = game::LevelFactory::getInstance()->buildTriggers(level);
+	_triggers = LevelFactory::getInstance()->buildTriggers(level);
 
 	// Display debug rectangle for triggers
 	for (std::map<std::string, Rect>::iterator it = _triggers.begin(); it != _triggers.end(); ++it) {
@@ -188,9 +185,14 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 		_pLevelLayer->addChild(rect, 50);
 	}
 
-	// Build level Sprite
-	_pLevelSprite = game::LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
+	// Build LevelSprite and LightMap
+	_pLevelSprite = LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
+	_pLightMap = LevelFactory::getInstance()->buildLightMap(level);
 
+	// Initialize the LightCollision of the HERO actor
+	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+	pCollisionComp->addLightCollision(game::LevelFactory::getInstance()->buildLightsCollision(_pLightMap, getActorsByType(core::ActorType::LIGHT)));
 }
 
 void GameManager::clearLevel() {

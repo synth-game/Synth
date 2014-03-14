@@ -236,10 +236,8 @@ physics::CollisionComponent* LevelFactory::__createCollisionComponent(std::strin
 	return pRet;
 }
 
-physics::LightCollision* LevelFactory::buildLightsCollision(std::string levelName, std::vector<core::SynthActor*> aLights) {
-	LightMap* pLM = LightMap::createFromXML(std::string("levels/"+levelName+"/PREC_lightmap.xml").c_str());
-	physics::LightCollision* pLightCollision = new physics::LightCollision(aLights, pLM);
-	return pLightCollision;
+physics::LightCollision* LevelFactory::buildLightsCollision(LightMap* pLightMap, std::vector<core::SynthActor*> aLights) {
+	return new physics::LightCollision(aLights, pLightMap);
 }
 
 LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights) {
@@ -271,7 +269,9 @@ LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevel
 	return pRet;
 }
 
-
+LightMap* LevelFactory::buildLightMap(std::string levelName) {
+	return LightMap::createFromXML(std::string("levels/"+levelName+"/PREC_lightmap.xml").c_str());
+}
 
 std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 	std::map<std::string,Rect> voidMap;
