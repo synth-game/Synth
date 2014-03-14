@@ -193,6 +193,9 @@ void GameManager::clearLevel() {
 	_pBackgroundLayer->removeAllChildren();
 	_pIntermediarLayer->removeAllChildren();
 	_pLevelLayer->removeAllChildren();
+
+	_pLevelSprite = nullptr;
+
 	_pSkinningLayer->removeAllChildren();
 	_pSubtitlesLayer->removeAllChildren();
 
@@ -215,7 +218,6 @@ void GameManager::nextLevel() {
 		win = true;
 		clearLevel();
 		loadLevel(_levelsName[++_iCurrentLevelId]);
-		//loadLevel(_levelsName[_iCurrentLevelId]);
 	}
 }
 
