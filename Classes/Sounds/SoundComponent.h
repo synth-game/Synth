@@ -36,6 +36,10 @@ public:
 	inline void setCurrentTag(SoundType eTag) { _eCurrentTag = eTag; }
 	inline core::ActorState setState(core::ActorState eState) { _eState = eState; }
 
+	void playSound( SoundType type );
+
+	void stopSounds();
+
 	/*! \brief  Identifies the component */
 	static const char* COMPONENT_TYPE;
 
@@ -49,9 +53,7 @@ protected:
 	/*! \brief  Init listeners */
 	void initListeners();
 
-	void playSound( SoundType type );
-
-	void stopSound( SoundType type );
+	
 
 	SoundType _eCurrentTag;
 

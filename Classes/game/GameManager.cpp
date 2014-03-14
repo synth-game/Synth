@@ -420,7 +420,7 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
 
-			FmodAudioPlayer::sharedPlayer()->stopEffect(stepsSoundId);
+			//FmodAudioPlayer::sharedPlayer()->stopEffect(stepsSoundId);
 			stepsSoundId = -1;
 
 			break;
@@ -428,7 +428,7 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
 
-			FmodAudioPlayer::sharedPlayer()->stopEffect(stepsSoundId);
+			//FmodAudioPlayer::sharedPlayer()->stopEffect(stepsSoundId);
 			stepsSoundId = -1;
 
 			break;

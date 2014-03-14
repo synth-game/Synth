@@ -49,10 +49,11 @@ void SoundComponent::initListeners() {
 }
 
 void SoundComponent::playSound(SoundType type) {
+	stopSounds();
 	SoundManager::getInstance()->playEffect(this, type);
 }
 
-void SoundComponent::stopSound(SoundType type) {
+void SoundComponent::stopSounds() {
 	SoundManager::getInstance()->stopEffect(this);
 }
 

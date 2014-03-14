@@ -11,6 +11,7 @@
 
 #include "events/JumpEvent.h"
 #include "Events/EditMoveEvent.h"
+#include "Events/JumpEvent.h"
 
 namespace sounds {
 
@@ -83,7 +84,7 @@ void HeroSoundComponent::onEditMove(EventCustom* pEvent) {
 			switch (_eState) {
 			case core::ActorState::ON_FLOOR_STATE :
 				_eCurrentTag = SoundType::HERO_WALK;
-				stopSound(_eCurrentTag);
+				stopSounds();
 				break;
 			case core::ActorState::STUCK_STATE :
 
@@ -116,8 +117,7 @@ void HeroSoundComponent::onJump(EventCustom* pEvent) {
     if (_eState == core::ActorState::ON_FLOOR_STATE && pSource->getActorID() == pOwner->getActorID()) {
 		CCLOG("RUN JUMP SOUND EFFECT");
 		playSound(_eCurrentTag);
-    }
-    else {
+    } else {
         CCLOG("JUMP EVENT RECEIVED BUT ID NOT THE SAME");
     }
 

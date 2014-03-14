@@ -10,6 +10,7 @@
 #include "physics/CollisionComponent.h"
 #include "game/NodeOwnerComponent.h"
 #include "graphics/AnimatedSpriteComponent.h"
+#include "sounds/SoundComponent.h"
 
 #include "events/ChangeTargetEvent.h"
 #include "events/ChangePositionEvent.h"
@@ -92,7 +93,7 @@ void FollowMovementComponent::update( float fDt ) {
 			relativeTarget = Point(-2.f, -11.f);
 		}
 
-		if(pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
+		if (pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
 			pOwnedSpriteComponent->getSprite()->setFlippedX(true);
 		} else {
 			pOwnedSpriteComponent->getSprite()->setFlippedX(false);
@@ -100,12 +101,15 @@ void FollowMovementComponent::update( float fDt ) {
 
 		Point target = Point(pOwnerGeometryComponent->getPosition().x + relativeTarget.x - pOwnedGeometryComponent->getPosition().x, pOwnerGeometryComponent->getPosition().y + relativeTarget.y - pOwnedGeometryComponent->getPosition().y);
 		Point nextPosition = Point::ZERO;
+
+		// if the actor is really close to its target
 		if (abs(target.x) < 5.f && abs(target.y) < 5.f) {
 			nextPosition = pOwnerGeometryComponent->getPosition() + relativeTarget;
 		} else {
 			target = target.normalize() * 30;
 			nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y) * fDt;
 		}
+		
 		physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
 		if (pCollisionComponent == nullptr) {
 			//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);
@@ -115,6 +119,7 @@ void FollowMovementComponent::update( float fDt ) {
 			events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pOwnedGeometryComponent->getPosition(), nextPosition, pOwnedGeometryComponent->getSize());
 			EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
 		}
+		
 	}
 }
 
