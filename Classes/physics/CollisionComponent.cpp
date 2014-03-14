@@ -183,7 +183,11 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 		}
 
 		// if step count is again the default value, there is no collision => set the max movement length
-		if (fStepCountToExecute == 100000.f) { fStepCountToExecute = fMovementLength; }
+		if (fStepCountToExecute == 100000.f) {
+			fStepCountToExecute = fMovementLength; 
+		} else {
+			eRet = HORIZONTAL;
+		}
 	}
 
 	//update position
