@@ -11,6 +11,7 @@
 #include <map>
 #include "cocos2d.h"
 #include "game/LevelSprite.h"
+#include "game/LightMap.h"
 #include "core/SynthActor.h"
 #include "core/ActorType.h"
 #include "core/SynthComponent.h"
@@ -36,11 +37,15 @@ public:
 
 	std::vector<core::SynthActor*> buildActors(std::string levelName, Layer* pLevelLayer);
 
-	physics::LightCollision* buildLightsCollision(std::string levelName, std::vector<core::SynthActor*> aLights);
+	physics::LightCollision* buildLightsCollision(LightMap* pLightMap, std::vector<core::SynthActor*> aLights);
 
 	LevelSprite* buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights);
 
+	LightMap* buildLightMap(std::string levelName);
+
 	std::map<std::string,Rect> buildTriggers(std::string levelName);
+
+	
 
 private:
 	/*

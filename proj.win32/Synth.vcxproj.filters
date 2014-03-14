@@ -297,6 +297,9 @@
     <ClCompile Include="..\Classes\game\LightMap.cpp">
       <Filter>Classes\game</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\game\SwitchableComponent.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -612,6 +615,9 @@
       <Filter>Classes\core</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\game\LightMap.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\SwitchableComponent.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
   </ItemGroup>

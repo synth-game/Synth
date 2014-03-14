@@ -102,9 +102,9 @@ void GameScene::onWinEvent(Event* pEvent) {
 }
 
 void GameScene::onResetLevelEvent(Event* pEvent) {
-	CCLOG("GameScene::onResetLevelEvent : Remove game layer from scene");
 	events::ResetLevelEvent* resetLevelEvent = static_cast<events::ResetLevelEvent*>(pEvent);
 	_pGameLayer->resetLevel();
+	initCamera();
 }
 
 void GameScene::onPauseGameEvent(Event* pEvent) {

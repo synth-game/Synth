@@ -1,11 +1,11 @@
 /*!
- * \file NodeOwnerComponent.h
- * \brief Component that makes the actor the owner of an other actor.
+ * \file SwitchableComponent.h
+ * \brief The actor can be turned on and off
  * \author Chupee
- * \date 26/02/2014
+ * \date 14/03/2014
  */
-#ifndef GAME_NODE_OWNER_COMPONENT_H
-#define GAME_NODE_OWNER_COMPONENT_H
+#ifndef GAME_SWITCHABLE_COMPONENT_H
+#define GAME_SWITCHABLE_COMPONENT_H
 
 #include "cocos2d.h"
 #include "Core/SynthComponent.h"
@@ -14,30 +14,30 @@ USING_NS_CC;
 
 namespace game {
 
-/*! \class NodeOwnerComponent
- * \brief Component that makes the actor the owner of an other actor.
+/*! \class SwitchableComponent
+ * \brief The actor can be turned on and off
  *
  */
-class NodeOwnerComponent : public core::SynthComponent {
+class SwitchableComponent : public core::SynthComponent {
 
 public:
 	/*
 	 * Methods
 	 */
 	/*! \brief Desctructor */
-	~NodeOwnerComponent();
+	~SwitchableComponent();
 
 	/*! \brief Init the component */
 	bool init();
 
 	/*! \brief Create the component */
-	static NodeOwnerComponent* create(Node* pOwnedNode);
+	static SwitchableComponent* create(bool bOn);
 
 	/*! \brief  */
-	inline Node* getOwnedNode() { return _pOwnedNode; };
+	inline bool isOn() { return _bOn; };
 
 	/*! \brief Set the owned node */
-	inline void setOwnedNode(Node* pOwnedNode) { _pOwnedNode = pOwnedNode; };
+	inline void setOwnedNode(bool bOn) { _bOn = bOn; };
 
 	/*
 	 * Members
@@ -52,7 +52,7 @@ protected:
 	 */
 
 	/*! \brief Constructor */
-	NodeOwnerComponent();
+	SwitchableComponent();
 
 	/*! \brief  */
 	void initListeners();
@@ -67,8 +67,8 @@ protected:
 	 * Members
 	 */
 
-	/*! \brief The node that is owned by the actor */
-	Node* _pOwnedNode;
+	/*! \brief Is the actor on or off */
+	bool _bOn;
 
 
 private:

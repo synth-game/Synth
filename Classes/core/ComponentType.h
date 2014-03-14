@@ -19,7 +19,9 @@ typedef enum {
 	NODEOWNER,
 	LIGHTATTR,
 	HEROSOUND,
-	FIREFLYSOUND
+	FIREFLYSOUND,
+	LIGHTSWITCHSOUND,
+	SWITCHABLE
 } ComponentType;
 
 }  // namespace core

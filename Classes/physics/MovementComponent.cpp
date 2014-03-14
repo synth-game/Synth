@@ -16,9 +16,10 @@
 #include "physics/CollisionComponent.h"
 
 #define MAX_X_SPEED 200.f
-#define MAX_Y_SPEED 300.f
-#define MAX_JUMP_SPEED 300.f
+#define MAX_Y_SPEED 400.f
+#define MAX_JUMP_SPEED 400.f
 #define MIN_JUMP_SPEED 100.f
+#define ENGINE_SPEED 0.015
 
 namespace physics {
 
@@ -27,7 +28,7 @@ const char* MovementComponent::COMPONENT_TYPE = "MovementComponent";
 MovementComponent::MovementComponent()
 	: SynthComponent()
 	, _bStartMoving(false)
-	, _eMovingState(core::ActorState::JUMPING_STATE)
+	, _eMovingState(core::ActorState::NOT_ON_FLOOR_STATE)
 	, _pEditMoveEventListener(nullptr)
 	, _pJumpEventListener(nullptr)
 	, _pInterruptMoveEventListener(nullptr)
@@ -66,7 +67,7 @@ bool MovementComponent::init() {
 void MovementComponent::initListeners() {
 	// Listeners initialization
 	_pEditMoveEventListener = EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onEditMove, this));
-	_pJumpEventListener = EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onJump, this)); 
+	_pJumpEventListener = EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onJump, this));
 	_pInterruptMoveEventListener = EventListenerCustom::create(events::InterruptMoveEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onInterruptMove, this));
 	_pChangeStateEventListener = EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(MovementComponent::onChangeState, this));
 
@@ -100,7 +101,7 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 	if (componentOwner == eventSource) {
 		if (jumpEvent->isStartJumping() && _eMovingState == core::ActorState::ON_FLOOR_STATE) {
             _speed.y = MAX_JUMP_SPEED;
-			_eMovingState = core::ActorState::JUMPING_STATE;
+			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
 			events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
 			EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
         } else {
@@ -130,8 +131,8 @@ void MovementComponent::onChangeState(EventCustom* pEvent) {
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(pChangeStateEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
 	if (componentOwner == eventSource) {
-		if(pChangeStateEvent->getNewState() == core::ActorState::JUMPING_STATE) {
-			_eMovingState = core::ActorState::JUMPING_STATE;
+		if(pChangeStateEvent->getNewState() == core::ActorState::NOT_ON_FLOOR_STATE) {
+			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
 		} else {
 			_eMovingState = core::ActorState::ON_FLOOR_STATE;
 		}
@@ -187,20 +188,20 @@ void MovementComponent::update(float fDt) {
 	// compute next position
 	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pGeometryComponent != nullptr, "MovementComponent needs a GeometryComponent added to its owner");
-	Point nextPosition = pGeometryComponent->getPosition() + (_speed * fDt);
+	Point nextPosition = pGeometryComponent->getPosition() + _speed * ENGINE_SPEED;
 
-	nextPosition.x = floor(nextPosition.x);
-	nextPosition.y = floor(nextPosition.y);
+    _bIsLateralMoving = !(abs(nextPosition.x - _previousNextPositionComputed.x) < 1.f);
 
-	physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
-	if (pCollisionComponent == nullptr) {
-		//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);
-		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
-		EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
-	} else {
-		events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
-		EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
-	}
+    _previousNextPositionComputed = nextPosition;
+
+    physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+    if (pCollisionComponent == nullptr) {
+        events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
+        EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+    } else {
+        events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
+        EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+    }
 }
 
 

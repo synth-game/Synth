@@ -7,7 +7,11 @@
 #include <sstream>
 #include "LevelSprite.h"
 #include "game/SHA_level_sprite.h"
+#include "game/NodeOwnerComponent.h"
+#include "game/SwitchableComponent.h"
 #include "graphics/SpriteComponent.h"
+
+#include "events/ChangeNodeOwnerEvent.h"
 
 namespace game {
 
@@ -37,6 +41,8 @@ LevelSprite* LevelSprite::create(const char* sBackgroundPath) {
 		pProgram->updateUniforms();
 		pProgram->use();
 		pRet->setShaderProgram(pProgram);
+
+		pRet->initListeners();
 	} else {
 		CCLOG("LevelSprite created but deleted");
 		CC_SAFE_DELETE(pRet);
@@ -44,9 +50,10 @@ LevelSprite* LevelSprite::create(const char* sBackgroundPath) {
 	return pRet;
 }
 
-void LevelSprite::addLight(Texture2D* pTexture, Color4B color) {
+void LevelSprite::addLight(int actorID, Texture2D* pTexture, Color4B color) {
 	if (_lightTextures.size() < SHA_LIGHT_MAX_COUNT) {
 		LightTexture* pLT = new LightTexture();
+		pLT->actorID = actorID;
 		pLT->pTex = pTexture;
 		pLT->col.push_back(static_cast<float>(color.r)/255.f);
 		pLT->col.push_back(static_cast<float>(color.g)/255.f);
@@ -58,6 +65,42 @@ void LevelSprite::addLight(Texture2D* pTexture, Color4B color) {
 	}
 }
 
+void LevelSprite::updateLight(core::SynthActor* pLamp) {
+	CCASSERT(pLamp->getActorType() == core::ActorType::LIGHT, "LevelFactory::updateLight. The lamp is not what we thought it is ! KILL IT NOW !");
+	game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(pLamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+	game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pLamp->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+	core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+
+	for (auto texture : _lightTextures) {
+		if (texture->actorID == pLamp->getActorID()) {
+			if(firefly != nullptr) {
+				Color4B color = Color4B(0, 0, 0, 0);
+				switch (firefly->getActorType()) {
+				case core::ActorType::RED_FIREFLY:
+					color = Color4B::RED;
+					break;
+				case core::ActorType::GREEN_FIREFLY:
+					color = Color4B::GREEN;
+					break;
+				case core::ActorType::BLUE_FIREFLY:
+					color = Color4B::BLUE;
+					break;
+				default:
+					break;
+				}
+				texture->col[0] = color.r;
+				texture->col[1] = color.g;
+				texture->col[2] = color.b;
+			}
+			if(pSwitchableComp->isOn()) {
+				texture->col[3] = 1.f;
+			} else {
+				texture->col[3] = 0.f;
+			}
+		}
+	}
+}
+
 void LevelSprite::draw() {
 	_shaderProgram->use();
 	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_LevelPixelSize"), 1.f/_contentSize.width, 1.f/_contentSize.height);
@@ -65,7 +108,7 @@ void LevelSprite::draw() {
 	for(unsigned int i=0; i<_lightTextures.size(); ++i) {
 		std::stringstream lightLocation;
 		lightLocation << "SY_Lights_" << i;
-		_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName(lightLocation.str().c_str()), i+2);
+		_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName(lightLocation.str().c_str()), i+1);
 
 		std::stringstream colorLocation;
 		colorLocation << "SY_Colors["<<i<<"]";
@@ -80,6 +123,29 @@ void LevelSprite::draw() {
 	for(unsigned int i=0; i<_lightTextures.size(); ++i) {
 		GL::bindTexture2DN(i+1, 0);
 	}
+}
+
+void LevelSprite::initListeners() {
+	_pChangeNodeOwnerEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(LevelSprite::onChangeNodeOwner, this));
+
+	// Add listeners to dispacher
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeNodeOwnerEventListener, 1);
+}
+
+void LevelSprite::onChangeNodeOwner(EventCustom* pEvent) {
+	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent			= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
+	core::SynthActor* pNewOwner									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getNewOwner());
+	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+
+	if ( pSource->isFirefly() && pNewOwner->getActorType() == core::ActorType::LIGHT ) {
+		game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pNewOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+		if (pSwitchableComp != nullptr) {
+			updateLight(pNewOwner);
+		}
+	} else {
+		CCLOG("CHANGE NODE OWNER EVENT : THE OWNER IS NOT THE SAME");
+	}
+
 }
 
 }  // namespace game

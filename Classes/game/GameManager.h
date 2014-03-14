@@ -12,6 +12,7 @@
 #include <map>
 #include "cocos2d.h"
 #include "Game/LevelSprite.h"
+#include "game/LightMap.h"
 #include "Core/SynthActor.h"
 
 USING_NS_CC;
@@ -38,7 +39,6 @@ public:
 	/*! \brief Initialisation function called in create() method */
 	virtual bool init();
 	virtual void update(float fDt);
-	bool win;
 
 	void loadLevel(/*int iLevelId*/std::string level);
 	void clearLevel();
@@ -50,6 +50,7 @@ public:
 
 	static Color4B getLightColor(core::SynthActor* pLight);
 
+	inline LevelSprite* getLevelSprite() { return _pLevelSprite; }
 	inline Layer* getLevelLayer() { return _pLevelLayer; }
 	inline int getCurrentLevelIndex() { return _iCurrentLevelId; }
 	
@@ -61,6 +62,7 @@ protected:
 	/*! \brief Constructor */
 	GameManager();
 	core::SynthActor* getNearActor(core::SynthActor* actor);
+	core::SynthActor* getNearLightSwitch(core::SynthActor* actor);
 
 	void onEnterLight(EventCustom* pEvent);
 
@@ -70,7 +72,11 @@ protected:
 	std::vector<core::SynthActor*> _levelActors;
 	std::map<std::string,Rect> _triggers;
 
+	bool _bResetRequested;
+	bool _bNextRequested;
+
 	LevelSprite* _pLevelSprite;
+	LightMap* _pLightMap;
 
 	Layer* _pBackgroundLayer;
 	Layer* _pIntermediarLayer;
