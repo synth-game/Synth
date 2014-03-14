@@ -353,6 +353,8 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
     events::EditMoveEvent* pEditMoveEvent;
+    events::JumpEvent* pJumpEvent = nullptr;
+    
     auto dispatcher = EventDispatcher::getInstance();
 
 	switch(keyCode) {
@@ -364,12 +366,10 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 			pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
 			dispatcher->dispatchEvent(pEditMoveEvent);
 			break;
-		case EventKeyboard::KeyCode::KEY_SPACE:
-			/*jumpEvent = new ActorJumpEvent(_hero);
-			jumpEvent->_bStart = false;
-			dispatcher->dispatchEvent(jumpEvent);*/
-
-			break;
+        case EventKeyboard::KeyCode::KEY_SPACE:
+            pJumpEvent = new events::JumpEvent(pHero, false);
+            dispatcher->dispatchEvent(pJumpEvent);
+            break;
 		default:
 			break;
 	}
@@ -378,14 +378,15 @@ void GameManager::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event) {
 	for(std::vector<EventKeyboard::KeyCode>::iterator it = _keyPressedCode.begin(); it != _keyPressedCode.end(); ++it) {
 		switch(*it) {
 			case EventKeyboard::KeyCode::KEY_Q:
-				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, false);
+				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, true);
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
             
 			case EventKeyboard::KeyCode::KEY_D:
-				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, false);
+				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(1., 0.), true, false, true);
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				break;
+            
 		}
 
 	}
