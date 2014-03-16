@@ -10,6 +10,7 @@
 #include "game/SwitchableComponent.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
+#include "physics/BounceCollisionComponent.h"
 #include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireFlyAnimatedSpriteComponent.h"

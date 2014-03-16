@@ -98,9 +98,11 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 	events::JumpEvent* jumpEvent = static_cast<events::JumpEvent*>(pEvent);
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(jumpEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
+	Point direction = jumpEvent->getDirection();
 	if (componentOwner == eventSource) {
 		if (jumpEvent->isStartJumping() && _eMovingState == core::ActorState::ON_FLOOR_STATE) {
-            _speed.y = MAX_JUMP_SPEED;
+			_speed.x = MAX_JUMP_SPEED*direction.x;
+            _speed.y = MAX_JUMP_SPEED*direction.y;
 			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
 			events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
 			EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);

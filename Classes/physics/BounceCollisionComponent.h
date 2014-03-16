@@ -14,10 +14,23 @@ namespace physics {
 class BounceCollisionComponent : public CollisionComponent {
 
 public:
+
+	static BounceCollisionComponent* create();
+
 	/**
 	 * si un point de la bounding box collisionne un mur, changer la vitesse du MovementComponent dans la direction inverse
 	 */
 	void onTestCollision(EventCustom* pEvent);
+
+	
+
+protected:
+
+	BounceCollisionComponent();
+
+	~BounceCollisionComponent();
+
+	void initListeners();
 
 };
 

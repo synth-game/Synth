@@ -16,6 +16,7 @@
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
 #include "physics/CollisionComponent.h"
+#include "physics/BounceCollisionComponent.h"
 #include "physics/PhysicCollision.h"
 #include "physics/FollowMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
@@ -258,6 +259,10 @@ void GameManager::onEnterLight(EventCustom* pEvent) {
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
 		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
 		movementComponent->setGravity(movementComponent->getGravity()*movementComponent->getHighGravityFactor());
+	} else if (lightColor == Color4B::YELLOW) {
+		CCLOG("GameManager::onEnterLight : You bounce on the floor ! Awww yeah ! ");
+		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+		physics::BounceCollisionComponent* bounceCollisionComponent = physics::BounceCollisionComponent::create();
 	} else {
 		CCLOG("GameManager::onEnterLight : Out of any light");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
