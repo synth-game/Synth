@@ -303,7 +303,8 @@ Point CollisionComponent::getNextPixel(Point position, Point direction, bool bVo
 
 		// out of image
 		if(wantedPixel.x < 0 || wantedPixel.x >= _pPhysicCollision->getZoneWidth() || wantedPixel.y < 0 || wantedPixel.y >= _pPhysicCollision->getZoneHeight()) {
-			wantedPixel = position;
+			CCLOG("OUT OF IMAGE COLLISION");
+			//wantedPixel = position;
 			break;
 		}
 

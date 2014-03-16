@@ -173,8 +173,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	pBgSprite->setScale(2.f);
 	_pBackgroundLayer->addChild(pBgSprite);
 
-	// Build actors
-	_levelActors = LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
+	
 	
 	// Build triggers
 	_triggers = LevelFactory::getInstance()->buildTriggers(level);
@@ -189,12 +188,21 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 		_pLevelLayer->addChild(rect, 50);
 	}
 
-	// Build LevelSprite and LightMap
-	_pLevelSprite = LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
+	// Build LevelSprite
+	_pLevelSprite = LevelSprite::create(std::string("levels/"+level+"/bitmask.png").c_str());
+	_pLevelLayer->addChild(_pLevelSprite, 0, 42);
+
+	// Build lightMap
 	if (_pLightMap == nullptr) {
 		_pLightMap = LevelFactory::getInstance()->buildLightMap(level);
 	}
 
+	// Build actors
+	_levelActors = LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
+
+	// Fill level sprite
+	LevelFactory::getInstance()->buildLevelSprite(_pLevelSprite, level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
+	
 	// Initialize the LightCollision of the HERO actor
 	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
 	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
@@ -262,7 +270,8 @@ void GameManager::onEnterLight(EventCustom* pEvent) {
 	} else if (lightColor == Color4B::YELLOW) {
 		CCLOG("GameManager::onEnterLight : You bounce on the floor ! Awww yeah ! ");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
-		physics::BounceCollisionComponent* bounceCollisionComponent = physics::BounceCollisionComponent::create();
+		pHero->removeComponent("CollisionComponent");
+		pHero->addComponent(physics::BounceCollisionComponent::create());
 	} else {
 		CCLOG("GameManager::onEnterLight : Out of any light");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];

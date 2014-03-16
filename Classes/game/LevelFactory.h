@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 #include "game/LevelSprite.h"
 #include "game/LightMap.h"
+#include "game/GameManager.h"
 #include "core/SynthActor.h"
 #include "core/ActorType.h"
 #include "core/SynthComponent.h"
@@ -39,7 +40,7 @@ public:
 
 	physics::LightCollision* buildLightsCollision(LightMap* pLightMap, std::vector<core::SynthActor*> aLights);
 
-	LevelSprite* buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights);
+	void buildLevelSprite(LevelSprite* levelSprite, std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights);
 
 	LightMap* buildLightMap(std::string levelName);
 
@@ -62,6 +63,7 @@ private:
 	
 	/*! \brief The singleton instance */
 	static LevelFactory* _pInstance;
+
 };
 
 }  // namespace game
