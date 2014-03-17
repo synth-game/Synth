@@ -57,17 +57,22 @@ bool TitleScreenScene::init() {
 	_pBackgroundLayer->addChild(pBgSprite);
 	_pBackgroundLayer->setPosition(center);
 	
+	Sprite* pLogo = Sprite::create("sprites/logo-synth.png");
+	pLogo->setPosition(center);
 
 	_pBtnPlay = MenuItemFont::create("Jouer", this, menu_selector(TitleScreenScene::dispatchNewGameEvent));
+	_pBtnPlay->setColor(Color3B::BLACK);
+
 	_pBtnQuit = MenuItemFont::create("Quitter", this, menu_selector(TitleScreenScene::dispatchExitGameEvent));
-	//_pMenuLayer->addChild(_pBtnQuit, 10);
+	_pBtnQuit->setColor(Color3B::BLACK);
+
 	_pMenuLayer = Menu::create(_pBtnPlay, _pBtnQuit, NULL);
 	_pMenuLayer->alignItemsVertically();
 	_pMenuLayer->setPosition(center);
 	
 	Scene::addChild(_pBackgroundLayer, 0);
-	Scene::addChild(_pMenuLayer, 1);
-
+	Scene::addChild(pLogo, 1);
+	Scene::addChild(_pMenuLayer, 2);
 
 	return bRet;
 }
