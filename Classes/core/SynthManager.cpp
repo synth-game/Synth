@@ -8,6 +8,8 @@
 #include "graphics/GraphicManager.h"
 #include "sounds/SoundManager.h"
 
+#include "events/NewGameEvent.h"
+
 namespace core {
 
 SynthManager::SynthManager() 
@@ -31,20 +33,23 @@ SynthManager::~SynthManager() {
 
 void SynthManager::init() {
     //init scenes
-	_pGameScene = menu::GameScene::create();
+	_pTitleScreenScene = menu::TitleScreenScene::create("sprites/decor.jpg", false);
 
 	//init managers
 	graphics::GraphicManager* gm = graphics::GraphicManager::getInstance();
 	sounds::SoundManager* sm = sounds::SoundManager::getInstance();
 
 	//init listeners
+	_pNewGameEventListener = EventListenerCustom::create(events::NewGameEvent::EVENT_NAME, CC_CALLBACK_1(SynthManager::onNewGameEvent, this));
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pNewGameEventListener, 1);
 
 	//setup initial scene
-	Director::getInstance()->runWithScene(_pGameScene);
+	Director::getInstance()->runWithScene(_pTitleScreenScene);
 }
 
 void SynthManager::onNewGameEvent(EventCustom* event) {
-
+	_pGameScene = menu::GameScene::create();
+	Director::getInstance()->replaceScene(_pGameScene);
 }
 
 void SynthManager::onContinueGameEvent(EventCustom* event) {

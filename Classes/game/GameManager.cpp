@@ -125,8 +125,6 @@ bool GameManager::init() {
 	//TEST ZONE - BEGIN
 	loadLevel(_levelsName[_iCurrentLevelId]);
 
-	// NE PAS DECOMMENTER SVP , INIT MUSIC FAIT DANS LE SOUND MANAGER FmodAudioPlayer::sharedPlayer()->InitMusic(); NE PAS DECOMMENTER SVP
-	//FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(FmodAudioPlayer::tracks::BLUE);
 	//TEST ZONE - END
 
 	return bTest;
