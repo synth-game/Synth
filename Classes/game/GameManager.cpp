@@ -26,6 +26,7 @@
 #include "system/IOManager.h"
 #include "sounds/SoundType.h"
 
+#include "events/PauseGameEvent.h"
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
 #include "events/ChangeNodeOwnerEvent.h"
@@ -283,6 +284,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	CCASSERT(pHero != nullptr, "GameManager::onKeyPressed : There is no actor hero");
 	events::EditMoveEvent* pEditMoveEvent = nullptr;
     events::JumpEvent* pJumpEvent = nullptr;
+    events::PauseGameEvent* pPauseGameEvent = nullptr;
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent = nullptr;
 	events::ChangeTargetEvent* pChangeTargetEvent = nullptr;
 	events::ToggleLightEvent* pToggleLightEvent = nullptr;
@@ -299,6 +301,12 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 
 
 	switch(keyCode) {
+		case EventKeyboard::KeyCode::KEY_ESCAPE:
+			pPauseGameEvent = new events::PauseGameEvent();
+			CCLOG("Dispatching PauseGameEvent");
+			dispatcher->dispatchEvent(pPauseGameEvent);
+		break;
+
         case EventKeyboard::KeyCode::KEY_Q:
             pEditMoveEvent = new events::EditMoveEvent(pHero, Point(-1., 0.), true, false, true);
             CCLOG("Dispatching ActorStartMoveEvent LEFT");

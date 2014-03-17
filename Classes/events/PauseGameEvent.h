@@ -3,26 +3,18 @@
 
 #include "Events/SynthEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
-class PauseGameEvent : public events::SynthEvent
-{
-public:
-	static char* sEventName;
+namespace events {
 
+class PauseGameEvent : public events::SynthEvent {
+public:
+	static const char* EVENT_NAME;
 
 public:
 	PauseGameEvent();
 
-	/**
-	 *
-	 */
 	~PauseGameEvent();
 
 };
 
-}  // namespace GameEvents
 }  // namespace events
 #endif

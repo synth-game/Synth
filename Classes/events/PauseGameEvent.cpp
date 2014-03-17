@@ -1,17 +1,14 @@
 #include "PauseGameEvent.h"
 
-namespace events
-{
-namespace GameEvents
-{
-char* PauseGameEvent::sEventName;
+namespace events {
 
-PauseGameEvent::PauseGameEvent()
-{
+const char* PauseGameEvent::EVENT_NAME = "PauseGameEvent";
+
+PauseGameEvent::PauseGameEvent() :
+	SynthEvent(nullptr, EVENT_NAME) {
 }
 
-PauseGameEvent::~PauseGameEvent()
-{
+PauseGameEvent::~PauseGameEvent() {
 }
-}  // namespace GameEvents
+
 }  // namespace events
