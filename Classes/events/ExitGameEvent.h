@@ -3,26 +3,18 @@
 
 #include "Events/SynthEvent.h"
 
-namespace events
-{
-namespace MenuEvents
-{
-class ExitGameEvent : public events::SynthEvent
-{
-public:
-	static char* sEventName;
+namespace events {
 
+class ExitGameEvent : public events::SynthEvent {
+public:
+	static const char* EVENT_NAME;
 
 public:
 	ExitGameEvent();
 
-	/**
-	 *
-	 */
 	~ExitGameEvent();
 
 };
 
-}  // namespace MenuEvents
 }  // namespace events
 #endif

@@ -9,6 +9,7 @@
 #include "sounds/SoundManager.h"
 
 #include "events/NewGameEvent.h"
+#include "events/ExitGameEvent.h"
 
 namespace core {
 
@@ -41,7 +42,9 @@ void SynthManager::init() {
 
 	//init listeners
 	_pNewGameEventListener = EventListenerCustom::create(events::NewGameEvent::EVENT_NAME, CC_CALLBACK_1(SynthManager::onNewGameEvent, this));
+	_pExitGameEventListener = EventListenerCustom::create(events::ExitGameEvent::EVENT_NAME, CC_CALLBACK_1(SynthManager::onExitGameEvent, this));
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pNewGameEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pExitGameEventListener, 1);
 
 	//setup initial scene
 	Director::getInstance()->runWithScene(_pTitleScreenScene);
@@ -73,7 +76,8 @@ void SynthManager::onLoadSelectedLevelEvent(EventCustom* event) {
 }
 
 void SynthManager::onExitGameEvent(EventCustom* event) {
-
+	Director::getInstance()->end();
+	exit(0);
 }
 
 }  // namespace core

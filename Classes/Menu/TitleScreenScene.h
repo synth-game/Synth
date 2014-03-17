@@ -37,7 +37,7 @@ protected:
 	void initListeners();
 
 	void dispatchNewGameEvent(Object* pSender);
-	void dispatchQuitEvent();
+	void dispatchExitGameEvent(Object* pSender);
 
 	void onKeyPressed(Event* pEvent);
 

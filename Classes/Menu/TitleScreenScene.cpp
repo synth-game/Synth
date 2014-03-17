@@ -8,6 +8,7 @@
 #include "core/SynthManager.h"
 
 #include "events/NewGameEvent.h"
+#include "events/ExitGameEvent.h"
 
 namespace menu {
 
@@ -58,9 +59,10 @@ bool TitleScreenScene::init() {
 	
 
 	_pBtnPlay = MenuItemFont::create("Jouer", this, menu_selector(TitleScreenScene::dispatchNewGameEvent));
-	//_pBtnQuit = MenuItemFont::create("Quitter",  CC_CALLBACK_0(TitleScreenScene::dispatchQuitEvent, this));
+	_pBtnQuit = MenuItemFont::create("Quitter", this, menu_selector(TitleScreenScene::dispatchExitGameEvent));
 	//_pMenuLayer->addChild(_pBtnQuit, 10);
-	_pMenuLayer = Menu::create(_pBtnPlay, NULL);
+	_pMenuLayer = Menu::create(_pBtnPlay, _pBtnQuit, NULL);
+	_pMenuLayer->alignItemsVertically();
 	_pMenuLayer->setPosition(center);
 	
 	Scene::addChild(_pBackgroundLayer, 0);
@@ -75,8 +77,9 @@ void TitleScreenScene::dispatchNewGameEvent(Object* pSender) {
 	EventDispatcher::getInstance()->dispatchEvent(pNewGameEvent);
 }
 
-void TitleScreenScene::dispatchQuitEvent() {
-	
+void TitleScreenScene::dispatchExitGameEvent(Object* pSender) {
+	events::ExitGameEvent* pExitGameEvent = new events::ExitGameEvent();
+	EventDispatcher::getInstance()->dispatchEvent(pExitGameEvent);
 }
 
 void TitleScreenScene::initListeners() {
