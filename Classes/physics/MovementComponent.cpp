@@ -10,7 +10,6 @@
 #include "events/InterruptMoveEvent.h"
 #include "events/ChangePositionEvent.h"
 #include "events/TestCollisionEvent.h"
-#include "events/DeathEvent.h"
 #include "events/ChangeStateEvent.h"
 #include "core/SynthActor.h"
 #include "physics/GeometryComponent.h"
@@ -197,31 +196,14 @@ void MovementComponent::update(float fDt) {
 
     _previousNextPositionComputed = nextPosition;
 
-	// if the actor is a hero and is out of the scene
-	if(static_cast<core::SynthActor*>(_owner)->getActorType() == core::ActorType::HERO) {
-		if((nextPosition.x < pGeometryComponent->getMinPosition().x || nextPosition.x > pGeometryComponent->getMaxPosition().x || nextPosition.y < pGeometryComponent->getMinPosition().y || nextPosition.y > pGeometryComponent->getMaxPosition().y)) {
-			events::DeathEvent* pDeathEvent = new events::DeathEvent();
-			EventDispatcher::getInstance()->dispatchEvent(pDeathEvent);
-		} else {
-			physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
-			if (pCollisionComponent == nullptr) {
-				events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
-				EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
-			} else {
-				events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
-				EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
-			}
-		}
-	} else {
-		physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
-		if (pCollisionComponent == nullptr) {
-			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
-			EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
-		} else {
-			events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
-			EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
-		}
-	}
+    physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+    if (pCollisionComponent == nullptr) {
+        events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
+        EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+    } else {
+        events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
+        EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+    }
 }
 
 

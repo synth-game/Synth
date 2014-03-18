@@ -293,31 +293,38 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 			targetBCPosition.y += 1.f;
 		}
 
-		//compute slope coef to move through the slopes
-		float slopeCoef = 0.f;
-		if (targetBCPosition.x > currentBCPosition.x) {
-			slopeCoef = (targetBCPosition.y-currentBCPosition.y)/(targetBCPosition.x-currentBCPosition.x);
+		// case where actor is out of the image
+		if (targetBCPosition.x<0.f || targetBCPosition.y<0.f) {
+			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
+            events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
+            EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
 		} else {
-			slopeCoef = (targetBCPosition.y-currentBCPosition.y)/(currentBCPosition.x-targetBCPosition.x);
-		}
-
-		if (slopeCoef > SLOPE_THRESHOLD) {
-			//too big slope - stop it
-			targetPosition = currentPosition;
-			eRet = BOTH;
-		} else if (slopeCoef < -SLOPE_THRESHOLD) {
-			//too big hole - test if the bottom-left and bottom-right point also fall - unefficient sleeping code
-			Point targetBLPosition = Point(targetPosition.x-halfSize.width, targetPosition.y-halfSize.height);
-			Point targetBRPosition = Point(targetPosition.x+halfSize.width, targetPosition.y-halfSize.height);
-			if (_pPhysicCollision->collide(targetBLPosition) || _pPhysicCollision->collide(targetBRPosition)) {
-				targetPosition.y = (targetPosition.y + currentPosition.y)/2.f;
+			//compute slope coef to move through the slopes
+			float slopeCoef = 0.f;
+			if (targetBCPosition.x > currentBCPosition.x) {
+				slopeCoef = (targetBCPosition.y-currentBCPosition.y)/(targetBCPosition.x-currentBCPosition.x);
 			} else {
-				_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
-                events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
-                EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+				slopeCoef = (targetBCPosition.y-currentBCPosition.y)/(currentBCPosition.x-targetBCPosition.x);
 			}
-		} else {
-			targetPosition = targetBCPosition + Point(0.f, halfSize.height);
+
+			if (slopeCoef > SLOPE_THRESHOLD) {
+				//too big slope - stop it
+				targetPosition = currentPosition;
+				eRet = BOTH;
+			} else if (slopeCoef < -SLOPE_THRESHOLD) {
+				//too big hole - test if the bottom-left and bottom-right point also fall - unefficient sleeping code
+				Point targetBLPosition = Point(targetPosition.x-halfSize.width, targetPosition.y-halfSize.height);
+				Point targetBRPosition = Point(targetPosition.x+halfSize.width, targetPosition.y-halfSize.height);
+				if (_pPhysicCollision->collide(targetBLPosition) || _pPhysicCollision->collide(targetBRPosition)) {
+					targetPosition.y = (targetPosition.y + currentPosition.y)/2.f;
+				} else {
+					_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
+					events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
+					EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+				}
+			} else {
+				targetPosition = targetBCPosition + Point(0.f, halfSize.height);
+			}
 		}
 	} else {
 		// manage passive gravity effect

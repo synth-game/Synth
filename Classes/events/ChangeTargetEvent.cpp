@@ -19,7 +19,7 @@ ChangeTargetEvent::ChangeTargetEvent(Node* pSource, core::SynthActor* newTarget)
 ChangeTargetEvent::ChangeTargetEvent(Node* pSource, Point newTarget) :
 	SynthEvent(pSource, EVENT_NAME) {
 		core::SynthActor* target = new core::SynthActor(core::ActorType::UNKNOWN_TYPE);
-		target->addComponent(physics::GeometryComponent::create(newTarget, Size::ZERO, 0.f, Point::ZERO, Point::ZERO, Point(1000000.f,1000000.f)));
+		target->addComponent(physics::GeometryComponent::create(newTarget, Size::ZERO, 0.f, Point::ZERO));
 		_newTarget = target;
 }
 

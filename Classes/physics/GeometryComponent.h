@@ -41,13 +41,9 @@ public:
 	 * \param anchorPoint The anchor point of the actor.
 	 * \return GeometryComponent*
 	 */
-	static GeometryComponent* create(Point position, Size size, float fRotationAngle, Point anchorPoint, Point minPosition, Point maxPosition);
+	static GeometryComponent* create(Point position, Size size, float fRotationAngle, Point anchorPoint);
 
 	inline Point getPosition() { return _position; };
-
-	inline Point getMaxPosition() { return _maxPosition; };
-
-	inline Point getMinPosition() { return _minPosition; };
 
 	inline Size getSize() { return _size; };
 
@@ -92,9 +88,6 @@ protected:
 	/*
 	 * Members
 	 */
-
-	Point _maxPosition;
-	Point _minPosition;
 
 	/*! \brief The position (x,y) of the actor. (0,0) is at the bottom left of the scene */
 	Point _position;

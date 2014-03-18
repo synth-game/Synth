@@ -25,7 +25,7 @@ bool GeometryComponent::init() {
 	return true;
 }
 
-GeometryComponent* GeometryComponent::create(Point position, Size size, float fRotationAngle, Point anchorPoint, Point minPosition, Point maxPosition) {
+GeometryComponent* GeometryComponent::create(Point position, Size size, float fRotationAngle, Point anchorPoint) {
 	GeometryComponent* pRet = new GeometryComponent();
     if (pRet != NULL && pRet->init()) {
         pRet->autorelease();
@@ -33,8 +33,6 @@ GeometryComponent* GeometryComponent::create(Point position, Size size, float fR
 		pRet->_size =				size;
 		pRet->_fRotationAngle =		fRotationAngle;
 		pRet->_anchorPoint =		anchorPoint;
-		pRet->_minPosition =		minPosition;
-		pRet->_maxPosition =		maxPosition;
     } else {
         CC_SAFE_DELETE(pRet);
     }
