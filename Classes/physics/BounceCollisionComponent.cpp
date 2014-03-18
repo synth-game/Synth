@@ -51,7 +51,7 @@ void BounceCollisionComponent::onTestCollision(EventCustom* pEvent) {
 		Point computingPos = pTestColEvent->getTargetPosition();
 
 		// check if the component have a PhysicCollision
-		if (_pPhysicCollision != nullptr && _pLightCollision != nullptr) {
+		if (_pPhysicCollision != nullptr) {
 			ECollisionType eCollision = NO_COLLISION;
 			if (_eMovingState == core::ActorState::ON_FLOOR_STATE) {
 				eCollision = slopeTest(pTestColEvent, computingPos);
@@ -89,8 +89,9 @@ void BounceCollisionComponent::onTestCollision(EventCustom* pEvent) {
 		}
 
 		//check if the component have a LightCollision
-		if (_pLightCollision != nullptr) {
-			Color4B aL = _pLightCollision->getCurrentColor(computingPos);
+		LightCollision* pLightCollision = _pPhysicCollision->getLightCollision();
+		if (pLightCollision != nullptr) {
+			Color4B aL = pLightCollision->getCurrentColor(computingPos);
 		}
 
 		// Change position
