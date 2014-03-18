@@ -127,78 +127,112 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 	core::ActorState nextState = core::ActorState::NOT_ON_FLOOR_STATE;
 
 	// build position-target vector
-	Point currentPosition = Point(pInitiatorEvent->getCurrentPosition().x, pInitiatorEvent->getCurrentPosition().y);
-	Point targetPosition = Point(pInitiatorEvent->getTargetPosition().x, pInitiatorEvent->getTargetPosition().y);
+	Point currentPosition = Point(floor(pInitiatorEvent->getCurrentPosition().x), floor(pInitiatorEvent->getCurrentPosition().y));
+	Point targetPosition = Point(floor(pInitiatorEvent->getTargetPosition().x), floor(pInitiatorEvent->getTargetPosition().y));
 	Point movementDir = targetPosition - currentPosition;
-	float fMovementLength = movementDir.getLength();
-	Point movementStep = movementDir.normalize();
 	Size halfSize = pInitiatorEvent->getSize()/2.f;
 	Size quarterSize = pInitiatorEvent->getSize()/4.f;
-	float fStepCountToExecute = 100000.f; // default big value to initialize
-	
+	float fMovementLength;
+	Point movementStep;
+
 	Point centerPos = currentPosition;
-	// corner points
-	Point blPos = Point(centerPos.x-halfSize.width, centerPos.y-halfSize.height);
-	Point brPos = Point(centerPos.x+halfSize.width, centerPos.y-halfSize.height);
-	Point trPos = Point(centerPos.x+halfSize.width, centerPos.y+halfSize.height);
-	Point tlPos = Point(centerPos.x-halfSize.width, centerPos.y+halfSize.height);
 
-	// middle points
-	Point bcPos = Point(centerPos.x, centerPos.y-halfSize.height);
-	Point lcPos = Point(centerPos.x-halfSize.width, centerPos.y);
-	Point tcPos = Point(centerPos.x, centerPos.y+halfSize.height);
-	Point rcPos = Point(centerPos.x+halfSize.width, centerPos.y);
-
-	// quarter laeral points
-	Point l1Pos = Point(centerPos.x-halfSize.width, centerPos.y-quarterSize.height);
-	Point l2Pos = Point(centerPos.x-halfSize.width, centerPos.y+quarterSize.height);
-	Point r1Pos = Point(centerPos.x+halfSize.width, centerPos.y-quarterSize.height);
-	Point r2Pos = Point(centerPos.x+halfSize.width, centerPos.y+quarterSize.height);
-
-	// first, test if the actor land on the ground
-	float fBCSampleCount = _pPhysicCollision->countStepToNextPixel(bcPos, movementStep, false, fMovementLength);
-	if ((!_pPhysicCollision->collide(bcPos)) && fBCSampleCount != -1.f) {
-		// bottom center point collide a wall
-		fStepCountToExecute = fBCSampleCount;
-		eRet = VERTICAL;
-		nextState = core::ActorState::ON_FLOOR_STATE;
-	} else {
-		// test other point
-		std::vector<Point> pointToTest;
-		if (!_pPhysicCollision->collide(blPos)) { pointToTest.push_back(blPos); }
-		if (!_pPhysicCollision->collide(brPos)) { pointToTest.push_back(brPos); }
-		if (!_pPhysicCollision->collide(trPos)) { pointToTest.push_back(trPos); }
-		if (!_pPhysicCollision->collide(tlPos)) { pointToTest.push_back(tlPos); }
-		if (!_pPhysicCollision->collide(lcPos)) { pointToTest.push_back(lcPos); }
-		if (!_pPhysicCollision->collide(tcPos)) { pointToTest.push_back(tcPos); }
-		if (!_pPhysicCollision->collide(rcPos)) { pointToTest.push_back(rcPos); }
-		if (!_pPhysicCollision->collide(l1Pos)) { pointToTest.push_back(l1Pos); }
-		if (!_pPhysicCollision->collide(l2Pos)) { pointToTest.push_back(l2Pos); }
-		if (!_pPhysicCollision->collide(r1Pos)) { pointToTest.push_back(r1Pos); }
-		if (!_pPhysicCollision->collide(r2Pos)) { pointToTest.push_back(r2Pos); }
-
-		std::vector<float> stepsVector;
-		for (std::vector<Point>::iterator itPoint=pointToTest.begin(); itPoint!=pointToTest.end(); ++itPoint) {
-			float fPossibleStepCount = _pPhysicCollision->countStepToNextPixel(*itPoint, movementStep, false, fMovementLength);
-			stepsVector.push_back(fPossibleStepCount);
+	// Test horizontal, then vertical displacement
+	for (int i=0; i<2; ++i) {
+		if (i==0) {
+			// first loop - horizontal displacement
+			fMovementLength = abs(movementDir.x);
+			movementStep = Point(movementDir.x, 0).normalize();
+		} else {
+			// second loop - vertical displacement
+			fMovementLength = abs(movementDir.y);
+			movementStep = Point(0, movementDir.y).normalize();
 		}
 
-		for (std::vector<float>::iterator itStep=stepsVector.begin(); itStep!=stepsVector.end(); ++itStep) {
-			if (*itStep < fStepCountToExecute && *itStep >= 0) {
-				fStepCountToExecute = *itStep;
+		float fStepCountToExecute = 100000.f; // default big value to initialize
+
+		// corner points
+		Point blPos = Point(centerPos.x-halfSize.width, centerPos.y-halfSize.height);
+		Point brPos = Point(centerPos.x+halfSize.width, centerPos.y-halfSize.height);
+		Point trPos = Point(centerPos.x+halfSize.width, centerPos.y+halfSize.height);
+		Point tlPos = Point(centerPos.x-halfSize.width, centerPos.y+halfSize.height);
+
+		// middle points
+		Point bcPos = Point(centerPos.x, centerPos.y-halfSize.height);
+		Point lcPos = Point(centerPos.x-halfSize.width, centerPos.y);
+		Point tcPos = Point(centerPos.x, centerPos.y+halfSize.height);
+		Point rcPos = Point(centerPos.x+halfSize.width, centerPos.y);
+
+		// quarter laeral points
+		Point l1Pos = Point(centerPos.x-halfSize.width, centerPos.y-quarterSize.height);
+		Point l2Pos = Point(centerPos.x-halfSize.width, centerPos.y+quarterSize.height);
+		Point r1Pos = Point(centerPos.x+halfSize.width, centerPos.y-quarterSize.height);
+		Point r2Pos = Point(centerPos.x+halfSize.width, centerPos.y+quarterSize.height);
+
+		// first, test if the actor land on the ground
+		float fBCSampleCount = _pPhysicCollision->countStepToNextPixel(bcPos, movementStep, false, fMovementLength);
+		if ((!_pPhysicCollision->collide(bcPos)) && fBCSampleCount >= 0.f) {
+			// bottom center point collide a wall
+			fStepCountToExecute = fBCSampleCount;
+			if (eRet == HORIZONTAL) {
+				eRet = BOTH;
+			} else {
+				eRet = VERTICAL;
+			}
+			nextState = core::ActorState::ON_FLOOR_STATE;
+		} else {
+			// test other point
+			std::vector<Point> pointToTest;
+			if (!_pPhysicCollision->collide(blPos)) { pointToTest.push_back(blPos); }
+			if (!_pPhysicCollision->collide(brPos)) { pointToTest.push_back(brPos); }
+			if (!_pPhysicCollision->collide(trPos)) { pointToTest.push_back(trPos); }
+			if (!_pPhysicCollision->collide(tlPos)) { pointToTest.push_back(tlPos); }
+			if (!_pPhysicCollision->collide(lcPos)) { pointToTest.push_back(lcPos); }
+			if (!_pPhysicCollision->collide(tcPos)) { pointToTest.push_back(tcPos); }
+			if (!_pPhysicCollision->collide(rcPos)) { pointToTest.push_back(rcPos); }
+			if (!_pPhysicCollision->collide(l1Pos)) { pointToTest.push_back(l1Pos); }
+			if (!_pPhysicCollision->collide(l2Pos)) { pointToTest.push_back(l2Pos); }
+			if (!_pPhysicCollision->collide(r1Pos)) { pointToTest.push_back(r1Pos); }
+			if (!_pPhysicCollision->collide(r2Pos)) { pointToTest.push_back(r2Pos); }
+
+			std::vector<float> stepsVector;
+			for (std::vector<Point>::iterator itPoint=pointToTest.begin(); itPoint!=pointToTest.end(); ++itPoint) {
+				float fPossibleStepCount = _pPhysicCollision->countStepToNextPixel(*itPoint, movementStep, false, fMovementLength);
+				stepsVector.push_back(fPossibleStepCount);
+			}
+
+			for (std::vector<float>::iterator itStep=stepsVector.begin(); itStep!=stepsVector.end(); ++itStep) {
+				if (*itStep < fStepCountToExecute && *itStep >= 0) {
+					fStepCountToExecute = *itStep;
+				}
+			}
+
+			// if step count is again the default value, there is no collision => set the max movement length
+			if (fStepCountToExecute == 100000.f) {
+				fStepCountToExecute = fMovementLength; 
+			} else {
+				if (i==0) {
+					eRet = HORIZONTAL;
+				} else {
+					if (eRet == HORIZONTAL) {
+						eRet = BOTH;
+					} else {
+						eRet = VERTICAL;
+					}
+					
+				}
 			}
 		}
 
-		// if step count is again the default value, there is no collision => set the max movement length
-		if (fStepCountToExecute == 100000.f) {
-			fStepCountToExecute = fMovementLength; 
-		} else {
-			eRet = HORIZONTAL;
+		centerPos = centerPos + (movementStep*fStepCountToExecute);
+
+		if(eRet == VERTICAL) { // in this case, we break. Either we've already done the 2 loops, or the actor land on the ground and wa don't compute vertical displacement
+			break;
 		}
 	}
 
 	//update position
-	resPosition = centerPos + (movementStep*fStepCountToExecute);
+	resPosition = centerPos;
 
 	//update state of Collision and Movement components
 	if(nextState != _eMovingState) {
