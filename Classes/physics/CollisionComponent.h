@@ -41,6 +41,7 @@ protected:
 	enum ECollisionType {
 		HORIZONTAL,
 		VERTICAL,
+		BOTH,
 		NO_COLLISION
 	};
 

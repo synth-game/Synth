@@ -83,7 +83,12 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 			} else if (eCollision == HORIZONTAL) {
 				pInterruptMovementEvent = new events::InterruptMoveEvent(_owner, true, false, true);
 				EventDispatcher::getInstance()->dispatchEvent(pInterruptMovementEvent);
+			} else if (eCollision == BOTH) {
+				pInterruptMovementEvent = new events::InterruptMoveEvent(_owner, true, true, true);
+				EventDispatcher::getInstance()->dispatchEvent(pInterruptMovementEvent);
+			}
 
+			if (eCollision == HORIZONTAL || eCollision == BOTH) {
 				// send CollisionEvent for sound and graphic components
 				events::CollisionEvent* pCollisionEvent = new events::CollisionEvent(_owner);
 				EventDispatcher::getInstance()->dispatchEvent(pCollisionEvent);
@@ -236,7 +241,7 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 		if (slopeCoef > SLOPE_THRESHOLD) {
 			//too big slope - stop it
 			targetPosition = currentPosition;
-			eRet = HORIZONTAL;
+			eRet = BOTH;
 		} else if (slopeCoef < -SLOPE_THRESHOLD) {
 			//too big hole - test if the bottom-left and bottom-right point also fall - unefficient sleeping code
 			Point targetBLPosition = Point(targetPosition.x-halfSize.width, targetPosition.y-halfSize.height);
