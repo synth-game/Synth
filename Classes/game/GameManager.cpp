@@ -146,6 +146,17 @@ void GameManager::update(float fDt) {
 		_bNextRequested = true;
 	}
 
+	for (map<std::string,Rect>::iterator trigger=_triggers.begin(); trigger!=_triggers.end(); ++trigger) {
+		if (trigger->first =="VOICE"){
+			if(trigger->second.containsPoint(pGeometryComp->getPosition())) {
+				sounds::VoiceManager::getInstance()->playNextVoice();
+				_triggers.erase(trigger);
+				break;
+			}
+		}
+	}
+	
+
 	for (auto actor : _levelActors) {
 		actor->update(fDt);
 	}
