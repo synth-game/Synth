@@ -34,6 +34,8 @@ public:
 	 */
 	bool init();
 
+	void onEnter();
+
 	/*! \brief Create the component
 	 * \param position The position of the actor.
 	 * \param size The size of the actor.

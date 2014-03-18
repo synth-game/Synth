@@ -82,6 +82,13 @@ void SpriteComponent::onEnter() {
 		_pSprite->setAnchorPoint(geometryComponent->getAnchorPoint());
 		_pSprite->setRotation(-geometryComponent->getRotationAngle());
 	}
+
+	core::SynthActor* actor = static_cast<core::SynthActor*>(_owner);
+	if (actor->getActorType() == core::ActorType::LIGHTSWITCH) {
+		Point origin = Point(geometryComponent->getPosition().x - (geometryComponent->getSize().width/2), geometryComponent->getPosition().y - (geometryComponent->getSize().height/2));
+		Point destination = Point(geometryComponent->getPosition().x+(geometryComponent->getSize().width/2), geometryComponent->getPosition().y+(geometryComponent->getSize().height/2));
+		DrawPrimitives::drawSolidRect(origin, destination, Color4F::BLACK);
+	}
 }
 
 }  // namespace graphics

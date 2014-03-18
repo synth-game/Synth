@@ -65,7 +65,6 @@ void AnimatedSpriteComponent::runAnimation(AnimationType animationType) {
     core::SynthAnimation* pAnimation = graphicManager->getAnimation(_eCurrentAnimType);
     cocos2d::Animate* animate = cocos2d::Animate::create(pAnimation->getAnimation());
     _pSprite->stopAllActions();
-	//CCLOG("AnimatedSpriteComponent::runAnimation RUN ANIMATION WITH TAG : %d", pAnimation->getTag());
 	if(pAnimation->isLoop()) {
 		_pSprite->runAction(cocos2d::RepeatForever::create(animate));
 	} else {

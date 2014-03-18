@@ -53,5 +53,9 @@ void GeometryComponent::onChangePosition(EventCustom* pEvent) {
 	}
 }
 
+void GeometryComponent::onEnter() {
+	
+}
+
 
 }  // namespace physics
