@@ -134,6 +134,7 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 	Size quarterSize = pInitiatorEvent->getSize()/4.f;
 	float fMovementLength;
 	Point movementStep;
+	bool bIsOnGround = false;
 
 	Point centerPos = currentPosition;
 
@@ -171,39 +172,47 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 
 		// first, test if the actor land on the ground
 		float fBCSampleCount = _pPhysicCollision->countStepToNextPixel(bcPos, movementStep, false, fMovementLength);
+		float fBLSampleCount = _pPhysicCollision->countStepToNextPixel(blPos, movementStep, false, fMovementLength);
+		float fBRSampleCount = _pPhysicCollision->countStepToNextPixel(brPos, movementStep, false, fMovementLength);
 		if ((!_pPhysicCollision->collide(bcPos)) && fBCSampleCount >= 0.f) {
 			// bottom center point collide a wall
 			fStepCountToExecute = fBCSampleCount;
-			if (eRet == HORIZONTAL) {
-				eRet = BOTH;
-			} else {
-				eRet = VERTICAL;
-			}
-			nextState = core::ActorState::ON_FLOOR_STATE;
+			bIsOnGround = true;
 		} else {
-			// test other point
 			std::vector<Point> pointToTest;
-			if (!_pPhysicCollision->collide(blPos)) { pointToTest.push_back(blPos); }
-			if (!_pPhysicCollision->collide(brPos)) { pointToTest.push_back(brPos); }
-			if (!_pPhysicCollision->collide(trPos)) { pointToTest.push_back(trPos); }
-			if (!_pPhysicCollision->collide(tlPos)) { pointToTest.push_back(tlPos); }
-			if (!_pPhysicCollision->collide(lcPos)) { pointToTest.push_back(lcPos); }
-			if (!_pPhysicCollision->collide(tcPos)) { pointToTest.push_back(tcPos); }
-			if (!_pPhysicCollision->collide(rcPos)) { pointToTest.push_back(rcPos); }
-			if (!_pPhysicCollision->collide(l1Pos)) { pointToTest.push_back(l1Pos); }
-			if (!_pPhysicCollision->collide(l2Pos)) { pointToTest.push_back(l2Pos); }
-			if (!_pPhysicCollision->collide(r1Pos)) { pointToTest.push_back(r1Pos); }
-			if (!_pPhysicCollision->collide(r2Pos)) { pointToTest.push_back(r2Pos); }
 
-			std::vector<float> stepsVector;
-			for (std::vector<Point>::iterator itPoint=pointToTest.begin(); itPoint!=pointToTest.end(); ++itPoint) {
-				float fPossibleStepCount = _pPhysicCollision->countStepToNextPixel(*itPoint, movementStep, false, fMovementLength);
-				stepsVector.push_back(fPossibleStepCount);
-			}
+			// test bottom point first, if ONLY one of them collide, stick the actor on the ground (XOR operator)
+			if ((!_pPhysicCollision->collide(blPos) && fBLSampleCount >= 0.f) != (!_pPhysicCollision->collide(brPos) && fBRSampleCount >= 0.f)) {
+				if (i==0) { // horizontal
+					fStepCountToExecute = _pPhysicCollision->countStepToNextPixel(bcPos, movementStep, false, pInitiatorEvent->getSize().width);
+				} else {
+					fStepCountToExecute = _pPhysicCollision->countStepToNextPixel(bcPos, movementStep, false, pInitiatorEvent->getSize().height);
+				}
+			} else {
 
-			for (std::vector<float>::iterator itStep=stepsVector.begin(); itStep!=stepsVector.end(); ++itStep) {
-				if (*itStep < fStepCountToExecute && *itStep >= 0) {
-					fStepCountToExecute = *itStep;
+				// test other point
+				if (!_pPhysicCollision->collide(blPos)) { pointToTest.push_back(blPos); }
+				if (!_pPhysicCollision->collide(brPos)) { pointToTest.push_back(brPos); }
+				if (!_pPhysicCollision->collide(trPos)) { pointToTest.push_back(trPos); }
+				if (!_pPhysicCollision->collide(tlPos)) { pointToTest.push_back(tlPos); }
+				if (!_pPhysicCollision->collide(lcPos)) { pointToTest.push_back(lcPos); }
+				if (!_pPhysicCollision->collide(tcPos)) { pointToTest.push_back(tcPos); }
+				if (!_pPhysicCollision->collide(rcPos)) { pointToTest.push_back(rcPos); }
+				if (!_pPhysicCollision->collide(l1Pos)) { pointToTest.push_back(l1Pos); }
+				if (!_pPhysicCollision->collide(l2Pos)) { pointToTest.push_back(l2Pos); }
+				if (!_pPhysicCollision->collide(r1Pos)) { pointToTest.push_back(r1Pos); }
+				if (!_pPhysicCollision->collide(r2Pos)) { pointToTest.push_back(r2Pos); }
+
+				std::vector<float> stepsVector;
+				for (std::vector<Point>::iterator itPoint=pointToTest.begin(); itPoint!=pointToTest.end(); ++itPoint) {
+					float fPossibleStepCount = _pPhysicCollision->countStepToNextPixel(*itPoint, movementStep, false, fMovementLength);
+					stepsVector.push_back(fPossibleStepCount);
+				}
+
+				for (std::vector<float>::iterator itStep=stepsVector.begin(); itStep!=stepsVector.end(); ++itStep) {
+					if (*itStep < fStepCountToExecute && *itStep >= 0) {
+						fStepCountToExecute = *itStep;
+					}
 				}
 			}
 
@@ -226,7 +235,13 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 
 		centerPos = centerPos + (movementStep*fStepCountToExecute);
 
-		if(eRet == VERTICAL) { // in this case, we break. Either we've already done the 2 loops, or the actor land on the ground and wa don't compute vertical displacement
+		if(bIsOnGround) { // in this case, we break. Either we've already done the 2 loops, or the actor land on the ground and we don't compute vertical displacement
+			if (eRet == HORIZONTAL) {
+				eRet = BOTH;
+			} else {
+				eRet = VERTICAL;
+			}
+			nextState = core::ActorState::ON_FLOOR_STATE;
 			break;
 		}
 	}
