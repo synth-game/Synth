@@ -25,6 +25,7 @@
 #include "game/NodeOwnerComponent.h"
 #include "system/IOManager.h"
 #include "sounds/SoundType.h"
+#include "sounds/VoiceManager.h"
 
 #include "events/PauseGameEvent.h"
 #include "events/EditMoveEvent.h"
@@ -301,6 +302,12 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 
 
 	switch(keyCode) {
+
+		case EventKeyboard::KeyCode::KEY_M:
+			CCLOG("Play voice");
+			sounds::VoiceManager::getInstance()->playNextVoice();
+		break;
+
 		case EventKeyboard::KeyCode::KEY_ESCAPE:
 			pPauseGameEvent = new events::PauseGameEvent();
 			CCLOG("Dispatching PauseGameEvent");

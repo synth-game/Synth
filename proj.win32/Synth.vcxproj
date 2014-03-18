@@ -217,6 +217,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\Sounds\LightSwitchSoundComponent.cpp" />
     <ClCompile Include="..\Classes\Sounds\SoundComponent.cpp" />
     <ClCompile Include="..\Classes\Sounds\SoundManager.cpp" />
+    <ClCompile Include="..\Classes\Sounds\VoiceManager.cpp" />
     <ClCompile Include="..\Classes\Sounds\VoiceSoundComponent.cpp" />
     <ClCompile Include="..\Classes\system\IOManager.cpp" />
     <ClCompile Include="..\Classes\system\KeyBinderManager.cpp" />
@@ -324,6 +325,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Sounds\SoundComponent.h" />
     <ClInclude Include="..\Classes\Sounds\SoundManager.h" />
     <ClInclude Include="..\Classes\Sounds\SoundType.h" />
+    <ClInclude Include="..\Classes\Sounds\VoiceManager.h" />
     <ClInclude Include="..\Classes\Sounds\VoiceSoundComponent.h" />
     <ClInclude Include="..\Classes\system\BindedAction.h" />
     <ClInclude Include="..\Classes\system\IOManager.h" />

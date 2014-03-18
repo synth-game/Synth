@@ -300,6 +300,9 @@
     <ClCompile Include="..\Classes\game\SwitchableComponent.cpp">
       <Filter>Classes\game</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Sounds\VoiceManager.cpp">
+      <Filter>Classes\sounds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -619,6 +622,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\game\SwitchableComponent.h">
       <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sounds\VoiceManager.h">
+      <Filter>Classes\sounds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
