@@ -43,7 +43,7 @@ Point PhysicCollision::getNextPixel(Point position, Point direction, bool bVoid)
 		// out of image
 		if(wantedPixel.x < 0 || wantedPixel.x >= _pBitmask->getWidth() || wantedPixel.y < 0 || wantedPixel.y >= _pBitmask->getHeight()) {
 			CCLOG("OUT OF IMAGE COLLISION");
-			//wantedPixel = position;
+			wantedPixel = Point(-5.f, -5.f);
 			break;
 		}
 
@@ -63,7 +63,7 @@ float PhysicCollision::countStepToNextPixel(Point position, Point direction, boo
 
 		// out of image
 		if(wantedPixel.x < 0 || wantedPixel.x >= _pBitmask->getWidth() || wantedPixel.y < 0 || wantedPixel.y >= _pBitmask->getHeight()) {
-			fRet = 0.f;
+			fRet = fMaxLength;
 			break;
 		}
 
@@ -125,14 +125,15 @@ Point PhysicCollision::convertToWorldSpace(Point imageSpacePos) {
 }
 
 unsigned char PhysicCollision::getValue(Point pixel) {
-	CCASSERT(pixel.x >= 0 , "PhysicCollision : Out of array search for pixel value.");
-	CCASSERT(pixel.x < _pBitmask->getWidth() , "PhysicCollision : Out of array search for pixel value.");
-	CCASSERT(pixel.y >= 0 , "PhysicCollision : Out of array search for pixel value.");
-	CCASSERT(pixel.y < _pBitmask->getHeight() , "PhysicCollision : Out of array search for pixel value.");
+	unsigned char ucRet = 255;
 
 	int iX = static_cast<int>(pixel.x);
 	int iY = static_cast<int>(pixel.y);
-	return _pBitmask->getData()[4*(iX + iY*_pBitmask->getWidth())];
+	if(iX>=0 && iX<_pBitmask->getWidth() && iY>=0 && iY<_pBitmask->getHeight()) {
+		ucRet = _pBitmask->getData()[4*(iX + iY*_pBitmask->getWidth())];
+	}
+
+	return ucRet;
 }
 
 }  // namespace physics

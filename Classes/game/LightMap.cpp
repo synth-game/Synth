@@ -132,7 +132,7 @@ Color4B LightMap::getPixelLighting(Point absPos) {
 	int iX = static_cast<int>(absPos.x/_iResolutionCoef);
 	int iY = _iH - static_cast<int>(absPos.y/_iResolutionCoef);
 
-	if (iX < _iW && iY < _iH) {
+	if (iX>=0 && iX<_iW && iY>=0 && iY<_iH) {
 		colorRet = _pixelGrid[iX + iY*_iW].first;
 	}
 

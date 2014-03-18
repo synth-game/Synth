@@ -77,7 +77,6 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 		int ownerId;
 		std::string sOn = "";
 		std::vector<int> aOwnerIds;
-		Point minPosition, maxPosition = Point::ZERO;
 
 		pActorData = pXMLFile->FirstChildElement("actor");
 		while (pActorData) {
@@ -112,12 +111,8 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					pAnchorPointData = pComponentData->FirstChildElement("anchorPoint");
 					anchorPointX = pAnchorPointData->FloatAttribute("x");
 					anchorPointY = pAnchorPointData->FloatAttribute("y");
-					// Min position
-					minPosition = Point(0,0);
-					// Max position
-					maxPosition = Point(pLevelLayer->getChildByTag(42)->getContentSize().width, pLevelLayer->getChildByTag(42)->getContentSize().height);
 					// Create GeometryComponent
-					aComponents.push_back(physics::GeometryComponent::create(Point(positionX, positionY), Size(width, height), rotate, Point(anchorPointX, anchorPointY), minPosition, maxPosition));
+					aComponents.push_back(physics::GeometryComponent::create(Point(positionX, positionY), Size(width, height), rotate, Point(anchorPointX, anchorPointY)));
 					break;
 				case core::ComponentType::MOVEMENT:
 					// Acceleration
@@ -246,31 +241,33 @@ physics::LightCollision* LevelFactory::buildLightsCollision(LightMap* pLightMap,
 	return new physics::LightCollision(aLights, pLightMap);
 }
 
-void LevelFactory::buildLevelSprite(LevelSprite* pLevelSprite, std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights) {
-	if (pLevelSprite != nullptr) {
-		for(int i = 0; i < aLights.size(); i++) {
-			game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(aLights[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-			core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
-			Color4B color = Color4B(0, 0, 0, 0);
-			if(firefly != nullptr) {
-				switch (firefly->getActorType()) {
-				case core::ActorType::RED_FIREFLY:
-					color = Color4B::RED;
-					break;
-				case core::ActorType::GREEN_FIREFLY:
-					color = Color4B::GREEN;
-					break;
-				case core::ActorType::BLUE_FIREFLY:
-					color = Color4B::BLUE;
-					break;
-				default:
-					break;
-				}
-
-				pLevelSprite->addLight(aLights[i]->getActorID(), Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color);
+LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights) {
+	LevelSprite* pRet = LevelSprite::create(std::string("levels/"+levelName+"/bitmask.png").c_str());
+	for(int i = 0; i < aLights.size(); i++) {
+		game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(aLights[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+		core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+		Color4B color = Color4B(0, 0, 0, 0);
+		if(firefly != nullptr) {
+			switch (firefly->getActorType()) {
+			case core::ActorType::RED_FIREFLY:
+				color = Color4B::RED;
+				break;
+			case core::ActorType::GREEN_FIREFLY:
+				color = Color4B::GREEN;
+				break;
+			case core::ActorType::BLUE_FIREFLY:
+				color = Color4B::BLUE;
+				break;
+			default:
+				break;
 			}
+
+			pRet->addLight(aLights[i]->getActorID(), Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color);
 		}
 	}
+	pLevelLayer->addChild(pRet, 0, 42);
+
+	return pRet;
 }
 
 LightMap* LevelFactory::buildLightMap(std::string levelName) {
