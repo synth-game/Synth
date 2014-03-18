@@ -1,5 +1,7 @@
 #include "PhysicCollision.h"
 
+#include <algorithm>
+
 namespace physics { 
 
 PhysicCollision::PhysicCollision(Image* pBitmask, Point absoluteOriginPosition) 
@@ -74,6 +76,38 @@ float PhysicCollision::countStepToNextPixel(Point position, Point direction, boo
 	}
 
 	return fRet;
+}
+
+float PhysicCollision::computeSurfaceSlope(Point surfaceSample) {
+	float fRet = 100000.f;
+
+	if (collide(surfaceSample) && collide(surfaceSample)) {
+		Point secondSurfaceSample = getBelowSurfacePixel(surfaceSample, 5.f);
+
+		if (secondSurfaceSample.x > surfaceSample.x) {
+			fRet = (surfaceSample.y - secondSurfaceSample.y)/(surfaceSample.x - secondSurfaceSample.x);
+		} else if ( secondSurfaceSample.x < surfaceSample.x ) {
+			fRet = (secondSurfaceSample.y - surfaceSample.y)/(secondSurfaceSample.x - surfaceSample.x);
+		}
+	}
+	
+	return fRet;
+}
+
+Point PhysicCollision::getBelowSurfacePixel(Point surfacePos, float distance) {
+	Point pos1 = surfacePos;
+	Point pos2 = Point(pos1.x, std::max(pos1.y-distance, 0.f));
+	
+	Point lNearestVoidPixel = getNextPixel(pos1, Point(-1.f, 0.f), true);
+	Point rNearestVoidPixel = getNextPixel(pos1, Point( 1.f, 0.f), true);
+
+	Point dir = Point(-1.f, 0.f);
+	if (abs(pos1.x - rNearestVoidPixel.x) < abs(pos1.x - lNearestVoidPixel.x)) {
+		dir.x = 1.f;
+	}
+
+	pos2 = getNextPixel(pos2, dir, true);
+	return pos2;
 }
 
 Point PhysicCollision::convertToImageSpace(Point absolutePos) {

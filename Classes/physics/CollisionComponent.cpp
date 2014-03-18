@@ -133,6 +133,7 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 	Size halfSize = pInitiatorEvent->getSize()/2.f;
 	Size quarterSize = pInitiatorEvent->getSize()/4.f;
 	float fMovementLength;
+	float fBigMovementLength;
 	Point movementStep;
 	bool bIsOnGround = false;
 
@@ -143,10 +144,12 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 		if (i==0) {
 			// first loop - horizontal displacement
 			fMovementLength = abs(movementDir.x);
+			fBigMovementLength = pInitiatorEvent->getSize().width;
 			movementStep = Point(movementDir.x, 0).normalize();
 		} else {
 			// second loop - vertical displacement
 			fMovementLength = abs(movementDir.y);
+			fBigMovementLength = pInitiatorEvent->getSize().height;
 			movementStep = Point(0, movementDir.y).normalize();
 		}
 
@@ -172,22 +175,33 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 
 		// first, test if the actor land on the ground
 		float fBCSampleCount = _pPhysicCollision->countStepToNextPixel(bcPos, movementStep, false, fMovementLength);
+		float fBigBCSampleCount = _pPhysicCollision->countStepToNextPixel(bcPos, movementStep, false, fBigMovementLength);
 		float fBLSampleCount = _pPhysicCollision->countStepToNextPixel(blPos, movementStep, false, fMovementLength);
 		float fBRSampleCount = _pPhysicCollision->countStepToNextPixel(brPos, movementStep, false, fMovementLength);
-		if ((!_pPhysicCollision->collide(bcPos)) && fBCSampleCount >= 0.f) {
-			// bottom center point collide a wall
+		if ((!_pPhysicCollision->collide(bcPos)) && fBCSampleCount >= 0.f // bottom center point collide a wall
+			&& _pPhysicCollision->collide(bcPos + movementStep*fBCSampleCount + Point(0., -1)) ) { // test if there is void below the moved bc pixel
 			fStepCountToExecute = fBCSampleCount;
 			bIsOnGround = true;
 		} else {
 			std::vector<Point> pointToTest;
 
 			// test bottom point first, if ONLY one of them collide, stick the actor on the ground (XOR operator)
-			if ((!_pPhysicCollision->collide(blPos) && fBLSampleCount >= 0.f) != (!_pPhysicCollision->collide(brPos) && fBRSampleCount >= 0.f)) {
-				if (i==0) { // horizontal
-					fStepCountToExecute = _pPhysicCollision->countStepToNextPixel(bcPos, movementStep, false, pInitiatorEvent->getSize().width);
+			if ((!_pPhysicCollision->collide(blPos) && fBLSampleCount >= 0.f) != (!_pPhysicCollision->collide(brPos) && fBRSampleCount >= 0.f)
+				&& _pPhysicCollision->collide(bcPos + movementStep*fBigBCSampleCount + Point(0., -1)) ) { // test if there is void below the moved bc pixel) {
+				/*Point newBCPos = bcPos + movementStep*fBigBCSampleCount;
+				if((!_pPhysicCollision->collide(blPos) && fBLSampleCount >= 0.f)) {
+					newBCPos.x -= 1.f;
 				} else {
-					fStepCountToExecute = _pPhysicCollision->countStepToNextPixel(bcPos, movementStep, false, pInitiatorEvent->getSize().height);
+					newBCPos.x += 1.f;
 				}
+				// test the slope coeff to see if we stick or if we repulse
+					if(_pPhysicCollision->computeSurfaceSlope(newBCPos) > SLOPE_THRESHOLD) {
+						centerPos = centerPos + _pPhysicCollision->getBelowSurfacePixel(newBCPos, movementDir.y) - bcPos + movementStep*fBigBCSampleCount;
+						break;
+					} else {*/
+						fStepCountToExecute = fBigBCSampleCount;
+						bIsOnGround = true;
+					//}
 			} else {
 
 				// test other point

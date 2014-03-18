@@ -30,6 +30,8 @@ public:
 	bool collide(Point position);
 	Point getNextPixel(Point position, Point direction, bool bVoid);
 	float countStepToNextPixel(Point position, Point direction, bool bVoid, float fMaxLength);
+	float computeSurfaceSlope(Point surfaceSample);
+	Point getBelowSurfacePixel(Point pos, float distance);
 
 protected:
 	Point convertToImageSpace(Point absolutePos);
