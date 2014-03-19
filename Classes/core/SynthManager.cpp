@@ -53,6 +53,7 @@ void SynthManager::init() {
 }
 
 void SynthManager::onNewGameEvent(EventCustom* event) {
+	displayLoading();
 	_pGameScene = menu::GameScene::create();
 	Director::getInstance()->replaceScene(_pGameScene);
 }
@@ -80,6 +81,18 @@ void SynthManager::onLoadSelectedLevelEvent(EventCustom* event) {
 void SynthManager::onExitGameEvent(EventCustom* event) {
 	Director::getInstance()->end();
 	exit(0);
+}
+
+void SynthManager::displayLoading() {
+	Layer* pLayer = Layer::create();
+	Sprite* pLoading = Sprite::create("sprites/loading.png");
+	Scene* pScene = Scene::create();
+	pLayer->addChild(pLoading);
+	pScene->addChild(pLayer);
+	Director::getInstance()->replaceScene(pScene);
+}
+
+void SynthManager::removeLoading() {
 }
 
 }  // namespace core

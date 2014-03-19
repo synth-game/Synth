@@ -77,7 +77,6 @@ void SoundManager::init() {
 
 		for (auto musicData : _musics) {
 			Music playMusic = musicData.second;
-			//FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(playMusic.iChannel);
 		}
 
 	}
@@ -94,7 +93,6 @@ void SoundManager::init() {
 		pEffectData = pEffectsFile->FirstChildElement("effect");
 		while (pEffectData) {
 			effect = Effect();
-			//effect.eTag = __getSoundType(pEffectData->Attribute("tag"));
 			effect.filePath = pEffectData->Attribute("name");
 			sLoop = pEffectData->Attribute("isLoop");
 			if(sLoop != "true") {

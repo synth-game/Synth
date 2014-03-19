@@ -36,6 +36,9 @@ private:
 	void onLoadSelectedLevelEvent(EventCustom* event);
 	void onExitGameEvent(EventCustom* event);
 
+	void displayLoading();
+	void removeLoading();
+
 	menu::TitleScreenScene* _pTitleScreenScene;
 	menu::CreditsScene* _pCreditsScene;
 	menu::GameScene* _pGameScene;
