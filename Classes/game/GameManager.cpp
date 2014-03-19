@@ -185,9 +185,8 @@ void GameManager::update(float fDt) {
 
 void GameManager::loadLevel(/*int iLevelId*/std::string level) {
     CCLOG("GameManager::loadLevel : LOAD LEVEL");
-	Sprite* pBgSprite = Sprite::create("sprites/decor.jpg");
+	Sprite* pBgSprite = Sprite::create(("levels/"+level+"/background.jpg").c_str());
 	pBgSprite->setAnchorPoint(Point::ZERO);
-	pBgSprite->setScale(2.f);
 	_pBackgroundLayer->addChild(pBgSprite);
 
 	// Build actors
