@@ -244,8 +244,9 @@ physics::LightCollision* LevelFactory::buildLightsCollision(LightMap* pLightMap,
 LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights) {
 	LevelSprite* pRet = LevelSprite::create(std::string("levels/"+levelName+"/bitmask.png").c_str());
 	for(int i = 0; i < aLights.size(); i++) {
-		game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(aLights[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-		core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+		game::NodeOwnerComponent* pNodeOwnerComp = static_cast<game::NodeOwnerComponent*>(aLights[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+		game::SwitchableComponent* pSwitchableComp = static_cast<game::SwitchableComponent*>(aLights[i]->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+		core::SynthActor* firefly = static_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
 		Color4B color = Color4B(0, 0, 0, 0);
 		if(firefly != nullptr) {
 			switch (firefly->getActorType()) {
@@ -262,7 +263,7 @@ LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevel
 				break;
 			}
 
-			pRet->addLight(aLights[i]->getActorID(), Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color);
+			pRet->addLight(aLights[i]->getActorID(), Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color, pSwitchableComp->isOn());
 		}
 	}
 	pLevelLayer->addChild(pRet, 0, 42);

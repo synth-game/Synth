@@ -22,7 +22,7 @@ public:
 	~LevelSprite();
 
 	static LevelSprite* create(const char* sBackgroundPath);
-	void addLight(int actorID, Texture2D* pTexture, Color4B color);
+	void addLight(int actorID, Texture2D* pTexture, Color4B color, bool bOn);
 	void updateLight(core::SynthActor* pLamp);
 	void draw();
 

@@ -49,7 +49,7 @@ LevelSprite* LevelSprite::create(const char* sBackgroundPath) {
 	return pRet;
 }
 
-void LevelSprite::addLight(int actorID, Texture2D* pTexture, Color4B color) {
+void LevelSprite::addLight(int actorID, Texture2D* pTexture, Color4B color, bool bOn) {
 	if (_lightTextures.size() < SHA_LIGHT_MAX_COUNT) {
 		LightTexture* pLT = new LightTexture();
 		pLT->actorID = actorID;
@@ -58,6 +58,9 @@ void LevelSprite::addLight(int actorID, Texture2D* pTexture, Color4B color) {
 		pLT->col.push_back(static_cast<float>(color.g)/255.f);
 		pLT->col.push_back(static_cast<float>(color.b)/255.f);
 		pLT->col.push_back(static_cast<float>(color.a)/255.f);
+		if (bOn == false) {
+			pLT->col[3] = 0.f;
+		}
 		_lightTextures.push_back(pLT);
 	} else {
 		CCLOG("There already are maximum of lights in LevelSprite. Can't add another one.");
