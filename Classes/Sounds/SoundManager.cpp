@@ -165,6 +165,10 @@ bool SoundManager::stopEffect(SoundComponent* component) {
 	return true;
 }
 
+void SoundManager::stopEffects() {
+	FmodAudioPlayer::sharedPlayer()->stopAllEffects();
+}
+
 void SoundManager::updateMusics(Color4B color) {
 	Music music = Music();
 	if(color != Color4B(0,0,0,0)) {

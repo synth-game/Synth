@@ -67,6 +67,8 @@ public:
 	bool stopMusic(Music music);
 	bool stopEffect(SoundComponent* component);
 
+	void stopEffects();
+
 	void updateMusics(Color4B color);
 
 	bool unmuteMusics();

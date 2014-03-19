@@ -7,6 +7,7 @@
 #include "events/PauseGameEvent.h"
 #include "events/ResumeGameEvent.h"
 #include "core/SynthConfig.h"
+#include "sounds/SoundManager.h"
 
 namespace menu {
 
@@ -87,6 +88,7 @@ void GameScene::launchLevel(int iLevelID) {
 
 void GameScene::onDeathEvent(Event* pEvent) {
 	events::DeathEvent* deathEvent = static_cast<events::DeathEvent*>(pEvent);
+	sounds::SoundManager::getInstance()->stopEffects();
 	_pGameLayer->resetLevel();
 	initCamera();
 }
