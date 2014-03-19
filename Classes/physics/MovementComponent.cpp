@@ -14,6 +14,7 @@
 #include "core/SynthActor.h"
 #include "physics/GeometryComponent.h"
 #include "physics/CollisionComponent.h"
+#include "sounds/HeroSoundComponent.h"
 
 #define MAX_X_SPEED 200.f
 #define MAX_Y_SPEED 400.f
@@ -104,6 +105,10 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 			_speed.x = MAX_JUMP_SPEED*direction.x;
             _speed.y = MAX_JUMP_SPEED*direction.y;
 			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
+			sounds::HeroSoundComponent* pHeroSoundComp = static_cast<sounds::HeroSoundComponent*>(_owner->getComponent(sounds::HeroSoundComponent::COMPONENT_TYPE));
+			if (pHeroSoundComp != nullptr ) {
+				pHeroSoundComp->onJump(pEvent);
+			}
 			events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
 			EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
         } else {

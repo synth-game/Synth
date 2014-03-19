@@ -76,12 +76,12 @@ void FireflySoundComponent::onToggleLight(EventCustom* pEvent) {
 void FireflySoundComponent::onChangeNodeOwner(EventCustom* pEvent) {
 
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent	= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
-    core::SynthActor* pSource							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+    core::SynthActor* pOwned							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getOwned());
     core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
 	_eCurrentTag = SoundType::FIREFLY_INTERACT;
 
-    if (pSource->getActorID() == pOwner->getActorID()) {
+    if (pOwned->getActorID() == pOwner->getActorID()) {
 		CCLOG("RUN INTERACT FIREFLY SOUND EFFECT");
 		playSound(_eCurrentTag);
     }
