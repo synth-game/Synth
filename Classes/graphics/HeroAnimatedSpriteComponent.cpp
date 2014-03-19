@@ -32,7 +32,6 @@ HeroAnimatedSpriteComponent::HeroAnimatedSpriteComponent(Layer* pParent) :
 HeroAnimatedSpriteComponent::~HeroAnimatedSpriteComponent() {
 	EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
 	EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
-	EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
 	EventDispatcher::getInstance()->removeEventListener(_pChangeNodeOwnerEventListener);
     EventDispatcher::getInstance()->removeEventListener(_pInterruptMoveEventListener);
 }
@@ -75,7 +74,6 @@ void HeroAnimatedSpriteComponent::onEnter() {
 void HeroAnimatedSpriteComponent::initListeners() {
     AnimatedSpriteComponent::initListeners();
 	_pEditMoveEventListener = cocos2d::EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onEditMove, this));
-	_pJumpEventListener = cocos2d::EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onJump, this));
 	_pChangeNodeOwnerEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onChangeNodeOwner, this));
 	_pToggleLightEventListener = cocos2d::EventListenerCustom::create(events::ToggleLightEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onToggleLight, this));
 	_pDeathEventListener = cocos2d::EventListenerCustom::create(events::DeathEvent::EVENT_NAME, CC_CALLBACK_1(HeroAnimatedSpriteComponent::onDeath, this));
@@ -88,7 +86,6 @@ void HeroAnimatedSpriteComponent::initListeners() {
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateEventListener, 1);
-	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pJumpEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeNodeOwnerEventListener, 1);
     EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pInterruptMoveEventListener, 1);
 }

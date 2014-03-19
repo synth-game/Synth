@@ -15,6 +15,7 @@
 #include "physics/GeometryComponent.h"
 #include "physics/CollisionComponent.h"
 #include "sounds/HeroSoundComponent.h"
+#include "graphics/HeroAnimatedSpriteComponent.h"
 
 #define MAX_X_SPEED 200.f
 #define MAX_Y_SPEED 400.f
@@ -108,6 +109,10 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 			sounds::HeroSoundComponent* pHeroSoundComp = static_cast<sounds::HeroSoundComponent*>(_owner->getComponent(sounds::HeroSoundComponent::COMPONENT_TYPE));
 			if (pHeroSoundComp != nullptr ) {
 				pHeroSoundComp->onJump(pEvent);
+			}
+			graphics::HeroAnimatedSpriteComponent* pHeroAnimComp = static_cast<graphics::HeroAnimatedSpriteComponent*>(_owner->getComponent(graphics::HeroAnimatedSpriteComponent::COMPONENT_TYPE));
+			if (pHeroAnimComp != nullptr ) {
+				pHeroAnimComp->onJump(pEvent);
 			}
 			events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
 			EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
