@@ -28,10 +28,12 @@ public:
 
 	inline int getWidth() { return _iW; };
 	inline int getHeight() { return _iH; };
-	inline std::vector<std::pair<Color4B, std::vector<std::pair<int, bool>>>> getPixelGrid() { return _pixelGrid; };
+	inline std::map<int,std::pair<Color4B, std::vector<std::pair<int, bool>>>>& getPixelGrid() { return _pixelGrid; };
 
+	void fastUpdate(core::SynthActor* pLight, std::vector<core::SynthActor*>& lights);
 	void updateLighting(std::vector<core::SynthActor*>& lights);
 	Color4B getPixelLighting(Point absPos);
+	void onChangeNodeOwner(EventCustom* pEvent, core::SynthActor* pOwner, std::vector<core::SynthActor*>& lights);
 
 protected:
 	/*! \brief Constructor */
@@ -40,7 +42,7 @@ protected:
 	int _iW;
 	int _iH;
 	int _iResolutionCoef;
-	std::vector<std::pair<Color4B, std::vector<std::pair<int, bool>>>> _pixelGrid;
+	std::map<int,std::pair<Color4B, std::vector<std::pair<int, bool>>>> _pixelGrid;
 };
 
 }	// namespace game

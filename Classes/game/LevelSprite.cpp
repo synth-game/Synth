@@ -66,14 +66,14 @@ void LevelSprite::addLight(int actorID, Texture2D* pTexture, Color4B color) {
 
 void LevelSprite::updateLight(core::SynthActor* pLamp) {
 	CCASSERT(pLamp->getActorType() == core::ActorType::LIGHT, "LevelFactory::updateLight. The lamp is not what we thought it is ! KILL IT NOW !");
-	game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(pLamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-	game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pLamp->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
-	core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+	game::NodeOwnerComponent* pNodeOwnerComp = static_cast<game::NodeOwnerComponent*>(pLamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+	game::SwitchableComponent* pSwitchableComp = static_cast<game::SwitchableComponent*>(pLamp->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+	core::SynthActor* firefly = static_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
 
 	for (auto texture : _lightTextures) {
 		if (texture->actorID == pLamp->getActorID()) {
-			if(firefly != nullptr) {
-				Color4B color = Color4B(0, 0, 0, 0);
+			Color4B color = Color4B(0, 0, 0, 0);
+			if(firefly != nullptr && pSwitchableComp->isOn()) {
 				switch (firefly->getActorType()) {
 				case core::ActorType::RED_FIREFLY:
 					color = Color4B::RED;
@@ -87,15 +87,12 @@ void LevelSprite::updateLight(core::SynthActor* pLamp) {
 				default:
 					break;
 				}
-				texture->col[0] = color.r;
-				texture->col[1] = color.g;
-				texture->col[2] = color.b;
 			}
-			if(pSwitchableComp->isOn()) {
-				texture->col[3] = 1.f;
-			} else {
-				texture->col[3] = 0.f;
-			}
+
+			texture->col[0] = static_cast<float>(color.r)/255.f;
+			texture->col[1] = static_cast<float>(color.g)/255.f;
+			texture->col[2] = static_cast<float>(color.b)/255.f;
+			texture->col[3] = static_cast<float>(color.a)/255.f;
 		}
 	}
 }
@@ -103,18 +100,23 @@ void LevelSprite::updateLight(core::SynthActor* pLamp) {
 void LevelSprite::draw() {
 	_shaderProgram->use();
 	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_LevelPixelSize"), 1.f/_contentSize.width, 1.f/_contentSize.height);
-	_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName("SY_LightCount"), _lightTextures.size());
+
+	int iLightOnCount = 0;
 	for(unsigned int i=0; i<_lightTextures.size(); ++i) {
-		std::stringstream lightLocation;
-		lightLocation << "SY_Lights_" << i;
-		_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName(lightLocation.str().c_str()), i+1);
+		if(_lightTextures[i]->col[3] > 0.0001f) {
+			std::stringstream lightLocation;
+			lightLocation << "SY_Lights_" << iLightOnCount;
+			_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName(lightLocation.str().c_str()), iLightOnCount+1);
 
-		std::stringstream colorLocation;
-		colorLocation << "SY_Colors["<<i<<"]";
-		_shaderProgram->setUniformLocationWith4fv(_shaderProgram->getUniformLocationForName(colorLocation.str().c_str()), &(_lightTextures[i]->col[0]), 1);
+			std::stringstream colorLocation;
+			colorLocation << "SY_Colors["<<iLightOnCount<<"]";
+			_shaderProgram->setUniformLocationWith4fv(_shaderProgram->getUniformLocationForName(colorLocation.str().c_str()), &(_lightTextures[i]->col[0]), 1);
 
-		GL::bindTexture2DN(i+1, _lightTextures[i]->pTex->getName());
+			GL::bindTexture2DN(iLightOnCount+1, _lightTextures[i]->pTex->getName());
+			++iLightOnCount;
+		}
 	}
+	_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName("SY_LightCount"), iLightOnCount);
 
 	Sprite::draw();
 

@@ -66,6 +66,16 @@ void FollowMovementComponent::onChangeTarget(EventCustom* pEvent) {
     }
 }
 
+void FollowMovementComponent::setTarget(core::SynthActor* target) {
+	if(_target != nullptr) {
+		if(_target->getActorType() == core::ActorType::UNKNOWN_TYPE) {
+			delete _target;
+			_target = nullptr;
+		}
+	}
+	_target = target;
+}
+
 void FollowMovementComponent::update( float fDt ) {
 
 	if( _owner != _target) {

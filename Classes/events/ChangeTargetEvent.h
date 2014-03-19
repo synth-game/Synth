@@ -32,6 +32,7 @@ public:
 
 private:
 	core::SynthActor* _newTarget;
+	core::SynthActor* _fakeTarget;
 
 
 
