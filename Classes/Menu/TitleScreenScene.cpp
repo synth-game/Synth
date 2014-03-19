@@ -30,6 +30,7 @@ TitleScreenScene::TitleScreenScene()
 }
 
 TitleScreenScene::~TitleScreenScene() {
+	//EventDispatcher::getInstance()->removeEventListener(_pDeathEventListener);
 }
 
 TitleScreenScene* TitleScreenScene::create(std::string sBgFileName, bool bIsThereGame) {

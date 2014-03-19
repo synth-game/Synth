@@ -68,6 +68,8 @@ GameManager::GameManager()
 GameManager::~GameManager() {
 	_levelActors.clear();
 	_triggers.clear();
+
+	EventDispatcher::getInstance()->removeEventListener(_pEnterLightListener);
 }
 
 GameManager* GameManager::create() {

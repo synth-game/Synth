@@ -20,6 +20,7 @@ FireflySoundComponent::FireflySoundComponent() :
 
 FireflySoundComponent::~FireflySoundComponent() {
 	EventDispatcher::getInstance()->removeEventListener(_pChangeNodeOwnerEventListener);
+	//EventDispatcher::getInstance()->removeEventListener(_pChangePositionEventListener);
 }
 
 FireflySoundComponent* FireflySoundComponent::create() {

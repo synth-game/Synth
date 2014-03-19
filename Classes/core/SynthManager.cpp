@@ -30,7 +30,8 @@ SynthManager::SynthManager()
 }
 
 SynthManager::~SynthManager() {
-	
+	EventDispatcher::getInstance()->removeEventListener(_pNewGameEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pExitGameEventListener);
 }
 
 void SynthManager::init() {

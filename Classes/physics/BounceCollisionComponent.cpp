@@ -20,6 +20,8 @@ BounceCollisionComponent::BounceCollisionComponent()
 }
 
 BounceCollisionComponent::~BounceCollisionComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pTestCollisionEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pChangeStateCollision);
 }
 
 BounceCollisionComponent* BounceCollisionComponent::create() {

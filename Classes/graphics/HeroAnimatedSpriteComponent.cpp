@@ -34,6 +34,7 @@ HeroAnimatedSpriteComponent::~HeroAnimatedSpriteComponent() {
 	EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
 	EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
 	EventDispatcher::getInstance()->removeEventListener(_pChangeNodeOwnerEventListener);
+    EventDispatcher::getInstance()->removeEventListener(_pInterruptMoveEventListener);
 }
 
 bool HeroAnimatedSpriteComponent::init() {
