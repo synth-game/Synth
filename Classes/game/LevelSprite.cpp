@@ -10,6 +10,7 @@
 #include "game/NodeOwnerComponent.h"
 #include "game/SwitchableComponent.h"
 #include "graphics/SpriteComponent.h"
+#include "sounds/SoundManager.h"
 
 #include "events/ChangeNodeOwnerEvent.h"
 
@@ -64,6 +65,14 @@ void LevelSprite::addLight(int actorID, Texture2D* pTexture, Color4B color, bool
 		_lightTextures.push_back(pLT);
 	} else {
 		CCLOG("There already are maximum of lights in LevelSprite. Can't add another one.");
+	}
+}
+
+void LevelSprite::addLightSwitch(physics::GeometryComponent* pComp) {
+	if (pComp != nullptr) {
+		_lightSwitches.push_back(pComp);
+	} else {
+		CCLOG("LevelSprite addLightSwitch :: component is nullptr");
 	}
 }
 
@@ -127,6 +136,13 @@ void LevelSprite::draw() {
 	for(unsigned int i=0; i<_lightTextures.size(); ++i) {
 		GL::bindTexture2DN(i+1, 0);
 	}
+
+	for (auto lightSwitch : _lightSwitches) {
+		Point origin = Point(lightSwitch->getPosition().x - (lightSwitch->getSize().width/2), lightSwitch->getPosition().y);
+		Point destination = Point(lightSwitch->getPosition().x+(lightSwitch->getSize().width/2), lightSwitch->getPosition().y+(lightSwitch->getSize().height));
+		DrawPrimitives::drawSolidRect(origin, destination, Color4F::BLACK);
+	}
+
 }
 
 // this method doesnt listen the event, it is called by the node owner component

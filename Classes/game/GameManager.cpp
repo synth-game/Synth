@@ -212,6 +212,16 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 		_pLightMap = LevelFactory::getInstance()->buildLightMap(level);
 	}
 
+	// Add lightswitches to levelsprite so that it can draw it
+	for (auto actor : _levelActors) {
+		if (actor->getActorType() == core::ActorType::LIGHTSWITCH) {
+			physics::GeometryComponent* pLSGeometryComp = static_cast<physics::GeometryComponent*>(actor->getComponent("GeometryComponent"));
+			if (pLSGeometryComp != nullptr) {
+				_pLevelSprite->addLightSwitch(pLSGeometryComp);
+			}
+		}
+	}
+
 	// Initialize the LightCollision of the HERO actor
 	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
 	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));

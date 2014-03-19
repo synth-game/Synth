@@ -10,6 +10,7 @@
 #include <vector>
 #include "cocos2d.h"
 #include "Core/SynthActor.h"
+#include "physics/GeometryComponent.h"
 
 USING_NS_CC;
 
@@ -23,6 +24,7 @@ public:
 
 	static LevelSprite* create(const char* sBackgroundPath);
 	void addLight(int actorID, Texture2D* pTexture, Color4B color, bool bOn);
+	void addLightSwitch(physics::GeometryComponent* pComp);
 	void updateLight(core::SynthActor* pLamp);
 	void draw();
 
@@ -41,6 +43,8 @@ protected:
 	LevelSprite();
 
 	std::vector<LightTexture*> _lightTextures;
+
+	std::vector<physics::GeometryComponent*> _lightSwitches;
 
 };
 

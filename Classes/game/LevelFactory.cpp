@@ -113,6 +113,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					anchorPointY = pAnchorPointData->FloatAttribute("y");
 					// Create GeometryComponent
 					aComponents.push_back(physics::GeometryComponent::create(Point(positionX, positionY), Size(width, height), rotate, Point(anchorPointX, anchorPointY)));
+					
 					break;
 				case core::ComponentType::MOVEMENT:
 					// Acceleration
