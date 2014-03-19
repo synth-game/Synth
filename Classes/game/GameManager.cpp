@@ -25,6 +25,7 @@
 #include "game/NodeOwnerComponent.h"
 #include "system/IOManager.h"
 #include "sounds/SoundType.h"
+#include "sounds/VoiceManager.h"
 
 #include "events/PauseGameEvent.h"
 #include "events/EditMoveEvent.h"
@@ -145,6 +146,16 @@ void GameManager::update(float fDt) {
 		_bNextRequested = true;
 	}
 
+	for (map<std::string,Rect>::iterator trigger=_triggers.begin(); trigger!=_triggers.end(); ++trigger) {
+		if (trigger->first =="VOICE"){
+			if(trigger->second.containsPoint(pGeometryComp->getPosition())) {
+				sounds::VoiceManager::getInstance()->playNextVoice();
+				_triggers.erase(trigger);
+				break;
+			}
+		}
+	}
+	
 	// check if the hero is alive - inside the level
 	if(!_pLevelSprite->getTextureRect().containsPoint(pGeometryComp->getPosition())) {
 		_bResetRequested = true;
@@ -297,6 +308,12 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 
 
 	switch(keyCode) {
+
+		case EventKeyboard::KeyCode::KEY_M:
+			CCLOG("Play voice");
+			sounds::VoiceManager::getInstance()->playNextVoice();
+		break;
+
 		case EventKeyboard::KeyCode::KEY_ESCAPE:
 			pPauseGameEvent = new events::PauseGameEvent();
 			CCLOG("Dispatching PauseGameEvent");

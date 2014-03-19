@@ -6,6 +6,7 @@
  */
 #include "TitleScreenScene.h"
 #include "core/SynthManager.h"
+#include "sounds/SoundManager.h"
 
 #include "events/NewGameEvent.h"
 #include "events/ExitGameEvent.h"
@@ -50,6 +51,10 @@ bool TitleScreenScene::init() {
 	Point center = Point(Director::getInstance()->getWinSize().width/2, Director::getInstance()->getWinSize().height/2);
 
 	initListeners();
+
+	sounds::SoundManager::getInstance()->updateMusics(Color4B::BLUE);
+	sounds::SoundManager::getInstance()->updateMusics(Color4B::GREEN);
+	sounds::SoundManager::getInstance()->updateMusics(Color4B::RED);
 
 	_pBackgroundLayer = Layer::create();
 

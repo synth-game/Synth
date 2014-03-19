@@ -7,6 +7,7 @@
 #include "SynthManager.h"
 #include "graphics/GraphicManager.h"
 #include "sounds/SoundManager.h"
+#include "sounds/VoiceManager.h"
 
 #include "events/NewGameEvent.h"
 #include "events/ExitGameEvent.h"
@@ -39,6 +40,7 @@ void SynthManager::init() {
 	//init managers
 	graphics::GraphicManager* gm = graphics::GraphicManager::getInstance();
 	sounds::SoundManager* sm = sounds::SoundManager::getInstance();
+	sounds::VoiceManager* vm = sounds::VoiceManager::getInstance();
 
 	//init listeners
 	_pNewGameEventListener = EventListenerCustom::create(events::NewGameEvent::EVENT_NAME, CC_CALLBACK_1(SynthManager::onNewGameEvent, this));
@@ -51,6 +53,7 @@ void SynthManager::init() {
 }
 
 void SynthManager::onNewGameEvent(EventCustom* event) {
+	displayLoading();
 	_pGameScene = menu::GameScene::create();
 	Director::getInstance()->replaceScene(_pGameScene);
 }
@@ -78,6 +81,18 @@ void SynthManager::onLoadSelectedLevelEvent(EventCustom* event) {
 void SynthManager::onExitGameEvent(EventCustom* event) {
 	Director::getInstance()->end();
 	exit(0);
+}
+
+void SynthManager::displayLoading() {
+	Layer* pLayer = Layer::create();
+	Sprite* pLoading = Sprite::create("sprites/loading.png");
+	Scene* pScene = Scene::create();
+	pLayer->addChild(pLoading);
+	pScene->addChild(pLayer);
+	Director::getInstance()->replaceScene(pScene);
+}
+
+void SynthManager::removeLoading() {
 }
 
 }  // namespace core
