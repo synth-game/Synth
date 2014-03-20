@@ -94,7 +94,8 @@ void NodeOwnerComponent::onChangeNodeOwner(EventCustom* pEvent) {
 	}
 
 	pGameManager->getLevelSprite()->onChangeNodeOwner(pEvent, pOwner);
-	pGameManager->getLightMap()->onChangeNodeOwner(pEvent, pOwner, pGameManager->getActorsByType(core::ActorType::LIGHT));
+    std::vector<core::SynthActor*> lightActors = pGameManager->getActorsByType(core::ActorType::LIGHT);
+	pGameManager->getLightMap()->onChangeNodeOwner(pEvent, pOwner, lightActors);
 
 }
 

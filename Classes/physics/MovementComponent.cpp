@@ -38,7 +38,11 @@ MovementComponent::MovementComponent()
 }
 
 MovementComponent::~MovementComponent() {
-	EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
+}
+    
+void MovementComponent::onExit() {
+    CCLOG("MovementComponent::onExit : NEED TO REMOVE LISTENERS");
+    EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
     EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
 	EventDispatcher::getInstance()->removeEventListener(_pInterruptMoveEventListener);
     EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
@@ -200,6 +204,8 @@ void MovementComponent::update(float fDt) {
 	// compute next position
 	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pGeometryComponent != nullptr, "MovementComponent needs a GeometryComponent added to its owner");
+    _previousPosition = pGeometryComponent->getPosition();
+    //CCLOG("MovementComponent::update PREVIOUS POSITION %.2f, %.2f", _previousPosition.x, _previousPosition.y);
 	Point nextPosition = pGeometryComponent->getPosition() + _speed * ENGINE_SPEED;
 
     _bIsLateralMoving = !(abs(nextPosition.x - _previousNextPositionComputed.x) < 1.f);

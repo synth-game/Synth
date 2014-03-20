@@ -19,6 +19,8 @@
 #include "physics/BounceCollisionComponent.h"
 #include "physics/PhysicCollision.h"
 #include "physics/FollowMovementComponent.h"
+#include "physics/StickMovementComponent.h"
+#include "physics/StickCollisionComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireflyAnimatedSpriteComponent.h"
 #include "graphics/GraphicManager.h"
@@ -290,7 +292,17 @@ void GameManager::onEnterLight(EventCustom* pEvent) {
 		CCLOG("GameManager::onEnterLight : You bounce on the floor ! Awww yeah ! ");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
 		physics::BounceCollisionComponent* bounceCollisionComponent = physics::BounceCollisionComponent::create();
-	} else {
+    }else if (lightColor == Color4B::GREEN) {
+        CCLOG("GameManager::onEnterLight : You are now a sticky girl ! ");
+        /*core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+        physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
+        physics::StickMovementComponent* stickMovementComponent = physics::StickMovementComponent::create(movementComponent->getAcceleration(), movementComponent->getGravity());
+        pHero->removeComponent(physics::MovementComponent::COMPONENT_TYPE);
+        pHero->addComponent(stickMovementComponent);
+    
+        pHero->removeComponent(physics::CollisionComponent::COMPONENT_TYPE);
+        pHero->addComponent(physics::StickCollisionComponent::create());*/
+    } else {
 		CCLOG("GameManager::onEnterLight : Out of any light");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
 		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));

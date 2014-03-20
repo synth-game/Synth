@@ -168,7 +168,12 @@ void HeroAnimatedSpriteComponent::onJump(EventCustom* pEvent) {
     core::SynthActor* pSource							= static_cast<core::SynthActor*>(pJumpEvent->getSource());
     core::SynthActor* pOwner							= static_cast<core::SynthActor*>(_owner);
 
-    if (getState() == core::ActorState::ON_FLOOR_STATE && pSource->getActorID() == pOwner->getActorID()) {
+    if ((getState() == core::ActorState::ON_FLOOR_STATE
+         || getState() == core::ActorState::STUCK_BOTTOM_STATE
+         || getState() == core::ActorState::STUCK_LEFT_STATE
+         || getState() == core::ActorState::STUCK_RIGHT_STATE
+         || getState() == core::ActorState::STUCK_TOP_STATE
+         ) && pSource->getActorID() == pOwner->getActorID()) {
 		CCLOG("RUN JUMP ANIMATION");
 		runAnimation(AnimationType::HERO_JUMP);
     }
@@ -184,7 +189,12 @@ void HeroAnimatedSpriteComponent::onChangeNodeOwner(EventCustom* pEvent) {
     core::SynthActor* pSource							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
 	core::SynthActor* pOwned							= static_cast<core::SynthActor*>(pNodeOwnerComponent->getOwnedNode());
 
-	if(getState() == core::ActorState::ON_FLOOR_STATE) {
+	if(getState() == core::ActorState::ON_FLOOR_STATE
+       || getState() == core::ActorState::STUCK_BOTTOM_STATE
+       || getState() == core::ActorState::STUCK_LEFT_STATE
+       || getState() == core::ActorState::STUCK_RIGHT_STATE
+       || getState() == core::ActorState::STUCK_TOP_STATE
+       ) {
 		if (pOwned != nullptr && pSource->getActorID() == pOwned->getActorID()) {
 			runAnimation(AnimationType::HERO_INTERACT);
 		}
@@ -228,13 +238,39 @@ void HeroAnimatedSpriteComponent::onChangeState(EventCustom* pEvent) {
 
     if (pSource->getActorID() == pOwner->getActorID()) {
         setState(pChangeStateEvent->getNewState());
-        if (getState() == core::ActorState::ON_FLOOR_STATE) {
-            if (actorIsLateralMoving()) {
-                runAnimation(AnimationType::HERO_WALK);
-            }
-            else {
-                runAnimation(AnimationType::HERO_IDLE);
-            }
+        switch(getState()) {
+            case core::ActorState::NOT_ON_FLOOR_STATE:
+                _pSprite->setRotation(0);
+                _pSprite->setFlippedY(false);
+                runAnimation(AnimationType::HERO_JUMP);
+                break;
+            case core::ActorState::ON_FLOOR_STATE:
+                _pSprite->setRotation(0);
+                _pSprite->setFlippedY(false);
+                if (actorIsLateralMoving()) {
+                    runAnimation(AnimationType::HERO_WALK);
+                }
+                else {
+                    runAnimation(AnimationType::HERO_IDLE);
+                }
+                break;
+            case core::ActorState::STUCK_BOTTOM_STATE:
+                runAnimation(AnimationType::HERO_CRAWL);
+                _pSprite->setRotation(0);
+                _pSprite->setFlippedY(false);
+                break;
+            case core::ActorState::STUCK_TOP_STATE:
+                _pSprite->setRotation(0);
+                _pSprite->setFlippedY(true);
+                runAnimation(AnimationType::HERO_CRAWL);
+                break;
+            case core::ActorState::STUCK_LEFT_STATE:
+                _pSprite->setFlippedY(false);
+               // _pSprite->setAnchorPoint(Point(0.0f, 0.f));
+                //_pSprite->setRotation(90);
+                runAnimation(AnimationType::HERO_CRAWL);
+            default:
+                break;
         }
     }
     else {

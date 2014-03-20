@@ -30,10 +30,13 @@ CollisionComponent::CollisionComponent()
 
 CollisionComponent::~CollisionComponent() {
 	if (_pPhysicCollision != nullptr) { delete _pPhysicCollision; }
-	EventDispatcher::getInstance()->removeEventListener(_pTestCollisionEventListener);
-	EventDispatcher::getInstance()->removeEventListener(_pChangeStateCollision);
 }
 
+void CollisionComponent::onExit() {
+    EventDispatcher::getInstance()->removeEventListener(_pTestCollisionEventListener);
+    EventDispatcher::getInstance()->removeEventListener(_pChangeStateCollision);
+}
+    
 CollisionComponent* CollisionComponent::create() {
 	CollisionComponent* pCollisionComponent = new CollisionComponent();
 	if (pCollisionComponent != nullptr && pCollisionComponent->init()) {
@@ -88,11 +91,18 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 				EventDispatcher::getInstance()->dispatchEvent(pInterruptMovementEvent);
 			}
 
-			if (eCollision == HORIZONTAL || eCollision == BOTH) {
+			/*if (eCollision == HORIZONTAL || eCollision == BOTH) {
 				// send CollisionEvent for sound and graphic components
+                CCLOG("CollisionComponent::onTestCollision SEND COLLISION EVENT");
 				events::CollisionEvent* pCollisionEvent = new events::CollisionEvent(_owner);
 				EventDispatcher::getInstance()->dispatchEvent(pCollisionEvent);
-			}
+			}*/
+            
+            if (eCollision != NO_COLLISION) {
+                //CCLOG("CollisionComponent::onTestCollision SEND COLLISION EVENT");
+				events::CollisionEvent* pCollisionEvent = new events::CollisionEvent(_owner);
+				EventDispatcher::getInstance()->dispatchEvent(pCollisionEvent);
+            }
 		}
 
 		//check if the PhysicCollision have a LightCollision

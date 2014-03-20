@@ -45,6 +45,7 @@ void GeometryComponent::initListeners() {
 }
 
 void GeometryComponent::onChangePosition(EventCustom* pEvent) {
+    //CCLOG("GeometryComponent::onChangePosition CHANGE POSITION RECEIVED");
 	events::ChangePositionEvent* changePositionEvent = static_cast<events::ChangePositionEvent*>(pEvent);
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(changePositionEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);

@@ -50,6 +50,7 @@ protected:
 
 	bool init();
 	void initListeners();
+    void onExit();
 
 	ECollisionType boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
 	ECollisionType slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);

@@ -11,7 +11,9 @@
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
 #include "physics/BounceCollisionComponent.h"
+#include "physics/StickCollisionComponent.h"
 #include "physics/FollowMovementComponent.h"
+#include "physics/StickMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireFlyAnimatedSpriteComponent.h"
 #include "system/IOManager.h"
@@ -53,7 +55,9 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("GEOMETRY",					core::ComponentType::GEOMETRY));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("MOVEMENT",					core::ComponentType::MOVEMENT));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FOLLOWMOVEMENT",			core::ComponentType::FOLLOWMOVEMENT));
+    componentTagsMap.insert(std::pair<std::string, core::ComponentType>("STICKMOVEMENT",			core::ComponentType::STICKMOVEMENT));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("COLLISION",				core::ComponentType::COLLISION));
+    componentTagsMap.insert(std::pair<std::string, core::ComponentType>("STICKCOLLISION",			core::ComponentType::STICKCOLLISION));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("SPRITE",					core::ComponentType::SPRITE));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("HEROANIMATEDSPRITE",		core::ComponentType::HEROANIMATEDSPRITE));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FIREFLYANIMATEDSPRITE",	core::ComponentType::FIREFLYANIMATEDSPRITE));
@@ -94,6 +98,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 
 			while(pComponentData) {
 				componentType = pComponentData->Attribute("type");
+                CCLOG("LevelFactory::buildActors ACTOR TYPE = %s AND COMPONENT NAME = %s", actorType.c_str(), componentType.c_str());
 				switch(componentTagsMap[componentType]) {
 				case core::ComponentType::GEOMETRY:
 					// Position
@@ -135,9 +140,26 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					// Create FollowMovementComponent
 					aComponents.push_back(physics::FollowMovementComponent::create(Point(accelerationX, accelerationY), actor));
 					break;
+                case core::ComponentType::STICKMOVEMENT:
+                    CCLOG("LevelFactory::buildActors ADD STICKMOVEMENT");
+					// Acceleration
+					pAccelerationData = pComponentData->FirstChildElement("acceleration");
+					accelerationX = pAccelerationData->FloatAttribute("x");
+					accelerationY = pAccelerationData->FloatAttribute("y");
+                    // Gravity
+					pGravityData = pComponentData->FirstChildElement("gravity");
+					gravityX = pGravityData->FloatAttribute("x");
+					gravityY = pGravityData->FloatAttribute("y");
+					// Create StickMovementComponent
+					aComponents.push_back(physics::StickMovementComponent::create(Point(accelerationX, accelerationY), Point(gravityX, gravityY)));
+					break;
 				case core::ComponentType::COLLISION:
 					// Create CollisionComponent
 					aComponents.push_back(__createCollisionComponent(levelName));
+					break;
+                case core::ComponentType::STICKCOLLISION:
+					// Create CollisionComponent
+					aComponents.push_back(__createStickCollisionComponent(levelName));
 					break;
 				case core::ComponentType::SPRITE:
 					name = pComponentData->FirstChildElement("name")->GetText();
@@ -234,6 +256,16 @@ physics::CollisionComponent* LevelFactory::__createCollisionComponent(std::strin
 	pBitmask->initWithImageFile(std::string("levels/"+levelName+"/bitmask.png").c_str()); 
 	physics::PhysicCollision* pCollision = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
 	pRet->addPhysicCollision(pCollision);
+
+	return pRet;
+}
+    
+physics::CollisionComponent* LevelFactory::__createStickCollisionComponent(std::string levelName) {
+	physics::StickCollisionComponent* pRet = physics::StickCollisionComponent::create();
+	Image* pBitmask = new Image();
+	pBitmask->initWithImageFile(std::string("levels/"+levelName+"/bitmask.png").c_str()); 
+	physics::PhysicCollision* pStickCollision = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
+	pRet->addPhysicCollision(pStickCollision);
 
 	return pRet;
 }
