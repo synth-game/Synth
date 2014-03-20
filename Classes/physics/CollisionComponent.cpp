@@ -14,7 +14,7 @@
 #include "events/InterruptMoveEvent.h"
 #include "events/CollisionEvent.h"
 
-#define SLOPE_THRESHOLD 2.f
+#define SLOPE_THRESHOLD 1.5f
 
 namespace physics {
 
@@ -188,7 +188,7 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 			// test bottom point first, if ONLY one of them collide, stick the actor on the ground (XOR operator)
 			if ((!_pPhysicCollision->collide(blPos) && fBLSampleCount >= 0.f) != (!_pPhysicCollision->collide(brPos) && fBRSampleCount >= 0.f)
 				&& _pPhysicCollision->collide(bcPos + movementStep*fBigBCSampleCount + Point(0., -1))) { // test if there is void below the moved bc pixel) {
-					fStepCountToExecute = fBigBCSampleCount;
+					fStepCountToExecute = std::min(fBigBCSampleCount, fMovementLength);
 					bIsOnGround = true;
 			} else {
 

@@ -74,8 +74,8 @@ bool GameScene::init() {
 }
 
 void GameScene::initCamera() {
-	float playfield_width = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().width;
-    float playfield_height = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().height;
+	float playfield_width = _pGameLayer->getLevelSprite()->getContentSize().width;
+    float playfield_height = _pGameLayer->getLevelSprite()->getContentSize().height;
 	Rect boundaries =  Rect( 0.f, 0.f , playfield_width, playfield_height);
 
 	graphics::AnimatedSpriteComponent* pAnimatedSpriteComponent = static_cast<graphics::AnimatedSpriteComponent*>(_pGameLayer->getActorsByType(core::ActorType::HERO)[0]->getComponent(graphics::AnimatedSpriteComponent::COMPONENT_TYPE));

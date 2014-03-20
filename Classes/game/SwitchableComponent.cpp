@@ -64,7 +64,7 @@ void SwitchableComponent::onToggleLight(EventCustom* pEvent) {
 		CCASSERT(pLampNodeOwnerComponent != nullptr , "The lamp owned by the target of toggle light event has to have a node owner component");
 		_bOn = pToggleLightEvent->isOn();
 		pGameManager->getLevelSprite()->updateLight(pLamp);
-		pGameManager->getLightMap()->fastUpdate(pLamp, pGameManager->getActorsByType(core::ActorType::LIGHT));
+		pGameManager->getLightMap()->updateLighting(pGameManager->getActorsByType(core::ActorType::LIGHT));
 
     } else {
         CCLOG("TOGGLE LIGHT EVENT RECEIVED BUT ID NOT THE SAME");
