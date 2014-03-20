@@ -16,6 +16,7 @@
 #include "events/ChangePositionEvent.h"
 #include "events/TestCollisionEvent.h"
 
+#define ENGINE_SPEED 0.015f
 
 namespace physics {
 
@@ -118,7 +119,7 @@ void FollowMovementComponent::update( float fDt ) {
 			nextPosition = pOwnerGeometryComponent->getPosition() + relativeTarget;
 		} else {
 			target = target.normalize() * 30;
-			nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y) * fDt;
+			nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y) * ENGINE_SPEED;
 		}
 		
 		physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
@@ -126,9 +127,11 @@ void FollowMovementComponent::update( float fDt ) {
 			//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);
 			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
 			EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+			delete pChangePositionEvent;
 		} else {
 			events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pOwnedGeometryComponent->getPosition(), nextPosition, pOwnedGeometryComponent->getSize());
 			EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+			delete pTestCollisionEvent;
 		}
 		
 	}

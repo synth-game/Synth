@@ -274,7 +274,7 @@ physics::LightCollision* LevelFactory::buildLightsCollision(LightMap* pLightMap,
 	return new physics::LightCollision(aLights, pLightMap);
 }
 
-LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights) {
+LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, std::vector<core::SynthActor*> aLights) {
 	LevelSprite* pRet = LevelSprite::create(std::string("levels/"+levelName+"/bitmask.png").c_str());
 	for(int i = 0; i < aLights.size(); i++) {
 		game::NodeOwnerComponent* pNodeOwnerComp = static_cast<game::NodeOwnerComponent*>(aLights[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
@@ -299,7 +299,6 @@ LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevel
 			pRet->addLight(aLights[i]->getActorID(), Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color, pSwitchableComp->isOn());
 		}
 	}
-	pLevelLayer->addChild(pRet, 0, 42);
 
 	return pRet;
 }

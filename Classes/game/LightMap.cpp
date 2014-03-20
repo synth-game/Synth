@@ -140,6 +140,9 @@ void LightMap::fastUpdate(core::SynthActor* pLight, std::vector<core::SynthActor
 }
 
 void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
+	sounds::SoundManager* soundManager = sounds::SoundManager::getInstance();
+	soundManager->stopAllMusics();
+
 	for(auto itPix=_pixelGrid.begin(); itPix!=_pixelGrid.end(); ++itPix) {
 
 		std::vector<std::pair<int, bool>> currentPixel = itPix->second.second;
@@ -192,7 +195,6 @@ void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
 				itPix->second.first = occultedColor;
 			}
 		}
-		sounds::SoundManager* soundManager = sounds::SoundManager::getInstance();
 		soundManager->updateMusics(itPix->second.first);
 	}
 }
@@ -209,7 +211,7 @@ void LightMap::onChangeNodeOwner(EventCustom* pEvent, core::SynthActor* pOwner, 
 			game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pNewOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
 			if (pSwitchableComp != nullptr) {
 				pSwitchableComp->setOn(true);
-				fastUpdate(pNewOwner, lights);
+				//fastUpdate(pNewOwner, lights);
 			}
 		}
 		// if a firefly leaves a light
@@ -217,9 +219,11 @@ void LightMap::onChangeNodeOwner(EventCustom* pEvent, core::SynthActor* pOwner, 
 			game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pPreviousOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
 			if (pSwitchableComp != nullptr) {
 				pSwitchableComp->setOn(false);
-				fastUpdate(pPreviousOwner, lights);
+				//fastUpdate(pPreviousOwner, lights);
 			}
 		}
+
+		updateLighting(lights);
 	}
 }
 

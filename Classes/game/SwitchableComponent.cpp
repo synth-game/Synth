@@ -65,7 +65,7 @@ void SwitchableComponent::onToggleLight(EventCustom* pEvent) {
 		_bOn = pToggleLightEvent->isOn();
 		pGameManager->getLevelSprite()->updateLight(pLamp);
         std::vector<core::SynthActor*> lightActors = pGameManager->getActorsByType(core::ActorType::LIGHT);
-		pGameManager->getLightMap()->fastUpdate(pLamp, lightActors);
+		pGameManager->getLightMap()->updateLighting(lightActors);
 
     } else {
         CCLOG("TOGGLE LIGHT EVENT RECEIVED BUT ID NOT THE SAME");

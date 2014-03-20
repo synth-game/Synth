@@ -73,6 +73,7 @@ void BounceCollisionComponent::onTestCollision(EventCustom* pEvent) {
 				}
 				pMoveEvent = new events::JumpEvent(_owner, direction, true);
 				EventDispatcher::getInstance()->dispatchEvent(pMoveEvent);
+				delete pMoveEvent;
 			} else if (eCollision == HORIZONTAL) {
 				Point direction = Point::ZERO;
 				// if the collision is towards the left
@@ -84,10 +85,12 @@ void BounceCollisionComponent::onTestCollision(EventCustom* pEvent) {
 				}
 				pMoveEvent = new events::JumpEvent(_owner, direction, true);
 				EventDispatcher::getInstance()->dispatchEvent(pMoveEvent);
+				delete pMoveEvent;
 			}
 			// send CollisionEvent for sound and graphic components
 			events::CollisionEvent* pCollisionEvent = new events::CollisionEvent(_owner);
 			EventDispatcher::getInstance()->dispatchEvent(pCollisionEvent);
+			delete pCollisionEvent;
 		}
 
 		//check if the component have a LightCollision
@@ -100,6 +103,7 @@ void BounceCollisionComponent::onTestCollision(EventCustom* pEvent) {
 		if (!pTestColEvent->getCurrentPosition().equals(computingPos)) {
             events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, computingPos);
             EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+			delete pChangePositionEvent;
         }
 
     }

@@ -27,8 +27,8 @@ GameScene::~GameScene() {
 	EventDispatcher::getInstance()->removeEventListener(_pDeathEventListener);
 	EventDispatcher::getInstance()->removeEventListener(_pWinEventListener);
 	EventDispatcher::getInstance()->removeEventListener(_pResetLevelEventListener);
-	//EventDispatcher::getInstance()->removeEventListener(_pPauseGameEventListener);
-	//EventDispatcher::getInstance()->removeEventListener(_pResumeGameEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pPauseGameEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pResumeGameEventListener);
 }
 
 GameScene* GameScene::create() {
@@ -50,8 +50,9 @@ bool GameScene::init() {
 	bTest = Scene::init();
 
 	//create layers
+	_pMenu = menu::InGameMenuLayer::create();
 	_pGameLayer = game::GameManager::create();
-	Scene::addChild(_pGameLayer);
+	Scene::addChild(_pGameLayer, 1);
 
 	// Camera
 	initCamera();
@@ -60,21 +61,21 @@ bool GameScene::init() {
 	_pDeathEventListener = cocos2d::EventListenerCustom::create(events::DeathEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onDeathEvent, this));
 	_pWinEventListener = cocos2d::EventListenerCustom::create(events::WinEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onWinEvent, this));
 	_pResetLevelEventListener = cocos2d::EventListenerCustom::create(events::ResetLevelEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onResetLevelEvent, this));
-	//_pPauseGameEventListener = cocos2d::EventListenerCustom::create(events::PauseGameEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onPauseGameEvent, this));
-	//_pResumeGameEventListener = cocos2d::EventListenerCustom::create(events::ResumeGameEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onResumeGameEvent, this));
+	_pPauseGameEventListener = cocos2d::EventListenerCustom::create(events::PauseGameEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onPauseGameEvent, this));
+	_pResumeGameEventListener = cocos2d::EventListenerCustom::create(events::ResumeGameEvent::EVENT_NAME, CC_CALLBACK_1(GameScene::onResumeGameEvent, this));
 
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pDeathEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pWinEventListener, 1);
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pResetLevelEventListener, 1);
-	//EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pPauseGameEventListener, 1);
-	//EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pResumeGameEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pPauseGameEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pResumeGameEventListener, 1);
 
 	return bTest;
 }
 
 void GameScene::initCamera() {
-	float playfield_width = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().width;
-    float playfield_height = _pGameLayer->getLevelLayer()->getChildByTag(42)->getContentSize().height;
+	float playfield_width = _pGameLayer->getLevelSprite()->getContentSize().width;
+    float playfield_height = _pGameLayer->getLevelSprite()->getContentSize().height;
 	Rect boundaries =  Rect( 0.f, 0.f , playfield_width, playfield_height);
 
 	graphics::AnimatedSpriteComponent* pAnimatedSpriteComponent = static_cast<graphics::AnimatedSpriteComponent*>(_pGameLayer->getActorsByType(core::ActorType::HERO)[0]->getComponent(graphics::AnimatedSpriteComponent::COMPONENT_TYPE));
@@ -110,11 +111,14 @@ void GameScene::onResetLevelEvent(Event* pEvent) {
 }
 
 void GameScene::onPauseGameEvent(Event* pEvent) {
-
+	Director::getInstance()->stopAnimation();
+	Director::getInstance()->pause();
+	Scene::addChild(_pMenu, 2);
 }
 
 void GameScene::onResumeGameEvent(Event* pEvent) {
-
+	Director::getInstance()->resume();
+	Director::getInstance()->startAnimation();
 }
 
 }  // namespace menu
