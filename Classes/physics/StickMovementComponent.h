@@ -26,13 +26,13 @@ protected:
         BOTTOM
     };
     
-    EDirection _eCurrentDirection = BOTTOM;
+    EDirection _eCurrentDirection;
     
     /*! \brief Constructor */
 	StickMovementComponent();
     
-    bool _bIsSticked = false;
-    bool _bIsJumping = false;
+    bool _bIsSticked;
+    bool _bIsJumping;
     
 	void onEditMove(EventCustom* pEvent);
     void onJump(EventCustom* pEvent);

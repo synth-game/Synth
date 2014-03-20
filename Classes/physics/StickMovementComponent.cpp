@@ -22,7 +22,10 @@ namespace physics
 {
 
 StickMovementComponent::StickMovementComponent()
-	: MovementComponent() {
+	: MovementComponent(),
+	_eCurrentDirection(BOTTOM),
+	_bIsSticked(false),
+	_bIsJumping(false) {
 }
 
 StickMovementComponent::~StickMovementComponent() {
