@@ -14,7 +14,7 @@
 #include "events/InterruptMoveEvent.h"
 #include "events/CollisionEvent.h"
 
-#define SLOPE_THRESHOLD 3.f
+#define SLOPE_THRESHOLD 2.f
 
 namespace physics {
 
@@ -187,21 +187,9 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 
 			// test bottom point first, if ONLY one of them collide, stick the actor on the ground (XOR operator)
 			if ((!_pPhysicCollision->collide(blPos) && fBLSampleCount >= 0.f) != (!_pPhysicCollision->collide(brPos) && fBRSampleCount >= 0.f)
-				&& _pPhysicCollision->collide(bcPos + movementStep*fBigBCSampleCount + Point(0., -1)) ) { // test if there is void below the moved bc pixel) {
-				/*Point newBCPos = bcPos + movementStep*fBigBCSampleCount;
-				if((!_pPhysicCollision->collide(blPos) && fBLSampleCount >= 0.f)) {
-					newBCPos.x -= 1.f;
-				} else {
-					newBCPos.x += 1.f;
-				}
-				// test the slope coeff to see if we stick or if we repulse
-					if(_pPhysicCollision->computeSurfaceSlope(newBCPos) > SLOPE_THRESHOLD) {
-						centerPos = centerPos + _pPhysicCollision->getBelowSurfacePixel(newBCPos, movementDir.y) - bcPos + movementStep*fBigBCSampleCount;
-						break;
-					} else {*/
-						fStepCountToExecute = fBigBCSampleCount;
-						bIsOnGround = true;
-					//}
+				&& _pPhysicCollision->collide(bcPos + movementStep*fBigBCSampleCount + Point(0., -1))) { // test if there is void below the moved bc pixel) {
+					fStepCountToExecute = fBigBCSampleCount;
+					bIsOnGround = true;
 			} else {
 
 				// test other point
@@ -327,7 +315,6 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 			}
 		}
 	} else {
-		// manage passive gravity effect
 		targetPosition = currentPosition;
 	}
 
@@ -337,33 +324,43 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 	float movementLength = movementDir.getLength();
 	Point movementStep = movementDir.normalize();
 	Point centerPos = currentPosition;
+	float fStepToExecute = 100000.f;
 
-	// test pixel by pixel the center point movement - stop if collide
-	while((centerPos-currentPosition).getLength() < movementLength) {
-		Point nextCenterPos = centerPos + movementStep;
-		//corner points
-		Point trPos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y+halfSize.height);
-		Point tlPos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y+halfSize.height);
+	//corner points
+	Point trPos = Point(centerPos.x+halfSize.width, centerPos.y+halfSize.height);
+	Point tlPos = Point(centerPos.x-halfSize.width, centerPos.y+halfSize.height);
 
-		//intermediar lateral point
-		Point l1Pos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height+thirdSize.height);
-		Point l2Pos = Point(nextCenterPos.x-halfSize.width, nextCenterPos.y-halfSize.height+2*thirdSize.height);
-		Point r1Pos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height+thirdSize.height);
-		Point r2Pos = Point(nextCenterPos.x+halfSize.width, nextCenterPos.y-halfSize.height+2*thirdSize.height);
+	//intermediar lateral point
+	Point l1Pos = Point(centerPos.x-halfSize.width, centerPos.y-halfSize.height+thirdSize.height);
+	Point l2Pos = Point(centerPos.x-halfSize.width, centerPos.y-halfSize.height+2*thirdSize.height);
+	Point r1Pos = Point(centerPos.x+halfSize.width, centerPos.y-halfSize.height+thirdSize.height);
+	Point r2Pos = Point(centerPos.x+halfSize.width, centerPos.y-halfSize.height+2*thirdSize.height);
 
-		if(_pPhysicCollision->collide(trPos)
-		|| _pPhysicCollision->collide(tlPos)
-		|| _pPhysicCollision->collide(l1Pos)
-		|| _pPhysicCollision->collide(l2Pos)
-		|| _pPhysicCollision->collide(r1Pos)
-		|| _pPhysicCollision->collide(r2Pos)) {
-			eRet = HORIZONTAL;
-			break;
-		}
-		centerPos = nextCenterPos;
+	std::vector<Point> pointToTest;
+	if (!_pPhysicCollision->collide(trPos)) { pointToTest.push_back(trPos); }
+	if (!_pPhysicCollision->collide(tlPos)) { pointToTest.push_back(tlPos); }
+	if (!_pPhysicCollision->collide(l1Pos)) { pointToTest.push_back(l1Pos); }
+	if (!_pPhysicCollision->collide(l2Pos)) { pointToTest.push_back(l2Pos); }
+	if (!_pPhysicCollision->collide(r1Pos)) { pointToTest.push_back(r1Pos); }
+	if (!_pPhysicCollision->collide(r2Pos)) { pointToTest.push_back(r2Pos); }
+
+	std::vector<float> stepsVector;
+	for (std::vector<Point>::iterator itPoint=pointToTest.begin(); itPoint!=pointToTest.end(); ++itPoint) {
+		float fPossibleStepCount = _pPhysicCollision->countStepToNextPixel(*itPoint, movementStep, false, movementLength);
+		stepsVector.push_back(fPossibleStepCount);
 	}
 
-	resPosition = centerPos;
+	for (std::vector<float>::iterator itStep=stepsVector.begin(); itStep!=stepsVector.end(); ++itStep) {
+		if (*itStep < fStepToExecute && *itStep >= 0) {
+			fStepToExecute = *itStep;
+		}
+	}
+
+	if (fStepToExecute == 100000.f) {
+		fStepToExecute = movementLength; 
+	}
+
+	resPosition = centerPos + (movementStep*fStepToExecute);;
 	return eRet;
 }
 
