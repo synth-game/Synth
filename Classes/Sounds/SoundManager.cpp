@@ -152,6 +152,13 @@ bool SoundManager::stopMusic(Music music) {
 	return true;
 }
 
+bool SoundManager::stopAllMusics() {
+	for(auto itMusic=_musics.begin(); itMusic!=_musics.end(); ++itMusic) {
+		stopMusic(itMusic->second);
+	}
+	return true;
+}
+
 bool SoundManager::stopEffect(SoundComponent* component) {
 
 	int index = std::get<1>(_playingEffects[component]);
