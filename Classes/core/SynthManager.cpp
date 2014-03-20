@@ -8,9 +8,12 @@
 #include "graphics/GraphicManager.h"
 #include "sounds/SoundManager.h"
 #include "sounds/VoiceManager.h"
+#include "menu/InGameMenuLayer.h"
 
 #include "events/NewGameEvent.h"
 #include "events/ExitGameEvent.h"
+#include "events/PauseGameEvent.h"
+#include "events/ResumeGameEvent.h"
 
 namespace core {
 
@@ -18,6 +21,7 @@ SynthManager::SynthManager()
 	: _pTitleScreenScene(nullptr) 
 	, _pCreditsScene(nullptr)
 	, _pGameScene(nullptr)
+	, _pInGameMenuLayer(nullptr)
 	, _pSelectLevelScene(nullptr) 
 	, _pNewGameEventListener(nullptr)
 	, _pContinueGameEventListener(nullptr) 

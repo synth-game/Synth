@@ -44,6 +44,8 @@ private:
 	menu::GameScene* _pGameScene;
 	menu::SelectLevelScene* _pSelectLevelScene;
 
+	menu::InGameMenuLayer* _pInGameMenuLayer;
+
 	EventListenerCustom* _pNewGameEventListener;
 	EventListenerCustom* _pContinueGameEventListener;
 	EventListenerCustom* _pOpenTitleScreenEventListener;
