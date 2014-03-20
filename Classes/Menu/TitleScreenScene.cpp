@@ -86,11 +86,13 @@ bool TitleScreenScene::init() {
 void TitleScreenScene::dispatchNewGameEvent(Object* pSender) {
 	events::NewGameEvent* pNewGameEvent = new events::NewGameEvent();
 	EventDispatcher::getInstance()->dispatchEvent(pNewGameEvent);
+	delete pNewGameEvent;
 }
 
 void TitleScreenScene::dispatchExitGameEvent(Object* pSender) {
 	events::ExitGameEvent* pExitGameEvent = new events::ExitGameEvent();
 	EventDispatcher::getInstance()->dispatchEvent(pExitGameEvent);
+	delete pExitGameEvent;
 }
 
 void TitleScreenScene::initListeners() {

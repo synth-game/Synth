@@ -80,18 +80,22 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
 			if (eCollision == VERTICAL) {
 				pInterruptMovementEvent = new events::InterruptMoveEvent(_owner, false, true, true);
 				EventDispatcher::getInstance()->dispatchEvent(pInterruptMovementEvent);
+				delete pInterruptMovementEvent;
 			} else if (eCollision == HORIZONTAL) {
 				pInterruptMovementEvent = new events::InterruptMoveEvent(_owner, true, false, true);
 				EventDispatcher::getInstance()->dispatchEvent(pInterruptMovementEvent);
+				delete pInterruptMovementEvent;
 			} else if (eCollision == BOTH) {
 				pInterruptMovementEvent = new events::InterruptMoveEvent(_owner, true, true, true);
 				EventDispatcher::getInstance()->dispatchEvent(pInterruptMovementEvent);
+				delete pInterruptMovementEvent;
 			}
 
 			if (eCollision == HORIZONTAL || eCollision == BOTH) {
 				// send CollisionEvent for sound and graphic components
 				events::CollisionEvent* pCollisionEvent = new events::CollisionEvent(_owner);
 				EventDispatcher::getInstance()->dispatchEvent(pCollisionEvent);
+				delete pCollisionEvent;
 			}
 		}
 
@@ -106,6 +110,7 @@ void CollisionComponent::onTestCollision(EventCustom* pEvent) {
             //CCLOG("CollisionComponent::onTestCollision SEND CHANGE POSITION EVENT current pos %.2f, %.2f | computing pos %.2f %.2f", pTestColEvent->getCurrentPosition().x,pTestColEvent->getCurrentPosition().y, computingPos.x, computingPos.y);
             events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, computingPos);
             EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+			delete pChangePositionEvent;
         }
 
     }
@@ -256,6 +261,7 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 		_eMovingState = nextState;
         events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
         EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+		delete pChangeStateEvent;
 	}
 	
 	return eRet;
@@ -286,6 +292,7 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
             events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
             EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+			delete pChangeStateEvent;
 		} else {
 			//compute slope coef to move through the slopes
 			float slopeCoef = 0.f;
@@ -309,6 +316,7 @@ CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCol
 					_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
 					events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
 					EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+					delete pChangeStateEvent;
 				}
 			} else {
 				targetPosition = targetBCPosition + Point(0.f, halfSize.height);

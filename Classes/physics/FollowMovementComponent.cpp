@@ -127,9 +127,11 @@ void FollowMovementComponent::update( float fDt ) {
 			//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);
 			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
 			EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+			delete pChangePositionEvent;
 		} else {
 			events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pOwnedGeometryComponent->getPosition(), nextPosition, pOwnedGeometryComponent->getSize());
 			EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+			delete pTestCollisionEvent;
 		}
 		
 	}

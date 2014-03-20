@@ -110,9 +110,11 @@ void FlyMovementComponent::update(float fDt) {
 		//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);
 		events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
 		EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+		delete pChangePositionEvent;
 	} else {
 		events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
 		EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+		delete pTestCollisionEvent;
 	}
 }
 

@@ -116,6 +116,7 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 			}
 			events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
 			EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+			delete pChangeStateEvent;
         } else {
             if (_speed.y > MIN_JUMP_SPEED) {
                 _speed.y = MIN_JUMP_SPEED;
@@ -210,9 +211,11 @@ void MovementComponent::update(float fDt) {
     if (pCollisionComponent == nullptr) {
         events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
         EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+		delete pChangePositionEvent;
     } else {
         events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
         EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+		delete pTestCollisionEvent;
     }
 }
 
