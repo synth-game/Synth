@@ -185,9 +185,15 @@ void GameManager::update(float fDt) {
 
 void GameManager::loadLevel(/*int iLevelId*/std::string level) {
     CCLOG("GameManager::loadLevel : LOAD LEVEL");
+	// Build background
 	Sprite* pBgSprite = Sprite::create(("levels/"+level+"/background.jpg").c_str());
 	pBgSprite->setAnchorPoint(Point::ZERO);
 	_pBackgroundLayer->addChild(pBgSprite);
+
+	// Build skinning
+	Sprite* pSknSprite = Sprite::create(("levels/"+level+"/skinning.png").c_str());
+	pSknSprite->setAnchorPoint(Point::ZERO);
+	_pSkinningLayer->addChild(pSknSprite);
 
 	// Build actors
 	_levelActors = LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
@@ -206,7 +212,8 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	}
 
 	// Build LevelSprite and LightMap
-	_pLevelSprite = LevelFactory::getInstance()->buildLevelSprite(level, _pLevelLayer, getActorsByType(core::ActorType::LIGHT));
+	_pLevelSprite = LevelFactory::getInstance()->buildLevelSprite(level, getActorsByType(core::ActorType::LIGHT));
+	_pLevelLayer->addChild(_pLevelSprite, 0);
 	if (_pLightMap == nullptr) {
 		_pLightMap = LevelFactory::getInstance()->buildLightMap(level);
 	}
