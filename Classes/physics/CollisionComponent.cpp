@@ -14,7 +14,7 @@
 #include "events/InterruptMoveEvent.h"
 #include "events/CollisionEvent.h"
 
-#define SLOPE_THRESHOLD 2.f
+#define SLOPE_THRESHOLD 1.5f
 
 namespace physics {
 
