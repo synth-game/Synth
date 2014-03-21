@@ -111,9 +111,42 @@ void StickMovementComponent::onCollisionEvent(EventCustom* pEvent) {
         physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
         CCASSERT(pGeometryComponent != nullptr, "MovementComponent needs a GeometryComponent added to its owner");
         Point currentPosition = pGeometryComponent->getPosition();
-        Point direction = Point(currentPosition.x - _previousNextPositionComputed.x, currentPosition.y - _previousNextPositionComputed.y);
         //CCLOG("StickMovementComponent::onCollisionEvent DIRECTION = %.2f, %.2f", direction.x, direction.y);
-        switch (_eCurrentDirection) {
+        ECollisionType collisionType = pCollisionEvent->getCollisionType();
+        switch (collisionType) {
+            case NO_COLLISION:
+                break;
+            case HORIZONTAL:
+                if (_eCurrentDirection == BOTTOM) {
+                    _eMovingState = core::ActorState::STUCK_BOTTOM_STATE;
+                    CCLOG("StickMovementComponent::onCollisionEvent HORIZONTAL BOTTOM");
+                }
+                else if (_eCurrentDirection == TOP) {
+                    _eMovingState = core::ActorState::STUCK_TOP_STATE;
+                    CCLOG("StickMovementComponent::onCollisionEvent HORIZONTAL TOP");
+                }
+                else {
+                    CCLOG("StickMovementComponent::onCollisionEvent HORIZONTAL COLLISION BUT CURRENT DIRECTION %s", _eCurrentDirection == LEFT ? "LEFT" : "RIGHT");
+                }
+                break;
+            case VERTICAL:
+                if (_eCurrentDirection == LEFT) {
+                    _eMovingState = core::ActorState::STUCK_LEFT_STATE;
+                    CCLOG("StickMovementComponent::onCollisionEvent VERTICAL LEFT");
+                }
+                else if (_eCurrentDirection == RIGHT) {
+                    CCLOG("StickMovementComponent::onCollisionEvent VERTICAL RIGHT");
+                    _eMovingState = core::ActorState::STUCK_RIGHT_STATE;
+                }
+                else {
+                    CCLOG("StickMovementComponent::onCollisionEvent VERTICAL COLLISION BUT CURRENT DIRECTION %s", _eCurrentDirection == TOP ? "TOP" : "BOTTOM");
+                }
+                break;
+            case BOTH:
+                CCLOG("StickMovementComponent::onCollisionEvent BOTH COLLISION BUT CURRENT DIRECTION %s", _eCurrentDirection == TOP ? "TOP" : ( _eCurrentDirection == BOTTOM ? "BOTTOM" : ( _eCurrentDirection == LEFT ? "LEFT" : "RIGHT" )));
+                break;
+        }
+        /*switch (_eCurrentDirection) {
             case BOTTOM:
                 CCLOG("StickMovementComponent::onCollisionEvent COLLISION BOTTOM");
                 _eMovingState = core::ActorState::STUCK_BOTTOM_STATE;
@@ -130,7 +163,7 @@ void StickMovementComponent::onCollisionEvent(EventCustom* pEvent) {
                 CCLOG("StickMovementComponent::onCollisionEvent COLLISION TOP");
                 _eMovingState = core::ActorState::STUCK_TOP_STATE;
                 break;
-        }
+        }*/
         /*if (direction.x > 0) {
             if (direction.y > 0 && direction.y > 2) {
                 CCLOG("StickMovementComponent::onCollisionEvent MOVING LEFT BUT STICKED ON FLOOR");
@@ -173,6 +206,7 @@ void StickMovementComponent::onCollisionEvent(EventCustom* pEvent) {
         events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
         EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
         _bIsSticked = true;
+        delete pChangeStateEvent;
     }
 }
     

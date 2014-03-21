@@ -241,11 +241,13 @@ void HeroAnimatedSpriteComponent::onChangeState(EventCustom* pEvent) {
         switch(getState()) {
             case core::ActorState::NOT_ON_FLOOR_STATE:
                 _pSprite->setRotation(0);
+                _pSprite->setAnchorPoint(Point(0.5f, 0.5f));
                 _pSprite->setFlippedY(false);
                 runAnimation(AnimationType::HERO_JUMP);
                 break;
             case core::ActorState::ON_FLOOR_STATE:
                 _pSprite->setRotation(0);
+                _pSprite->setAnchorPoint(Point(0.5f, 0.5f));
                 _pSprite->setFlippedY(false);
                 if (actorIsLateralMoving()) {
                     runAnimation(AnimationType::HERO_WALK);
@@ -257,17 +259,19 @@ void HeroAnimatedSpriteComponent::onChangeState(EventCustom* pEvent) {
             case core::ActorState::STUCK_BOTTOM_STATE:
                 runAnimation(AnimationType::HERO_CRAWL);
                 _pSprite->setRotation(0);
+                _pSprite->setAnchorPoint(Point(0.5f, 0.5f));
                 _pSprite->setFlippedY(false);
                 break;
             case core::ActorState::STUCK_TOP_STATE:
                 _pSprite->setRotation(0);
+                _pSprite->setAnchorPoint(Point(0.5f, 0.5f));
                 _pSprite->setFlippedY(true);
                 runAnimation(AnimationType::HERO_CRAWL);
                 break;
             case core::ActorState::STUCK_LEFT_STATE:
                 _pSprite->setFlippedY(false);
-               // _pSprite->setAnchorPoint(Point(0.0f, 0.f));
-                //_pSprite->setRotation(90);
+                _pSprite->setAnchorPoint(Point(0.5f, 0.2f));
+                _pSprite->setRotation(90);
                 runAnimation(AnimationType::HERO_CRAWL);
             default:
                 break;

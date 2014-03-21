@@ -139,7 +139,7 @@ void CollisionComponent::onChangeState(EventCustom* pEvent) {
 	}
 }
 
-CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
+ECollisionType CollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
 	ECollisionType eRet = NO_COLLISION;
 	core::ActorState nextState = core::ActorState::NOT_ON_FLOOR_STATE;
 
@@ -279,7 +279,7 @@ CollisionComponent::ECollisionType CollisionComponent::boundingTest(events::Test
 	return eRet;
 }
 
-CollisionComponent::ECollisionType CollisionComponent::slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
+ECollisionType CollisionComponent::slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
 	ECollisionType eRet = VERTICAL;
 
 	Size halfSize = pInitiatorEvent->getSize()/2;

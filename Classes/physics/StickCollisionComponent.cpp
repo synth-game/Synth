@@ -84,7 +84,7 @@ namespace physics
                 if (eCollision != NO_COLLISION) {
                     _bIsSticked = true;
                     //CCLOG("CollisionComponent::onTestCollision SEND COLLISION EVENT, ACTOR IS STICKED !");
-                    events::CollisionEvent* pCollisionEvent = new events::CollisionEvent(_owner);
+                    events::CollisionEvent* pCollisionEvent = new events::CollisionEvent(_owner, eCollision);
                     EventDispatcher::getInstance()->dispatchEvent(pCollisionEvent);
                 }
                 else {
@@ -108,7 +108,7 @@ namespace physics
         }
     }
     
-    CollisionComponent::ECollisionType StickCollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
+    ECollisionType StickCollisionComponent::boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition) {
         //CCLOG("StickCollisionComponent::boundingTest");
         
         if (_bIsSticked) {
@@ -132,6 +132,8 @@ namespace physics
         float fBigMovementLength;
         Point movementStep;
         bool bIsOnGround = false;
+        
+        bool bCollideOnTop = false;
         
         Point centerPos = currentPosition;
         
@@ -216,6 +218,10 @@ namespace physics
                     std::vector<float> stepsVector;
                     for (std::vector<Point>::iterator itPoint=pointToTest.begin(); itPoint!=pointToTest.end(); ++itPoint) {
                         float fPossibleStepCount = _pPhysicCollision->countStepToNextPixel(*itPoint, movementStep, false, fMovementLength);
+                        if ((itPoint->equals(tcPos) || itPoint->equals(trPos) || itPoint->equals(tlPos)) && int(fPossibleStepCount) == 1) {
+                            bCollideOnTop = true;
+                        }
+
                         stepsVector.push_back(fPossibleStepCount);
                     }
                     
@@ -231,12 +237,12 @@ namespace physics
                     fStepCountToExecute = fMovementLength; 
                 } else {
                     if (i==0) {
-                        eRet = HORIZONTAL;
+                        eRet = VERTICAL;
                     } else {
-                        if (eRet == HORIZONTAL) {
+                        if (eRet == VERTICAL) {
                             eRet = BOTH;
                         } else {
-                            eRet = VERTICAL;
+                            eRet = HORIZONTAL;
                         }
                         
                     }
@@ -246,13 +252,18 @@ namespace physics
             centerPos = centerPos + (movementStep*fStepCountToExecute);
             
             if(bIsOnGround) { // in this case, we break. Either we've already done the 2 loops, or the actor land on the ground and we don't compute vertical displacement
-                if (eRet == HORIZONTAL) {
+                if (eRet == VERTICAL) {
                     eRet = BOTH;
                 } else {
-                    eRet = VERTICAL;
+                    eRet = HORIZONTAL;
                 }
                 nextState = core::ActorState::STUCK_BOTTOM_STATE;
                 break;
+            }
+            
+            if (bCollideOnTop) {
+                CCLOG("StickCollisionComponent::boundingTest COLLIDE TOP STUCK TOP STATE");
+                nextState = core::ActorState::STUCK_TOP_STATE;
             }
         }
         

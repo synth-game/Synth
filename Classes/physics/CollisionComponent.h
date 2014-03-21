@@ -10,6 +10,7 @@
 #include "cocos2d.h"
 #include "core/SynthComponent.h"
 #include "core/ActorState.h"
+#include "physics/CollisionType.h"
 #include "physics/PhysicCollision.h"
 #include "physics/LightCollision.h"
 #include "events/TestCollisionEvent.h"
@@ -38,12 +39,6 @@ public:
 	static const char* COMPONENT_TYPE;
 
 protected:
-	enum ECollisionType {
-		HORIZONTAL,
-		VERTICAL,
-		BOTH,
-		NO_COLLISION
-	};
 
 	/*! \brief Constructor */
 	CollisionComponent();
