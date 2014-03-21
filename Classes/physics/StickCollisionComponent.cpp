@@ -13,7 +13,8 @@ namespace physics
 {
 
     StickCollisionComponent::StickCollisionComponent()
-	: CollisionComponent() {
+	: CollisionComponent(),
+	_bIsSticked(false) {
         
     }
     

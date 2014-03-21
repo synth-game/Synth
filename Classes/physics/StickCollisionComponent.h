@@ -9,7 +9,7 @@ namespace physics
 class StickCollisionComponent : public CollisionComponent
 {
 private:
-	bool _bIsSticked = false;
+	bool _bIsSticked;
 
 protected:
     
