@@ -44,7 +44,6 @@ bool InGameMenuLayer::init() {
 	Point center = Point(Director::getInstance()->getWinSize().width/2, Director::getInstance()->getWinSize().height/2);
 	
 	Sprite* pLogo = Sprite::create("sprites/logo-synth.png");
-	//pLogo->setPosition(center);
 
 	_pBtnResumeGame = MenuItemFont::create("Reprendre", this, menu_selector(InGameMenuLayer::dispatchResumeGameEvent));
 	_pBtnResumeGame->setColor(Color3B::BLACK);
@@ -57,8 +56,8 @@ bool InGameMenuLayer::init() {
 
 	_pMenuLayer = Menu::create(_pBtnResumeGame, _pBtnRetry, _pBtnQuit, NULL);
 	_pMenuLayer->alignItemsVertically();
-	_pMenuLayer->setAnchorPoint(Point::ZERO);
-	//_pMenuLayer->setPosition(center);
+	_pMenuLayer->setPosition(Point::ZERO);
+	//_pMenuLayer->setAnchorPoint(Point::ZERO);
 	
 	addChild(pLogo, 1);
 	addChild(_pMenuLayer, 2);
