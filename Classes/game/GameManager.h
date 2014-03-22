@@ -91,7 +91,6 @@ protected:
 	Layer* _pSubtitlesLayer;
 	ParallaxNode* _pParallaxManager;
 
-	core::SynthActor* _pVoidActor;
 	physics::MovementComponent* _pSavedMovementComp;
 	physics::PhysicCollision* _pSavedPhysicColl;
 

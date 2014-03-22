@@ -65,7 +65,6 @@ GameManager::GameManager()
 	, _pSkinningLayer(nullptr) 
 	, _pSubtitlesLayer(nullptr) 
 	, _pParallaxManager(nullptr)
-	, _pVoidActor(nullptr)
 	, _pSavedMovementComp(nullptr)
 	, _pSavedPhysicColl(nullptr)
 	, _pEnterLightListener(nullptr)
@@ -76,11 +75,6 @@ GameManager::GameManager()
 GameManager::~GameManager() {
 	_levelActors.clear();
 	_triggers.clear();
-
-	if(_pVoidActor != nullptr) { 
-		delete _pVoidActor;
-		_pVoidActor = nullptr;
-	}
 
 	EventDispatcher::getInstance()->removeEventListener(_pEnterLightListener);
 }
@@ -139,8 +133,6 @@ bool GameManager::init() {
 	}
 	delete pLevelsDoc;
 
-	_pVoidActor = new core::SynthActor(core::ActorType::UNKNOWN_TYPE);
-
 	//TEST ZONE - BEGIN
 	loadLevel(_levelsName[_iCurrentLevelId]);
 
@@ -184,68 +176,70 @@ void GameManager::update(float fDt) {
 
 	// manage light change
 	if(_bChangeColor) {
-		// remove previous component
-		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
-		physics::MovementComponent* pPrevMovementComp = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
-		physics::CollisionComponent* pPrevCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
-		Point currentSpeed;
-		Point currentDirection;
-		if(pPrevMovementComp != nullptr && pPrevCollisionComp != nullptr) {
-			currentSpeed = pPrevMovementComp->getSpeed();
-			currentDirection = pPrevMovementComp->getDirection();
-			pHero->removeComponent(physics::MovementComponent::COMPONENT_TYPE);
-			pHero->removeComponent(physics::CollisionComponent::COMPONENT_TYPE);
-		}
-
 		if (_currentColor == Color4B::RED) {
 			_bResetRequested = true;
-		} else if (_currentColor == Color4B::BLUE) {
-			CCLOG("GameManager::onEnterLight : You can jump higher !");
-			physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
-			pMovementComp->setSpeed(currentSpeed);
-			pMovementComp->setDirection(currentDirection);
-			pMovementComp->setGravity(_pSavedMovementComp->getGravity()*_pSavedMovementComp->getLowGravityFactor());
-			physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
-			pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
-			pHero->addComponent(pMovementComp);
-			pHero->addComponent(pCollisionComp);
-		} else if (_currentColor == Color4B::MAGENTA) {
-			CCLOG("GameManager::onEnterLight : You can't jump as high as usually :( ");
-			physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
-			pMovementComp->setSpeed(currentSpeed);
-			pMovementComp->setDirection(currentDirection);
-			pMovementComp->setGravity(_pSavedMovementComp->getGravity()*_pSavedMovementComp->getHighGravityFactor());
-			physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
-			pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
-			pHero->addComponent(pMovementComp);
-			pHero->addComponent(pCollisionComp);
-		} else if (_currentColor == Color4B::YELLOW) {
-			CCLOG("GameManager::onEnterLight : You bounce on the floor ! Awww yeah ! ");
-			physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
-			pMovementComp->setSpeed(currentSpeed);
-			pMovementComp->setDirection(currentDirection);
-			physics::BounceCollisionComponent* pCollisionComp = physics::BounceCollisionComponent::create();
-			pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
-			pHero->addComponent(pMovementComp);
-			pHero->addComponent(pCollisionComp);
-		}else if (_currentColor == Color4B::GREEN) {
-			CCLOG("GameManager::onEnterLight : You are now a sticky girl ! ");
-			physics::StickMovementComponent* pStickMovementComponent = physics::StickMovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity());
-			pStickMovementComponent->setSpeed(currentSpeed);
-			pStickMovementComponent->setDirection(currentDirection);
-			physics::StickCollisionComponent* pStickCollisionComponent = physics::StickCollisionComponent::create();
-			pStickCollisionComponent->addPhysicCollision(_pSavedPhysicColl);
-			pHero->addComponent(pStickMovementComponent);
-			pHero->addComponent(pStickCollisionComponent);
 		} else {
-			CCLOG("GameManager::onEnterLight : Out of any light");
-			physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
-			pMovementComp->setSpeed(currentSpeed);
-			pMovementComp->setDirection(currentDirection);
-			physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
-			pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
-			pHero->addComponent(pMovementComp);
-			pHero->addComponent(pCollisionComp);
+			// remove previous component
+			core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+			physics::MovementComponent* pPrevMovementComp = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
+			physics::CollisionComponent* pPrevCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+			Point currentSpeed;
+			Point currentDirection;
+			if(pPrevMovementComp != nullptr && pPrevCollisionComp != nullptr) {
+				currentSpeed = pPrevMovementComp->getSpeed();
+				currentDirection = pPrevMovementComp->getDirection();
+				pHero->removeComponent(physics::MovementComponent::COMPONENT_TYPE);
+				pHero->removeComponent(physics::CollisionComponent::COMPONENT_TYPE);
+			}
+
+			if (_currentColor == Color4B::BLUE) {
+				CCLOG("GameManager::onEnterLight : You can jump higher !");
+				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
+				pMovementComp->setSpeed(currentSpeed);
+				pMovementComp->setDirection(currentDirection);
+				pMovementComp->setGravity(_pSavedMovementComp->getGravity()*_pSavedMovementComp->getLowGravityFactor());
+				physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
+				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pMovementComp);
+				pHero->addComponent(pCollisionComp);
+			} else if (_currentColor == Color4B::MAGENTA) {
+				CCLOG("GameManager::onEnterLight : You can't jump as high as usually :( ");
+				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
+				pMovementComp->setSpeed(currentSpeed);
+				pMovementComp->setDirection(currentDirection);
+				pMovementComp->setGravity(_pSavedMovementComp->getGravity()*_pSavedMovementComp->getHighGravityFactor());
+				physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
+				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pMovementComp);
+				pHero->addComponent(pCollisionComp);
+			} else if (_currentColor == Color4B::YELLOW) {
+				CCLOG("GameManager::onEnterLight : You bounce on the floor ! Awww yeah ! ");
+				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
+				pMovementComp->setSpeed(currentSpeed);
+				pMovementComp->setDirection(currentDirection);
+				physics::BounceCollisionComponent* pCollisionComp = physics::BounceCollisionComponent::create();
+				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pMovementComp);
+				pHero->addComponent(pCollisionComp);
+			}else if (_currentColor == Color4B::GREEN) {
+				CCLOG("GameManager::onEnterLight : You are now a sticky girl ! ");
+				physics::StickMovementComponent* pStickMovementComponent = physics::StickMovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity());
+				pStickMovementComponent->setSpeed(currentSpeed);
+				pStickMovementComponent->setDirection(currentDirection);
+				physics::StickCollisionComponent* pStickCollisionComponent = physics::StickCollisionComponent::create();
+				pStickCollisionComponent->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pStickMovementComponent);
+				pHero->addComponent(pStickCollisionComponent);
+			} else {
+				CCLOG("GameManager::onEnterLight : Out of any light");
+				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
+				pMovementComp->setSpeed(currentSpeed);
+				pMovementComp->setDirection(currentDirection);
+				physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
+				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pMovementComp);
+				pHero->addComponent(pCollisionComp);
+			}
 		}
 
 		_bChangeColor = false;
@@ -324,7 +318,6 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	// Initialized saved data
 	physics::MovementComponent* pMovementComp = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
 	_pSavedMovementComp = physics::MovementComponent::create(pMovementComp->getAcceleration(), pMovementComp->getGravity(), pMovementComp->getLowGravityFactor(), pMovementComp->getHighGravityFactor());
-	_pVoidActor->addComponent(_pSavedMovementComp);
 	_pSavedPhysicColl = pCollisionComp->getPhysicCollision();
 }
 
@@ -343,7 +336,6 @@ void GameManager::clearLevel() {
 		delete _pSavedPhysicColl;
 		_pSavedPhysicColl = nullptr;
 	}
-	_pVoidActor->removeComponent(physics::MovementComponent::COMPONENT_TYPE);
 	_pSavedMovementComp = nullptr;
 
 	_pBackgroundLayer->removeAllChildren();
