@@ -6,6 +6,7 @@
  */
 #include "VoiceManager.h"
 #include "FmodAudioPlayer.h"
+#include <sstream>
 
 #include "system/IOManager.h"
 #include "game/LightMap.h"
@@ -23,17 +24,19 @@ VoiceManager::~VoiceManager() {
 VoiceManager* VoiceManager::getInstance() {
 	if(_pInstance == nullptr) {
         _pInstance = new VoiceManager();
-		_pInstance->init();
+		_pInstance->init(0);
     }
 	return _pInstance;
 }
 
-void VoiceManager::init() {
+void VoiceManager::init(int level) {
 
 	// parsing voices
 	tinyxml2::XMLDocument* pVoicesFile = new tinyxml2::XMLDocument();
 	synthsystem::IOManager* ioManager = synthsystem::IOManager::getInstance();
-	pVoicesFile = ioManager->loadXML("xml/voices.xml");
+	ostringstream ss;
+	ss << "levels/0" << level-1 << "/voices.xml";
+	pVoicesFile = ioManager->loadXML(ss.str());
 	if (pVoicesFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pVoicesFile);
 		tinyxml2::XMLElement *pVoicesData;
@@ -49,8 +52,9 @@ void VoiceManager::init() {
 
 bool VoiceManager::playNextVoice() {
 	if (_voices.size()>0){
-		int iPlayingVoice = FmodAudioPlayer::sharedPlayer()->playEffect(("sound/effects/" + _voices.front()).c_str(), 0, 1, 0, 1);
+		int iPlayingVoice = FmodAudioPlayer::sharedPlayer()->playEffect(("sound/voices/" + _voices.front()).c_str(), 0, 1, 0, 1);
 		_voices.pop();
+		CCLOG ("Play VOICE now !");
 		return true;
 	}
 	return false;

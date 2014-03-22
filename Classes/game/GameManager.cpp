@@ -237,6 +237,10 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
 	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
 	pCollisionComp->addLightCollision(game::LevelFactory::getInstance()->buildLightsCollision(_pLightMap, getActorsByType(core::ActorType::LIGHT)));
+
+	// Load the correct voices for the level
+
+
 }
 
 void GameManager::clearLevel() {
