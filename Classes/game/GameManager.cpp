@@ -318,6 +318,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	// Initialized saved data
 	physics::MovementComponent* pMovementComp = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
 	_pSavedMovementComp = physics::MovementComponent::create(pMovementComp->getAcceleration(), pMovementComp->getGravity(), pMovementComp->getLowGravityFactor(), pMovementComp->getHighGravityFactor());
+	_pSavedMovementComp->retain();
 	_pSavedPhysicColl = pCollisionComp->getPhysicCollision();
 }
 
@@ -336,7 +337,10 @@ void GameManager::clearLevel() {
 		delete _pSavedPhysicColl;
 		_pSavedPhysicColl = nullptr;
 	}
-	_pSavedMovementComp = nullptr;
+	if(_pSavedMovementComp != nullptr) {
+		_pSavedMovementComp->release();
+		_pSavedMovementComp = nullptr;
+	}
 
 	_pBackgroundLayer->removeAllChildren();
 	_pIntermediarLayer->removeAllChildren();
