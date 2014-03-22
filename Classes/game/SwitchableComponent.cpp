@@ -23,6 +23,7 @@ SwitchableComponent::SwitchableComponent()
 }
 
 SwitchableComponent::~SwitchableComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pToggleLightEventListener);
 }
 
 bool SwitchableComponent::init() {
@@ -63,6 +64,8 @@ void SwitchableComponent::onToggleLight(EventCustom* pEvent) {
 		CCASSERT(pLampNodeOwnerComponent != nullptr , "The lamp owned by the target of toggle light event has to have a node owner component");
 		_bOn = pToggleLightEvent->isOn();
 		pGameManager->getLevelSprite()->updateLight(pLamp);
+        std::vector<core::SynthActor*> lightActors = pGameManager->getActorsByType(core::ActorType::LIGHT);
+		pGameManager->getLightMap()->updateLighting(lightActors);
 
     } else {
         CCLOG("TOGGLE LIGHT EVENT RECEIVED BUT ID NOT THE SAME");

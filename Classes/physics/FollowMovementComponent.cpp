@@ -16,6 +16,7 @@
 #include "events/ChangePositionEvent.h"
 #include "events/TestCollisionEvent.h"
 
+#define ENGINE_SPEED 0.015f
 
 namespace physics {
 
@@ -66,6 +67,16 @@ void FollowMovementComponent::onChangeTarget(EventCustom* pEvent) {
     }
 }
 
+void FollowMovementComponent::setTarget(core::SynthActor* target) {
+	if(_target != nullptr) {
+		if(_target->getActorType() == core::ActorType::UNKNOWN_TYPE) {
+			delete _target;
+			_target = nullptr;
+		}
+	}
+	_target = target;
+}
+
 void FollowMovementComponent::update( float fDt ) {
 
 	if( _owner != _target) {
@@ -90,7 +101,8 @@ void FollowMovementComponent::update( float fDt ) {
 				relativeTarget = Point(-40.f, 0.f);
 			}
 		} else if (_target->getActorType() == core::ActorType::LIGHT) {
-			relativeTarget = Point(-2.f, -11.f);
+			physics::GeometryComponent* pGeometryComp = dynamic_cast<physics::GeometryComponent*>(_target->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+			relativeTarget = Point::forAngle(-pGeometryComp->getRotationAngle()+90.f)*(-pGeometryComp->getSize().height/2.f);
 		}
 
 		if (pOwnerGeometryComponent->getPosition().x < pOwnedGeometryComponent->getPosition().x) {
@@ -107,7 +119,7 @@ void FollowMovementComponent::update( float fDt ) {
 			nextPosition = pOwnerGeometryComponent->getPosition() + relativeTarget;
 		} else {
 			target = target.normalize() * 30;
-			nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y) * fDt;
+			nextPosition = pOwnedGeometryComponent->getPosition() + Point(target.x * _acceleration.x, target.y * _acceleration.y) * ENGINE_SPEED;
 		}
 		
 		physics::CollisionComponent* pCollisionComponent = static_cast<physics::CollisionComponent*>(_owner->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
@@ -115,9 +127,11 @@ void FollowMovementComponent::update( float fDt ) {
 			//CCLOG("envoie evenemnt, position %2.f, %2.f", nextPosition.x, nextPosition.y);
 			events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
 			EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+			delete pChangePositionEvent;
 		} else {
 			events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pOwnedGeometryComponent->getPosition(), nextPosition, pOwnedGeometryComponent->getSize());
 			EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+			delete pTestCollisionEvent;
 		}
 		
 	}

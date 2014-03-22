@@ -8,6 +8,7 @@
 #define PHYSICS_PHYSIC_COLLISION_H
 
 #include "cocos2d.h"
+#include "physics/LightCollision.h"
 
 USING_NS_CC;
 
@@ -21,20 +22,23 @@ public:
 	PhysicCollision(Image* pBitmask, Point absoluteOriginPosition);
 	~PhysicCollision();
 
+	void setLightCollision(LightCollision* pLightCollision) { _pLightCollision = pLightCollision; }
 	void setBitmask(Image* pBitmask) { _pBitmask = pBitmask; }
 	void setAbsoluteOriginPosition(Point pos) { _absoluteOriginPosition = pos; }
+	LightCollision* getLightCollision() { return _pLightCollision; }
 	
 	bool collide(Point position);
-
-	inline int getZoneWidth() { return _pBitmask->getWidth(); }
-	inline int getZoneHeight() { return _pBitmask->getHeight(); }
+	Point getNextPixel(Point position, Point direction, bool bVoid);
+	float countStepToNextPixel(Point position, Point direction, bool bVoid, float fMaxLength);
+	float computeSurfaceSlope(Point surfaceSample);
+	Point getBelowSurfacePixel(Point pos, float distance);
 
 protected:
 	Point convertToImageSpace(Point absolutePos);
 	Point convertToWorldSpace(Point imageSpacePos);
 	unsigned char getValue(Point pixel);
 	
-
+	LightCollision* _pLightCollision;
 	Image* _pBitmask;
 	Point _absoluteOriginPosition;
 };

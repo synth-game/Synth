@@ -48,6 +48,8 @@ public:
 	inline ActorType getActorType() { return _eType; }
 
 	bool isFirefly();
+    
+    //void removeComponent(const char* sComponentName);
 	
 	static int _iActorCount; /*!< counter of every SynthActor. It is automatically incremented */
 

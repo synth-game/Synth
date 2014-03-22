@@ -39,6 +39,7 @@ public:
 	inline void setGravity(Point gravity) { _gravity = gravity; }
 	inline void setBasicGravity(Point gravity) { _basicGravity = gravity;}
     inline bool isLateralMoving() { return _bIsLateralMoving; };
+    void onExit();
 
 	static const char* COMPONENT_TYPE;
 
@@ -60,6 +61,7 @@ protected:
 	Point _direction;
 	Point _acceleration;
     Point _previousNextPositionComputed;
+    Point _previousPosition;
     bool _bIsLateralMoving;
 	Point _basicGravity;
 	Point _gravity; //current value of the gravity

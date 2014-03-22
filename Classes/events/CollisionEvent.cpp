@@ -14,6 +14,11 @@ CollisionEvent::CollisionEvent(Node* pSource)
 	: SynthEvent(pSource, EVENT_NAME) {
 
 }
+    
+CollisionEvent::CollisionEvent(Node* pSource, physics::ECollisionType eCollisionType)
+	: SynthEvent(pSource, EVENT_NAME),  _eCollisionType(eCollisionType){
+        
+}
 
 CollisionEvent::~CollisionEvent() {
 

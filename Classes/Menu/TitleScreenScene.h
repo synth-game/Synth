@@ -1,3 +1,9 @@
+/*!
+ * \file TitleScreenScene.h
+ * \brief The title screen of the game
+ * \author Chupee
+ * \date 17/03/2014
+ */
 #ifndef MENU_TITLE_SCREEN_SCENE_H
 #define MENU_TITLE_SCREEN_SCENE_H
 
@@ -7,20 +13,46 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-namespace menu
-{
-class TitleScreenScene : public Scene
-{
+namespace menu {
+
+/*!
+ * \class TitleScreenScene
+ * \brief The title screen of the game
+ *
+ */
+class TitleScreenScene : public Scene {
+
+public:
+	~TitleScreenScene();
+
+	static TitleScreenScene* create(std::string sBgFileName, bool bIsThereGame);
+
+	bool init();
+
+	
+
+protected:
+	TitleScreenScene();
+
+	void initListeners();
+
+	void dispatchNewGameEvent(Object* pSender);
+	void dispatchExitGameEvent(Object* pSender);
+
+	void onKeyPressed(Event* pEvent);
+
 private:
 	Layer* _pButtonLayer;
 
 	Layer* _pBackgroundLayer;
 
-	Layer _pSettingsLayer;
+	Menu* _pMenuLayer;
 
-	ControlButton* _pBtnNewGame;
+	Layer* _pSettingsLayer;
 
-	ControlButton* _pBtnPlay;
+	MenuItem* _pBtnNewGame;
+
+	MenuItem* _pBtnPlay;
 
 	ControlButton* _pBtnSelectLevel;
 
@@ -28,29 +60,15 @@ private:
 
 	ControlButton* _pBtnCredits;
 
-	ControlButton* _pBtnQuit;
+	MenuItem* _pBtnQuit;
 
 	int _iSelectedButtonID;
 
-	/**
-	 *  = 6
-	 *
-	 *
-	 */
 	int _iButtonCount;
 
 
-protected:
-	TitleScreenScene();
 
-	void onKeyPress(Event* pEvent);
 
-public:
-	~TitleScreenScene();
-
-	static TitleScreenScene* create(int* pBackground, bool bIsThereGame);
-
-	bool init();
 
 };
 

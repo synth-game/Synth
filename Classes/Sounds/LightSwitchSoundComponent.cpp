@@ -15,6 +15,7 @@ LightSwitchSoundComponent::LightSwitchSoundComponent() :
 }
 
 LightSwitchSoundComponent::~LightSwitchSoundComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pToggleLightEventListener);
 }
 
 LightSwitchSoundComponent* LightSwitchSoundComponent::create() {

@@ -10,6 +10,7 @@
 #include <vector>
 #include "cocos2d.h"
 #include "Core/SynthActor.h"
+#include "physics/GeometryComponent.h"
 
 USING_NS_CC;
 
@@ -22,9 +23,13 @@ public:
 	~LevelSprite();
 
 	static LevelSprite* create(const char* sBackgroundPath);
-	void addLight(int actorID, Texture2D* pTexture, Color4B color);
+	void addLight(int actorID, Texture2D* pTexture, Color4B color, bool bOn);
+	void addLightSwitch(physics::GeometryComponent* pComp);
 	void updateLight(core::SynthActor* pLamp);
 	void draw();
+
+	/*! \brief  */
+	void onChangeNodeOwner(EventCustom* pEvent, core::SynthActor* pOwner);
 
 
 protected:
@@ -37,16 +42,10 @@ protected:
 	/*! \brief Constructor */
 	LevelSprite();
 
-	/*! \brief  */
-	void initListeners();
-
-	/*! \brief  */
-	void onChangeNodeOwner(EventCustom* pEvent);
-
 	std::vector<LightTexture*> _lightTextures;
 
-	/*! \brief  */
-	EventListenerCustom* _pChangeNodeOwnerEventListener;
+	std::vector<physics::GeometryComponent*> _lightSwitches;
+
 };
 
 }  // namespace game

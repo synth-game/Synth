@@ -66,6 +66,7 @@ void SpriteComponent::initListeners() {
 }
 
 void SpriteComponent::onChangePosition(EventCustom* pEvent) {
+    //CCLOG("SpriteComponent::onChangePosition CHANGE POSITION RECEIVED");
 	events::ChangePositionEvent* pChangePosEvent = static_cast<events::ChangePositionEvent*>(pEvent);
 	core::SynthActor* pOwner = static_cast<core::SynthActor*>(_owner);
 	core::SynthActor* pEventSource = static_cast<core::SynthActor*>(pChangePosEvent->getSource());

@@ -7,14 +7,16 @@
 #include "game/LightMap.h"
 #include "game/LightAttrComponent.h"
 #include "game/NodeOwnerComponent.h"
+#include "game/SwitchableComponent.h"
 #include "sounds/SoundManager.h"
+#include "events/ChangeNodeOwnerEvent.h"
 
 namespace game {
 
 LightMap::LightMap()
 	: _iW(0)
 	, _iH(0)
-	, _iResolutionCoef(0) {
+	, _iResolutionCoef(1) {
 }
 
 LightMap::~LightMap() {
@@ -35,15 +37,10 @@ LightMap* LightMap::createFromXML(std::string sFilePath) {
 		pRet->_iH = pRootElt->IntAttribute("height");
 		pRet->_iResolutionCoef = pRootElt->IntAttribute("resolution_coef");
 
-		// initialize pixel map
-		pRet->_pixelGrid.resize(pRet->_iW*pRet->_iH);
+		// fill the pixel map
 		Color4B noColor = Color4B::BLACK;
 		noColor.a = 0;
-		for(int i=0; i<pRet->_iW*pRet->_iH; ++i) {
-			pRet->_pixelGrid[i] = std::make_pair(noColor, std::vector<std::pair<int, bool>>());
-		}
 
-		// fill the pixel map
 		tinyxml2::XMLElement* pPixelElt = pRootElt->FirstChildElement("pixel");
 		while (pPixelElt != nullptr) {
 			int index = pPixelElt->IntAttribute("array_index");
@@ -58,7 +55,7 @@ LightMap* LightMap::createFromXML(std::string sFilePath) {
 
 				pLightSampleElt = pLightSampleElt->NextSiblingElement("light_sample");
 			}
-			pRet->_pixelGrid[index].second = lightSamples;
+			pRet->_pixelGrid.insert(std::make_pair(index, std::make_pair(noColor, lightSamples)));
 
 			pPixelElt = pPixelElt->NextSiblingElement("pixel");
 		}
@@ -69,22 +66,99 @@ LightMap* LightMap::createFromXML(std::string sFilePath) {
 	return pRet;
 }
 
+void LightMap::fastUpdate(core::SynthActor* pLight, std::vector<core::SynthActor*>& lights) {
+	int iLightIndex = -1;
+	for(unsigned int i=0; i<lights.size(); ++i) {
+		if(lights[i] == pLight) {
+			iLightIndex = static_cast<int>(i);
+			break;
+		}
+	}
+
+	if(iLightIndex != -1) {
+		for(auto itPix=_pixelGrid.begin(); itPix!=_pixelGrid.end(); ++itPix) {
+			std::vector<std::pair<int, bool>> currentPixel = itPix->second.second;
+
+			bool bUpdateThisPIxel = false;
+			for (auto itSample=currentPixel.begin(); itSample!=currentPixel.end(); ++itSample) {
+				if (iLightIndex == itSample->first) {
+					bUpdateThisPIxel = true;
+					break;
+				}
+			}
+
+			if (bUpdateThisPIxel) {
+				Color4B occultedColor(0, 0, 0, 0);
+				Color4B notOccultedColor(0, 0, 0, 0);
+
+				for (auto itSample=currentPixel.begin(); itSample!=currentPixel.end(); ++itSample) {
+					if(itSample->first < lights.size()) {
+						Color4B lightColor = Color4B(0, 0, 0, 0);
+						core::SynthActor* currentLight = lights[itSample->first];
+						game::NodeOwnerComponent* pNodeOwnerComp = static_cast<game::NodeOwnerComponent*>(currentLight->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+						game::SwitchableComponent* pSwitchableComp = static_cast<game::SwitchableComponent*>(currentLight->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+						core::SynthActor* firefly = static_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+						if(firefly != nullptr && pSwitchableComp->isOn()) {
+							switch (firefly->getActorType()) {
+							case core::ActorType::RED_FIREFLY:
+								lightColor = Color4B::RED;
+								break;
+							case core::ActorType::GREEN_FIREFLY:
+								lightColor = Color4B::GREEN;
+								break;
+							case core::ActorType::BLUE_FIREFLY:
+								lightColor = Color4B::BLUE;
+								break;
+							default:
+								break;
+							}
+						}
+
+						if (notOccultedColor.r == 255 || lightColor.r == 255) { notOccultedColor.r = 255; }
+						if (notOccultedColor.g == 255 || lightColor.g == 255) { notOccultedColor.g = 255; }
+						if (notOccultedColor.b == 255 || lightColor.b == 255) { notOccultedColor.b = 255; }
+						notOccultedColor.a = 255;
+
+						// check if the pixel is occulted from the light
+						if (itSample->second == false) {
+							if (occultedColor.r == 255 || lightColor.r == 255) { occultedColor.r = 255; }
+							if (occultedColor.g == 255 || lightColor.g == 255) { occultedColor.g = 255; }
+							if (occultedColor.b == 255 || lightColor.b == 255) { occultedColor.b = 255; }
+							occultedColor.a = 255;
+						}
+					}
+				}
+
+				if (notOccultedColor.r == 255 && notOccultedColor.g == 255 && notOccultedColor.b == 255) {
+					itPix->second.first = Color4B::WHITE;
+				} else {
+					itPix->second.first = occultedColor;
+				}
+			}
+		}
+	}
+}
+
 void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
-	for (int i=0; i<_iW*_iH; ++i) {
-		std::vector<std::pair<int, bool>> currentPixel = _pixelGrid[i].second;
-		if (currentPixel.size() > 0) {
+	sounds::SoundManager* soundManager = sounds::SoundManager::getInstance();
+	soundManager->stopAllMusics();
+
+	for(auto itPix=_pixelGrid.begin(); itPix!=_pixelGrid.end(); ++itPix) {
+
+		std::vector<std::pair<int, bool>> currentPixel = itPix->second.second;
+		if (!currentPixel.empty()) {
 			Color4B occultedColor(0, 0, 0, 0);
 			Color4B notOccultedColor(0, 0, 0, 0);
 
 			for (std::vector<std::pair<int, bool>>::iterator itSample=currentPixel.begin(); itSample!=currentPixel.end(); ++itSample) {
-				
-				if (itSample->first < lights.size()) {
-
+				if(itSample->first < lights.size()) {
 					Color4B lightColor = Color4B(0, 0, 0, 0);
 					core::SynthActor* currentLight = lights[itSample->first];
-					game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(currentLight->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-					core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
-					if(firefly != nullptr) {
+
+					game::NodeOwnerComponent* pNodeOwnerComp = static_cast<game::NodeOwnerComponent*>(currentLight->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+					game::SwitchableComponent* pSwitchableComp = static_cast<game::SwitchableComponent*>(currentLight->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+					core::SynthActor* firefly = static_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+					if(firefly != nullptr && pSwitchableComp->isOn()) {
 						switch (firefly->getActorType()) {
 						case core::ActorType::RED_FIREFLY:
 							lightColor = Color4B::RED;
@@ -116,13 +190,40 @@ void LightMap::updateLighting(std::vector<core::SynthActor*>& lights) {
 			}
 
 			if (notOccultedColor.r == 255 && notOccultedColor.g == 255 && notOccultedColor.b == 255) {
-				_pixelGrid[i].first = Color4B::WHITE;
+				itPix->second.first = Color4B::WHITE;
 			} else {
-				_pixelGrid[i].first = occultedColor;
+				itPix->second.first = occultedColor;
 			}
 		}
-		sounds::SoundManager* soundManager = sounds::SoundManager::getInstance();
-		soundManager->updateMusics(_pixelGrid[i].first);
+		soundManager->updateMusics(itPix->second.first);
+	}
+}
+
+void LightMap::onChangeNodeOwner(EventCustom* pEvent, core::SynthActor* pOwner, std::vector<core::SynthActor*>& lights) {
+	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent			= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
+	core::SynthActor* pNewOwner									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getNewOwner());
+	core::SynthActor* pPreviousOwner							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getPreviousOwner());
+	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getOwned());
+
+	if(pNewOwner != nullptr && pNewOwner->getActorID() == pOwner->getActorID()) {
+		// if a firefly goes to a light
+		if ( pSource->isFirefly() && pNewOwner != nullptr && pNewOwner->getActorType() == core::ActorType::LIGHT ) {
+			game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pNewOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+			if (pSwitchableComp != nullptr) {
+				pSwitchableComp->setOn(true);
+				//fastUpdate(pNewOwner, lights);
+			}
+		}
+		// if a firefly leaves a light
+		if (pSource->isFirefly() && pPreviousOwner != nullptr && pPreviousOwner->getActorType() == core::ActorType::LIGHT ) {
+			game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pPreviousOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+			if (pSwitchableComp != nullptr) {
+				pSwitchableComp->setOn(false);
+				//fastUpdate(pPreviousOwner, lights);
+			}
+		}
+
+		updateLighting(lights);
 	}
 }
 
@@ -132,8 +233,11 @@ Color4B LightMap::getPixelLighting(Point absPos) {
 	int iX = static_cast<int>(absPos.x/_iResolutionCoef);
 	int iY = _iH - static_cast<int>(absPos.y/_iResolutionCoef);
 
-	if (iX < _iW && iY < _iH) {
-		colorRet = _pixelGrid[iX + iY*_iW].first;
+	if (iX>=0 && iX<_iW && iY>=0 && iY<_iH) {
+		auto itPix = _pixelGrid.find(iX + iY*_iW);
+		if (itPix != _pixelGrid.end()) {
+			colorRet = itPix->second.first;
+		}
 	}
 
 	return colorRet;

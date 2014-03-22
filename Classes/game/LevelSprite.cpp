@@ -10,6 +10,7 @@
 #include "game/NodeOwnerComponent.h"
 #include "game/SwitchableComponent.h"
 #include "graphics/SpriteComponent.h"
+#include "sounds/SoundManager.h"
 
 #include "events/ChangeNodeOwnerEvent.h"
 
@@ -42,7 +43,6 @@ LevelSprite* LevelSprite::create(const char* sBackgroundPath) {
 		pProgram->use();
 		pRet->setShaderProgram(pProgram);
 
-		pRet->initListeners();
 	} else {
 		CCLOG("LevelSprite created but deleted");
 		CC_SAFE_DELETE(pRet);
@@ -50,7 +50,7 @@ LevelSprite* LevelSprite::create(const char* sBackgroundPath) {
 	return pRet;
 }
 
-void LevelSprite::addLight(int actorID, Texture2D* pTexture, Color4B color) {
+void LevelSprite::addLight(int actorID, Texture2D* pTexture, Color4B color, bool bOn) {
 	if (_lightTextures.size() < SHA_LIGHT_MAX_COUNT) {
 		LightTexture* pLT = new LightTexture();
 		pLT->actorID = actorID;
@@ -59,22 +59,33 @@ void LevelSprite::addLight(int actorID, Texture2D* pTexture, Color4B color) {
 		pLT->col.push_back(static_cast<float>(color.g)/255.f);
 		pLT->col.push_back(static_cast<float>(color.b)/255.f);
 		pLT->col.push_back(static_cast<float>(color.a)/255.f);
+		if (bOn == false) {
+			pLT->col[3] = 0.f;
+		}
 		_lightTextures.push_back(pLT);
 	} else {
 		CCLOG("There already are maximum of lights in LevelSprite. Can't add another one.");
 	}
 }
 
+void LevelSprite::addLightSwitch(physics::GeometryComponent* pComp) {
+	if (pComp != nullptr) {
+		_lightSwitches.push_back(pComp);
+	} else {
+		CCLOG("LevelSprite addLightSwitch :: component is nullptr");
+	}
+}
+
 void LevelSprite::updateLight(core::SynthActor* pLamp) {
 	CCASSERT(pLamp->getActorType() == core::ActorType::LIGHT, "LevelFactory::updateLight. The lamp is not what we thought it is ! KILL IT NOW !");
-	game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(pLamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-	game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pLamp->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
-	core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+	game::NodeOwnerComponent* pNodeOwnerComp = static_cast<game::NodeOwnerComponent*>(pLamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+	game::SwitchableComponent* pSwitchableComp = static_cast<game::SwitchableComponent*>(pLamp->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+	core::SynthActor* firefly = static_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
 
 	for (auto texture : _lightTextures) {
 		if (texture->actorID == pLamp->getActorID()) {
-			if(firefly != nullptr) {
-				Color4B color = Color4B(0, 0, 0, 0);
+			Color4B color = Color4B(0, 0, 0, 0);
+			if(firefly != nullptr && pSwitchableComp->isOn()) {
 				switch (firefly->getActorType()) {
 				case core::ActorType::RED_FIREFLY:
 					color = Color4B::RED;
@@ -88,15 +99,12 @@ void LevelSprite::updateLight(core::SynthActor* pLamp) {
 				default:
 					break;
 				}
-				texture->col[0] = color.r;
-				texture->col[1] = color.g;
-				texture->col[2] = color.b;
 			}
-			if(pSwitchableComp->isOn()) {
-				texture->col[3] = 1.f;
-			} else {
-				texture->col[3] = 0.f;
-			}
+
+			texture->col[0] = static_cast<float>(color.r)/255.f;
+			texture->col[1] = static_cast<float>(color.g)/255.f;
+			texture->col[2] = static_cast<float>(color.b)/255.f;
+			texture->col[3] = static_cast<float>(color.a)/255.f;
 		}
 	}
 }
@@ -104,18 +112,23 @@ void LevelSprite::updateLight(core::SynthActor* pLamp) {
 void LevelSprite::draw() {
 	_shaderProgram->use();
 	_shaderProgram->setUniformLocationWith2f(_shaderProgram->getUniformLocationForName("SY_LevelPixelSize"), 1.f/_contentSize.width, 1.f/_contentSize.height);
-	_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName("SY_LightCount"), _lightTextures.size());
+
+	int iLightOnCount = 0;
 	for(unsigned int i=0; i<_lightTextures.size(); ++i) {
-		std::stringstream lightLocation;
-		lightLocation << "SY_Lights_" << i;
-		_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName(lightLocation.str().c_str()), i+1);
+		if(_lightTextures[i]->col[3] > 0.0001f) {
+			std::stringstream lightLocation;
+			lightLocation << "SY_Lights_" << iLightOnCount;
+			_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName(lightLocation.str().c_str()), iLightOnCount+1);
 
-		std::stringstream colorLocation;
-		colorLocation << "SY_Colors["<<i<<"]";
-		_shaderProgram->setUniformLocationWith4fv(_shaderProgram->getUniformLocationForName(colorLocation.str().c_str()), &(_lightTextures[i]->col[0]), 1);
+			std::stringstream colorLocation;
+			colorLocation << "SY_Colors["<<iLightOnCount<<"]";
+			_shaderProgram->setUniformLocationWith4fv(_shaderProgram->getUniformLocationForName(colorLocation.str().c_str()), &(_lightTextures[i]->col[0]), 1);
 
-		GL::bindTexture2DN(i+1, _lightTextures[i]->pTex->getName());
+			GL::bindTexture2DN(iLightOnCount+1, _lightTextures[i]->pTex->getName());
+			++iLightOnCount;
+		}
 	}
+	_shaderProgram->setUniformLocationWith1i(_shaderProgram->getUniformLocationForName("SY_LightCount"), iLightOnCount);
 
 	Sprite::draw();
 
@@ -123,27 +136,39 @@ void LevelSprite::draw() {
 	for(unsigned int i=0; i<_lightTextures.size(); ++i) {
 		GL::bindTexture2DN(i+1, 0);
 	}
+
+	for (auto lightSwitch : _lightSwitches) {
+		Point origin = Point(lightSwitch->getPosition().x - (lightSwitch->getSize().width/2), lightSwitch->getPosition().y);
+		Point destination = Point(lightSwitch->getPosition().x+(lightSwitch->getSize().width/2), lightSwitch->getPosition().y+(lightSwitch->getSize().height));
+		DrawPrimitives::drawSolidRect(origin, destination, Color4F::BLACK);
+	}
+
 }
 
-void LevelSprite::initListeners() {
-	_pChangeNodeOwnerEventListener = cocos2d::EventListenerCustom::create(events::ChangeNodeOwnerEvent::EVENT_NAME, CC_CALLBACK_1(LevelSprite::onChangeNodeOwner, this));
-
-	// Add listeners to dispacher
-	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeNodeOwnerEventListener, 1);
-}
-
-void LevelSprite::onChangeNodeOwner(EventCustom* pEvent) {
+// this method doesnt listen the event, it is called by the node owner component
+void LevelSprite::onChangeNodeOwner(EventCustom* pEvent, core::SynthActor* pOwner) {
 	events::ChangeNodeOwnerEvent* pChangeNodeOwnerEvent			= static_cast<events::ChangeNodeOwnerEvent*>(pEvent);
 	core::SynthActor* pNewOwner									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getNewOwner());
-	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getSource());
+	core::SynthActor* pPreviousOwner							= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getPreviousOwner());
+	core::SynthActor* pSource									= static_cast<core::SynthActor*>(pChangeNodeOwnerEvent->getOwned());
 
-	if ( pSource->isFirefly() && pNewOwner->getActorType() == core::ActorType::LIGHT ) {
-		game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pNewOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
-		if (pSwitchableComp != nullptr) {
-			updateLight(pNewOwner);
+	if(pNewOwner != nullptr && pNewOwner->getActorID() == pOwner->getActorID()) {
+		// if a firefly goes to a light
+		if ( pSource->isFirefly() && pNewOwner != nullptr && pNewOwner->getActorType() == core::ActorType::LIGHT ) {
+			game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pNewOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+			if (pSwitchableComp != nullptr) {
+				pSwitchableComp->setOn(true);
+				updateLight(pNewOwner);
+			}
 		}
-	} else {
-		CCLOG("CHANGE NODE OWNER EVENT : THE OWNER IS NOT THE SAME");
+		// if a firefly leaves a light
+		if (pSource->isFirefly() && pPreviousOwner != nullptr && pPreviousOwner->getActorType() == core::ActorType::LIGHT ) {
+			game::SwitchableComponent* pSwitchableComp = dynamic_cast<game::SwitchableComponent*>(pPreviousOwner->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+			if (pSwitchableComp != nullptr) {
+				pSwitchableComp->setOn(false);
+				updateLight(pPreviousOwner);
+			}
+		}
 	}
 
 }

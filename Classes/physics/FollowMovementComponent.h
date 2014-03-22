@@ -33,7 +33,7 @@ public:
 	bool init();
 
 	inline core::SynthActor* getTarget() { return _target; }
-	inline void setTarget( core::SynthActor* target ) { _target = target; }
+	void setTarget( core::SynthActor* target );
 
 protected:
 

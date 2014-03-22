@@ -10,7 +10,10 @@
 #include "game/SwitchableComponent.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
+#include "physics/BounceCollisionComponent.h"
+#include "physics/StickCollisionComponent.h"
 #include "physics/FollowMovementComponent.h"
+#include "physics/StickMovementComponent.h"
 #include "graphics/HeroAnimatedSpriteComponent.h"
 #include "graphics/FireFlyAnimatedSpriteComponent.h"
 #include "system/IOManager.h"
@@ -52,7 +55,9 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("GEOMETRY",					core::ComponentType::GEOMETRY));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("MOVEMENT",					core::ComponentType::MOVEMENT));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FOLLOWMOVEMENT",			core::ComponentType::FOLLOWMOVEMENT));
+    componentTagsMap.insert(std::pair<std::string, core::ComponentType>("STICKMOVEMENT",			core::ComponentType::STICKMOVEMENT));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("COLLISION",				core::ComponentType::COLLISION));
+    componentTagsMap.insert(std::pair<std::string, core::ComponentType>("STICKCOLLISION",			core::ComponentType::STICKCOLLISION));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("SPRITE",					core::ComponentType::SPRITE));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("HEROANIMATEDSPRITE",		core::ComponentType::HEROANIMATEDSPRITE));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("FIREFLYANIMATEDSPRITE",	core::ComponentType::FIREFLYANIMATEDSPRITE));
@@ -93,6 +98,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 
 			while(pComponentData) {
 				componentType = pComponentData->Attribute("type");
+                CCLOG("LevelFactory::buildActors ACTOR TYPE = %s AND COMPONENT NAME = %s", actorType.c_str(), componentType.c_str());
 				switch(componentTagsMap[componentType]) {
 				case core::ComponentType::GEOMETRY:
 					// Position
@@ -112,6 +118,7 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					anchorPointY = pAnchorPointData->FloatAttribute("y");
 					// Create GeometryComponent
 					aComponents.push_back(physics::GeometryComponent::create(Point(positionX, positionY), Size(width, height), rotate, Point(anchorPointX, anchorPointY)));
+					
 					break;
 				case core::ComponentType::MOVEMENT:
 					// Acceleration
@@ -133,9 +140,26 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 					// Create FollowMovementComponent
 					aComponents.push_back(physics::FollowMovementComponent::create(Point(accelerationX, accelerationY), actor));
 					break;
+                case core::ComponentType::STICKMOVEMENT:
+                    CCLOG("LevelFactory::buildActors ADD STICKMOVEMENT");
+					// Acceleration
+					pAccelerationData = pComponentData->FirstChildElement("acceleration");
+					accelerationX = pAccelerationData->FloatAttribute("x");
+					accelerationY = pAccelerationData->FloatAttribute("y");
+                    // Gravity
+					pGravityData = pComponentData->FirstChildElement("gravity");
+					gravityX = pGravityData->FloatAttribute("x");
+					gravityY = pGravityData->FloatAttribute("y");
+					// Create StickMovementComponent
+					aComponents.push_back(physics::StickMovementComponent::create(Point(accelerationX, accelerationY), Point(gravityX, gravityY)));
+					break;
 				case core::ComponentType::COLLISION:
 					// Create CollisionComponent
 					aComponents.push_back(__createCollisionComponent(levelName));
+					break;
+                case core::ComponentType::STICKCOLLISION:
+					// Create CollisionComponent
+					aComponents.push_back(__createStickCollisionComponent(levelName));
 					break;
 				case core::ComponentType::SPRITE:
 					name = pComponentData->FirstChildElement("name")->GetText();
@@ -235,16 +259,27 @@ physics::CollisionComponent* LevelFactory::__createCollisionComponent(std::strin
 
 	return pRet;
 }
+    
+physics::CollisionComponent* LevelFactory::__createStickCollisionComponent(std::string levelName) {
+	physics::StickCollisionComponent* pRet = physics::StickCollisionComponent::create();
+	Image* pBitmask = new Image();
+	pBitmask->initWithImageFile(std::string("levels/"+levelName+"/bitmask.png").c_str()); 
+	physics::PhysicCollision* pStickCollision = new physics::PhysicCollision(pBitmask, Point(0, pBitmask->getHeight()));
+	pRet->addPhysicCollision(pStickCollision);
+
+	return pRet;
+}
 
 physics::LightCollision* LevelFactory::buildLightsCollision(LightMap* pLightMap, std::vector<core::SynthActor*> aLights) {
 	return new physics::LightCollision(aLights, pLightMap);
 }
 
-LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevelLayer, std::vector<core::SynthActor*> aLights) {
+LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, std::vector<core::SynthActor*> aLights) {
 	LevelSprite* pRet = LevelSprite::create(std::string("levels/"+levelName+"/bitmask.png").c_str());
 	for(int i = 0; i < aLights.size(); i++) {
-		game::NodeOwnerComponent* pNodeOwnerComp = dynamic_cast<game::NodeOwnerComponent*>(aLights[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
-		core::SynthActor* firefly = dynamic_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
+		game::NodeOwnerComponent* pNodeOwnerComp = static_cast<game::NodeOwnerComponent*>(aLights[i]->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
+		game::SwitchableComponent* pSwitchableComp = static_cast<game::SwitchableComponent*>(aLights[i]->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
+		core::SynthActor* firefly = static_cast<core::SynthActor*>(pNodeOwnerComp->getOwnedNode());
 		Color4B color = Color4B(0, 0, 0, 0);
 		if(firefly != nullptr) {
 			switch (firefly->getActorType()) {
@@ -261,10 +296,9 @@ LevelSprite* LevelFactory::buildLevelSprite(std::string levelName, Layer* pLevel
 				break;
 			}
 
-			pRet->addLight(aLights[i]->getActorID(), Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color);
+			pRet->addLight(aLights[i]->getActorID(), Sprite::create(std::string("levels/"+levelName+"/PREC_LIGHT_"+std::to_string(i)+".png").c_str())->getTexture(), color, pSwitchableComp->isOn());
 		}
 	}
-	pLevelLayer->addChild(pRet, 0, 42);
 
 	return pRet;
 }

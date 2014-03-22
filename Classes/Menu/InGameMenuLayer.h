@@ -1,3 +1,9 @@
+/*!
+ * \file InGameMenuLayer.h
+ * \brief The menu during the game
+ * \author Chupee
+ * \date 20/03/2014
+ */
 #ifndef MENU_IN_GAME_MENU_LAYER_H
 #define MENU_IN_GAME_MENU_LAYER_H
 
@@ -7,53 +13,52 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-namespace menu
-{
-class InGameMenuLayer : public Layer
-{
-private:
-	Layer* _pBackgroundLayer;
+namespace menu {
 
-	Layer* _pButtonLayer;
+class InGameMenuLayer : public Layer {
 
-	Layer* _pSettingsLayer;
+public:
 
-	ControlButton* _pBtnResumeGame;
+	~InGameMenuLayer();
 
-	ControlButton* _pBtnMainMenu;
+	static InGameMenuLayer* create();
 
-	ControlButton* _pBtnRetry;
-
-	ControlButton* _pBtnSelectLevel;
-
-	ControlButton* _pBtnSettings;
-
-	ControlButton* _pBtnQuit;
-
-	int _iSelectedButtonID;
-
-	/**
-	 *  = 6
-	 *
-	 *
-	 */
-	int _iButtonCount;
-
+	bool init();
 
 protected:
 	InGameMenuLayer();
 
 	void onKeyPressed(Event* pEvent);
 
-public:
-	/**
-	 *
-	 */
-	~InGameMenuLayer();
+	void dispatchExitGameEvent(Object* pSender);
+	void dispatchResumeGameEvent(Object* pSender);
+	void dispatchReselLevelEvent(Object* pSender);
 
-	static InGameMenuLayer* create(int* pBackground);
+private:
+	Layer* _pBackgroundLayer;
 
-	bool init();
+	Menu* _pMenuLayer;
+
+	Layer* _pSettingsLayer;
+
+	MenuItem* _pBtnResumeGame;
+
+	ControlButton* _pBtnMainMenu;
+
+	MenuItem* _pBtnRetry;
+
+	ControlButton* _pBtnSelectLevel;
+
+	ControlButton* _pBtnSettings;
+
+	MenuItem* _pBtnQuit;
+
+	int _iSelectedButtonID;
+
+	int _iButtonCount;
+
+	
+
 
 };
 

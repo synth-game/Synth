@@ -21,7 +21,6 @@ HeroSoundComponent::HeroSoundComponent() :
 
 HeroSoundComponent::~HeroSoundComponent() {
 	EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
-	EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
 }
 
 HeroSoundComponent* HeroSoundComponent::create() {
@@ -39,12 +38,10 @@ void HeroSoundComponent::initListeners() {
 	SoundComponent::initListeners();
 
 	// Listeners initialization
-	_pJumpEventListener = cocos2d::EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(HeroSoundComponent::onJump, this));
 	_pEditMoveEventListener = cocos2d::EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(HeroSoundComponent::onEditMove, this));
 
 	// Add listeners to dispacher
 	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
-	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pJumpEventListener, 1);
 }
 
 void HeroSoundComponent::onChangePosition(EventCustom* pEvent) {
@@ -64,17 +61,19 @@ void HeroSoundComponent::onEditMove(EventCustom* pEvent) {
 			case core::ActorState::ON_FLOOR_STATE :
 				if(!SoundManager::getInstance()->isPlayingEffect(_eCurrentTag, this)) {
 					_eCurrentTag = SoundType::HERO_WALK;
-					playSound(_eCurrentTag);
+					//playSound(_eCurrentTag);
 				}
 				break;
 			case core::ActorState::STUCK_STATE :
 				
 				break;
 			case core::ActorState::ON_AIR_STATE :
-				
+				_eCurrentTag = SoundType::HERO_FLY;
+				playSound(_eCurrentTag);
 				break;
 			case core::ActorState::BOUNCE_STATE :
-				
+				_eCurrentTag = SoundType::HERO_BOUNCE;
+				playSound(_eCurrentTag);
 				break;
 			default:
 				
@@ -92,10 +91,12 @@ void HeroSoundComponent::onEditMove(EventCustom* pEvent) {
 
 				break;
 			case core::ActorState::ON_AIR_STATE :
-				
+				_eCurrentTag = SoundType::HERO_FLY;
+				stopSounds();
 				break;
 			case core::ActorState::BOUNCE_STATE :
-				
+				_eCurrentTag = SoundType::HERO_BOUNCE;
+				stopSounds();
 				break;
 			default:
 				
@@ -116,7 +117,7 @@ void HeroSoundComponent::onJump(EventCustom* pEvent) {
 
 	_eCurrentTag = SoundType::HERO_START_JUMP;
 
-    if (_eState == core::ActorState::ON_FLOOR_STATE && pSource->getActorID() == pOwner->getActorID()) {
+	if (_eState == core::ActorState::ON_FLOOR_STATE && pSource->getActorID() == pOwner->getActorID()) {
 		CCLOG("RUN JUMP SOUND EFFECT");
 		playSound(_eCurrentTag);
     } else {

@@ -14,12 +14,14 @@
 #include "core/SynthActor.h"
 #include "physics/GeometryComponent.h"
 #include "physics/CollisionComponent.h"
+#include "sounds/HeroSoundComponent.h"
+#include "graphics/HeroAnimatedSpriteComponent.h"
 
 #define MAX_X_SPEED 200.f
 #define MAX_Y_SPEED 400.f
 #define MAX_JUMP_SPEED 400.f
 #define MIN_JUMP_SPEED 100.f
-#define ENGINE_SPEED 0.015
+#define ENGINE_SPEED 0.015f
 
 namespace physics {
 
@@ -36,7 +38,11 @@ MovementComponent::MovementComponent()
 }
 
 MovementComponent::~MovementComponent() {
-	EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
+}
+    
+void MovementComponent::onExit() {
+    CCLOG("MovementComponent::onExit : NEED TO REMOVE LISTENERS");
+    EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
     EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
 	EventDispatcher::getInstance()->removeEventListener(_pInterruptMoveEventListener);
     EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
@@ -98,12 +104,23 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 	events::JumpEvent* jumpEvent = static_cast<events::JumpEvent*>(pEvent);
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(jumpEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
+	Point direction = jumpEvent->getDirection();
 	if (componentOwner == eventSource) {
 		if (jumpEvent->isStartJumping() && _eMovingState == core::ActorState::ON_FLOOR_STATE) {
-            _speed.y = MAX_JUMP_SPEED;
+			_speed.x = MAX_JUMP_SPEED*direction.x;
+            _speed.y = MAX_JUMP_SPEED*direction.y;
 			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
+			sounds::HeroSoundComponent* pHeroSoundComp = static_cast<sounds::HeroSoundComponent*>(_owner->getComponent(sounds::HeroSoundComponent::COMPONENT_TYPE));
+			if (pHeroSoundComp != nullptr ) {
+				pHeroSoundComp->onJump(pEvent);
+			}
+			graphics::HeroAnimatedSpriteComponent* pHeroAnimComp = static_cast<graphics::HeroAnimatedSpriteComponent*>(_owner->getComponent(graphics::HeroAnimatedSpriteComponent::COMPONENT_TYPE));
+			if (pHeroAnimComp != nullptr ) {
+				pHeroAnimComp->onJump(pEvent);
+			}
 			events::ChangeStateEvent* pChangeStateEvent = new events::ChangeStateEvent(_owner, _eMovingState);
 			EventDispatcher::getInstance()->dispatchEvent(pChangeStateEvent);
+			delete pChangeStateEvent;
         } else {
             if (_speed.y > MIN_JUMP_SPEED) {
                 _speed.y = MIN_JUMP_SPEED;
@@ -188,6 +205,8 @@ void MovementComponent::update(float fDt) {
 	// compute next position
 	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(_owner->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
 	CCASSERT(pGeometryComponent != nullptr, "MovementComponent needs a GeometryComponent added to its owner");
+    _previousPosition = pGeometryComponent->getPosition();
+    //CCLOG("MovementComponent::update PREVIOUS POSITION %.2f, %.2f", _previousPosition.x, _previousPosition.y);
 	Point nextPosition = pGeometryComponent->getPosition() + _speed * ENGINE_SPEED;
 
     _bIsLateralMoving = !(abs(nextPosition.x - _previousNextPositionComputed.x) < 1.f);
@@ -198,9 +217,11 @@ void MovementComponent::update(float fDt) {
     if (pCollisionComponent == nullptr) {
         events::ChangePositionEvent* pChangePositionEvent = new events::ChangePositionEvent(_owner, nextPosition);
         EventDispatcher::getInstance()->dispatchEvent(pChangePositionEvent);
+		delete pChangePositionEvent;
     } else {
         events::TestCollisionEvent* pTestCollisionEvent = new events::TestCollisionEvent(_owner, pGeometryComponent->getPosition(), nextPosition, pGeometryComponent->getSize());
         EventDispatcher::getInstance()->dispatchEvent(pTestCollisionEvent);
+		delete pTestCollisionEvent;
     }
 }
 

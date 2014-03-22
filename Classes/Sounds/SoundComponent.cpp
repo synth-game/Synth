@@ -9,6 +9,8 @@
 #include "core/ActorState.h"
 
 #include "events/ChangeStateEvent.h"
+#include "events/JumpEvent.h"
+#include "events/ChangeNodeOwnerEvent.h"
 
 namespace sounds {
 
@@ -72,6 +74,5 @@ void SoundComponent::onChangeState(EventCustom* pEvent) {
     }
 
 }
-
 
 }  // namespace sounds

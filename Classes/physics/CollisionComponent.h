@@ -10,6 +10,7 @@
 #include "cocos2d.h"
 #include "core/SynthComponent.h"
 #include "core/ActorState.h"
+#include "physics/CollisionType.h"
 #include "physics/PhysicCollision.h"
 #include "physics/LightCollision.h"
 #include "events/TestCollisionEvent.h"
@@ -30,9 +31,7 @@ public:
 	static CollisionComponent* create();
 
 	void addPhysicCollision(PhysicCollision* pCollision) { _pPhysicCollision = pCollision; }
-	void addLightCollision(LightCollision* pCollision) { _pLightCollision = pCollision; }
-	PhysicCollision* getPhysicCollision() { return _pPhysicCollision; }
-	LightCollision* getLightCollision() { return _pLightCollision; }
+	void addLightCollision(LightCollision* pCollision) { _pPhysicCollision->setLightCollision(pCollision); }
 
 	void onTestCollision(EventCustom* pEvent);
 	void onChangeState(EventCustom* pEvent);
@@ -40,26 +39,18 @@ public:
 	static const char* COMPONENT_TYPE;
 
 protected:
-	enum ECollisionType {
-		HORIZONTAL,
-		VERTICAL,
-		NO_COLLISION
-	};
 
 	/*! \brief Constructor */
 	CollisionComponent();
 
 	bool init();
 	void initListeners();
+    void onExit();
 
 	ECollisionType boundingTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
 	ECollisionType slopeTest(events::TestCollisionEvent* pInitiatorEvent, Point& resPosition);
-	
-	Point getNextPixel(Point position, Point direction, bool bVoid);
-	float countStepToNextPixel(Point position, Point direction, bool bVoid, float fMaxLength);
 
 	PhysicCollision* _pPhysicCollision;
-	LightCollision* _pLightCollision;
 	core::ActorState _eMovingState;
 
 	EventListenerCustom* _pTestCollisionEventListener;

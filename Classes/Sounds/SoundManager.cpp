@@ -77,7 +77,6 @@ void SoundManager::init() {
 
 		for (auto musicData : _musics) {
 			Music playMusic = musicData.second;
-			//FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(playMusic.iChannel);
 		}
 
 	}
@@ -94,7 +93,6 @@ void SoundManager::init() {
 		pEffectData = pEffectsFile->FirstChildElement("effect");
 		while (pEffectData) {
 			effect = Effect();
-			//effect.eTag = __getSoundType(pEffectData->Attribute("tag"));
 			effect.filePath = pEffectData->Attribute("name");
 			sLoop = pEffectData->Attribute("isLoop");
 			if(sLoop != "true") {
@@ -154,6 +152,13 @@ bool SoundManager::stopMusic(Music music) {
 	return true;
 }
 
+bool SoundManager::stopAllMusics() {
+	for(auto itMusic=_musics.begin(); itMusic!=_musics.end(); ++itMusic) {
+		stopMusic(itMusic->second);
+	}
+	return true;
+}
+
 bool SoundManager::stopEffect(SoundComponent* component) {
 
 	int index = std::get<1>(_playingEffects[component]);
@@ -167,37 +172,34 @@ bool SoundManager::stopEffect(SoundComponent* component) {
 	return true;
 }
 
+void SoundManager::stopEffects() {
+	FmodAudioPlayer::sharedPlayer()->stopAllEffects();
+}
+
 void SoundManager::updateMusics(Color4B color) {
 	Music music = Music();
 	if(color != Color4B(0,0,0,0)) {
 		if (color == Color4B::BLUE && !isPlayingMusic(SoundType::BLUE) ) {
 			music = getMusicFromTag(SoundType::BLUE);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::BLUE);
+			playMusic(music);
 		} else if (color == Color4B::RED && !isPlayingMusic(SoundType::RED)) {
 			music = getMusicFromTag(SoundType::RED);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::RED);
+			playMusic(music);
 		} else if (color == Color4B::GREEN && !isPlayingMusic(SoundType::GREEN)) {
 			music = getMusicFromTag(SoundType::GREEN);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::GREEN);
+			playMusic(music);
 		} else if (color == Color4B::CYAN && !isPlayingMusic(SoundType::CYAN)) {
 			music = getMusicFromTag(SoundType::CYAN);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::CYAN);
+			playMusic(music);
 		} else if (color == Color4B::MAGENTA && !isPlayingMusic(SoundType::MAGENTA)) {
 			music = getMusicFromTag(SoundType::MAGENTA);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::MAGENTA);
+			playMusic(music);
 		} else if (color == Color4B::YELLOW && !isPlayingMusic(SoundType::YELLOW)) {
 			music = getMusicFromTag(SoundType::YELLOW);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::YELLOW);
+			playMusic(music);
 		} else if (color == Color4B::WHITE && !isPlayingMusic(SoundType::WHITE)) {
 			music = getMusicFromTag(SoundType::WHITE);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::WHITE);
+			playMusic(music);
 		}
 	}
 }

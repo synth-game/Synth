@@ -3,26 +3,18 @@
 
 #include "Events/SynthEvent.h"
 
-namespace events
-{
-namespace ScreenEvents
-{
-class NewGameEvent : public events::SynthEvent
-{
-public:
-	static char* sEventName;
+namespace events {
 
+class NewGameEvent : public events::SynthEvent {
+public:
+	static const char* EVENT_NAME;
 
 public:
 	NewGameEvent();
 
-	/**
-	 *
-	 */
 	~NewGameEvent();
 
 };
 
-}  // namespace ScreenEvents
 }  // namespace events
 #endif

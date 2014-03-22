@@ -5,6 +5,7 @@
  * \date 09/02/2014
  */
 #include "SynthActor.h"
+#include "SynthComponent.h"
 
 namespace core {
 
@@ -27,5 +28,10 @@ bool SynthActor::isFirefly() {
 	}
 	return false;
 }
+    
+/*void SynthActor::removeComponent(const char* sComponentType) {
+    SynthComponent* component = dynamic_cast<SynthComponent*>(getComponent(sComponentType));
+    component->removeListeners()
+}*/
 
 }  // namespace core

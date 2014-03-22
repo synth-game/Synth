@@ -13,17 +13,22 @@ const char* ChangeTargetEvent::EVENT_NAME = "ChangeTargetEvent";
 
 ChangeTargetEvent::ChangeTargetEvent(Node* pSource, core::SynthActor* newTarget) :
 	SynthEvent(pSource, EVENT_NAME),
-	_newTarget(newTarget) {
+	_newTarget(newTarget),
+	_fakeTarget(nullptr) {
 }
 
 ChangeTargetEvent::ChangeTargetEvent(Node* pSource, Point newTarget) :
-	SynthEvent(pSource, EVENT_NAME) {
-		core::SynthActor* target = new core::SynthActor(core::ActorType::UNKNOWN_TYPE);
-		target->addComponent(physics::GeometryComponent::create(newTarget, Size::ZERO, 0.f, Point::ZERO));
-		_newTarget = target;
+	SynthEvent(pSource, EVENT_NAME),
+	_fakeTarget(nullptr){
+		if(_fakeTarget == nullptr) {
+			_fakeTarget = new core::SynthActor(core::ActorType::UNKNOWN_TYPE);
+		}
+		_fakeTarget->addComponent(physics::GeometryComponent::create(newTarget, Size::ZERO, 0.f, Point::ZERO));
+		_newTarget = _fakeTarget;
 }
 
 ChangeTargetEvent::~ChangeTargetEvent() {
+	if(_fakeTarget != nullptr) { delete _fakeTarget; }
 }
 
 

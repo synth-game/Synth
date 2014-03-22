@@ -25,6 +25,7 @@ Color4B LightCollision::getCurrentColor(Point actorPos) {
 	if(newLightingColor != _currentColor) {
 		events::EnterLightEvent* pEnterLightEvent = new events::EnterLightEvent(nullptr, newLightingColor);
 		EventDispatcher::getInstance()->dispatchEvent(pEnterLightEvent);
+		delete pEnterLightEvent;
 	}
 
 	_currentColor = newLightingColor;
