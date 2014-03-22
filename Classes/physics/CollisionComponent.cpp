@@ -29,7 +29,7 @@ CollisionComponent::CollisionComponent()
 }
 
 CollisionComponent::~CollisionComponent() {
-	if (_pPhysicCollision != nullptr) { delete _pPhysicCollision; }
+
 }
 
 void CollisionComponent::onExit() {
