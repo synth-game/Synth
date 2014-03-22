@@ -50,6 +50,7 @@ bool TitleScreenScene::init() {
 	bool bRet = Scene::init();
 
 	Point center = Point(Director::getInstance()->getWinSize().width/2, Director::getInstance()->getWinSize().height/2);
+	Point menuCoord = Point(Director::getInstance()->getWinSize().width/2, Director::getInstance()->getWinSize().height/2 - 108);
 
 	initListeners();
 
@@ -59,25 +60,18 @@ bool TitleScreenScene::init() {
 
 	_pBackgroundLayer = Layer::create();
 
-	Sprite* pBgSprite = Sprite::create("sprites/decor.jpg");
+	Sprite* pBgSprite = Sprite::create("sprites/main_menu.png");
 	_pBackgroundLayer->addChild(pBgSprite);
 	_pBackgroundLayer->setPosition(center);
-	
-	Sprite* pLogo = Sprite::create("sprites/logo-synth.png");
-	pLogo->setPosition(center);
 
-	_pBtnPlay = MenuItemFont::create("Jouer", this, menu_selector(TitleScreenScene::dispatchNewGameEvent));
-	_pBtnPlay->setColor(Color3B::BLACK);
-
-	_pBtnQuit = MenuItemFont::create("Quitter", this, menu_selector(TitleScreenScene::dispatchExitGameEvent));
-	_pBtnQuit->setColor(Color3B::BLACK);
+	_pBtnPlay = MenuItemImage::create("sprites/play_btn.png", "sprites/play_btn_selected.png", this, menu_selector(TitleScreenScene::dispatchNewGameEvent));
+	_pBtnQuit = MenuItemImage::create("sprites/quit_btn.png", "sprites/quit_btn_selected.png", this, menu_selector(TitleScreenScene::dispatchExitGameEvent));
 
 	_pMenuLayer = Menu::create(_pBtnPlay, _pBtnQuit, NULL);
-	_pMenuLayer->alignItemsVertically();
-	_pMenuLayer->setPosition(center);
+	_pMenuLayer->alignItemsVerticallyWithPadding(28.f);
+	_pMenuLayer->setPosition(menuCoord);
 	
 	Scene::addChild(_pBackgroundLayer, 0);
-	Scene::addChild(pLogo, 1);
 	Scene::addChild(_pMenuLayer, 2);
 
 	return bRet;

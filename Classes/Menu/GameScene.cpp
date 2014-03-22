@@ -51,6 +51,7 @@ bool GameScene::init() {
 
 	//create layers
 	_pMenu = menu::InGameMenuLayer::create();
+	Scene::addChild(_pMenu, -200);
 	_pGameLayer = game::GameManager::create();
 	Scene::addChild(_pGameLayer, 1);
 
@@ -106,19 +107,38 @@ void GameScene::onWinEvent(Event* pEvent) {
 
 void GameScene::onResetLevelEvent(Event* pEvent) {
 	events::ResetLevelEvent* resetLevelEvent = static_cast<events::ResetLevelEvent*>(pEvent);
+	_pMenu->setZOrder(-200);
 	_pGameLayer->resetLevel();
 	initCamera();
 }
 
 void GameScene::onPauseGameEvent(Event* pEvent) {
-	Director::getInstance()->stopAnimation();
-	Director::getInstance()->pause();
-	Scene::addChild(_pMenu, 2);
+	physics::GeometryComponent* pGeometryComponent = static_cast<physics::GeometryComponent*>(_pGameLayer->getActorsByType(core::ActorType::HERO)[0]->getComponent(physics::GeometryComponent::COMPONENT_TYPE));
+	Point position = pGeometryComponent->getPosition();
+	Size levelSize = _pGameLayer->getLevelSprite()->getContentSize();
+	Size winSize = Director::getInstance()->getWinSize();
+	if(position.x < winSize.width/2) {
+		position.x = winSize.width/2;
+	}
+	if(position.y < winSize.height/2) {
+		position.y = winSize.height/2;
+	}
+	if(position.x > levelSize.width-winSize.width/2) {
+		position.x = levelSize.width-winSize.width/2;
+	}
+	if(position.y > levelSize.height-winSize.height/2) {
+		position.y = levelSize.height-winSize.height/2;
+	}
+	_pMenu->setPosition(position);
+	_pMenu->setZOrder(200);
+	/*Director::getInstance()->stopAnimation();
+	Director::getInstance()->pause();*/
 }
 
 void GameScene::onResumeGameEvent(Event* pEvent) {
-	Director::getInstance()->resume();
-	Director::getInstance()->startAnimation();
+	/*Director::getInstance()->resume();
+	Director::getInstance()->startAnimation();*/
+	_pMenu->setZOrder(-200);
 }
 
 }  // namespace menu

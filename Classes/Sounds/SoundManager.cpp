@@ -181,32 +181,25 @@ void SoundManager::updateMusics(Color4B color) {
 	if(color != Color4B(0,0,0,0)) {
 		if (color == Color4B::BLUE && !isPlayingMusic(SoundType::BLUE) ) {
 			music = getMusicFromTag(SoundType::BLUE);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::BLUE);
+			playMusic(music);
 		} else if (color == Color4B::RED && !isPlayingMusic(SoundType::RED)) {
 			music = getMusicFromTag(SoundType::RED);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::RED);
+			playMusic(music);
 		} else if (color == Color4B::GREEN && !isPlayingMusic(SoundType::GREEN)) {
 			music = getMusicFromTag(SoundType::GREEN);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::GREEN);
+			playMusic(music);
 		} else if (color == Color4B::CYAN && !isPlayingMusic(SoundType::CYAN)) {
 			music = getMusicFromTag(SoundType::CYAN);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::CYAN);
+			playMusic(music);
 		} else if (color == Color4B::MAGENTA && !isPlayingMusic(SoundType::MAGENTA)) {
 			music = getMusicFromTag(SoundType::MAGENTA);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::MAGENTA);
+			playMusic(music);
 		} else if (color == Color4B::YELLOW && !isPlayingMusic(SoundType::YELLOW)) {
 			music = getMusicFromTag(SoundType::YELLOW);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::YELLOW);
+			playMusic(music);
 		} else if (color == Color4B::WHITE && !isPlayingMusic(SoundType::WHITE)) {
 			music = getMusicFromTag(SoundType::WHITE);
-			FmodAudioPlayer::sharedPlayer()->PlayMusicTrack(music.iChannel);
-			_playingMusics.push_back(SoundType::WHITE);
+			playMusic(music);
 		}
 	}
 }
