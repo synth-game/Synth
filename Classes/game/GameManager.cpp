@@ -15,6 +15,7 @@
 #include "LevelSprite.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
+#include "physics/FlyMovementComponent.h"
 #include "physics/CollisionComponent.h"
 #include "physics/PhysicCollision.h"
 #include "physics/FollowMovementComponent.h"
@@ -258,6 +259,19 @@ void GameManager::onEnterLight(EventCustom* pEvent) {
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
 		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
 		movementComponent->setGravity(movementComponent->getGravity()*movementComponent->getHighGravityFactor());
+	} else if (lightColor == Color4B::CYAN) {
+		// TODO		
+	} else if (lightColor == Color4B::GREEN) {
+		CCLOG("GameManager::onEnterLight : FLYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY !");
+		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
+		Point acceleration = movementComponent->getAcceleration();
+		if (!pHero->removeComponent(physics::MovementComponent::COMPONENT_TYPE)){
+			CCLOG("BIM pas de remove");
+		}
+		
+		CCASSERT(bCrashComponent, "Cannot remove component");
+		//pHero->addComponent(physics::FlyMovementComponent::create(acceleration)); 
 	} else {
 		CCLOG("GameManager::onEnterLight : Out of any light");
 		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];

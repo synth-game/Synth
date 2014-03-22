@@ -42,7 +42,7 @@ protected:
 	/**
 	 *
 	 */
-	void update(float fDt);
+	virtual void update(float fDt) override;
 
 
 

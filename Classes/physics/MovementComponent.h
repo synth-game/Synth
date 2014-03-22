@@ -53,7 +53,7 @@ protected:
 	void onJump(EventCustom* pEvent);
 	void onInterruptMove(EventCustom* pEvent);
 	void onChangeState(EventCustom* pEvent);
-	void update(float fDt);
+	virtual void update(float fDt);
     Point computeNextPosition();
 
 	Point _speed;

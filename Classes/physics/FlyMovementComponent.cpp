@@ -16,6 +16,7 @@ FlyMovementComponent::FlyMovementComponent()
 }
 
 FlyMovementComponent* FlyMovementComponent::create(Point acceleration) {
+
 	FlyMovementComponent* pFlyMovementComponent = new FlyMovementComponent();
 	if (pFlyMovementComponent != nullptr && pFlyMovementComponent->init()) {
 		pFlyMovementComponent->autorelease();
@@ -50,17 +51,12 @@ FlyMovementComponent::~FlyMovementComponent(){
 
 void FlyMovementComponent::update(float fDt) {
 	// compute next speed
-	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) + _gravity;
-    
-	CCLOG("\n Direction X %.2f", _direction.x);
-	CCLOG(" Direction Y %.2f", _direction.y);
+	_speed = _speed + Point(_direction.x * _acceleration.x, _direction.y * _acceleration.y) /*+ _gravity*/;
 
 	if ( !(_direction.x < 0.1f && _direction.x > -0.1f) && (_direction.y < 0.1f && _direction.y > -0.1f)){
-		CCLOG("HABBA");
 		_speed.y = 0;
 	}
 	if ( !(_direction.y < 0.1f && _direction.y > -0.1f) && (_direction.x < 0.1f && _direction.x > -0.1f)){
-		CCLOG("BLA BLA");
 		_speed.x = 0;
 	}
 
