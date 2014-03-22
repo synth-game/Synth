@@ -151,7 +151,7 @@ void GameManager::update(float fDt) {
 	}
 
 	for (map<std::string,Rect>::iterator trigger=_triggers.begin(); trigger!=_triggers.end(); ++trigger) {
-		if (trigger->first =="VOICE"){
+		if (trigger->first !="WIN"){
 			if(trigger->second.containsPoint(pGeometryComp->getPosition())) {
 				sounds::VoiceManager::getInstance()->playNextVoice();
 				_triggers.erase(trigger);
