@@ -55,6 +55,9 @@ GameManager::GameManager()
 	, _triggers()
 	, _bResetRequested(false)
 	, _bNextRequested(false)
+	, _bChangeColor(false)
+	, _currentColor(0, 0, 0, 0)
+	, _previousColor(0, 0, 0, 0)
 	, _pLevelSprite(nullptr) 
 	, _pLightMap(nullptr)
 	, _pBackgroundLayer(nullptr) 
@@ -63,6 +66,8 @@ GameManager::GameManager()
 	, _pSkinningLayer(nullptr) 
 	, _pSubtitlesLayer(nullptr) 
 	, _pParallaxManager(nullptr)
+	, _pSavedMovementComp(nullptr)
+	, _pSavedPhysicColl(nullptr)
 	, _pEnterLightListener(nullptr)
 	, _keyPressedCode() {
 
@@ -152,7 +157,7 @@ void GameManager::update(float fDt) {
 	}
 
 	for (map<std::string,Rect>::iterator trigger=_triggers.begin(); trigger!=_triggers.end(); ++trigger) {
-		if (trigger->first =="VOICE"){
+		if (trigger->first !="WIN"){
 			if(trigger->second.containsPoint(pGeometryComp->getPosition())) {
 				sounds::VoiceManager::getInstance()->playNextVoice();
 				_triggers.erase(trigger);
@@ -170,8 +175,81 @@ void GameManager::update(float fDt) {
 		actor->update(fDt);
 	}
 
+	// manage light change
+	if(_bChangeColor) {
+		if (_currentColor == Color4B::RED) {
+			_bResetRequested = true;
+		} else {
+			// remove previous component
+			core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
+			physics::MovementComponent* pPrevMovementComp = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
+			physics::CollisionComponent* pPrevCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
+			Point currentSpeed;
+			Point currentDirection;
+			if(pPrevMovementComp != nullptr && pPrevCollisionComp != nullptr) {
+				currentSpeed = pPrevMovementComp->getSpeed();
+				currentDirection = pPrevMovementComp->getDirection();
+				pHero->removeComponent(physics::MovementComponent::COMPONENT_TYPE);
+				pHero->removeComponent(physics::CollisionComponent::COMPONENT_TYPE);
+			}
+
+			if (_currentColor == Color4B::BLUE) {
+				CCLOG("GameManager::onEnterLight : You can jump higher !");
+				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
+				pMovementComp->setSpeed(currentSpeed);
+				pMovementComp->setDirection(currentDirection);
+				pMovementComp->setGravity(_pSavedMovementComp->getGravity()*_pSavedMovementComp->getLowGravityFactor());
+				physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
+				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pMovementComp);
+				pHero->addComponent(pCollisionComp);
+			} else if (_currentColor == Color4B::MAGENTA) {
+				CCLOG("GameManager::onEnterLight : You can't jump as high as usually :( ");
+				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
+				pMovementComp->setSpeed(currentSpeed);
+				pMovementComp->setDirection(currentDirection);
+				pMovementComp->setGravity(_pSavedMovementComp->getGravity()*_pSavedMovementComp->getHighGravityFactor());
+				physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
+				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pMovementComp);
+				pHero->addComponent(pCollisionComp);
+			} else if (_currentColor == Color4B::YELLOW) {
+				CCLOG("GameManager::onEnterLight : You bounce on the floor ! Awww yeah ! ");
+				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
+				pMovementComp->setSpeed(currentSpeed);
+				pMovementComp->setDirection(currentDirection);
+				physics::BounceCollisionComponent* pCollisionComp = physics::BounceCollisionComponent::create();
+				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pMovementComp);
+				pHero->addComponent(pCollisionComp);
+			}else if (_currentColor == Color4B::GREEN) {
+				CCLOG("GameManager::onEnterLight : You are now a sticky girl ! ");
+				physics::StickMovementComponent* pStickMovementComponent = physics::StickMovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity());
+				pStickMovementComponent->setSpeed(currentSpeed);
+				pStickMovementComponent->setDirection(currentDirection);
+				physics::StickCollisionComponent* pStickCollisionComponent = physics::StickCollisionComponent::create();
+				pStickCollisionComponent->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pStickMovementComponent);
+				pHero->addComponent(pStickCollisionComponent);
+			} else {
+				CCLOG("GameManager::onEnterLight : Out of any light");
+				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
+				pMovementComp->setSpeed(currentSpeed);
+				pMovementComp->setDirection(currentDirection);
+				physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
+				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pMovementComp);
+				pHero->addComponent(pCollisionComp);
+			}
+		}
+
+		_bChangeColor = false;
+		_previousColor = _currentColor;
+	}
+
 	FmodAudioPlayer::sharedPlayer()->Update(fDt);
 
+	// manage resets (death or win)
 	if(_bNextRequested) {
 		CCLOG("GameManager::update : YOU WIN");
 		events::WinEvent* pWinEvent = new events::WinEvent();
@@ -202,7 +280,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 
 	// Build actors
 	_levelActors = LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
-	
+
 	// Build triggers
 	_triggers = LevelFactory::getInstance()->buildTriggers(level);
 
@@ -238,8 +316,15 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
 	pCollisionComp->addLightCollision(game::LevelFactory::getInstance()->buildLightsCollision(_pLightMap, getActorsByType(core::ActorType::LIGHT)));
 
+
 	// Load the correct voices for the level
 
+
+	// Initialized saved data
+	physics::MovementComponent* pMovementComp = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
+	_pSavedMovementComp = physics::MovementComponent::create(pMovementComp->getAcceleration(), pMovementComp->getGravity(), pMovementComp->getLowGravityFactor(), pMovementComp->getHighGravityFactor());
+	_pSavedMovementComp->retain();
+	_pSavedPhysicColl = pCollisionComp->getPhysicCollision();
 
 }
 
@@ -248,10 +333,20 @@ void GameManager::clearLevel() {
 	for(auto obj : _levelActors) {
 		obj->removeAllComponents();
 		obj->removeFromParent();
+		delete obj;
+		obj = nullptr;
 	}
-
 	_levelActors.clear();
 	_triggers.clear();
+
+	if(_pSavedPhysicColl != nullptr) {
+		delete _pSavedPhysicColl;
+		_pSavedPhysicColl = nullptr;
+	}
+	if(_pSavedMovementComp != nullptr) {
+		_pSavedMovementComp->release();
+		_pSavedMovementComp = nullptr;
+	}
 
 	_pBackgroundLayer->removeAllChildren();
 	_pIntermediarLayer->removeAllChildren();
@@ -287,43 +382,10 @@ void GameManager::nextLevel() {
 void GameManager::onEnterLight(EventCustom* pEvent) {
 	CCLOG("GameManager::onEnterLight : You just entered a light");
 	events::EnterLightEvent* enterLightEvent = static_cast<events::EnterLightEvent*>(pEvent);
-	Color4B lightColor = enterLightEvent->getLightingColor();
 
-	if (lightColor == Color4B::RED) {
-		_bResetRequested = true;
-	} else if (lightColor == Color4B::BLUE) {
-		CCLOG("GameManager::onEnterLight : You can jump higher !");
-		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
-		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
-		movementComponent->setGravity(movementComponent->getGravity()*movementComponent->getLowGravityFactor());
-	} else if (lightColor == Color4B::MAGENTA) {
-		CCLOG("GameManager::onEnterLight : You can't jump as high as usually :( ");
-		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
-		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
-		movementComponent->setGravity(movementComponent->getGravity()*movementComponent->getHighGravityFactor());
-	} else if (lightColor == Color4B::CYAN) {
-		// TODO		
-	} else if (lightColor == Color4B::GREEN) {
-		CCLOG("GameManager::onEnterLight : FLYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY !");
-		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
-		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
-		Point acceleration = movementComponent->getAcceleration();
-		if (!pHero->removeComponent(physics::MovementComponent::COMPONENT_TYPE)){
-			CCLOG("BIM pas de remove");
-		}
-		
-		CCASSERT(bCrashComponent, "Cannot remove component");
-		//pHero->addComponent(physics::FlyMovementComponent::create(acceleration)); 
-	} else if (lightColor == Color4B::YELLOW) {
-		CCLOG("GameManager::onEnterLight : You bounce on the floor ! Awww yeah ! ");
-		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
-		physics::BounceCollisionComponent* bounceCollisionComponent = physics::BounceCollisionComponent::create();
-    } else {
-		CCLOG("GameManager::onEnterLight : Out of any light");
-		core::SynthActor* pHero = getActorsByType(core::ActorType::HERO)[0];
-		physics::MovementComponent* movementComponent = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
-		movementComponent->setGravity(movementComponent->getBasicGravity());
-	}
+	_currentColor = enterLightEvent->getLightingColor();
+	_bChangeColor = true;
+
 }
 
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {

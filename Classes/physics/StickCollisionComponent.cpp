@@ -19,28 +19,26 @@ namespace physics
     }
     
     StickCollisionComponent::~StickCollisionComponent() {
-        if (_pPhysicCollision != nullptr) { delete _pPhysicCollision; }
-        EventDispatcher::getInstance()->removeEventListener(_pTestCollisionEventListener);
-        EventDispatcher::getInstance()->removeEventListener(_pChangeStateCollision);
+		//EventDispatcher::getInstance()->removeEventListener(_pTestCollisionEventListener);
+		//EventDispatcher::getInstance()->removeEventListener(_pChangeStateCollision);
     }
     
     void StickCollisionComponent::onEnter() {
         CCLOG("StickCollisionComponent::onEnter STICK COLLISION COMPONENT ON ENTER");
     }
-    
+
     void StickCollisionComponent::initListeners() {
-        EventDispatcher::getInstance()->addEventListenerWithFixedPriority(EventListenerCustom::create(events::TestCollisionEvent::EVENT_NAME, CC_CALLBACK_1(StickCollisionComponent::onTestCollision, this)), 1);
-        EventDispatcher::getInstance()->addEventListenerWithFixedPriority(EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(CollisionComponent::onChangeState, this)), 1);
+		_pTestCollisionEventListener = EventListenerCustom::create(events::TestCollisionEvent::EVENT_NAME, CC_CALLBACK_1(StickCollisionComponent::onTestCollision, this));
+		_pChangeStateCollision = EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(CollisionComponent::onChangeState, this));
+
+        EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pTestCollisionEventListener, 1);
+        EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateCollision, 1);
     }
     
     StickCollisionComponent* StickCollisionComponent::create() {
         StickCollisionComponent* pStickCollisionComponent = new StickCollisionComponent();
         if (pStickCollisionComponent != nullptr && pStickCollisionComponent->init()) {
             pStickCollisionComponent->autorelease();
-            pStickCollisionComponent->_pPhysicCollision = nullptr;
-            pStickCollisionComponent->_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
-            pStickCollisionComponent->_pTestCollisionEventListener = nullptr;
-            pStickCollisionComponent->_pChangeStateCollision = nullptr;
         } else {
             CC_SAFE_DELETE(pStickCollisionComponent);
         }

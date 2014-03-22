@@ -4,6 +4,7 @@
  * \author Xopi
  * \date 26/02/2014
  */
+#include <sstream>
 #include "LevelFactory.h"
 #include "game/NodeOwnerComponent.h"
 #include "game/LightAttrComponent.h"
@@ -325,6 +326,11 @@ std::map<std::string,Rect> LevelFactory::buildTriggers(std::string levelName) {
 
 			// Get trigger type
 			triggerType = pTriggerData->Attribute("type");
+			if(triggerType == "VOICE") {
+				std::stringstream triggerName;
+				triggerName << triggerType << voidMap.size();
+				triggerType = triggerName.str();
+			}
 
 			// Get rectangle data
 			pOriginData = pTriggerData->FirstChildElement("origin");

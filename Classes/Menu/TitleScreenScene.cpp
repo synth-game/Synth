@@ -50,7 +50,7 @@ bool TitleScreenScene::init() {
 	bool bRet = Scene::init();
 
 	Point center = Point(Director::getInstance()->getWinSize().width/2, Director::getInstance()->getWinSize().height/2);
-	Point menuCoord = Point(Director::getInstance()->getWinSize().width/2, Director::getInstance()->getWinSize().height/2 - 108);
+	Point menuPos = Point(Director::getInstance()->getWinSize().width/2, Director::getInstance()->getWinSize().height/2 - 94.f);
 
 	initListeners();
 
@@ -68,8 +68,8 @@ bool TitleScreenScene::init() {
 	_pBtnQuit = MenuItemImage::create("sprites/quit_btn.png", "sprites/quit_btn_selected.png", this, menu_selector(TitleScreenScene::dispatchExitGameEvent));
 
 	_pMenuLayer = Menu::create(_pBtnPlay, _pBtnQuit, NULL);
-	_pMenuLayer->alignItemsVerticallyWithPadding(28.f);
-	_pMenuLayer->setPosition(menuCoord);
+	_pMenuLayer->alignItemsVerticallyWithPadding(29.f);
+	_pMenuLayer->setPosition(menuPos);
 	
 	Scene::addChild(_pBackgroundLayer, 0);
 	Scene::addChild(_pMenuLayer, 2);

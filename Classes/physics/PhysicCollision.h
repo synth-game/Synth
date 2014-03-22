@@ -22,10 +22,10 @@ public:
 	PhysicCollision(Image* pBitmask, Point absoluteOriginPosition);
 	~PhysicCollision();
 
-	void setLightCollision(LightCollision* pLightCollision) { _pLightCollision = pLightCollision; }
-	void setBitmask(Image* pBitmask) { _pBitmask = pBitmask; }
-	void setAbsoluteOriginPosition(Point pos) { _absoluteOriginPosition = pos; }
-	LightCollision* getLightCollision() { return _pLightCollision; }
+	inline void setLightCollision(LightCollision* pLightCollision) { _pLightCollision = pLightCollision; }
+	inline void setBitmask(Image* pBitmask) { _pBitmask = pBitmask; }
+	inline void setAbsoluteOriginPosition(Point pos) { _absoluteOriginPosition = pos; }
+	inline LightCollision* getLightCollision() { return _pLightCollision; }
 	
 	bool collide(Point position);
 	Point getNextPixel(Point position, Point direction, bool bVoid);
