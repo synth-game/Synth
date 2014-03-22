@@ -19,8 +19,8 @@
 
 #define MAX_X_SPEED 200.f
 #define MAX_Y_SPEED 400.f
-#define MAX_JUMP_SPEED 400.f
-#define MIN_JUMP_SPEED 100.f
+#define MAX_JUMP_SPEED 380.f
+#define MIN_JUMP_SPEED 200.f
 #define ENGINE_SPEED 0.015f
 
 namespace physics {
