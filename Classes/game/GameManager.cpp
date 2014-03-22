@@ -318,7 +318,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 
 
 	// Load the correct voices for the level
-
+	sounds::VoiceManager::getInstance()->init(level);
 
 	// Initialized saved data
 	physics::MovementComponent* pMovementComp = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
@@ -385,7 +385,6 @@ void GameManager::onEnterLight(EventCustom* pEvent) {
 
 	_currentColor = enterLightEvent->getLightingColor();
 	_bChangeColor = true;
-
 }
 
 void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
