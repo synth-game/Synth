@@ -14,6 +14,8 @@
 #include "Game/LevelSprite.h"
 #include "game/LightMap.h"
 #include "Core/SynthActor.h"
+#include "physics/MovementComponent.h"
+#include "physics/PhysicCollision.h"
 
 USING_NS_CC;
 
@@ -78,6 +80,9 @@ protected:
 
 	bool _bResetRequested;
 	bool _bNextRequested;
+	bool _bChangeColor;
+	Color4B _currentColor;
+	Color4B _previousColor;
 
 	LevelSprite* _pLevelSprite;
 	LightMap* _pLightMap;
@@ -88,6 +93,9 @@ protected:
 	Layer* _pSkinningLayer;
 	Layer* _pSubtitlesLayer;
 	ParallaxNode* _pParallaxManager;
+
+	physics::MovementComponent* _pSavedMovementComp;
+	physics::PhysicCollision* _pSavedPhysicColl;
 
 	EventListenerCustom* _pEnterLightListener;
 	EventListenerCustom* _pPauseEventListener;

@@ -30,8 +30,10 @@ public:
 
 	static CollisionComponent* create();
 
-	void addPhysicCollision(PhysicCollision* pCollision) { _pPhysicCollision = pCollision; }
-	void addLightCollision(LightCollision* pCollision) { _pPhysicCollision->setLightCollision(pCollision); }
+	inline void addPhysicCollision(PhysicCollision* pCollision) { _pPhysicCollision = pCollision; }
+	inline void addLightCollision(LightCollision* pCollision) { _pPhysicCollision->setLightCollision(pCollision); }
+
+	inline PhysicCollision* getPhysicCollision() { return _pPhysicCollision; }
 
 	void onTestCollision(EventCustom* pEvent);
 	void onChangeState(EventCustom* pEvent);

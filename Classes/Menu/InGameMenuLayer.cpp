@@ -52,8 +52,8 @@ bool InGameMenuLayer::init() {
 	_pBtnQuit = MenuItemImage::create("sprites/quit_btn.png", "sprites/quit_btn_selected.png", this, menu_selector(InGameMenuLayer::dispatchExitGameEvent));
 
 	_pMenuLayer = Menu::create(_pBtnResumeGame, _pBtnRetry, _pBtnQuit, NULL);
-	_pMenuLayer->alignItemsVerticallyWithPadding(23.f);
-	_pMenuLayer->setPosition(Point(0.f, -117.f));
+	_pMenuLayer->alignItemsVerticallyWithPadding(23.5f);
+	_pMenuLayer->setPosition(Point(10.f, -98.5f));
 	//_pMenuLayer->setAnchorPoint(Point::ZERO);
 	
 	addChild(pBackground, 1);
