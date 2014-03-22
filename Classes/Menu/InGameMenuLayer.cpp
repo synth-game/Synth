@@ -42,24 +42,21 @@ bool InGameMenuLayer::init() {
 	bool bRet = Layer::init();
 
 	Point center = Point(Director::getInstance()->getWinSize().width/2, Director::getInstance()->getWinSize().height/2);
+
+	Sprite* pBackground = Sprite::create("sprites/pause_menu.png");
+
+	_pBtnResumeGame = MenuItemImage::create("sprites/resume_btn.png", "sprites/resume_btn_selected.png", this, menu_selector(InGameMenuLayer::dispatchResumeGameEvent));
 	
-	Sprite* pLogo = Sprite::create("sprites/logo-synth.png");
-
-	_pBtnResumeGame = MenuItemFont::create("Reprendre", this, menu_selector(InGameMenuLayer::dispatchResumeGameEvent));
-	_pBtnResumeGame->setColor(Color3B::BLACK);
-
-	_pBtnRetry = MenuItemFont::create("Recommencer", this, menu_selector(InGameMenuLayer::dispatchReselLevelEvent));
-	_pBtnRetry->setColor(Color3B::BLACK);
-
-	_pBtnQuit = MenuItemFont::create("Quitter", this, menu_selector(InGameMenuLayer::dispatchExitGameEvent));
-	_pBtnRetry->setColor(Color3B::BLACK);
+	_pBtnRetry = MenuItemImage::create("sprites/restart_btn.png", "sprites/restart_btn_selected.png", this, menu_selector(InGameMenuLayer::dispatchReselLevelEvent));
+	_pBtnRetry->setPositionY(0);
+	_pBtnQuit = MenuItemImage::create("sprites/quit_btn.png", "sprites/quit_btn_selected.png", this, menu_selector(InGameMenuLayer::dispatchExitGameEvent));
 
 	_pMenuLayer = Menu::create(_pBtnResumeGame, _pBtnRetry, _pBtnQuit, NULL);
-	_pMenuLayer->alignItemsVertically();
-	_pMenuLayer->setPosition(Point::ZERO);
+	_pMenuLayer->alignItemsVerticallyWithPadding(23.f);
+	_pMenuLayer->setPosition(Point(0.f, -117.f));
 	//_pMenuLayer->setAnchorPoint(Point::ZERO);
 	
-	addChild(pLogo, 1);
+	addChild(pBackground, 1);
 	addChild(_pMenuLayer, 2);
 	return bRet;
 }
