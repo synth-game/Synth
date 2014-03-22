@@ -21,7 +21,7 @@ SynthManager::SynthManager()
 	: _pTitleScreenScene(nullptr) 
 	, _pCreditsScene(nullptr)
 	, _pGameScene(nullptr)
-	, _pInGameMenuLayer(nullptr)
+	, _pLoadingScene(nullptr)
 	, _pSelectLevelScene(nullptr) 
 	, _pNewGameEventListener(nullptr)
 	, _pContinueGameEventListener(nullptr) 
@@ -42,6 +42,11 @@ void SynthManager::init() {
     //init scenes
 	_pTitleScreenScene = menu::TitleScreenScene::create("sprites/decor.jpg", false);
 
+	//init layers
+	_pLoadingScene = Scene::create();
+	Sprite* pLoading = Sprite::create("sprites/loading.png");
+	_pLoadingScene->addChild(pLoading);
+
 	//init managers
 	graphics::GraphicManager* gm = graphics::GraphicManager::getInstance();
 	sounds::SoundManager* sm = sounds::SoundManager::getInstance();
@@ -58,7 +63,7 @@ void SynthManager::init() {
 }
 
 void SynthManager::onNewGameEvent(EventCustom* event) {
-	displayLoading();
+	//displayLoading();
 	_pGameScene = menu::GameScene::create();
 	Director::getInstance()->replaceScene(_pGameScene);
 }
@@ -89,12 +94,7 @@ void SynthManager::onExitGameEvent(EventCustom* event) {
 }
 
 void SynthManager::displayLoading() {
-	Layer* pLayer = Layer::create();
-	Sprite* pLoading = Sprite::create("sprites/loading.png");
-	Scene* pScene = Scene::create();
-	pLayer->addChild(pLoading);
-	pScene->addChild(pLayer);
-	Director::getInstance()->replaceScene(pScene);
+	Director::getInstance()->replaceScene(_pLoadingScene);
 }
 
 void SynthManager::removeLoading() {
