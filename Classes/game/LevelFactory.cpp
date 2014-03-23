@@ -70,10 +70,9 @@ std::vector<core::SynthActor*> LevelFactory::buildActors(std::string levelName, 
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("LIGHTSWITCHSOUND",			core::ComponentType::LIGHTSWITCHSOUND));
 	componentTagsMap.insert(std::pair<std::string, core::ComponentType>("SWITCHABLE",				core::ComponentType::SWITCHABLE));
 
-	// parsing actors
-	tinyxml2::XMLDocument* pXMLFile = new tinyxml2::XMLDocument();
+	// parsing actors;
 	synthsystem::IOManager* ioManager = synthsystem::IOManager::getInstance();
-	pXMLFile = ioManager->loadXML("levels/"+levelName+"/actors.xml");
+	tinyxml2::XMLDocument* pXMLFile = ioManager->loadXML("levels/"+levelName+"/actors.xml");
 	if(pXMLFile != nullptr) {
 		tinyxml2::XMLHandle hDoc(pXMLFile);
 		tinyxml2::XMLElement *pActorData, *pComponentData, *pPositionData, *pSizeData, *pRotateData, *pAnchorPointData, *pAccelerationData, *pGravityData ,*pOwnerData, *pSwitchData;
