@@ -1,6 +1,8 @@
 #include "FlyMovementComponent.h"
 #include "events/EditMoveEvent.h"
 #include "events/JumpEvent.h"
+#include "Events/InterruptMoveEvent.h"
+#include "Events/ChangeStateEvent.h"
 #include "physics/GeometryComponent.h"
 #include "physics/CollisionComponent.h"
 #include "events/ChangePositionEvent.h"
@@ -18,6 +20,8 @@ FlyMovementComponent::FlyMovementComponent()
 FlyMovementComponent::~FlyMovementComponent() {
 	EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
     EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
+	EventDispatcher::getInstance()->removeEventListener(_pInterruptMoveEventListener);
+    EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
 }
 
 FlyMovementComponent* FlyMovementComponent::create(Point acceleration) {
@@ -30,6 +34,25 @@ FlyMovementComponent* FlyMovementComponent::create(Point acceleration) {
 		CC_SAFE_DELETE(pFlyMovementComponent);
 	}
 	return pFlyMovementComponent;
+}
+
+bool FlyMovementComponent::init() {
+	SynthComponent::init(MovementComponent::COMPONENT_TYPE);
+	return true;
+}
+
+void FlyMovementComponent::initListeners() {
+	// Listeners initialization
+	_pEditMoveEventListener = EventListenerCustom::create(events::EditMoveEvent::EVENT_NAME, CC_CALLBACK_1(FlyMovementComponent::onEditMove, this));
+	_pJumpEventListener = EventListenerCustom::create(events::JumpEvent::EVENT_NAME, CC_CALLBACK_1(FlyMovementComponent::onJump, this));
+	_pInterruptMoveEventListener = EventListenerCustom::create(events::InterruptMoveEvent::EVENT_NAME, CC_CALLBACK_1(FlyMovementComponent::onInterruptMove, this));
+	_pChangeStateEventListener = EventListenerCustom::create(events::ChangeStateEvent::EVENT_NAME, CC_CALLBACK_1(FlyMovementComponent::onChangeState, this));
+
+	// Add listeners to dispacadr
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pEditMoveEventListener, 1);
+    EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pJumpEventListener, 1);
+	EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pInterruptMoveEventListener, 1);
+    EventDispatcher::getInstance()->addEventListenerWithFixedPriority(_pChangeStateEventListener, 1);
 }
 
 void FlyMovementComponent::onEditMove(EventCustom* pEvent) {

@@ -29,15 +29,18 @@ protected:
 	/*! \brief Constructor */
 	FlyMovementComponent();
 
+	virtual bool init();
+	virtual void initListeners();
+
 	/**
 	 * Make normal movment sur l'axe y
 	 */
-	virtual void onEditMove(EventCustom* pEvent) override;
+	void onEditMove(EventCustom* pEvent);
 
 	/**
 	 * Disable jump
 	 */
-	virtual void onJump(EventCustom* pEvent) override;
+	void onJump(EventCustom* pEvent);
 
 	/**
 	 *

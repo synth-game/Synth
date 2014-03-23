@@ -50,8 +50,8 @@ protected:
 	virtual bool init();
 	virtual void initListeners();
 
-	virtual void onEditMove(EventCustom* pEvent);
-	virtual void onJump(EventCustom* pEvent);
+	void onEditMove(EventCustom* pEvent);
+	void onJump(EventCustom* pEvent);
 	void onInterruptMove(EventCustom* pEvent);
 	void onChangeState(EventCustom* pEvent);
 	virtual void update(float fDt);
