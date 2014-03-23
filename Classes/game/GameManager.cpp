@@ -307,6 +307,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	// Build triggers
 	_triggers = LevelFactory::getInstance()->buildTriggers(level);
 
+#ifdef _DEBUG
 	// Display debug rectangle for triggers
 	for (std::map<std::string, Rect>::iterator it = _triggers.begin(); it != _triggers.end(); ++it) {
 		Sprite* rect = Sprite::create("levels/test/rect.png");
@@ -316,6 +317,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 		rect->setScaleY(it->second.size.height/rect->getContentSize().height);
 		_pLevelLayer->addChild(rect, 50);
 	}
+#endif
 
 	// Build LevelSprite and LightMap
 	_pLevelSprite = LevelFactory::getInstance()->buildLevelSprite(level, getActorsByType(core::ActorType::LIGHT));
