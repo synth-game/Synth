@@ -299,7 +299,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	// Build skinning
 	Sprite* pSknSprite = Sprite::create(("levels/"+level+"/skinning.png").c_str());
 	pSknSprite->setAnchorPoint(Point::ZERO);
-	//_pSkinningLayer->addChild(pSknSprite);
+	_pSkinningLayer->addChild(pSknSprite);
 
 	// Build actors
 	_levelActors = LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
@@ -652,7 +652,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 						} else if (pTarget->isFirefly()) {
 							// if the firefly is owned by a lamp
 							for (auto maybeALamp : _levelActors) {
-								if(!bToLamp) {
+								if (!bToLamp) {
 									// if the actor is a lamp
 									if (maybeALamp->getActorType() == core::ActorType::LIGHT) {
 										pLampNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(maybeALamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
@@ -674,6 +674,18 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 										}
 									}
 								}
+							}
+							if (!bToLamp) {
+								// the firefly goes to the hero
+								pChangeTargetEvent = new events::ChangeTargetEvent(pTarget, pHero);
+								CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
+								dispatcher->dispatchEvent(pChangeTargetEvent);
+								delete pChangeTargetEvent;
+								// the firefly is owned by the hero
+								pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(this, pTarget, pHero, nullptr);
+								CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : owned node belongs to lamp");
+								dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+								delete pChangeNodeOwnerEvent;
 							}
 						} else {
 							// the target is owned by the hero

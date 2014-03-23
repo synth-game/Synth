@@ -59,40 +59,40 @@ void HeroSoundComponent::onEditMove(EventCustom* pEvent) {
 			// the movement starts
 			switch (_eState) {
 			case core::ActorState::ON_FLOOR_STATE :
-				if(!SoundManager::getInstance()->isPlayingEffect(_eCurrentTag, this)) {
-					_eCurrentTag = SoundType::HERO_WALK;
-					//playSound(_eCurrentTag);
-				}
+				_eCurrentTag = SoundType::NO_SOUND;
 				break;
 			case core::ActorState::STUCK_STATE :
-				
+				_eCurrentTag = SoundType::NO_SOUND;
 				break;
 			case core::ActorState::ON_AIR_STATE :
 				_eCurrentTag = SoundType::HERO_FLY;
-				playSound(_eCurrentTag);
 				break;
 			case core::ActorState::BOUNCE_STATE :
 				_eCurrentTag = SoundType::HERO_BOUNCE;
-				playSound(_eCurrentTag);
 				break;
 			default:
-				
+				_eCurrentTag = SoundType::NO_SOUND;
 				break;
+			}
+
+			if(!SoundManager::getInstance()->isPlayingEffect(_eCurrentTag, this)) {
+				playSound(_eCurrentTag);
 			}
 			
 		} else {
 			// the movement stops
 			switch (_eState) {
 			case core::ActorState::ON_FLOOR_STATE :
-				_eCurrentTag = SoundType::HERO_WALK;
+				_eCurrentTag = SoundType::NO_SOUND;
 				stopSounds();
 				break;
 			case core::ActorState::STUCK_STATE :
-
+				_eCurrentTag = SoundType::NO_SOUND;
+				stopSounds();
 				break;
 			case core::ActorState::ON_AIR_STATE :
 				_eCurrentTag = SoundType::HERO_FLY;
-				stopSounds();
+				//stopSounds();
 				break;
 			case core::ActorState::BOUNCE_STATE :
 				_eCurrentTag = SoundType::HERO_BOUNCE;
