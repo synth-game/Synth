@@ -98,7 +98,11 @@ void GameScene::onDeathEvent(Event* pEvent) {
 void GameScene::onWinEvent(Event* pEvent) {
 	events::WinEvent* winEvent = static_cast<events::WinEvent*>(pEvent);
 	int savedLevelIndex = core::SynthConfig::getInstance()->getCurrentLevelIndex();
-	if(savedLevelIndex < _pGameLayer->getCurrentLevelIndex() + 1) {
+	// Reset the game is you arrived at the end
+	if (savedLevelIndex >= _pGameLayer->getLevelsNumber()-1) {
+		core::SynthConfig::getInstance()->saveCurrentLevelIndex(0);
+	}
+	if (savedLevelIndex < _pGameLayer->getCurrentLevelIndex() + 1) {
 		core::SynthConfig::getInstance()->saveCurrentLevelIndex(_pGameLayer->getCurrentLevelIndex() + 1);
 	}
 	_pGameLayer->nextLevel();

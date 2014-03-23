@@ -63,7 +63,7 @@ void NodeOwnerComponent::onToggleLight(EventCustom* pEvent) {
 		game::LightAttrComponent* pLightAttrComponent = static_cast<game::LightAttrComponent*>(pFirefly->getComponent(game::LightAttrComponent::COMPONENT_TYPE));
 		CCASSERT(pLightAttrComponent != nullptr, "NodeOwnerComponent needs a LightAttrComponent added to its owner");
 		game::SwitchableComponent* pSwitchableComp = static_cast<game::SwitchableComponent*>(pLamp->getComponent(game::SwitchableComponent::COMPONENT_TYPE));
-		pSwitchableComp->setOn(pToggleLightEvent->isOn());
+		//pSwitchableComp->setOn(pToggleLightEvent->isOn());
     } else {
         CCLOG("TOGGLE LIGHT EVENT RECEIVED BUT ID NOT THE SAME");
     }

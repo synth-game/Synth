@@ -57,6 +57,7 @@ public:
 	inline Layer* getLevelLayer() { return _pLevelLayer; }
 	inline int getCurrentLevelIndex() { return _iCurrentLevelId; }
 	inline bool isPaused() { return _bIsPaused; }
+	inline int getLevelsNumber() { return _levelsName.size(); }
 	
 	std::vector<core::SynthActor*> getActorsByType(core::ActorType type);
 
