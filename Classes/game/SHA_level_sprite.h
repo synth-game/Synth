@@ -52,7 +52,12 @@ GL_STRINGIFY(
 	uniform sampler2D SY_Lights_5;
 	uniform sampler2D SY_Lights_6;
 	uniform sampler2D SY_Lights_7;
-	uniform vec4 SY_Colors[8];
+	uniform sampler2D SY_Lights_8;
+	uniform sampler2D SY_Lights_9;
+	uniform sampler2D SY_Lights_10;
+	uniform sampler2D SY_Lights_11;
+	uniform sampler2D SY_Lights_12;
+	uniform vec4 SY_Colors[13];
 	
 	vec3 getLightTexel(sampler2D lightTex, int lightId) {
 		vec3 texelColor = vec3(0.);
@@ -69,7 +74,7 @@ GL_STRINGIFY(
 		float fRayStep = (SY_LevelPixelSize.x + SY_LevelPixelSize.y) /2.;
 
 		//construct lights samples
-		vec3 ligthTexels[8] = vec3[](
+		vec3 ligthTexels[13] = vec3[](
 			getLightTexel(SY_Lights_0, 0),
 			getLightTexel(SY_Lights_1, 1),
 			getLightTexel(SY_Lights_2, 2),
@@ -77,7 +82,12 @@ GL_STRINGIFY(
 			getLightTexel(SY_Lights_4, 4),
 			getLightTexel(SY_Lights_5, 5),
 			getLightTexel(SY_Lights_6, 6),
-			getLightTexel(SY_Lights_7, 7));
+			getLightTexel(SY_Lights_7, 7),
+			getLightTexel(SY_Lights_8, 8),
+			getLightTexel(SY_Lights_9, 9),
+			getLightTexel(SY_Lights_10, 10),
+			getLightTexel(SY_Lights_11, 11),
+			getLightTexel(SY_Lights_12, 12));
 
 		//apply precomute lighting
 		vec4 color = vec4(0.);
