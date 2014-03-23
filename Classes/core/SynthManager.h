@@ -43,8 +43,7 @@ private:
 	menu::CreditsScene* _pCreditsScene;
 	menu::GameScene* _pGameScene;
 	menu::SelectLevelScene* _pSelectLevelScene;
-
-	menu::InGameMenuLayer* _pInGameMenuLayer;
+	Scene* _pLoadingScene;
 
 	EventListenerCustom* _pNewGameEventListener;
 	EventListenerCustom* _pContinueGameEventListener;

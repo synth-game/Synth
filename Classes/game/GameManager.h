@@ -56,6 +56,7 @@ public:
 	inline LightMap* getLightMap() { return _pLightMap; }
 	inline Layer* getLevelLayer() { return _pLevelLayer; }
 	inline int getCurrentLevelIndex() { return _iCurrentLevelId; }
+	inline bool isPaused() { return _bIsPaused; }
 	
 	std::vector<core::SynthActor*> getActorsByType(core::ActorType type);
 
@@ -68,6 +69,8 @@ protected:
 	core::SynthActor* getNearLightSwitch(core::SynthActor* actor);
 
 	void onEnterLight(EventCustom* pEvent);
+	void onPause(EventCustom* pEvent);
+	void onResume(EventCustom* pEvent);
 
 	int _iCurrentLevelId;
 	float _fTimeSinceLevelStart;
@@ -95,10 +98,14 @@ protected:
 	physics::PhysicCollision* _pSavedPhysicColl;
 
 	EventListenerCustom* _pEnterLightListener;
+	EventListenerCustom* _pPauseEventListener;
+	EventListenerCustom* _pResumeEventListener;
 
 	std::vector<EventKeyboard::KeyCode> _keyPressedCode;
 
 	int stepsSoundId;
+
+	bool _bIsPaused;
 
 };
 

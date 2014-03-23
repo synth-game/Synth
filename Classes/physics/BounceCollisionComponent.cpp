@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "core/SynthActor.h"
+#include "physics/MovementComponent.h"
 #include "events/ChangePositionEvent.h"
 #include "events/ChangeStateEvent.h"
 #include "events/JumpEvent.h"
@@ -48,6 +49,9 @@ void BounceCollisionComponent::onTestCollision(EventCustom* pEvent) {
 	events::TestCollisionEvent* pTestColEvent = static_cast<events::TestCollisionEvent*>(pEvent);
 	core::SynthActor* pOwner = static_cast<core::SynthActor*>(_owner);
 	core::SynthActor* pEventSource = static_cast<core::SynthActor*>(pTestColEvent->getSource());
+	physics::MovementComponent* pMovement = static_cast<physics::MovementComponent*>(_owner->getComponent("MovementComponent"));
+	Point speed = pMovement->getSpeed();
+
 	if (pOwner->getActorID() == pEventSource->getActorID()) {
 		// initialize the computing position
 		Point computingPos = pTestColEvent->getTargetPosition();
@@ -58,31 +62,31 @@ void BounceCollisionComponent::onTestCollision(EventCustom* pEvent) {
 			if (_eMovingState == core::ActorState::ON_FLOOR_STATE) {
 				eCollision = slopeTest(pTestColEvent, computingPos);
 			} else {
-				eCollision = boundingTest(pTestColEvent, computingPos);
+				eCollision = CollisionComponent::boundingTest(pTestColEvent, computingPos);
 			}
 
 			events::JumpEvent* pMoveEvent = nullptr;
 			if (eCollision == VERTICAL) {
-				Point direction = Point::ZERO;
+				Point direction = Point(speed.x, -speed.y).normalize();
 				// if the collision is towards the ground
-				if ((pTestColEvent->getCurrentPosition().y - pTestColEvent->getTargetPosition().y) > 0  ) {
-					direction = Point(0, 1);
-				// if it is towards the sky
-				} else {
-					direction = Point(0, -1);
-				}
+				//if ((pTestColEvent->getCurrentPosition().y - pTestColEvent->getTargetPosition().y) > 0  ) {
+				//	direction = Point(0, 1);
+				//// if it is towards the sky
+				//} else {
+				//	direction = Point(0, -1);
+				//}
 				pMoveEvent = new events::JumpEvent(_owner, direction, true);
 				EventDispatcher::getInstance()->dispatchEvent(pMoveEvent);
 				delete pMoveEvent;
 			} else if (eCollision == HORIZONTAL) {
-				Point direction = Point::ZERO;
+				Point direction = Point(-speed.x, speed.y).normalize();
 				// if the collision is towards the left
-				if ((pTestColEvent->getCurrentPosition().x - pTestColEvent->getTargetPosition().x) > 0  ) {
-					direction = Point(1, 0);
-				// if it is towards the right
-				} else {
-					direction = Point(-1, 0);
-				}
+				//if ((pTestColEvent->getCurrentPosition().x - pTestColEvent->getTargetPosition().x) > 0  ) {
+				//	direction = Point(1, 0);
+				//// if it is towards the right
+				//} else {
+				//	direction = Point(-1, 0);
+				//}
 				pMoveEvent = new events::JumpEvent(_owner, direction, true);
 				EventDispatcher::getInstance()->dispatchEvent(pMoveEvent);
 				delete pMoveEvent;

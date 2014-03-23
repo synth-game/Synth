@@ -105,11 +105,13 @@ void MovementComponent::onJump(EventCustom* pEvent) {
 	core::SynthActor* eventSource = static_cast<core::SynthActor*>(jumpEvent->getSource());
 	core::SynthActor* componentOwner = static_cast<core::SynthActor*>(_owner);
 	Point direction = jumpEvent->getDirection();
+	CCLOG("MovementComponent ON JUMP EVENT YEAAAAAAAHHHHHH direction : (%f,%f)", direction.x, direction.y);
 	if (componentOwner == eventSource) {
-		if (jumpEvent->isStartJumping() && _eMovingState == core::ActorState::ON_FLOOR_STATE) {
+		if (jumpEvent->isStartJumping() && (_eMovingState == core::ActorState::ON_FLOOR_STATE || direction.x != 0 )) {
 			_speed.x = MAX_JUMP_SPEED*direction.x;
             _speed.y = MAX_JUMP_SPEED*direction.y;
 			_eMovingState = core::ActorState::NOT_ON_FLOOR_STATE;
+			CCLOG("MovementComponent on jump : speed = (%f,%f)",_speed.x, _speed.y);
 			sounds::HeroSoundComponent* pHeroSoundComp = static_cast<sounds::HeroSoundComponent*>(_owner->getComponent(sounds::HeroSoundComponent::COMPONENT_TYPE));
 			if (pHeroSoundComp != nullptr ) {
 				pHeroSoundComp->onJump(pEvent);
