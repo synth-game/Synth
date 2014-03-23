@@ -32,12 +32,12 @@ protected:
 	/**
 	 * Make normal movment sur l'axe y
 	 */
-	void onEditMove(EventCustom* pEvent);
+	virtual void onEditMove(EventCustom* pEvent) override;
 
 	/**
 	 * Disable jump
 	 */
-	void onJump(EventCustom* pEvent);
+	virtual void onJump(EventCustom* pEvent) override;
 
 	/**
 	 *

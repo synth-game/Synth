@@ -6,13 +6,18 @@
 #include "events/ChangePositionEvent.h"
 
 #define MAX_X_SPEED 200.f
-#define MAX_Y_SPEED 300.f
+#define MAX_Y_SPEED 200.f
 
 namespace physics
 {
 
 FlyMovementComponent::FlyMovementComponent()
 	: MovementComponent(){
+}
+
+FlyMovementComponent::~FlyMovementComponent() {
+	EventDispatcher::getInstance()->removeEventListener(_pEditMoveEventListener);
+    EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
 }
 
 FlyMovementComponent* FlyMovementComponent::create(Point acceleration) {
@@ -44,9 +49,6 @@ void FlyMovementComponent::onEditMove(EventCustom* pEvent) {
 
 void FlyMovementComponent::onJump(EventCustom* pEvent) {
 	// DO NOTHING
-}
-
-FlyMovementComponent::~FlyMovementComponent(){
 }
 
 void FlyMovementComponent::update(float fDt) {

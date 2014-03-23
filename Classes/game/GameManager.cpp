@@ -227,7 +227,7 @@ void GameManager::update(float fDt) {
 				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pMovementComp);
 				pHero->addComponent(pCollisionComp);
-			} else if (_currentColor == Color4B::GREEN) {
+			} else if (_currentColor == Color4B::YELLOW) {
 				CCLOG("GameManager::onEnterLight : You bounce on the floor ! Awww yeah ! ");
 				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
 				pMovementComp->setSpeed(currentSpeed);
@@ -236,7 +236,7 @@ void GameManager::update(float fDt) {
 				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pMovementComp);
 				pHero->addComponent(pCollisionComp);
-			}else if (_currentColor == Color4B::YELLOW) {
+			}else if (_currentColor == Color4B::CYAN) {
 				CCLOG("GameManager::onEnterLight : You are now a sticky girl ! ");
 				physics::StickMovementComponent* pStickMovementComponent = physics::StickMovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity());
 				pStickMovementComponent->setSpeed(currentSpeed);
@@ -245,11 +245,20 @@ void GameManager::update(float fDt) {
 				pStickCollisionComponent->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pStickMovementComponent);
 				pHero->addComponent(pStickCollisionComponent);
+			} else if (_currentColor == Color4B::GREEN) {
+				CCLOG("GameManager::onEnterLight : You can FLYYYYYYYYY ! ");
+				physics::FlyMovementComponent* pMovementComp = physics::FlyMovementComponent::create(_pSavedMovementComp->getAcceleration());
+				pMovementComp->setSpeed(currentSpeed);
+				pMovementComp->setDirection(currentDirection);
+				physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
+				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pMovementComp);
+				pHero->addComponent(pCollisionComp);
 			} else {
 				CCLOG("GameManager::onEnterLight : Out of any light");
 				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
 				pMovementComp->setSpeed(currentSpeed);
-				pMovementComp->setDirection(currentDirection);
+				pMovementComp->setDirection(Point(currentDirection.x, 0.));
 				physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
 				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pMovementComp);
@@ -432,11 +441,6 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	if (!isPaused()) {
 		switch(keyCode) {
 
-			case EventKeyboard::KeyCode::KEY_M:
-				CCLOG("Play voice");
-				sounds::VoiceManager::getInstance()->playNextVoice();
-			break;
-
 			case EventKeyboard::KeyCode::KEY_ESCAPE:
 				pPauseGameEvent = new events::PauseGameEvent();
 				CCLOG("Dispatching PauseGameEvent");
@@ -468,13 +472,8 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 				break;
 
 			case EventKeyboard::KeyCode::KEY_Z:
-
-				//pJumpEvent = new events::JumpEvent(pHero, true);
-				CCLOG("Dispatching ActorStartMoveEvent JUMP");
-				//dispatcher->dispatchEvent(pJumpEvent);
-
 				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 1.), false, true, true);
-				CCLOG("Dispatching ActorStartMoveEvent DOWN");
+				CCLOG("Dispatching ActorStartMoveEvent UP");
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				delete pEditMoveEvent;
 				break;
