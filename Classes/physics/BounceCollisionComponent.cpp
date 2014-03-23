@@ -67,7 +67,7 @@ void BounceCollisionComponent::onTestCollision(EventCustom* pEvent) {
 
 			events::JumpEvent* pMoveEvent = nullptr;
 			if (eCollision == VERTICAL) {
-				Point direction = Point(speed.x, -speed.y).normalize();
+				Point direction = Point(0.f, 1.f);
 				// if the collision is towards the ground
 				//if ((pTestColEvent->getCurrentPosition().y - pTestColEvent->getTargetPosition().y) > 0  ) {
 				//	direction = Point(0, 1);

@@ -15,6 +15,7 @@
 #include "LevelSprite.h"
 #include "physics/GeometryComponent.h"
 #include "physics/MovementComponent.h"
+#include "physics/FlyMovementComponent.h"
 #include "physics/CollisionComponent.h"
 #include "physics/BounceCollisionComponent.h"
 #include "physics/PhysicCollision.h"
@@ -244,11 +245,20 @@ void GameManager::update(float fDt) {
 				pStickCollisionComponent->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pStickMovementComponent);
 				pHero->addComponent(pStickCollisionComponent);
+			} else if (_currentColor == Color4B::CYAN) {
+				CCLOG("GameManager::onEnterLight : You can FLYYYYYYYYY ! ");
+				physics::FlyMovementComponent* pMovementComp = physics::FlyMovementComponent::create(_pSavedMovementComp->getAcceleration());
+				pMovementComp->setSpeed(currentSpeed);
+				pMovementComp->setDirection(currentDirection);
+				physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
+				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
+				pHero->addComponent(pMovementComp);
+				pHero->addComponent(pCollisionComp);
 			} else {
 				CCLOG("GameManager::onEnterLight : Out of any light");
 				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
 				pMovementComp->setSpeed(currentSpeed);
-				pMovementComp->setDirection(currentDirection);
+				pMovementComp->setDirection(Point(currentDirection.x, 0.));
 				physics::CollisionComponent* pCollisionComp = physics::CollisionComponent::create();
 				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pMovementComp);
@@ -329,11 +339,16 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	physics::CollisionComponent* pCollisionComp = dynamic_cast<physics::CollisionComponent*>(pHero->getComponent(physics::CollisionComponent::COMPONENT_TYPE));
 	pCollisionComp->addLightCollision(game::LevelFactory::getInstance()->buildLightsCollision(_pLightMap, getActorsByType(core::ActorType::LIGHT)));
 
+
+	// Load the correct voices for the level
+	sounds::VoiceManager::getInstance()->init(level);
+
 	// Initialized saved data
 	physics::MovementComponent* pMovementComp = dynamic_cast<physics::MovementComponent*>(pHero->getComponent(physics::MovementComponent::COMPONENT_TYPE));
 	_pSavedMovementComp = physics::MovementComponent::create(pMovementComp->getAcceleration(), pMovementComp->getGravity(), pMovementComp->getLowGravityFactor(), pMovementComp->getHighGravityFactor());
 	_pSavedMovementComp->retain();
 	_pSavedPhysicColl = pCollisionComp->getPhysicCollision();
+
 }
 
 void GameManager::clearLevel() {
@@ -370,7 +385,6 @@ void GameManager::clearLevel() {
 	_pSubtitlesLayer->removeAllChildren();
 
 	graphics::GraphicManager::getInstance()->reset();
-
 }
 
 void GameManager::resetLevel() {
@@ -390,6 +404,7 @@ void GameManager::nextLevel() {
 void GameManager::onEnterLight(EventCustom* pEvent) {
 	CCLOG("GameManager::onEnterLight : You just entered a light");
 	events::EnterLightEvent* enterLightEvent = static_cast<events::EnterLightEvent*>(pEvent);
+
 	_currentColor = enterLightEvent->getLightingColor();
 	_bChangeColor = true;
 }
@@ -425,11 +440,6 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 	if (!isPaused()) {
 		switch(keyCode) {
 
-			case EventKeyboard::KeyCode::KEY_M:
-				CCLOG("Play voice");
-				sounds::VoiceManager::getInstance()->playNextVoice();
-			break;
-
 			case EventKeyboard::KeyCode::KEY_ESCAPE:
 				pPauseGameEvent = new events::PauseGameEvent();
 				CCLOG("Dispatching PauseGameEvent");
@@ -461,13 +471,8 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 				break;
 
 			case EventKeyboard::KeyCode::KEY_Z:
-
-				//pJumpEvent = new events::JumpEvent(pHero, true);
-				CCLOG("Dispatching ActorStartMoveEvent JUMP");
-				//dispatcher->dispatchEvent(pJumpEvent);
-
 				pEditMoveEvent = new events::EditMoveEvent(pHero, Point(0., 1.), false, true, true);
-				CCLOG("Dispatching ActorStartMoveEvent DOWN");
+				CCLOG("Dispatching ActorStartMoveEvent UP");
 				dispatcher->dispatchEvent(pEditMoveEvent);
 				delete pEditMoveEvent;
 				break;

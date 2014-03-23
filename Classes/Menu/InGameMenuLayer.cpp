@@ -47,7 +47,7 @@ bool InGameMenuLayer::init() {
 
 	_pBtnResumeGame = MenuItemImage::create("sprites/resume_btn.png", "sprites/resume_btn_selected.png", this, menu_selector(InGameMenuLayer::dispatchResumeGameEvent));
 	
-	_pBtnRetry = MenuItemImage::create("sprites/restart_btn.png", "sprites/restart_btn_selected.png", this, menu_selector(InGameMenuLayer::dispatchReselLevelEvent));
+	_pBtnRetry = MenuItemImage::create("sprites/restart_btn.png", "sprites/restart_btn_selected.png", this, menu_selector(InGameMenuLayer::dispatchResetLevelEvent));
 	_pBtnRetry->setPositionY(0);
 	_pBtnQuit = MenuItemImage::create("sprites/quit_btn.png", "sprites/quit_btn_selected.png", this, menu_selector(InGameMenuLayer::dispatchExitGameEvent));
 
@@ -76,10 +76,13 @@ void InGameMenuLayer::dispatchExitGameEvent(Object* pSender) {
 	delete pEvent;
 }
 
-void InGameMenuLayer::dispatchReselLevelEvent(Object* pSender) {
-	events::ResetLevelEvent* pEvent = new events::ResetLevelEvent();
-	EventDispatcher::getInstance()->dispatchEvent(pEvent);
-	delete pEvent;
+void InGameMenuLayer::dispatchResetLevelEvent(Object* pSender) {
+	events::ResetLevelEvent* pResetEvent = new events::ResetLevelEvent();
+	events::ResumeGameEvent* pResumeEvent = new events::ResumeGameEvent();
+	EventDispatcher::getInstance()->dispatchEvent(pResumeEvent);
+	EventDispatcher::getInstance()->dispatchEvent(pResetEvent);
+	delete pResumeEvent;
+	delete pResetEvent;
 }
 
 }  // namespace menu

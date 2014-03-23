@@ -29,6 +29,9 @@ protected:
 	/*! \brief Constructor */
 	FlyMovementComponent();
 
+	virtual bool init();
+	virtual void initListeners();
+
 	/**
 	 * Make normal movment sur l'axe y
 	 */
@@ -42,7 +45,7 @@ protected:
 	/**
 	 *
 	 */
-	void update(float fDt);
+	virtual void update(float fDt) override;
 
 
 

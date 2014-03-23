@@ -43,7 +43,7 @@ public:
 	/*! \brief Get the singleton instance _pInstance */
 	static VoiceManager* getInstance();
 
-	void init();
+	void init(std::string levelName);
 
 	bool playNextVoice();
 
