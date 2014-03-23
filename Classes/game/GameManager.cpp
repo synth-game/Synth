@@ -385,6 +385,7 @@ void GameManager::clearLevel() {
 	_pSubtitlesLayer->removeAllChildren();
 
 	graphics::GraphicManager::getInstance()->reset();
+	sounds::VoiceManager::getInstance()->flush();
 }
 
 void GameManager::resetLevel() {

@@ -49,6 +49,12 @@ void VoiceManager::init(std::string levelName) {
 	}
 }
 
+void VoiceManager::flush() {
+	while(!_voices.empty()) {
+		_voices.pop();
+	}
+}
+
 bool VoiceManager::playNextVoice() {
 	CCLOG ("I want to play a voice");
 	if (_voices.size()>0){

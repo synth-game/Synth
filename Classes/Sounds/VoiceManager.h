@@ -44,6 +44,7 @@ public:
 	static VoiceManager* getInstance();
 
 	void init(std::string levelName);
+	void flush();
 
 	bool playNextVoice();
 
