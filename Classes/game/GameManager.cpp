@@ -236,7 +236,7 @@ void GameManager::update(float fDt) {
 				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pMovementComp);
 				pHero->addComponent(pCollisionComp);
-			}else if (_currentColor == Color4B::CYAN) {
+			}else if (_currentColor == Color4B::GREEN) {
 				CCLOG("GameManager::onEnterLight : You are now a sticky girl ! ");
 				physics::StickMovementComponent* pStickMovementComponent = physics::StickMovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity());
 				pStickMovementComponent->setSpeed(currentSpeed);
@@ -245,7 +245,7 @@ void GameManager::update(float fDt) {
 				pStickCollisionComponent->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pStickMovementComponent);
 				pHero->addComponent(pStickCollisionComponent);
-			} else if (_currentColor == Color4B::GREEN) {
+			} else if (_currentColor == Color4B::CYAN) {
 				CCLOG("GameManager::onEnterLight : You can FLYYYYYYYYY ! ");
 				physics::FlyMovementComponent* pMovementComp = physics::FlyMovementComponent::create(_pSavedMovementComp->getAcceleration());
 				pMovementComp->setSpeed(currentSpeed);
