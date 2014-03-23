@@ -53,7 +53,9 @@ void SoundComponent::initListeners() {
 
 void SoundComponent::playSound(SoundType type) {
 	stopSounds();
-	SoundManager::getInstance()->playEffect(this, type);
+	if (type != SoundType::NO_SOUND) {
+		SoundManager::getInstance()->playEffect(this, type);
+	}
 }
 
 void SoundComponent::stopSounds() {

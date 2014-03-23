@@ -25,6 +25,8 @@ public:
 
 	static FlyMovementComponent* create(Point acceleration);
 
+	void onEnter();
+
 protected:
 	/*! \brief Constructor */
 	FlyMovementComponent();

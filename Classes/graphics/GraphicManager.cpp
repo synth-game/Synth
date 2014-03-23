@@ -50,6 +50,7 @@ void GraphicManager::init() {
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_CRAWL",			AnimationType::HERO_CRAWL	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_STOP_CRAWL",		AnimationType::HERO_STOP_CRAWL	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_IDLE_CRAWL",		AnimationType::HERO_IDLE_CRAWL	));
+	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_START_FLY",		AnimationType::HERO_START_FLY	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_FLY",				AnimationType::HERO_FLY	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_HIT",				AnimationType::HERO_HIT	));
 	_tagsMap.insert(std::pair<std::string, AnimationType>(	"HERO_INTERACT",		AnimationType::HERO_INTERACT	));

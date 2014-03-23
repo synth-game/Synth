@@ -104,7 +104,6 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
     if (pSource->getActorID() == pOwner->getActorID()) {
 		
 		if (pEditMoveEvent->isStartMoving()) {
-            //CCLOG("HeroAnimatedSpriteComponent::onEditMove isStartMoving state = %d", getState());
 			// the movement starts
             if (pEditMoveEvent->getDirection().x < 0) {
 				_pSprite->setFlippedX(true);
@@ -130,7 +129,6 @@ void HeroAnimatedSpriteComponent::onEditMove(EventCustom* pEvent) {
 			}
 			
 		} else {
-            //CCLOG("HeroAnimatedSpriteComponent::onEditMove  NOT isStartMoving state = %d", getState());
             // inverted in this case
 			if (pEditMoveEvent->getDirection().x < 0) {
 				_pSprite->setFlippedX(false);

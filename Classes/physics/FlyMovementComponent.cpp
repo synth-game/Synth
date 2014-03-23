@@ -6,6 +6,7 @@
 #include "physics/GeometryComponent.h"
 #include "physics/CollisionComponent.h"
 #include "events/ChangePositionEvent.h"
+#include "events/ChangeStateEvent.h"
 
 #define MAX_X_SPEED 200.f
 #define MAX_Y_SPEED 200.f
@@ -22,6 +23,12 @@ FlyMovementComponent::~FlyMovementComponent() {
     EventDispatcher::getInstance()->removeEventListener(_pJumpEventListener);
 	EventDispatcher::getInstance()->removeEventListener(_pInterruptMoveEventListener);
     EventDispatcher::getInstance()->removeEventListener(_pChangeStateEventListener);
+}
+
+void FlyMovementComponent::onEnter() {
+	events::ChangeStateEvent* pEvent = new events::ChangeStateEvent(_owner, core::ActorState::ON_AIR_STATE);
+	EventDispatcher::getInstance()->dispatchEvent(pEvent);
+	delete pEvent;
 }
 
 FlyMovementComponent* FlyMovementComponent::create(Point acceleration) {
