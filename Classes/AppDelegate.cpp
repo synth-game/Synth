@@ -22,7 +22,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setOpenGLView(eglView);
 	
     // turn on display FPS
+#ifdef _DEBUG
     director->setDisplayStats(true);
+#endif
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
