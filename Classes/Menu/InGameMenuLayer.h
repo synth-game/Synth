@@ -32,7 +32,7 @@ protected:
 
 	void dispatchExitGameEvent(Object* pSender);
 	void dispatchResumeGameEvent(Object* pSender);
-	void dispatchReselLevelEvent(Object* pSender);
+	void dispatchResetLevelEvent(Object* pSender);
 
 private:
 	Layer* _pBackgroundLayer;
