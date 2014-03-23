@@ -207,7 +207,7 @@ void GameManager::update(float fDt) {
 				pHero->removeComponent(physics::CollisionComponent::COMPONENT_TYPE);
 			}
 
-			if (_currentColor == Color4B::CYAN) {
+			if (_currentColor == Color4B::BLUE) {
 				CCLOG("GameManager::onEnterLight : You can jump higher !");
 				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
 				pMovementComp->setSpeed(currentSpeed);
@@ -245,7 +245,7 @@ void GameManager::update(float fDt) {
 				pStickCollisionComponent->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pStickMovementComponent);
 				pHero->addComponent(pStickCollisionComponent);
-			} else if (_currentColor == Color4B::BLUE) {
+			} else if (_currentColor == Color4B::CYAN) {
 				CCLOG("GameManager::onEnterLight : You can FLYYYYYYYYY ! ");
 				physics::FlyMovementComponent* pMovementComp = physics::FlyMovementComponent::create(_pSavedMovementComp->getAcceleration());
 				pMovementComp->setSpeed(currentSpeed);
@@ -299,7 +299,7 @@ void GameManager::loadLevel(/*int iLevelId*/std::string level) {
 	// Build skinning
 	Sprite* pSknSprite = Sprite::create(("levels/"+level+"/skinning.png").c_str());
 	pSknSprite->setAnchorPoint(Point::ZERO);
-	//_pSkinningLayer->addChild(pSknSprite);
+	_pSkinningLayer->addChild(pSknSprite);
 
 	// Build actors
 	_levelActors = LevelFactory::getInstance()->buildActors(level, _pLevelLayer);
