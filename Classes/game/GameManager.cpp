@@ -226,7 +226,7 @@ void GameManager::update(float fDt) {
 				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pMovementComp);
 				pHero->addComponent(pCollisionComp);
-			} else if (_currentColor == Color4B::GREEN) {
+			} else if (_currentColor == Color4B::YELLOW) {
 				CCLOG("GameManager::onEnterLight : You bounce on the floor ! Awww yeah ! ");
 				physics::MovementComponent* pMovementComp = physics::MovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity(), _pSavedMovementComp->getLowGravityFactor(), _pSavedMovementComp->getHighGravityFactor());
 				pMovementComp->setSpeed(currentSpeed);
@@ -235,7 +235,7 @@ void GameManager::update(float fDt) {
 				pCollisionComp->addPhysicCollision(_pSavedPhysicColl);
 				pHero->addComponent(pMovementComp);
 				pHero->addComponent(pCollisionComp);
-			}else if (_currentColor == Color4B::YELLOW) {
+			}else if (_currentColor == Color4B::GREEN) {
 				CCLOG("GameManager::onEnterLight : You are now a sticky girl ! ");
 				physics::StickMovementComponent* pStickMovementComponent = physics::StickMovementComponent::create(_pSavedMovementComp->getAcceleration(), _pSavedMovementComp->getGravity());
 				pStickMovementComponent->setSpeed(currentSpeed);
@@ -646,7 +646,7 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 						} else if (pTarget->isFirefly()) {
 							// if the firefly is owned by a lamp
 							for (auto maybeALamp : _levelActors) {
-								if(!bToLamp) {
+								if (!bToLamp) {
 									// if the actor is a lamp
 									if (maybeALamp->getActorType() == core::ActorType::LIGHT) {
 										pLampNodeOwnerComponent = static_cast<game::NodeOwnerComponent*>(maybeALamp->getComponent(game::NodeOwnerComponent::COMPONENT_TYPE));
@@ -668,6 +668,18 @@ void GameManager::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event) {
 										}
 									}
 								}
+							}
+							if (!bToLamp) {
+								// the firefly goes to the hero
+								pChangeTargetEvent = new events::ChangeTargetEvent(pTarget, pHero);
+								CCLOG("Dispatching pChangeTargetEvent CHANGE TARGET OTHER ACTOR (LAMP)");
+								dispatcher->dispatchEvent(pChangeTargetEvent);
+								delete pChangeTargetEvent;
+								// the firefly is owned by the hero
+								pChangeNodeOwnerEvent = new events::ChangeNodeOwnerEvent(this, pTarget, pHero, nullptr);
+								CCLOG("Dispatching ChangeNodeOwnerEvent CHANGE NODE : owned node belongs to lamp");
+								dispatcher->dispatchEvent(pChangeNodeOwnerEvent);
+								delete pChangeNodeOwnerEvent;
 							}
 						} else {
 							// the target is owned by the hero
