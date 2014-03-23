@@ -254,7 +254,7 @@ void HeroAnimatedSpriteComponent::onChangeState(EventCustom* pEvent) {
                     runAnimation(AnimationType::HERO_IDLE);
                 }
                 break;
-            case core::ActorState::STUCK_BOTTOM_STATE:
+            /*case core::ActorState::STUCK_BOTTOM_STATE:
                 runAnimation(AnimationType::HERO_CRAWL);
                 _pSprite->setRotation(0);
                 _pSprite->setAnchorPoint(Point(0.5f, 0.5f));
@@ -270,7 +270,7 @@ void HeroAnimatedSpriteComponent::onChangeState(EventCustom* pEvent) {
                 _pSprite->setFlippedY(false);
                 _pSprite->setAnchorPoint(Point(0.5f, 0.2f));
                 _pSprite->setRotation(90);
-                runAnimation(AnimationType::HERO_CRAWL);
+                runAnimation(AnimationType::HERO_CRAWL);*/
             default:
                 break;
         }
