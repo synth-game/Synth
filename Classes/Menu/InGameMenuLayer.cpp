@@ -54,7 +54,6 @@ bool InGameMenuLayer::init() {
 	_pMenuLayer = Menu::create(_pBtnResumeGame, _pBtnRetry, _pBtnQuit, NULL);
 	_pMenuLayer->alignItemsVerticallyWithPadding(23.5f);
 	_pMenuLayer->setPosition(Point(10.f, -98.5f));
-	//_pMenuLayer->setAnchorPoint(Point::ZERO);
 	
 	addChild(pBackground, 1);
 	addChild(_pMenuLayer, 2);

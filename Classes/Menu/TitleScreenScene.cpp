@@ -6,6 +6,7 @@
  */
 #include "TitleScreenScene.h"
 #include "core/SynthManager.h"
+#include "core/SynthConfig.h"
 #include "sounds/SoundManager.h"
 
 #include "events/NewGameEvent.h"
@@ -64,7 +65,12 @@ bool TitleScreenScene::init() {
 	_pBackgroundLayer->addChild(pBgSprite);
 	_pBackgroundLayer->setPosition(center);
 
-	_pBtnPlay = MenuItemImage::create("sprites/play_btn.png", "sprites/play_btn_selected.png", this, menu_selector(TitleScreenScene::dispatchNewGameEvent));
+	int currentLevel = core::SynthConfig::getInstance()->getCurrentLevelIndex();
+	if (currentLevel == 0) {
+		_pBtnPlay = MenuItemImage::create("sprites/play_btn.png", "sprites/play_btn_selected.png", this, menu_selector(TitleScreenScene::dispatchNewGameEvent));
+	} else {
+		_pBtnPlay = MenuItemImage::create("sprites/continue_btn.png", "sprites/continue_btn_selected.png", this, menu_selector(TitleScreenScene::dispatchNewGameEvent));
+	}
 	_pBtnQuit = MenuItemImage::create("sprites/quit_btn.png", "sprites/quit_btn_selected.png", this, menu_selector(TitleScreenScene::dispatchExitGameEvent));
 
 	_pMenuLayer = Menu::create(_pBtnPlay, _pBtnQuit, NULL);
